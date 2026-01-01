@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECON 101H Syllabus - Spring 2026</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --unc-navy: #13294B;
+            --carolina-blue: #4B9CD3;
+            --light-gray: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--unc-navy);
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--carolina-blue);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .instructor-info {
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--carolina-blue);
+        }
+
+        .instructor-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Copenhagen Block Aesthetics */
+        .accordion {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+            background: white;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-button {
+            background-color: var(--light-gray);
+            color: var(--unc-navy);
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 1.25rem;
+            border: none;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: var(--carolina-blue);
+            color: white;
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: var(--border-color);
+        }
+
+        .accordion-button::after {
+            filter: brightness(0);
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            filter: brightness(0) invert(1);
+        }
+
+        .accordion-body {
+            padding: 1.25rem;
+            background-color: white;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Nested collapsible sections */
+        .nested-collapse {
+            margin: 15px 0;
+        }
+
+        .nested-header {
+            background-color: #e9ecef;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--unc-navy);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.15s ease;
+        }
+
+        .nested-header:hover {
+            background-color: #dee2e6;
+        }
+
+        .nested-header.active {
+            background-color: var(--carolina-blue);
+            color: white;
+            border-color: var(--carolina-blue);
+        }
+
+        .nested-header::after {
+            content: "▼";
+            font-size: 0.8rem;
+            transition: transform 0.2s ease;
+        }
+
+        .nested-header.active::after {
+            transform: rotate(-180deg);
+        }
+
+        .nested-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .nested-content.show {
+            max-height: 2000px;
+            margin-top: 10px;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        table th {
+            background-color: var(--unc-navy);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        /* Links */
+        a {
+            color: var(--carolina-blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .text-red {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .schedule-table {
+            font-size: 0.95rem;
+        }
+
+        .schedule-table td {
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        .schedule-table .week-col {
+            font-weight: 600;
+            background-color: var(--light-gray);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ECON 101H: Introduction to Economics</h1>
+        <div class="subtitle">Spring 2026 - Honors Section</div>
+
+        <div class="instructor-info">
+            <p><strong>Instructor:</strong> Sérgio O. Parreiras</p>
+            <p><strong>Email:</strong> sergiop@unc.edu</p>
+            <p><strong>Office:</strong> Gardner Hall, Room 200B</p>
+            <p><strong>Class Time:</strong> TuTh 9:30 AM - 10:45 AM</p>
+            <p><strong>Location:</strong> Gardner Hall, Room 209</p>
+            <p><strong>Office Hours:</strong> Mon & Wed 9:00 AM - 10:00 AM via Zoom (by Canvas appointment only)</p>
+            <p><strong>Canvas:</strong> <a href="https://uncch.instructure.com/courses/76184" target="_blank">https://uncch.instructure.com/courses/76184</a></p>
+        </div>
+
+        <!-- Main Accordion -->
+        <div class="accordion" id="syllabusAccordion">
+
+            <!-- Course Information & Description -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#courseInfo" aria-expanded="true">
+                        Course Information & Description
+                    </button>
+                </h2>
+                <div id="courseInfo" class="accordion-collapse collapse show" data-bs-parent="#syllabusAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Course:</strong> ECON 101H - Introduction to Economics (4 Credits)</p>
+                        <p><strong>Term:</strong> Spring 2026</p>
+                        <p><strong>Grading Status:</strong> Letter grade</p>
+
+                        <h5 class="mt-3">Course Description</h5>
+                        <p>Introduction to Economics (Economics 101H) is the Honors section of the introductory course in Economics for undergraduates. The Honors section covers the same material as the large enrollment version but does so in more depth. This is an introductory course in both microeconomics and macroeconomics. In this one-semester course students are introduced to fundamental issues in economics including competition, scarcity, opportunity cost, resource allocation, unemployment, inflation, and the determination of prices. This course is the gateway course for the major of Economics; if you wish to major in Economics, you must have at least a C in this course.</p>
+
+                        <!-- Course Objectives Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Course Objectives
+                            </div>
+                            <div class="nested-content">
+                                <p>The purpose of this course is to give you a basic understanding of core economic principles. By the end of the course, you should be able to:</p>
+                                <ul>
+                                    <li>Understand and comfortably use the language of economics, e.g. comprehend economics articles.</li>
+                                    <li>Analyze issues while thinking like an economist, e.g., in terms of marginal costs and benefits, etc.</li>
+                                    <li>Apply economic methods to analyze real world situations, e.g., to predict or evaluate the effects of government policies.</li>
+                                    <li>Apply your knowledge of decision-making and economic interactions to evaluate normative statements.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-3">Gen Ed Requirements</h5>
+                        <p>ECON 101 meets the requirement for a FY-LAUNCH and FC-KNOWING under the IDEAs in Action Gen Ed.</p>
+
+                        <!-- FY-LAUNCH Objectives Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Learning Objectives for FY-LAUNCH
+                            </div>
+                            <div class="nested-content">
+                                <ol>
+                                    <li>Connect with a faculty member early in the educational process.</li>
+                                    <li>Learn intensively among a small cohort of students.</li>
+                                    <li>Apply methods for how scholars pose problems, discover solutions, resolve controversies, and evaluate knowledge.</li>
+                                    <li>Analyze and communicate issues associated with a broad, introductory topic, covering a wide range of knowledge.</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- FC-KNOWING Objectives Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Learning Objectives for FC-KNOWING
+                            </div>
+                            <div class="nested-content">
+                                <ol>
+                                    <li>Recognize and use one or more approach(es) to developing and validating knowledge of the unfamiliar world.</li>
+                                    <li>Evaluate ways that temporal, spatial, scientific, and philosophical categories structure knowledge.</li>
+                                    <li>Interrogate assumptions that underlie our own perceptions of the world.</li>
+                                    <li>Employ strategies to mitigate or adjust for preconceptions and biases.</li>
+                                    <li>Apply critical insights to understand patterns of experience and belief.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grading & Important Dates -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#grading" aria-expanded="false">
+                        Grading & Important Dates
+                    </button>
+                </h2>
+                <div id="grading" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                    <div class="accordion-body">
+                        <h5>Course Grade Weights</h5>
+                        <ul>
+                            <li>Midterms: 50%</li>
+                            <li>Final Exam: 25%</li>
+                            <li>Achieve Exercises: 20%</li>
+                            <li><strong>Active</strong> Participation: 5%</li>
+                            <li>Extra Credit Opportunities: 1%</li>
+                        </ul>
+
+                        <h5 class="mt-3">Important Dates</h5>
+                        <ul>
+                            <li><strong>Midterm 1:</strong> February 17, 2026</li>
+                            <li><strong>Midterm 2:</strong> March 31, 2026</li>
+                            <li><strong>Final Exam:</strong> <span class="text-red">May 7, 2026 at 8:00 AM</span> (notice that the time differs from class time! the location is the same)</li>
+                        </ul>
+
+                        <p><em>Midterms are not cumulative. The final examination is cumulative but with an emphasis on material covered after Midterm 2.</em></p>
+
+                        <h5 class="mt-3">Grading Scale</h5>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Letter Grade</th>
+                                    <th>Minimum Score</th>
+                                    <th>Letter Grade</th>
+                                    <th>Minimum Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>A</td>
+                                    <td>95</td>
+                                    <td>C+</td>
+                                    <td>77</td>
+                                </tr>
+                                <tr>
+                                    <td>A-</td>
+                                    <td>90</td>
+                                    <td>C</td>
+                                    <td>73</td>
+                                </tr>
+                                <tr>
+                                    <td>B+</td>
+                                    <td>87</td>
+                                    <td>C-</td>
+                                    <td>70</td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td>83</td>
+                                    <td>D+</td>
+                                    <td>67</td>
+                                </tr>
+                                <tr>
+                                    <td>B-</td>
+                                    <td>80</td>
+                                    <td>D</td>
+                                    <td>63</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p class="mt-3"><strong>Note on Exam Grading:</strong> Exam grades are converted into scores ("curved") according to the formula: original grade plus 100 minus the maximum between the top class grade and 50. Assignments or problem sets are not "curved".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Materials -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#materials" aria-expanded="false">
+                        Required Materials
+                    </button>
+                </h2>
+                <div id="materials" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                    <div class="accordion-body">
+
+                        <!-- Achieve Platform Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                1. Achieve Learning Platform
+                            </div>
+                            <div class="nested-content">
+                                <p>Achieve contains multiple learning resources and the e-book of the course textbook. You can purchase an access card to Achieve from the UNC bookstore. This option includes access to an e-book version of the course textbook (<em>Modern Principles of Economics, 6th edition</em>, by Cowen and Tabarrok). You will access the Achieve platform (through Canvas) in order to submit homework.</p>
+                            </div>
+                        </div>
+
+                        <!-- Mathematica Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                2. Mathematica Software
+                            </div>
+                            <div class="nested-content">
+                                <p>Mathematica software can be ordered free of charge at <a href="https://software.unc.edu" target="_blank">https://software.unc.edu</a>. No prior knowledge of Mathematica is required for you to succeed in this course.</p>
+                            </div>
+                        </div>
+
+                        <!-- UNC Check-in Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                3. UNC Check-in App
+                            </div>
+                            <div class="nested-content">
+                                <p>Download the UNC Check-in app at <a href="https://edtech.unc.edu/service/unc-check-in/" target="_blank">https://edtech.unc.edu/service/unc-check-in/</a>. When using the app: make sure that Bluetooth is turned on and the app has permission to access it.</p>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-4">Achieve Exercises</h5>
+                        <p>Achieve exercises can be accessed directly through our Course page at Achieve by using this <a href="https://achieve.macmillanlearning.com/courses/6uo2sj/mycourse" target="_blank">clickable link</a> or through our Canvas course page (check the corresponding module, e.g. Week 1 module).</p>
+
+                        <p>Prior to a class, pre-reading exercises will be assigned. Pre-reading exercises will not count towards the grade but I encourage you to try them. After every class, learning-curve exercises are assigned and due at our next class. These exercises are graded. Also, every Monday, end of chapter exercises, homework, and practice exercises of the previous week chapter(s) are due. Some (but not all) of these Monday exercises may not be graded or may count as extra credit.</p>
+
+                        <p>Achieve exercises take very little time but they can quickly accumulate. Unless in the case of UAA (see Policies section) or exceptions announced in class, assignments past the due date will not be accepted. I strongly suggest you do all these exercises as they count towards a substantial part of your grade.</p>
+
+                        <h5 class="mt-3">Time Management</h5>
+                        <p>If you are pressed on time, do not try to find a <em>perfect ideal</em> environment to do your assignments. Try to do them whenever you can, e.g. using your smartphone during lunch break, in between classes, or before going to bed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policies & Procedures -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#policies" aria-expanded="false">
+                        Policies & Procedures
+                    </button>
+                </h2>
+                <div id="policies" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                    <div class="accordion-body">
+
+                        <!-- Honor Code Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Honor Code
+                            </div>
+                            <div class="nested-content">
+                                <p>All students are expected to follow the guidelines of the UNC honor code. In particular, students are expected to refrain from "lying, cheating, or stealing" in the academic context. If you are unsure about which actions violate the honor code, please see me or consult <a href="https://catalog.unc.edu/policies-procedures/honor-code/" target="_blank">https://catalog.unc.edu/policies-procedures/honor-code/</a>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Attendance Policy Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Attendance Policy
+                            </div>
+                            <div class="nested-content">
+                                <p>Attendance will be recorded by the UNC check-in app. Click <a href="https://unccheckin.unc.edu" target="_blank">here</a> to install the app. It is your responsibility to use the app during the check-in window, as well as to confirm that your attendance was recorded by the end of class.</p>
+
+                                <p>If you arrive late and miss the check-in window you may be marked as absent. If you miss the check-in window (for any reason) and/or if your presence has not been recorded by the end of class, you must notify me by Canvas email within 24 hours. Your attendance will be changed from 'absent' to 'late' or 'present' depending on the case. If you fail to notify me by Canvas email before the 24 hour grace period elapses, your attendance record will not be updated/corrected.</p>
+
+                                <h6 class="mt-3">University Approved Absences (UAA)</h6>
+                                <p>No right or privilege exists that permits a student to be absent from any class meetings, except for these University Approved Absences:</p>
+                                <ol>
+                                    <li>Authorized University activities</li>
+                                    <li>Disability/religious observance/pregnancy, as required by law and approved by Accessibility Resources and Service and/or the Equal Opportunity and Compliance Office</li>
+                                    <li>Significant health condition and/or personal/family emergency as approved by the Office of the Dean of Students, Gender Violence Service Coordinators, and/or the Equal Opportunity and Compliance Office</li>
+                                </ol>
+
+                                <p class="mt-2"><strong>Important:</strong> Eight non-UAA absences without any consultation with the instructor may result in a grade F in the course. Ten total non-UAA absences in a semester may result in a grade F regardless of the reasons you missed class. In all instances, either UAA or non-UAA, you MUST notify the instructor prior to missing class.</p>
+                            </div>
+                        </div>
+
+                        <!-- Class Environment Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Class Environment
+                            </div>
+                            <div class="nested-content">
+                                <p>During this course, we may employ additional material from podcasts, video, or literature to discuss economics related issues. Sometimes, you may find the political/religious views, or the profanity contained in the additional material offensive or objectionable and you may feel uncomfortable. I will not endorse or advocate any particular political views but as part of your university education, it is important you engage in critical thinking while respecting different opinions expressed by your classmates. Our classroom is an inclusive environment. Your participation is critical for the success of this course. You are expected to attend class, read the assigned readings and be prepared to discuss them in the classroom.</p>
+                            </div>
+                        </div>
+
+                        <!-- Accessibility & Exams Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Accessibility & Exams
+                            </div>
+                            <div class="nested-content">
+                                <p>If you are eligible to take exams with Accessibility Resources and Service, please schedule your exam using their hub, <a href="https://ars.unc.edu/" target="_blank">https://ars.unc.edu/</a>, and please notify me as soon as possible.</p>
+                                <p>Any final-exam rescheduling request, for those with more than three final exams within a 24 hours period, must be received no later than our first midterm.</p>
+                            </div>
+                        </div>
+
+                        <!-- Personal Hardship Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Personal Hardship
+                            </div>
+                            <div class="nested-content">
+                                <p>If you are going through personal hardships that may interfere with your academic performance, please contact me as soon as possible. I am here to help you succeed in this course but we may run out of options if we act too late.</p>
+                            </div>
+                        </div>
+
+                        <!-- Counseling Services Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Counseling and Psychological Services
+                            </div>
+                            <div class="nested-content">
+                                <p>UNC-Chapel Hill is strongly committed to addressing the mental health needs of a diverse student body. The Heels Care Network website is a place to access the many mental resources at Carolina. CAPS is the primary mental health provider for students, offering timely access to consultation and connection to clinically appropriate services. Go to their website <a href="https://caps.unc.edu/" target="_blank">https://caps.unc.edu/</a> or visit their facilities on the third floor of the Campus Health building for an initial evaluation to learn more. Students can also call CAPS 24/7 at 919-966-3658 for immediate assistance.</p>
+                            </div>
+                        </div>
+
+                        <!-- Title IX Resources Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Title IX Resources
+                            </div>
+                            <div class="nested-content">
+                                <p>Any student who is impacted by discrimination, harassment, interpersonal (relationship) violence, sexual violence, sexual exploitation, or stalking is encouraged to seek resources on campus or in the community. Reports can be made online to the EOC at <a href="https://eoc.unc.edu/report-an-incident/" target="_blank">https://eoc.unc.edu/report-an-incident/</a>.</p>
+                                <p>Please contact the University's Title IX Coordinator (Elizabeth Hall, titleixcoordinator@unc.edu), Report and Response Coordinators in the Equal Opportunity and Compliance Office (reportandresponse@unc.edu), Counseling and Psychological Services (confidential), or the Gender Violence Services Coordinators (gvsc@unc.edu; confidential) to discuss your specific needs. Additional resources are available at <a href="https://safe.unc.edu" target="_blank">safe.unc.edu</a>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Non-Discrimination Policy Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Policy on Non-Discrimination
+                            </div>
+                            <div class="nested-content">
+                                <p>The University is committed to providing an inclusive and welcoming environment for all members of our community and to ensuring that educational and employment decisions are based on individuals' abilities and qualifications. Consistent with this principle and applicable laws, the University's Policy Statement on Non-Discrimination offers access to its educational programs and activities as well as employment terms and conditions without respect to race, color, gender, national origin, age, religion, genetic information, disability, veteran's status, sexual orientation, gender identity or gender expression.</p>
+                                <p>If you are experiencing harassment or discrimination, you can seek assistance and file a report through the Report and Response Coordinators (see contact info at safe.unc.edu) or the Equal Opportunity and Compliance Office, or online to the EOC at <a href="https://eoc.unc.edu/report-an-incident/" target="_blank">https://eoc.unc.edu/report-an-incident/</a>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Diversity Statement Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Diversity Statement
+                            </div>
+                            <div class="nested-content">
+                                <p>I value the perspectives of individuals from all backgrounds reflecting the diversity of our students. I broadly define diversity to include race, gender identity, national origin, ethnicity, religion, social class, age, sexual orientation, political background, and physical and learning ability. I strive to make this classroom an inclusive space for all students. Please let me know if there is anything I can do to improve. I appreciate suggestions.</p>
+                            </div>
+                        </div>
+
+                        <!-- Grade Appeal Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Grade Appeal Process
+                            </div>
+                            <div class="nested-content">
+                                <p>If you feel you have been awarded an incorrect grade, please discuss with me. If we cannot resolve the issue, you may talk to our departmental director of undergraduate studies or appeal the grade through a formal university process based on arithmetic/clerical error, arbitrariness, discrimination, harassment, or personal malice. To learn more, go to the Academic Advising Program website.</p>
+                            </div>
+                        </div>
+
+                        <!-- Syllabus Changes Collapsible -->
+                        <div class="nested-collapse">
+                            <div class="nested-header" onclick="toggleNested(this)">
+                                Syllabus Changes
+                            </div>
+                            <div class="nested-content">
+                                <p>I reserve the right to make changes to the syllabus including project due dates and test dates. These changes will be announced as early as possible.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Schedule -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#schedule" aria-expanded="false">
+                        Course Schedule & Coverage
+                    </button>
+                </h2>
+                <div id="schedule" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                    <div class="accordion-body">
+                        <p class="mb-3"><em>This schedule is tentative and may be subject to change. Changes will be announced in class and on Canvas.</em></p>
+
+                        <table class="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th>Week</th>
+                                    <th>Coverage</th>
+                                    <th>Tuesday</th>
+                                    <th>Thursday</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="week-col">1</td>
+                                    <td>Chapter 1</td>
+                                    <td>—</td>
+                                    <td>1/8: Syllabus and The Economic Way of Thinking</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">2</td>
+                                    <td>Chapters 1 & 2</td>
+                                    <td>1/13: The Economic Way of Thinking and Comparative Advantage</td>
+                                    <td>1/15: Comparative Advantage and Trade</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">3</td>
+                                    <td>Chapters 3 & 4</td>
+                                    <td>1/20: Supply and Demand</td>
+                                    <td>1/22: Market Equilibrium</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">4</td>
+                                    <td>Chapters 5 & 11</td>
+                                    <td>1/27: Elasticities</td>
+                                    <td>1/29: Cost Functions</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">5</td>
+                                    <td>Chapters 12 & 6</td>
+                                    <td>2/3: Perfect Competition</td>
+                                    <td>2/5: Taxes and Subsidies</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">6</td>
+                                    <td>Chapters 8 & 13</td>
+                                    <td>2/10: Price Controls</td>
+                                    <td>2/12: Monopoly</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">7</td>
+                                    <td>—</td>
+                                    <td class="text-red">2/17: Midterm 1</td>
+                                    <td>2/19: Macroeconomics: GDP</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">8</td>
+                                    <td>Chapters 26 & 27</td>
+                                    <td>2/24: Wealth of Nations</td>
+                                    <td>2/26: Why Nations Fail?</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">9</td>
+                                    <td>Chapter 28</td>
+                                    <td>3/3: Growth</td>
+                                    <td>3/5: Savings and Investment</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">10</td>
+                                    <td>Chapters 29 & 30</td>
+                                    <td>3/10: Unemployment</td>
+                                    <td>3/12: Inflation and the Quantity Theory of Money</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">11</td>
+                                    <td>—</td>
+                                    <td>3/17: Spring Break</td>
+                                    <td>3/19: Spring Break</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">12</td>
+                                    <td>Chapters 31 & 32</td>
+                                    <td>3/24: Aggregate Demand and Aggregate Supply</td>
+                                    <td>3/26: The FED and Open Market Operations</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">13</td>
+                                    <td>Chapter 34</td>
+                                    <td class="text-red">3/31: Midterm 2</td>
+                                    <td>4/2: Well-Being Day</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">14</td>
+                                    <td>Chapter 35</td>
+                                    <td>4/7: Monetary Policy</td>
+                                    <td>4/9: Historical Crisis</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">15</td>
+                                    <td>Chapter 36</td>
+                                    <td>4/14: Taxes and Spending</td>
+                                    <td>4/16: Fiscal Policy</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">16</td>
+                                    <td>Chapters 37 & 10</td>
+                                    <td>4/21: Externalities</td>
+                                    <td>4/23: Public Goods</td>
+                                </tr>
+                                <tr>
+                                    <td class="week-col">Finals</td>
+                                    <td>—</td>
+                                    <td colspan="2" class="text-red">5/7 at 8:00 AM: Final Exam</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- End Accordion -->
+
+    </div> <!-- End Container -->
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript for nested collapsibles -->
+    <script>
+        function toggleNested(element) {
+            const content = element.nextElementSibling;
+            const isOpen = content.classList.contains('show');
+
+            // Toggle current
+            if (isOpen) {
+                content.classList.remove('show');
+                element.classList.remove('active');
+            } else {
+                content.classList.add('show');
+                element.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
