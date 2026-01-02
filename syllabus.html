@@ -259,6 +259,12 @@
             <p><strong>Canvas:</strong> <a href="https://uncch.instructure.com/courses/104159" target="_blank">https://uncch.instructure.com/courses/104159</a></p>
         </div>
 
+        <!-- Expand/Collapse All Buttons -->
+        <div class="mb-3">
+            <button class="btn btn-outline-secondary btn-sm" onclick="expandAll()">Expand All</button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="collapseAll()">Collapse All</button>
+        </div>
+
         <!-- Main Accordion -->
         <div class="accordion" id="syllabusAccordion">
 
@@ -295,9 +301,12 @@
                         </div>
 
                         <h5>Gen Ed Requirements</h5>
+                        <p>ECON 101 meets the requirement for FC-KNOWING under the IDEAs in Action Gen Ed.</p>
+                        <!-- FY-LAUNCH requirement removed
                         <p>ECON 101 meets the requirement for a FY-LAUNCH and FC-KNOWING under the IDEAs in Action Gen Ed.</p>
+                        -->
 
-                        <!-- FY-LAUNCH Objectives Collapsible -->
+                        <!-- FY-LAUNCH Objectives Collapsible - COMMENTED OUT
                         <div class="nested-collapse">
                             <div class="nested-header" onclick="toggleNested(this)">
                                 Learning Objectives for FY-LAUNCH
@@ -311,6 +320,7 @@
                                 </ol>
                             </div>
                         </div>
+                        -->
 
                         <!-- FC-KNOWING Objectives Collapsible -->
                         <div class="nested-collapse">
@@ -826,7 +836,7 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom JavaScript for nested collapsibles -->
+    <!-- Custom JavaScript for nested collapsibles and expand/collapse all -->
     <script>
         function toggleNested(element) {
             const content = element.nextElementSibling;
@@ -840,6 +850,26 @@
                 content.classList.add('show');
                 element.classList.add('active');
             }
+        }
+
+        function expandAll() {
+            // Expand main accordion sections
+            document.querySelectorAll('#syllabusAccordion .accordion-collapse').forEach(el => {
+                new bootstrap.Collapse(el, { toggle: false }).show();
+            });
+            // Expand nested collapsibles
+            document.querySelectorAll('.nested-content').forEach(el => el.classList.add('show'));
+            document.querySelectorAll('.nested-header').forEach(el => el.classList.add('active'));
+        }
+
+        function collapseAll() {
+            // Collapse main accordion sections
+            document.querySelectorAll('#syllabusAccordion .accordion-collapse').forEach(el => {
+                new bootstrap.Collapse(el, { toggle: false }).hide();
+            });
+            // Collapse nested collapsibles
+            document.querySelectorAll('.nested-content').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('.nested-header').forEach(el => el.classList.remove('active'));
         }
     </script>
 </body>
