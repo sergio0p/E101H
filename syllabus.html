@@ -247,7 +247,13 @@
 <body>
     <div class="container">
         <h1>ECON 101H: Introduction to Economics</h1>
-        <div class="subtitle">Spring 2026 - Honors Section</div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="subtitle" style="margin-bottom: 0;">Spring 2026 - Honors Section</div>
+            <div>
+                <button class="btn btn-outline-secondary btn-sm" onclick="expandAll()">Expand All</button>
+                <button class="btn btn-outline-secondary btn-sm" onclick="collapseAll()">Collapse All</button>
+            </div>
+        </div>
 
         <div class="instructor-info">
             <p><strong>Instructor:</strong> Sérgio O. Parreiras</p>
@@ -257,12 +263,6 @@
             <p><strong>Location:</strong> Gardner Hall, Room 209</p>
             <p><strong>Office Hours:</strong> Mon & Wed 9:00 AM - 10:00 AM via Zoom (by Canvas appointment only)</p>
             <p><strong>Canvas:</strong> <a href="https://uncch.instructure.com/courses/104159" target="_blank">https://uncch.instructure.com/courses/104159</a></p>
-        </div>
-
-        <!-- Expand/Collapse All Buttons -->
-        <div class="mb-3">
-            <button class="btn btn-outline-secondary btn-sm" onclick="expandAll()">Expand All</button>
-            <button class="btn btn-outline-secondary btn-sm" onclick="collapseAll()">Collapse All</button>
         </div>
 
         <!-- Main Accordion -->
