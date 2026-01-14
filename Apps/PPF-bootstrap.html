@@ -23,18 +23,12 @@
             max-width: 1000px;
         }
 
-        .output-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
         .output-display {
             background: var(--base2);
             border: 1px solid var(--base1);
             border-radius: 6px;
             padding: 15px;
+            margin: 0 0 10px 0;
         }
 
         /* KaTeX output styling */
@@ -201,15 +195,19 @@
                 </h2>
                 <div id="outputSection" class="accordion-collapse collapse show">
                     <div class="accordion-body">
-                        <div class="output-grid">
-                            <div class="output-display">
-                                <div id="quantities-display"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="output-display">
+                                    <div id="quantities-display"></div>
+                                </div>
                             </div>
-                            <div class="output-display">
-                                <div id="ratios-display"></div>
+                            <div class="col-md-6">
+                                <div class="output-display">
+                                    <div id="ratios-display"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="output-display">
+                        <div class="output-display mt-3">
                             <div id="efficiency-display"></div>
                         </div>
                     </div>
