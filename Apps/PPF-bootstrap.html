@@ -23,42 +23,9 @@
             max-width: 1000px;
         }
 
-        .output-display {
-            background: var(--base2);
-            border: 1px solid var(--base1);
-            border-radius: 6px;
-            padding: 15px;
-            margin: 0 0 10px 0;
-        }
-
-        /* Compact spacing only for the two boxes in the row */
-        .row .output-display p {
-            margin-bottom: 0.3rem;
-        }
-
-        .row .output-display h5 {
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Also remove top margin from all h5 in output-display */
-        .output-display h5 {
-            margin-top: 0;
-        }
-
-        /* Reduce padding in Output & Results section */
-        #outputSection .accordion-body {
-            padding: 0.5rem 1rem !important;
-        }
-
-        #outputSection .row {
-            margin-top: 0 !important;
-        }
-
-        .output-value {
+        /* KaTeX output styling */
+        #output-katex-display {
             font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--base01);
         }
 
         .slider-container {
@@ -220,27 +187,7 @@
                 </h2>
                 <div id="outputSection" class="accordion-collapse collapse show">
                     <div class="accordion-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="output-display">
-                                    <h5>Quantities Produced</h5>
-                                    <p>Clothing: <span class="output-value" id="qty-clothing">100.00</span></p>
-                                    <p>Food: <span class="output-value" id="qty-food">30.00</span></p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="output-display">
-                                    <h5>Marginal Product Ratios</h5>
-                                    <p>$\tfrac{MP_K}{MP_L}$ for Clothing: <span class="output-value" id="mp-ratio-clothing">1.00</span></p>
-                                    <p>$\tfrac{MP_K}{MP_L}$ for Food: <span class="output-value" id="mp-ratio-food">0.50</span></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="output-display mt-3">
-                            <h5>Efficiency Check</h5>
-                            <p id="efficiency-message">When MP ratios are equal across industries, production is efficient (on the PPF).</p>
-                        </div>
+                        <div id="output-katex-display"></div>
                     </div>
                 </div>
             </div>
@@ -374,32 +321,49 @@
             const qtyClothing = funcs.clothing(K, L);
             const qtyFood = funcs.food(TOTAL_K - K, TOTAL_L - L);
 
-            document.getElementById('qty-clothing').textContent = qtyClothing.toFixed(2);
-            document.getElementById('qty-food').textContent = qtyFood.toFixed(2);
-
             // Calculate MP ratios
             const mpRatioClothing = funcs.clothingMPK(K, L) / funcs.clothingMPL(K, L);
             const mpRatioFood = funcs.foodMPK(TOTAL_K - K, TOTAL_L - L) / funcs.foodMPL(TOTAL_K - K, TOTAL_L - L);
 
-            document.getElementById('mp-ratio-clothing').textContent = mpRatioClothing.toFixed(3);
-            document.getElementById('mp-ratio-food').textContent = mpRatioFood.toFixed(3);
-
             // Efficiency check
-            const efficiencyMsg = document.getElementById('efficiency-message');
             const ratioDiff = Math.abs(mpRatioClothing - mpRatioFood);
+            let efficiencyText, efficiencyColor;
 
             if (ratioDiff < 0.05) {
-                efficiencyMsg.innerHTML = '<span style="color: var(--green); font-weight: bold;">&#10003; Efficient!</span> MP ratios are approximately equal. This allocation is on the PPF.';
+                efficiencyColor = 'green';
+                efficiencyText = '\\text{Efficient! MP ratios are approximately equal. This allocation is on the PPF.}';
             } else if (mpRatioClothing > mpRatioFood) {
-                efficiencyMsg.innerHTML = '<span style="color: var(--orange);">&#9888; Inefficient.</span> Clothing has higher $MP_K/MP_L$ ratio. Move capital from food to clothing, or labor from clothing to food.';
+                efficiencyColor = 'orange';
+                efficiencyText = '\\text{Inefficient. Clothing has higher } \\tfrac{MP_K}{MP_L} \\text{ ratio.}';
             } else {
-                efficiencyMsg.innerHTML = '<span style="color: var(--orange);">&#9888; Inefficient.</span> Food has higher $MP_K/MP_L$ ratio. Move capital from clothing to food, or labor from food to clothing.';
+                efficiencyColor = 'orange';
+                efficiencyText = '\\text{Inefficient. Food has higher } \\tfrac{MP_K}{MP_L} \\text{ ratio.}';
             }
 
-            // Re-render KaTeX in efficiency message
+            // Generate KaTeX output
+            const katexOutput = `
+                $$\\begin{align*}
+                &\\textbf{Quantities Produced} \\\\
+                &\\text{Clothing: } ${qtyClothing.toFixed(2)} \\\\
+                &\\text{Food: } ${qtyFood.toFixed(2)} \\\\[1em]
+                &\\textbf{Marginal Product Ratios} \\\\
+                &\\tfrac{MP_K}{MP_L} \\text{ for Clothing: } ${mpRatioClothing.toFixed(3)} \\\\
+                &\\tfrac{MP_K}{MP_L} \\text{ for Food: } ${mpRatioFood.toFixed(3)} \\\\[1em]
+                &\\textbf{Efficiency Check} \\\\
+                &\\color{${efficiencyColor}}{${efficiencyText}}
+                \\end{align*}$$
+            `;
+
+            const outputDiv = document.getElementById('output-katex-display');
+            outputDiv.innerHTML = katexOutput;
+
+            // Render KaTeX
             if (typeof renderMathInElement !== 'undefined') {
-                renderMathInElement(efficiencyMsg, {
-                    delimiters: [{left: '$', right: '$', display: false}],
+                renderMathInElement(outputDiv, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
                     throwOnError: false
                 });
             }
