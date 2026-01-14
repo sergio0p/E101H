@@ -23,9 +23,17 @@
             max-width: 1000px;
         }
 
+        .output-display {
+            background: var(--base2);
+            border: 1px solid var(--base1);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 0 0 10px 0;
+        }
+
         /* KaTeX output styling */
-        #output-katex-display {
-            font-size: 1.1rem;
+        .output-display .katex-display {
+            margin: 0;
         }
 
         .slider-container {
@@ -187,7 +195,21 @@
                 </h2>
                 <div id="outputSection" class="accordion-collapse collapse show">
                     <div class="accordion-body">
-                        <div id="output-katex-display"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="output-display">
+                                    <div id="quantities-display"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="output-display">
+                                    <div id="ratios-display"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="output-display mt-3">
+                            <div id="efficiency-display"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -340,30 +362,46 @@
                 efficiencyText = '\\text{Inefficient. Food has higher } \\tfrac{MP_K}{MP_L} \\text{ ratio.}';
             }
 
-            // Generate KaTeX output
-            const katexOutput = `
+            // Generate KaTeX output for three separate boxes
+            const quantitiesKatex = `
                 $$\\begin{align*}
                 &\\textbf{Quantities Produced} \\\\
                 &\\text{Clothing: } ${qtyClothing.toFixed(2)} \\\\
-                &\\text{Food: } ${qtyFood.toFixed(2)} \\\\[1em]
+                &\\text{Food: } ${qtyFood.toFixed(2)}
+                \\end{align*}$$
+            `;
+
+            const ratiosKatex = `
+                $$\\begin{align*}
                 &\\textbf{Marginal Product Ratios} \\\\
                 &\\tfrac{MP_K}{MP_L} \\text{ for Clothing: } ${mpRatioClothing.toFixed(3)} \\\\
-                &\\tfrac{MP_K}{MP_L} \\text{ for Food: } ${mpRatioFood.toFixed(3)} \\\\[1em]
+                &\\tfrac{MP_K}{MP_L} \\text{ for Food: } ${mpRatioFood.toFixed(3)}
+                \\end{align*}$$
+            `;
+
+            const efficiencyKatex = `
+                $$\\begin{align*}
                 &\\textbf{Efficiency Check} \\\\
                 &\\color{${efficiencyColor}}{${efficiencyText}}
                 \\end{align*}$$
             `;
 
-            const outputDiv = document.getElementById('output-katex-display');
-            outputDiv.innerHTML = katexOutput;
+            document.getElementById('quantities-display').innerHTML = quantitiesKatex;
+            document.getElementById('ratios-display').innerHTML = ratiosKatex;
+            document.getElementById('efficiency-display').innerHTML = efficiencyKatex;
 
             // Render KaTeX
             if (typeof renderMathInElement !== 'undefined') {
-                renderMathInElement(outputDiv, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false}
-                    ],
+                renderMathInElement(document.getElementById('quantities-display'), {
+                    delimiters: [{left: '$$', right: '$$', display: true}],
+                    throwOnError: false
+                });
+                renderMathInElement(document.getElementById('ratios-display'), {
+                    delimiters: [{left: '$$', right: '$$', display: true}],
+                    throwOnError: false
+                });
+                renderMathInElement(document.getElementById('efficiency-display'), {
+                    delimiters: [{left: '$$', right: '$$', display: true}],
                     throwOnError: false
                 });
             }
