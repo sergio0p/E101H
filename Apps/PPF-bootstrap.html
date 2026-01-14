@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Possibility Frontier</title>
+
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Shared Educational Styles -->
+    <link rel="stylesheet" href="shared-bootstrap-edu.css">
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <!-- Plotly.js -->
+    <script src="https://cdn.plotly.com/plotly-2.27.0.min.js"></script>
+
+    <style>
+        /* PPF-specific styles */
+        [data-app="ppf"] .container {
+            max-width: 1000px;
+        }
+
+        .output-display {
+            background: var(--base2);
+            border: 1px solid var(--base1);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .output-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--base01);
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        .slider-label {
+            font-weight: 600;
+            color: var(--base01);
+            margin-bottom: 5px;
+        }
+
+        .form-range::-webkit-slider-thumb {
+            background: var(--blue);
+        }
+
+        .form-range::-moz-range-thumb {
+            background: var(--blue);
+        }
+
+        .slider-value {
+            font-weight: bold;
+            color: var(--blue);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        .mode-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid var(--base01);
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--base3);
+            color: var(--base01);
+        }
+
+        .mode-button:hover {
+            background: var(--base2);
+        }
+
+        .mode-button.selected {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: var(--base3);
+        }
+
+        #ppf-plot {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4" data-app="ppf">
+        <!-- Header with utility buttons -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mb-0">Production Possibility Frontier</h1>
+            <div class="btn-toolbar gap-1">
+                <button class="btn btn-sm btn-outline-secondary" onclick="expandAll()">Expand All</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="collapseAll()">Collapse All</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="resetApp()">Reset</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">Print</button>
+            </div>
+        </div>
+
+        <!-- Instructor Info -->
+        <div class="edu-instructor-info">
+            <p><strong>Instructor:</strong> Sérgio O. Parreiras</p>
+            <p><strong>Course:</strong> ECON 101 - Introduction to Economics</p>
+        </div>
+
+        <!-- Main accordion -->
+        <div class="accordion" id="mainAccordion">
+            <!-- Model Selection -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#modelSection">
+                        Model Selection
+                    </button>
+                </h2>
+                <div id="modelSection" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <p>Choose a production technology:</p>
+                        <div class="d-flex gap-3 justify-content-center mb-4">
+                            <button class="mode-button selected" id="mode-declining" onclick="setMode('declining')">Declining MPs</button>
+                            <button class="mode-button" id="mode-constant" onclick="setMode('constant')">Constant MPs</button>
+                        </div>
+
+                        <div id="formula-declining" class="edu-formula">
+                            <strong>Production Functions (Declining Marginal Products):</strong><br>
+                            $\text{Clothing: } c(K,L) = \sqrt{K \cdot L}$<br>
+                            $\text{Food: } f(K,L) = \sqrt{K} + 2\sqrt{L}$
+                        </div>
+
+                        <div id="formula-constant" class="edu-formula" style="display: none;">
+                            <strong>Production Functions (Constant Marginal Products):</strong><br>
+                            $\text{Clothing: } c(K,L) = 2K + L$<br>
+                            $\text{Food: } f(K,L) = K + 2L$
+                        </div>
+
+                        <div class="edu-question">
+                            <strong>Resource Endowments:</strong> Total Capital = 200, Total Labor = 200
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Factor Allocation -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#allocationSection">
+                        Factor Allocation
+                    </button>
+                </h2>
+                <div id="allocationSection" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <p>Allocate capital and labor to the <strong>clothing industry</strong>. The remaining factors go to the food industry.</p>
+
+                        <div class="slider-container">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label class="slider-label">Capital for Clothing ($K_c$):</label>
+                                <span class="slider-value" id="K-value">100</span>
+                            </div>
+                            <input type="range" class="form-range" id="K-slider" min="1" max="199" value="100" oninput="updateAllocation()">
+                            <div class="d-flex justify-content-between text-muted small">
+                                <span>1</span>
+                                <span>Capital for Food: <span id="K-food">100</span></span>
+                                <span>199</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-container">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label class="slider-label">Labor for Clothing ($L_c$):</label>
+                                <span class="slider-value" id="L-value">100</span>
+                            </div>
+                            <input type="range" class="form-range" id="L-slider" min="1" max="199" value="100" oninput="updateAllocation()">
+                            <div class="d-flex justify-content-between text-muted small">
+                                <span>1</span>
+                                <span>Labor for Food: <span id="L-food">100</span></span>
+                                <span>199</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output & Results -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#outputSection">
+                        Output & Results
+                    </button>
+                </h2>
+                <div id="outputSection" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="output-display">
+                                    <h5>Quantities Produced</h5>
+                                    <p>Clothing: <span class="output-value" id="qty-clothing">100.00</span></p>
+                                    <p>Food: <span class="output-value" id="qty-food">30.00</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="output-display">
+                                    <h5>Marginal Product Ratios</h5>
+                                    <p>$\frac{MP_K}{MP_L}$ for Clothing: <span class="output-value" id="mp-ratio-clothing">1.00</span></p>
+                                    <p>$\frac{MP_K}{MP_L}$ for Food: <span class="output-value" id="mp-ratio-food">0.50</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="output-display mt-3">
+                            <h5>Efficiency Check</h5>
+                            <p id="efficiency-message">When MP ratios are equal across industries, production is efficient (on the PPF).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PPF Graph -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#graphSection">
+                        PPF Graph
+                    </button>
+                </h2>
+                <div id="graphSection" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <div id="ppf-plot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$', right: '$', display: false}, {left: '$$', right: '$$', display: true}], throwOnError: false});"></script>
+
+    <script>
+        // Global state
+        let currentMode = 'declining';
+        const TOTAL_K = 200;
+        const TOTAL_L = 200;
+
+        // Production functions
+        const productionFunctions = {
+            declining: {
+                clothing: (k, l) => Math.sqrt(k * l),
+                food: (k, l) => Math.sqrt(k) + 2 * Math.sqrt(l),
+                // Marginal products
+                clothingMPK: (k, l) => 0.5 * Math.sqrt(l / k),
+                clothingMPL: (k, l) => 0.5 * Math.sqrt(k / l),
+                foodMPK: (k, l) => 0.5 / Math.sqrt(k),
+                foodMPL: (k, l) => 1 / Math.sqrt(l)
+            },
+            constant: {
+                clothing: (k, l) => 2 * k + l,
+                food: (k, l) => k + 2 * l,
+                // Marginal products (constant)
+                clothingMPK: (k, l) => 2,
+                clothingMPL: (k, l) => 1,
+                foodMPK: (k, l) => 1,
+                foodMPL: (k, l) => 2
+            }
+        };
+
+        function setMode(mode) {
+            currentMode = mode;
+
+            // Update button states
+            document.getElementById('mode-declining').classList.toggle('selected', mode === 'declining');
+            document.getElementById('mode-constant').classList.toggle('selected', mode === 'constant');
+
+            // Update formula display
+            document.getElementById('formula-declining').style.display = mode === 'declining' ? 'block' : 'none';
+            document.getElementById('formula-constant').style.display = mode === 'constant' ? 'block' : 'none';
+
+            updateAllocation();
+        }
+
+        function computePPF() {
+            const funcs = productionFunctions[currentMode];
+            const points = [];
+            const frontierPoints = [];
+
+            // Sample all possible allocations
+            const step = 2;
+            for (let k = 1; k < TOTAL_K; k += step) {
+                for (let l = 1; l < TOTAL_L; l += step) {
+                    const clothing = funcs.clothing(k, l);
+                    const food = funcs.food(TOTAL_K - k, TOTAL_L - l);
+                    points.push({ clothing, food, k, l });
+                }
+            }
+
+            // Find the Pareto frontier (PPF)
+            // Sort by clothing output
+            points.sort((a, b) => a.clothing - b.clothing);
+
+            // Find frontier: for each clothing level, keep max food
+            let maxFood = -1;
+            const clothingBins = {};
+
+            for (const p of points) {
+                const bin = Math.round(p.clothing * 10) / 10;
+                if (!clothingBins[bin] || p.food > clothingBins[bin].food) {
+                    clothingBins[bin] = p;
+                }
+            }
+
+            // Extract frontier points and sort
+            const frontier = Object.values(clothingBins);
+            frontier.sort((a, b) => a.clothing - b.clothing);
+
+            // Filter to actual Pareto frontier (non-dominated points)
+            const ppf = [];
+            let currentMaxFood = -1;
+            for (let i = frontier.length - 1; i >= 0; i--) {
+                if (frontier[i].food > currentMaxFood) {
+                    ppf.unshift(frontier[i]);
+                    currentMaxFood = frontier[i].food;
+                }
+            }
+
+            return { points, ppf };
+        }
+
+        function updateAllocation() {
+            const K = parseInt(document.getElementById('K-slider').value);
+            const L = parseInt(document.getElementById('L-slider').value);
+
+            // Update display values
+            document.getElementById('K-value').textContent = K;
+            document.getElementById('L-value').textContent = L;
+            document.getElementById('K-food').textContent = TOTAL_K - K;
+            document.getElementById('L-food').textContent = TOTAL_L - L;
+
+            const funcs = productionFunctions[currentMode];
+
+            // Calculate quantities
+            const qtyClothing = funcs.clothing(K, L);
+            const qtyFood = funcs.food(TOTAL_K - K, TOTAL_L - L);
+
+            document.getElementById('qty-clothing').textContent = qtyClothing.toFixed(2);
+            document.getElementById('qty-food').textContent = qtyFood.toFixed(2);
+
+            // Calculate MP ratios
+            const mpRatioClothing = funcs.clothingMPK(K, L) / funcs.clothingMPL(K, L);
+            const mpRatioFood = funcs.foodMPK(TOTAL_K - K, TOTAL_L - L) / funcs.foodMPL(TOTAL_K - K, TOTAL_L - L);
+
+            document.getElementById('mp-ratio-clothing').textContent = mpRatioClothing.toFixed(3);
+            document.getElementById('mp-ratio-food').textContent = mpRatioFood.toFixed(3);
+
+            // Efficiency check
+            const efficiencyMsg = document.getElementById('efficiency-message');
+            const ratioDiff = Math.abs(mpRatioClothing - mpRatioFood);
+
+            if (ratioDiff < 0.05) {
+                efficiencyMsg.innerHTML = '<span style="color: var(--green); font-weight: bold;">&#10003; Efficient!</span> MP ratios are approximately equal. This allocation is on the PPF.';
+            } else if (mpRatioClothing > mpRatioFood) {
+                efficiencyMsg.innerHTML = '<span style="color: var(--orange);">&#9888; Inefficient.</span> Clothing has higher $MP_K/MP_L$ ratio. Move capital from food to clothing, or labor from clothing to food.';
+            } else {
+                efficiencyMsg.innerHTML = '<span style="color: var(--orange);">&#9888; Inefficient.</span> Food has higher $MP_K/MP_L$ ratio. Move capital from clothing to food, or labor from food to clothing.';
+            }
+
+            // Re-render KaTeX in efficiency message
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(efficiencyMsg, {
+                    delimiters: [{left: '$', right: '$', display: false}],
+                    throwOnError: false
+                });
+            }
+
+            // Update plot
+            updatePlot(qtyClothing, qtyFood);
+        }
+
+        function updatePlot(currentClothing, currentFood) {
+            const { points, ppf } = computePPF();
+
+            // All feasible points (light scatter)
+            const feasibleTrace = {
+                x: points.map(p => p.clothing),
+                y: points.map(p => p.food),
+                mode: 'markers',
+                type: 'scatter',
+                name: 'Feasible Region',
+                marker: {
+                    color: 'rgba(147, 161, 161, 0.3)',
+                    size: 3
+                },
+                hoverinfo: 'skip'
+            };
+
+            // PPF frontier
+            const ppfTrace = {
+                x: ppf.map(p => p.clothing),
+                y: ppf.map(p => p.food),
+                mode: 'lines',
+                type: 'scatter',
+                name: 'PPF',
+                line: {
+                    color: '#268bd2',
+                    width: 3
+                }
+            };
+
+            // Current allocation point
+            const currentTrace = {
+                x: [currentClothing],
+                y: [currentFood],
+                mode: 'markers',
+                type: 'scatter',
+                name: 'Current Allocation',
+                marker: {
+                    color: '#dc322f',
+                    size: 14,
+                    symbol: 'circle',
+                    line: {
+                        color: '#002b36',
+                        width: 2
+                    }
+                }
+            };
+
+            const layout = {
+                title: {
+                    text: currentMode === 'declining' ? 'PPF with Declining Marginal Products' : 'PPF with Constant Marginal Products',
+                    font: { color: '#586e75', size: 18 }
+                },
+                xaxis: {
+                    title: 'Clothing',
+                    color: '#586e75',
+                    gridcolor: '#eee8d5',
+                    zerolinecolor: '#93a1a1'
+                },
+                yaxis: {
+                    title: 'Food',
+                    color: '#586e75',
+                    gridcolor: '#eee8d5',
+                    zerolinecolor: '#93a1a1'
+                },
+                plot_bgcolor: '#fdf6e3',
+                paper_bgcolor: '#fdf6e3',
+                showlegend: true,
+                legend: {
+                    x: 0.7,
+                    y: 0.95,
+                    bgcolor: 'rgba(253, 246, 227, 0.8)'
+                },
+                margin: { t: 60, r: 40, b: 60, l: 60 }
+            };
+
+            const config = {
+                responsive: true,
+                displayModeBar: true,
+                modeBarButtonsToRemove: ['lasso2d', 'select2d']
+            };
+
+            Plotly.newPlot('ppf-plot', [feasibleTrace, ppfTrace, currentTrace], layout, config);
+        }
+
+        // Utility functions
+        function expandAll() {
+            document.querySelectorAll('.accordion-collapse').forEach(el => {
+                new bootstrap.Collapse(el, {toggle: false}).show();
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.accordion-collapse').forEach(el => {
+                new bootstrap.Collapse(el, {toggle: false}).hide();
+            });
+        }
+
+        function resetApp() {
+            document.getElementById('K-slider').value = 100;
+            document.getElementById('L-slider').value = 100;
+            setMode('declining');
+        }
+
+        // Initialize on load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                updateAllocation();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

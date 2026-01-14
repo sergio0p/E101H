@@ -1,0 +1,678 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     26287,        670]
+NotebookOptionsPosition[     24469,        634]
+NotebookOutlinePosition[     24864,        650]
+CellTagsIndexPosition[     24821,        647]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"Exit", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.884272585968672*^9, 3.8842725878757267`*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"3f264daf-8011-4bc8-8602-bbff6c9a55bb"],
+
+Cell[CellGroupData[{
+
+Cell["Instructions", "Title",
+ CellChangeTimes->{{3.884344039193763*^9, 
+  3.8843440531407013`*^9}},ExpressionUUID->"2b8dc04e-1a29-4e12-9d34-\
+3d8353159d51"],
+
+Cell["\<\
+Press shift+enter at the Exit[] command above before starting.\
+\>", "ItemNumbered",
+ CellChangeTimes->{{3.8843440680419693`*^9, 
+  3.8843441045794*^9}},ExpressionUUID->"059cd75f-6bbd-413d-a3aa-0e697d778f59"],
+
+Cell["Ignore the code below BUT", "ItemNumbered",
+ CellChangeTimes->{{3.8843440680419693`*^9, 
+  3.88434410875504*^9}},ExpressionUUID->"48da83c7-572a-4d07-88ad-\
+46df53126ec5"],
+
+Cell["\<\
+Always press shift+enter in the code line below to make sure you are using \
+the correct example (running some code will change the output of OTHER code).\
+\
+\>", "ItemNumbered",
+ CellChangeTimes->{{3.8843440680419693`*^9, 
+  3.884344180266365*^9}},ExpressionUUID->"604ad1b7-9ba5-4248-842e-\
+a5b131e86bde"],
+
+Cell["\<\
+Use pencil and paper to work the problem by yourself whenever possible.\
+\>", "ItemNumbered",
+ CellChangeTimes->{{3.8843440680419693`*^9, 
+  3.884344201598928*^9}},ExpressionUUID->"4b2576cc-d523-4ce3-91ea-\
+2208fb57313b"],
+
+Cell["Please! Report any typos to me. ", "ItemNumbered",
+ CellChangeTimes->{{3.8843440680419693`*^9, 
+  3.8843442180757523`*^9}},ExpressionUUID->"60b2a5f7-5c96-4865-8008-\
+03f4fa8b53e9"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["PPF", "Title",
+ CellChangeTimes->{{3.8842714965493727`*^9, 
+  3.8842714980933123`*^9}},ExpressionUUID->"dfdddb3f-a47f-4e37-bc23-\
+cb0c22fb3283"],
+
+Cell["\<\
+The controls below allow you to choose the level of capital and labor used by \
+the clothing industry (good in the x-axis). The residual capital and labor is \
+used by the food industry (good in the y-axis).\
+\>", "Text",
+ CellChangeTimes->{{3.884274322106579*^9, 3.88427440960824*^9}, 
+   3.8842805871803513`*^9},ExpressionUUID->"cdcb20de-85ed-485d-8337-\
+2bf3a4a7e156"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Column", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<PPF (declining MPs)\>\"", ",", "Bold"}], "]"}], ",", 
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<Quantity of clothing: \>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{"c", "[", 
+            RowBox[{"K", ",", "L"}], "]"}], "]"}], ",", "TraditionalForm"}], 
+         "]"}]}], "]"}], ",", 
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<Quantity of food: \>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{"f", "[", 
+            RowBox[{
+             RowBox[{"200", "-", "K"}], ",", 
+             RowBox[{"200", "-", "L"}]}], "]"}], "]"}], ",", 
+          "TraditionalForm"}], "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Style", "[", 
+       RowBox[{
+       "\"\<\!\(\*FractionBox[SubscriptBox[\(MP\), \(K\)], \
+SubscriptBox[\(MP\), \(L\)]]\) for clothing = \>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"ck", "[", 
+              RowBox[{"k", ",", "l"}], "]"}], "/", 
+             RowBox[{"cl", "[", 
+              RowBox[{"k", ",", "l"}], "]"}]}], "/.", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"k", "\[Rule]", "K"}], ",", 
+              RowBox[{"l", "\[Rule]", "L"}]}], "}"}]}], "]"}], ",", 
+          "TraditionalForm"}], "]"}]}], "]"}], ",", 
+      RowBox[{"Style", "[", 
+       RowBox[{
+       "\"\<\!\(\*FractionBox[SubscriptBox[\(MP\), \(K\)], \
+SubscriptBox[\(MP\), \(L\)]]\) for food = \>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"fk", "[", 
+              RowBox[{"k", ",", "l"}], "]"}], "/", 
+             RowBox[{"fl", "[", 
+              RowBox[{"k", ",", "l"}], "]"}]}], "/.", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"k", "\[Rule]", 
+               RowBox[{"200", "-", "K"}]}], ",", 
+              RowBox[{"l", "\[Rule]", 
+               RowBox[{"200", "-", "L"}]}]}], "}"}]}], "]"}], ",", 
+          "TraditionalForm"}], "]"}]}], "]"}], ",", 
+      RowBox[{
+       RowBox[{"p1", "=", 
+        RowBox[{"ParametricPlot", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"c", "[", 
+             RowBox[{"k", ",", "l"}], "]"}], ",", 
+            RowBox[{"f", "[", 
+             RowBox[{
+              RowBox[{"200", "-", "k"}], ",", 
+              RowBox[{"200", "-", "l"}]}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"k", ",", "0", ",", "199"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"l", ",", "0", ",", "199"}], "}"}], ",", 
+          RowBox[{"FrameLabel", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"\"\<clothing\>\"", ",", "\"\<food\>\""}], "}"}]}], ",", 
+          RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", 
+          RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ";", 
+       RowBox[{"p2", "=", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Point", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"c", "[", 
+             RowBox[{"K", ",", "L"}], "]"}], ",", 
+            RowBox[{"f", "[", 
+             RowBox[{
+              RowBox[{"200", "-", "K"}], ",", 
+              RowBox[{"200", "-", "L"}]}], "]"}]}], "}"}], "]"}], "]"}]}], 
+       ";", 
+       RowBox[{"Show", "[", 
+        RowBox[{"p1", ",", "p2"}], "]"}]}]}], "}"}], "]"}], ",", 
+   RowBox[{"(*", "Controls", "*)"}], " ", 
+   RowBox[{"{", 
+    RowBox[{"K", ",", "1", ",", "199", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"L", ",", "1", ",", "199", ",", "1"}], "}"}], ",", 
+   RowBox[{"(*", 
+    RowBox[{"Options", " ", "for", " ", "Manipulate"}], "*)"}], 
+   RowBox[{"Initialization", ":>", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"c", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"Sqrt", "[", 
+        RowBox[{"k", "*", "l"}], "]"}]}], ",", " ", 
+      RowBox[{
+       RowBox[{"f", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{
+        RowBox[{"Sqrt", "[", "k", "]"}], "+", 
+        RowBox[{"2", "*", 
+         RowBox[{"Sqrt", "[", "l", "]"}]}]}]}], ",", 
+      RowBox[{
+       RowBox[{"ck", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"c", "[", 
+          RowBox[{"k", ",", "l"}], "]"}], ",", "k"}], "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"cl", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"c", "[", 
+          RowBox[{"k", ",", "l"}], "]"}], ",", "l"}], "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"fk", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"k", ",", "l"}], "]"}], ",", "k"}], "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"fl", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"k", ",", "l"}], "]"}], ",", "l"}], "]"}]}]}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->CompressedData["
+1:eJwdzEsowwEAx/FtIeVxs5q1mThsB5HYWmsaB1uJPJaLYa2JRk3zaGnZ/zS5
+CJsNtVFLzStj5RFZOJC4TETNDtOaGM1BeyH/3//w7XP7lmr07X0MGo3GJoMR
+/XHCE4/Vu3bYheukJ705TLjsX6CckZqL4eZtmA+9vMNKqCaKxZA2YFPBwM9N
+P8xk0fXw7TWX0st6GoMcrs4IGYJJE/zrjk5Rn8TgHAw5BVa4tqrwQGXGtwu5
+FscprKuI+WFwuPUaltP3vyDfMJqEe12+FJTZrdkbpBb5N+XnY7wAFhncTNij
+EHGg/X2iGqrKOkXw190mgVfmOxkM8pMN8NnEV8O0MayFLbUXmS3SxRolYxu/
+lXMhJPIO5NAhnm6CQduSGrJK0uNw6CNFQC2PcMJoeNYFq0Yaz6AuKbyEkg7N
+PQzlJx7gvFT6Ao8CzRH4DwiZBAs=
+  "],
+ CellLabel->"In[3]:=",ExpressionUUID->"0216d8b1-ba54-4efc-91f8-f02c9f999d25"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{K$$ = 123, $CellContext`L$$ = 137, Typeset`show$$ = True,
+     Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[K$$], 1, 199, 1}, {
+      Hold[$CellContext`L$$], 1, 199, 1}}, Typeset`size$$ = {
+    360., {235.134033203125, 240.865966796875}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = False, K$20801$$ = 
+    0, $CellContext`L$20802$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {K$$ = 1, $CellContext`L$$ = 1}, 
+      "ControllerVariables" :> {
+        Hold[K$$, K$20801$$, 0], 
+        Hold[$CellContext`L$$, $CellContext`L$20802$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Column[{
+         Style["PPF (declining MPs)", Bold], 
+         Style["Quantity of clothing: " <> ToString[
+            N[
+             $CellContext`c[K$$, $CellContext`L$$]], TraditionalForm]], 
+         Style["Quantity of food: " <> ToString[
+            N[
+             $CellContext`f[200 - K$$, 200 - $CellContext`L$$]], 
+            TraditionalForm]], 
+         Style[
+         "\!\(\*FractionBox[SubscriptBox[\(MP\), \(K\)], SubscriptBox[\(MP\), \
+\(L\)]]\) for clothing = " <> ToString[
+            N[
+             
+             ReplaceAll[$CellContext`ck[$CellContext`k, \
+$CellContext`l]/$CellContext`cl[$CellContext`k, $CellContext`l], \
+{$CellContext`k -> K$$, $CellContext`l -> $CellContext`L$$}]], 
+            TraditionalForm]], 
+         Style[
+         "\!\(\*FractionBox[SubscriptBox[\(MP\), \(K\)], SubscriptBox[\(MP\), \
+\(L\)]]\) for food = " <> ToString[
+            N[
+             
+             ReplaceAll[$CellContext`fk[$CellContext`k, \
+$CellContext`l]/$CellContext`fl[$CellContext`k, $CellContext`l], \
+{$CellContext`k -> 200 - K$$, $CellContext`l -> 200 - $CellContext`L$$}]], 
+            TraditionalForm]], $CellContext`p1 = ParametricPlot[{
+             $CellContext`c[$CellContext`k, $CellContext`l], 
+             $CellContext`f[
+             200 - $CellContext`k, 200 - $CellContext`l]}, {$CellContext`k, 0,
+              199}, {$CellContext`l, 0, 199}, 
+            FrameLabel -> {"clothing", "food"}, AspectRatio -> 1, ImageSize -> 
+            Medium]; $CellContext`p2 = Graphics[
+            Point[{
+              $CellContext`c[K$$, $CellContext`L$$], 
+              $CellContext`f[200 - K$$, 200 - $CellContext`L$$]}]]; 
+         Show[$CellContext`p1, $CellContext`p2]}], 
+      "Specifications" :> {{K$$, 1, 199, 1}, {$CellContext`L$$, 1, 199, 1}}, 
+      "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{627., {265., 271.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>({$CellContext`c[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := Sqrt[$CellContext`k $CellContext`l], $CellContext`f[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := 
+       Sqrt[$CellContext`k] + 2 Sqrt[$CellContext`l], $CellContext`ck[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := D[
+         $CellContext`c[$CellContext`k, $CellContext`l], $CellContext`k], \
+$CellContext`cl[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := D[
+         $CellContext`c[$CellContext`k, $CellContext`l], $CellContext`l], \
+$CellContext`fk[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := D[
+         $CellContext`f[$CellContext`k, $CellContext`l], $CellContext`k], \
+$CellContext`fl[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := D[
+         $CellContext`f[$CellContext`k, $CellContext`l], $CellContext`l]}; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.884290371478653*^9, {3.884290423571053*^9, 3.884290444697414*^9}, 
+   3.8842905049621563`*^9, 3.884297217407009*^9, 3.8843440311204147`*^9, 
+   3.8843531419543467`*^9},
+ CellLabel->"Out[3]=",ExpressionUUID->"120a79de-836a-4d0f-9c7c-091c7953a617"]
+}, {2}]],
+
+Cell[BoxData[
+ RowBox[{"Exit", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.884290454046453*^9, 3.884290456794475*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"3ffb841e-3ebf-46a3-b41f-177a84682306"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Column", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<PPF (constant MPs)\>\"", ",", "Bold"}], "]"}], ",", 
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<Quantity of clothing: \>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{"c2", "[", 
+            RowBox[{"K", ",", "L"}], "]"}], "]"}], ",", "TraditionalForm"}], 
+         "]"}]}], "]"}], ",", 
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<Quantity of food: \>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{"f2", "[", 
+            RowBox[{
+             RowBox[{"200", "-", "K"}], ",", 
+             RowBox[{"200", "-", "L"}]}], "]"}], "]"}], ",", 
+          "TraditionalForm"}], "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Style", "[", 
+       RowBox[{
+       "\"\<\!\(\*FractionBox[SubscriptBox[\(MP\), \(K\)], \
+SubscriptBox[\(MP\), \(L\)]]\) for clothing = \>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"ck2", "[", 
+              RowBox[{"k", ",", "l"}], "]"}], "/", 
+             RowBox[{"cl2", "[", 
+              RowBox[{"k", ",", "l"}], "]"}]}], "/.", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"k", "\[Rule]", "K"}], ",", 
+              RowBox[{"l", "\[Rule]", "L"}]}], "}"}]}], "]"}], ",", 
+          "TraditionalForm"}], "]"}]}], "]"}], ",", 
+      RowBox[{"Style", "[", 
+       RowBox[{
+       "\"\<\!\(\*FractionBox[SubscriptBox[\(MP\), \(K\)], \
+SubscriptBox[\(MP\), \(L\)]]\) for food = \>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"fk2", "[", 
+              RowBox[{"k", ",", "l"}], "]"}], "/", 
+             RowBox[{"fl2", "[", 
+              RowBox[{"k", ",", "l"}], "]"}]}], "/.", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"k", "\[Rule]", 
+               RowBox[{"200", "-", "K"}]}], ",", 
+              RowBox[{"l", "\[Rule]", 
+               RowBox[{"200", "-", "L"}]}]}], "}"}]}], "]"}], ",", 
+          "TraditionalForm"}], "]"}]}], "]"}], ",", 
+      RowBox[{
+       RowBox[{"p1", "=", 
+        RowBox[{"ParametricPlot", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"c2", "[", 
+             RowBox[{"k", ",", "l"}], "]"}], ",", 
+            RowBox[{"f2", "[", 
+             RowBox[{
+              RowBox[{"200", "-", "k"}], ",", 
+              RowBox[{"200", "-", "l"}]}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"k", ",", "0", ",", "199"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"l", ",", "0", ",", "199"}], "}"}], ",", 
+          RowBox[{"FrameLabel", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"\"\<clothing\>\"", ",", "\"\<food\>\""}], "}"}]}], ",", 
+          RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", 
+          RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ";", 
+       RowBox[{"p2", "=", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Point", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"c2", "[", 
+             RowBox[{"K", ",", "L"}], "]"}], ",", 
+            RowBox[{"f2", "[", 
+             RowBox[{
+              RowBox[{"200", "-", "K"}], ",", 
+              RowBox[{"200", "-", "L"}]}], "]"}]}], "}"}], "]"}], "]"}]}], 
+       ";", 
+       RowBox[{"Show", "[", 
+        RowBox[{"p1", ",", "p2"}], "]"}]}]}], "}"}], "]"}], ",", 
+   RowBox[{"(*", "Controls", "*)"}], " ", 
+   RowBox[{"{", 
+    RowBox[{"K", ",", "1", ",", "199", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"L", ",", "1", ",", "199", ",", "1"}], "}"}], ",", 
+   RowBox[{"(*", 
+    RowBox[{"Options", " ", "for", " ", "Manipulate"}], "*)"}], 
+   RowBox[{"Initialization", ":>", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"c2", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{
+        RowBox[{"2", "*", "k"}], "+", "l"}]}], ",", " ", 
+      RowBox[{
+       RowBox[{"f2", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"k", "+", 
+        RowBox[{"2", "*", "l"}]}]}], ",", 
+      RowBox[{
+       RowBox[{"ck2", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"c", "[", 
+          RowBox[{"k", ",", "l"}], "]"}], ",", "k"}], "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"cl2", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"c", "[", 
+          RowBox[{"k", ",", "l"}], "]"}], ",", "l"}], "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"fk2", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"k", ",", "l"}], "]"}], ",", "k"}], "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"fl2", "[", 
+        RowBox[{"k_", ",", "l_"}], "]"}], ":=", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"f", "[", 
+          RowBox[{"k", ",", "l"}], "]"}], ",", "l"}], "]"}]}]}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.884281662110744*^9, 3.884281694567472*^9}, {
+  3.884282183493441*^9, 3.884282195472781*^9}, {3.88437292585534*^9, 
+  3.8843729649116087`*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"558bc2e5-c8e0-4c04-bbdd-50ec6bcbe3fa"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{K$$ = 1, $CellContext`L$$ = 1, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[K$$], 1, 199, 1}, {
+      Hold[$CellContext`L$$], 1, 199, 1}}, Typeset`size$$ = {
+    360., {232.134033203125, 237.865966796875}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = False, K$71713$$ = 
+    0, $CellContext`L$71714$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {K$$ = 1, $CellContext`L$$ = 1}, 
+      "ControllerVariables" :> {
+        Hold[K$$, K$71713$$, 0], 
+        Hold[$CellContext`L$$, $CellContext`L$71714$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Column[{
+         Style["PPF (constant MPs)", Bold], 
+         Style["Quantity of clothing: " <> ToString[
+            N[
+             $CellContext`c2[K$$, $CellContext`L$$]], TraditionalForm]], 
+         Style["Quantity of food: " <> ToString[
+            N[
+             $CellContext`f2[200 - K$$, 200 - $CellContext`L$$]], 
+            TraditionalForm]], 
+         Style[
+         "\!\(\*FractionBox[SubscriptBox[\(MP\), \(K\)], SubscriptBox[\(MP\), \
+\(L\)]]\) for clothing = " <> ToString[
+            N[
+             
+             ReplaceAll[$CellContext`ck2[$CellContext`k, \
+$CellContext`l]/$CellContext`cl2[$CellContext`k, $CellContext`l], \
+{$CellContext`k -> K$$, $CellContext`l -> $CellContext`L$$}]], 
+            TraditionalForm]], 
+         Style[
+         "\!\(\*FractionBox[SubscriptBox[\(MP\), \(K\)], SubscriptBox[\(MP\), \
+\(L\)]]\) for food = " <> ToString[
+            N[
+             
+             ReplaceAll[$CellContext`fk2[$CellContext`k, \
+$CellContext`l]/$CellContext`fl2[$CellContext`k, $CellContext`l], \
+{$CellContext`k -> 200 - K$$, $CellContext`l -> 200 - $CellContext`L$$}]], 
+            TraditionalForm]], $CellContext`p1 = ParametricPlot[{
+             $CellContext`c2[$CellContext`k, $CellContext`l], 
+             $CellContext`f2[
+             200 - $CellContext`k, 200 - $CellContext`l]}, {$CellContext`k, 0,
+              199}, {$CellContext`l, 0, 199}, 
+            FrameLabel -> {"clothing", "food"}, AspectRatio -> 1, ImageSize -> 
+            Medium]; $CellContext`p2 = Graphics[
+            Point[{
+              $CellContext`c2[K$$, $CellContext`L$$], 
+              $CellContext`f2[200 - K$$, 200 - $CellContext`L$$]}]]; 
+         Show[$CellContext`p1, $CellContext`p2]}], 
+      "Specifications" :> {{K$$, 1, 199, 1}, {$CellContext`L$$, 1, 199, 1}}, 
+      "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{627., {262., 268.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>({$CellContext`c2[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := 2 $CellContext`k + $CellContext`l, $CellContext`f2[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := $CellContext`k + 2 $CellContext`l, $CellContext`ck2[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := D[
+         $CellContext`c[$CellContext`k, $CellContext`l], $CellContext`k], \
+$CellContext`cl2[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := D[
+         $CellContext`c[$CellContext`k, $CellContext`l], $CellContext`l], \
+$CellContext`fk2[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := D[
+         $CellContext`f[$CellContext`k, $CellContext`l], $CellContext`k], \
+$CellContext`fl2[
+         Pattern[$CellContext`k, 
+          Blank[]], 
+         Pattern[$CellContext`l, 
+          Blank[]]] := D[
+         $CellContext`f[$CellContext`k, $CellContext`l], $CellContext`l]}; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.884282160908614*^9, 3.884282197163772*^9, 
+  3.884290393929851*^9, 3.884290432137598*^9, 3.884290462895287*^9, 
+  3.8842905186289473`*^9, 3.8842972663896933`*^9, 3.884372967800116*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"e3b81835-1b07-4f3a-ad57-600019033fe0"]
+}, {2}]],
+
+Cell[BoxData[
+ RowBox[{"Exit", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.8842718127622623`*^9, 3.8842718212803507`*^9}, {
+  3.884289544981985*^9, 3.884289547033409*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"86863f87-e55f-4b5b-8003-00a5bdd23436"]
+}, Open  ]]
+},
+WindowSize->{808, 487},
+WindowMargins->{{Automatic, 70}, {0, Automatic}},
+FrontEndVersion->"13.2 for Mac OS X x86 (64-bit) (January 30, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"3567b822-420b-49d9-a57e-d3358c685a43"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 199, 3, 30, "Input",ExpressionUUID->"3f264daf-8011-4bc8-8602-bbff6c9a55bb"],
+Cell[CellGroupData[{
+Cell[782, 27, 157, 3, 98, "Title",ExpressionUUID->"2b8dc04e-1a29-4e12-9d34-3d8353159d51"],
+Cell[942, 32, 218, 4, 32, "ItemNumbered",ExpressionUUID->"059cd75f-6bbd-413d-a3aa-0e697d778f59"],
+Cell[1163, 38, 176, 3, 32, "ItemNumbered",ExpressionUUID->"48da83c7-572a-4d07-88ad-46df53126ec5"],
+Cell[1342, 43, 316, 7, 53, "ItemNumbered",ExpressionUUID->"604ad1b7-9ba5-4248-842e-a5b131e86bde"],
+Cell[1661, 52, 231, 5, 32, "ItemNumbered",ExpressionUUID->"4b2576cc-d523-4ce3-91ea-2208fb57313b"],
+Cell[1895, 59, 186, 3, 32, "ItemNumbered",ExpressionUUID->"60b2a5f7-5c96-4865-8008-03f4fa8b53e9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2118, 67, 150, 3, 98, "Title",ExpressionUUID->"dfdddb3f-a47f-4e37-bc23-cb0c22fb3283"],
+Cell[2271, 72, 381, 7, 58, "Text",ExpressionUUID->"cdcb20de-85ed-485d-8337-2bf3a4a7e156"],
+Cell[CellGroupData[{
+Cell[2677, 83, 5977, 160, 431, "Input",ExpressionUUID->"0216d8b1-ba54-4efc-91f8-f02c9f999d25"],
+Cell[8657, 245, 4861, 109, 555, "Output",ExpressionUUID->"120a79de-836a-4d0f-9c7c-091c7953a617"]
+}, {2}]],
+Cell[13530, 357, 196, 3, 30, "Input",ExpressionUUID->"3ffb841e-3ebf-46a3-b41f-177a84682306"],
+Cell[CellGroupData[{
+Cell[13751, 364, 5575, 151, 431, "Input",ExpressionUUID->"558bc2e5-c8e0-4c04-bbdd-50ec6bcbe3fa"],
+Cell[19329, 517, 4863, 107, 549, "Output",ExpressionUUID->"e3b81835-1b07-4f3a-ad57-600019033fe0"]
+}, {2}]],
+Cell[24204, 627, 249, 4, 30, "Input",ExpressionUUID->"86863f87-e55f-4b5b-8003-00a5bdd23436"]
+}, Open  ]]
+}
+]
+*)
+

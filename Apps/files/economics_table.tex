@@ -1,0 +1,73 @@
+\documentclass[14pt,letterpaper]{extarticle}
+\usepackage[margin=1cm]{geometry}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+
+% Define light gray for header
+\definecolor{headergray}{gray}{0.9}
+
+% Center column type with fixed width
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Marginal Analysis}\\[0.3cm]
+{\large Fill in the blank cells}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{|C{3cm}|C{1.8cm}|C{3cm}|C{2.5cm}|C{2.5cm}|C{2.5cm}|}
+\hline
+\rowcolor{headergray}
+\textbf{Quantity} & \textbf{Price} & \textbf{Revenue} & \textbf{Marginal Revenue} & \textbf{Total Cost} & \textbf{Marginal Cost} \\
+\rowcolor{headergray}
+\textbf{(Q)} & \textbf{(P)} & \textbf{(R = P$\times$Q)} & \textbf{(MR)} & \textbf{(TC)} & \textbf{(MC)} \\
+\hline
+0 & 100 & 0 & 92 & 20 & 8 \\
+\hline
+1 & 92 & 92 & & 28 & \\
+\hline
+2 & 84 & & 60 & 32 & 4 \\
+\hline
+3 & 76 & 228 & & 36 & \\
+\hline
+4 & 68 & & & 44 & \\
+\hline
+5 & 60 & 300 & 12 & 58 & 22 \\
+\hline
+6 & 52 & & & 80 & \\
+\hline
+7 & 44 & 308 & & 114 & \\
+\hline
+8 & 36 & & $-36$ & 164 & 68 \\
+\hline
+9 & 28 & & & 232 & \\
+\hline
+10 & 20 & 200 & --- & 320 & --- \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.8cm}
+
+\noindent\textbf{Formulas:}
+\begin{itemize}
+    \item Revenue: $R(Q) = P(Q) \times Q$ where $P(Q)$ is the price at quantity $Q$ and $R(Q)$ is the revenue at quantity $Q$.
+    \item Marginal Revenue: $MR(Q) = R(Q+1) - R(Q)$
+    \item Marginal Cost: $MC(Q) = TC(Q+1) - TC(Q)$
+\end{itemize}
+
+\vspace{0.3cm}
+
+\noindent\textbf{Underlying functions:} \\
+Demand: $P = 100 - 8Q$ \hspace{1cm} Cost: $TC = 0.5Q^3 - 3Q^2 + 10Q + 20$
+
+\end{document}
