@@ -11,6 +11,33 @@
     <!-- KaTeX CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6rBladdyEyXIJnrDnh5_UeNN-vJDbV1Q",
+            authDomain: "econ101h-apps.firebaseapp.com",
+            projectId: "econ101h-apps",
+            storageBucket: "econ101h-apps.firebasestorage.app",
+            messagingSenderId: "180334031510",
+            appId: "1:180334031510:web:b9b717b600d4c6306ec8b7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Expose to global scope for use in other scripts
+        window.firebaseDB = db;
+        window.firebaseCollection = collection;
+        window.firebaseAddDoc = addDoc;
+        window.firebaseQuery = query;
+        window.firebaseOrderBy = orderBy;
+        window.firebaseLimit = limit;
+        window.firebaseGetDocs = getDocs;
+    </script>
+
     <style>
         /* ========================================
            BLACK & WHITE THEME
@@ -535,7 +562,8 @@
             known: new Map(),       // Currently known (filled + solved)
             blanks: new Set(),      // Cells that are blanks
             closed: new Set(),      // Cells that are closed (not playable)
-            N: 5                    // Max Q
+            N: 5,                   // Max Q
+            startTime: null         // Track time for leaderboard
         };
 
         // ============================================
@@ -968,8 +996,52 @@
             td.innerHTML = `<div class="cell-content cell-blank" onclick="activateCell('${key}')"></div>`;
         }
 
-        function showSuccess() {
+        async function showSuccess() {
             launchTickerTape();
+
+            // Calculate completion time
+            const elapsedMs = Date.now() - gameState.startTime;
+            const elapsedSeconds = Math.round(elapsedMs / 100) / 10; // Round to 1 decimal
+
+            // Ask for name
+            const name = prompt(`Completed in ${elapsedSeconds}s!\n\nEnter your name for the leaderboard:`);
+            if (!name || name.trim() === '') return;
+
+            // Save to Firestore
+            try {
+                const db = window.firebaseDB;
+                if (!db) {
+                    console.log('Firebase not loaded');
+                    return;
+                }
+
+                // Add score
+                await window.firebaseAddDoc(window.firebaseCollection(db, 'leaderboard'), {
+                    name: name.trim(),
+                    time: elapsedSeconds,
+                    difficulty: currentDifficulty,
+                    timestamp: new Date().toISOString()
+                });
+
+                // Check if #1 for this difficulty
+                const q = window.firebaseQuery(
+                    window.firebaseCollection(db, 'leaderboard'),
+                    window.firebaseOrderBy('time', 'asc'),
+                    window.firebaseLimit(1)
+                );
+
+                const snapshot = await window.firebaseGetDocs(q);
+                const topScore = snapshot.docs[0]?.data();
+
+                if (topScore && topScore.name === name.trim() && topScore.time === elapsedSeconds) {
+                    // They're #1!
+                    setTimeout(() => {
+                        alert(`🏆 NEW RECORD! 🏆\n\nYou're #1 on the leaderboard!\n${name}: ${elapsedSeconds}s (${currentDifficulty})`);
+                    }, 500);
+                }
+            } catch (error) {
+                console.error('Leaderboard error:', error);
+            }
         }
 
         function hideSuccess() {
@@ -1045,6 +1117,7 @@
             gameState.N = puzzle.N;
             gameState.known = new Map();
             gameState.blanks = new Set();
+            gameState.startTime = Date.now();  // Start timer
 
             const closed = getClosedCells(puzzle.N);
             const allVars = getAllVariables(puzzle.N);
