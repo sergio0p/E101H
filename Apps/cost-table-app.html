@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost Functions</title>
+
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <style>
+        /* ========================================
+           BLACK & WHITE THEME
+           ======================================== */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --bg-tertiary: #e8e8e8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #888888;
+            --border-color: #d0d0d0;
+            --border-dark: #333333;
+            --success: #2d2d2d;
+            --error: #1a1a1a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ========================================
+           INSTRUCTOR INFO
+           ======================================== */
+        .instructor-info {
+            background-color: var(--bg-secondary);
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .instructor-info p {
+            margin-bottom: 0.3rem;
+            color: var(--text-secondary);
+        }
+
+        /* ========================================
+           DIFFICULTY SELECTOR
+           ======================================== */
+        .difficulty-selector {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .difficulty-btn {
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--border-dark);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 3px;
+        }
+
+        .difficulty-btn:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .difficulty-btn.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        /* ========================================
+           COST TABLE
+           ======================================== */
+        .cost-table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        .cost-table th {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 12px 15px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid var(--border-dark);
+        }
+
+        .cost-table td {
+            padding: 0;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            height: 50px;
+            min-width: 70px;
+            position: relative;
+        }
+
+        .cost-table tr:nth-child(even) {
+            background-color: var(--bg-secondary);
+        }
+
+        /* ========================================
+           CELL STATES
+           ======================================== */
+        .cell-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Q column - always visible, not interactive */
+        .cell-q {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Closed cell (e.g., ATC at Q=0, MC at last row if not provided) */
+        .cell-closed {
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        /* Pre-filled cell - Glassy tile */
+        .cell-filled {
+            background: linear-gradient(145deg, #ffffff 0%, #e8e8e8 50%, #d8d8d8 100%);
+            box-shadow:
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+                0 2px 4px rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+            font-weight: 600;
+            border-radius: 4px;
+            margin: 3px;
+            height: calc(100% - 6px);
+            width: calc(100% - 6px);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Blank cell - clickable */
+        .cell-blank {
+            background: var(--bg-primary);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .cell-blank:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Input in blank cell */
+        .cell-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .cell-input:focus {
+            background: #fffef0;
+        }
+
+        /* Correct answer - Glassy tile (same as pre-filled) */
+        .cell-correct {
+            background: linear-gradient(145deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
+            box-shadow:
+                inset 0 1px 3px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+                0 3px 6px rgba(0, 0, 0, 0.15);
+            color: var(--text-primary);
+            font-weight: 700;
+            border-radius: 4px;
+            margin: 3px;
+            height: calc(100% - 6px);
+            width: calc(100% - 6px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Shake animation for wrong answer */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+            20%, 40%, 60%, 80% { transform: translateX(4px); }
+        }
+
+        .cell-shake {
+            animation: shake 0.4s ease-in-out;
+            background-color: #ffeeee !important;
+        }
+
+        /* ========================================
+           FORMULAS SECTION
+           ======================================== */
+        .formulas-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px 20px;
+            margin-top: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .formulas-section h5 {
+            color: var(--text-primary);
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+
+        .formulas-section {
+            border-left: 4px solid var(--text-primary);
+        }
+
+        .collapsible-header {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 4px 0;
+            user-select: none;
+        }
+
+        .collapsible-header:hover {
+            color: var(--text-secondary);
+        }
+
+        #formulas-collapse {
+            padding-top: 15px;
+        }
+
+        .formula-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
+            gap: 10px;
+        }
+
+        .formula-item {
+            background: var(--bg-primary);
+            padding: 10px 15px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .formula-item-wide {
+            grid-column: 2 / -1;
+        }
+
+        /* ========================================
+           BUTTONS
+           ======================================== */
+        .btn-toolbar-custom {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-dark-outline {
+            background: var(--bg-primary);
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-dark-outline:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .btn-dark-solid {
+            background: var(--text-primary);
+            border: 1px solid var(--text-primary);
+            color: var(--bg-primary);
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-dark-solid:hover {
+            background: var(--text-secondary);
+            border-color: var(--text-secondary);
+        }
+
+        /* ========================================
+           SUCCESS MESSAGE
+           ======================================== */
+        .success-message {
+            display: none;
+            background: var(--bg-secondary);
+            border: 2px solid var(--text-primary);
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-message h4 {
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .cost-table {
+                font-size: 0.9rem;
+            }
+
+            .cost-table th,
+            .cost-table td {
+                padding: 8px;
+                min-width: 55px;
+            }
+
+            .difficulty-btn {
+                padding: 3px 8px;
+                font-size: 0.75rem;
+            }
+
+            .btn-toolbar-custom {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            text-align: center;
+            padding: 20px 0 10px 0;
+            margin-top: 25px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ========================================
+           PRINT STYLES
+           ======================================== */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+
+            .btn-toolbar-custom,
+            .difficulty-selector {
+                display: none;
+            }
+
+            .cell-blank {
+                border: 2px dashed var(--border-color);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Cost Functions</h1>
+            <div class="btn-toolbar-custom">
+                <div class="difficulty-selector">
+                    <button class="difficulty-btn" data-level="easy" onclick="setDifficulty('easy')">Easy</button>
+                    <button class="difficulty-btn active" data-level="medium" onclick="setDifficulty('medium')">Medium</button>
+                    <button class="difficulty-btn" data-level="hard" onclick="setDifficulty('hard')">Hard</button>
+                </div>
+                <button class="btn-dark-solid" style="margin-left: 15px;" onclick="generateNewProblem()">New Game</button>
+                <button class="btn-dark-outline" style="margin-left: 15px;" onclick="window.print()">Print</button>
+            </div>
+        </div>
+
+        <!-- Instructor Info -->
+        <div class="instructor-info">
+            <p><strong>Instructor:</strong> Sérgio O. Parreiras</p>
+            <p><strong>Course:</strong> ECON 101 - Introduction to Economics</p>
+        </div>
+
+        <!-- Cost Table -->
+        <div class="cost-table-wrapper">
+            <table class="cost-table" id="cost-table">
+                <thead>
+                    <tr>
+                        <th>Q</th>
+                        <th>TC</th>
+                        <th>VC</th>
+                        <th>FC</th>
+                        <th>MC</th>
+                        <th>ATC</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Generated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="success-message">
+            <h4>Congratulations!</h4>
+            <p>You've correctly filled in all the blanks!</p>
+        </div>
+
+        <!-- Formulas Section (Collapsible) -->
+        <div class="formulas-section">
+            <h5 class="collapsible-header" data-bs-toggle="collapse" data-bs-target="#formulas-collapse" aria-expanded="false">
+                <span class="collapse-title">Assistance</span>
+            </h5>
+            <div class="collapse" id="formulas-collapse">
+                <div class="formula-list">
+                    <div class="formula-item">$\mathrm{TC} = \mathrm{FC} + \mathrm{VC}$</div>
+                    <div class="formula-item">$\mathrm{FC} = \mathrm{TC}(0)$</div>
+                    <div class="formula-item">$\mathrm{MC}(Q) = \mathrm{TC}(Q+1) - \mathrm{TC}(Q)$</div>
+                    <div class="formula-item">$\mathrm{ATC} = \dfrac{\mathrm{TC}}{Q}$</div>
+                    <div class="formula-item formula-item-wide">$\mathrm{VC}(Q) = \displaystyle\sum\limits_{i=0}^{Q-1} \mathrm{MC}(i) = \mathrm{MC}(0) + \cdots + \mathrm{MC}(Q-1)$</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            Economics Department | UNC Chapel Hill
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        // ============================================
+        // GAME STATE
+        // ============================================
+        let currentDifficulty = 'medium';
+        let gameState = {
+            values: new Map(),      // All correct values
+            known: new Map(),       // Currently known (filled + solved)
+            blanks: new Set(),      // Cells that are blanks
+            closed: new Set(),      // Cells that are closed (not playable)
+            N: 5                    // Max Q
+        };
+
+        // ============================================
+        // DIFFICULTY CONFIGURATIONS
+        // ============================================
+        const DIFFICULTY_CONFIG = {
+            easy: {
+                N: 5,
+                prefilledRatio: 0.6,
+                description: "More hints, multiple solution paths"
+            },
+            medium: {
+                N: 4,
+                prefilledRatio: 0.4,
+                description: "Moderate challenge"
+            },
+            hard: {
+                N: 3,
+                prefilledRatio: 0.25,
+                description: "Minimal hints, unique solution path"
+            }
+        };
+
+        // ============================================
+        // VALUE GENERATION
+        // ============================================
+        function generateConsistentValues(N) {
+            const values = new Map();
+
+            // Fixed cost (between 10 and 30)
+            const FC = 10 + Math.floor(Math.random() * 21);
+
+            // FC is constant but stored per row
+            for (let q = 0; q <= N; q++) {
+                values.set(`FC_${q}`, FC);
+            }
+
+            values.set('TC_0', FC);
+            values.set('VC_0', 0);
+
+            // Generate MC values (increasing, to ensure U-shaped ATC)
+            // MC starts positive and increases
+            let mc = 2 + Math.floor(Math.random() * 4); // Starting MC between 2-5
+            const mcValues = [];
+
+            for (let q = 0; q <= N; q++) {
+                mcValues.push(mc);
+                values.set(`MC_${q}`, mc);
+                // MC increases (quadratic-ish behavior)
+                mc += 1 + Math.floor(Math.random() * 3);
+            }
+
+            // Derive TC and VC from MC
+            let tc = FC;
+            let vc = 0;
+
+            for (let q = 1; q <= N; q++) {
+                vc += values.get(`MC_${q - 1}`);
+                tc = FC + vc;
+                values.set(`VC_${q}`, vc);
+                values.set(`TC_${q}`, tc);
+                values.set(`ATC_${q}`, tc / q);
+            }
+
+            return values;
+        }
+
+        // ============================================
+        // PROPAGATION ALGORITHM
+        // ============================================
+        function propagate(initialKnown, values, N) {
+            const known = new Map(initialKnown);
+            const path = [];
+
+            let changed = true;
+            while (changed) {
+                changed = false;
+
+                // R1: VC[0] = 0 (always)
+                if (!known.has('VC_0')) {
+                    known.set('VC_0', 0);
+                    path.push({ variable: 'VC_0', rule: 'R1' });
+                    changed = true;
+                }
+
+                // R2: FC_q ↔ TC[0] (all FC values equal TC_0)
+                // First, propagate any known FC to all FC cells
+                let knownFC = null;
+                for (let q = 0; q <= N; q++) {
+                    if (known.has(`FC_${q}`)) {
+                        knownFC = known.get(`FC_${q}`);
+                        break;
+                    }
+                }
+                if (known.has('TC_0')) {
+                    knownFC = known.get('TC_0');
+                }
+
+                if (knownFC !== null) {
+                    // Propagate FC to all FC cells
+                    for (let q = 0; q <= N; q++) {
+                        if (!known.has(`FC_${q}`)) {
+                            known.set(`FC_${q}`, knownFC);
+                            path.push({ variable: `FC_${q}`, rule: 'R2' });
+                            changed = true;
+                        }
+                    }
+                    // Also set TC_0 if not known
+                    if (!known.has('TC_0')) {
+                        known.set('TC_0', knownFC);
+                        path.push({ variable: 'TC_0', rule: 'R2\'' });
+                        changed = true;
+                    }
+                }
+
+                for (let q = 0; q <= N; q++) {
+                    // R3: TC[Q] = FC_q + VC[Q]
+                    if (known.has(`TC_${q}`) && known.has(`FC_${q}`) && !known.has(`VC_${q}`)) {
+                        known.set(`VC_${q}`, known.get(`TC_${q}`) - known.get(`FC_${q}`));
+                        path.push({ variable: `VC_${q}`, rule: 'R3' });
+                        changed = true;
+                    }
+                    if (known.has(`VC_${q}`) && known.has(`FC_${q}`) && !known.has(`TC_${q}`)) {
+                        known.set(`TC_${q}`, known.get(`FC_${q}`) + known.get(`VC_${q}`));
+                        path.push({ variable: `TC_${q}`, rule: 'R3\'' });
+                        changed = true;
+                    }
+
+                    // R5: ATC[Q] = TC[Q] / Q (for Q > 0)
+                    if (q > 0) {
+                        if (known.has(`TC_${q}`) && !known.has(`ATC_${q}`)) {
+                            known.set(`ATC_${q}`, known.get(`TC_${q}`) / q);
+                            path.push({ variable: `ATC_${q}`, rule: 'R5' });
+                            changed = true;
+                        }
+                        if (known.has(`ATC_${q}`) && !known.has(`TC_${q}`)) {
+                            known.set(`TC_${q}`, known.get(`ATC_${q}`) * q);
+                            path.push({ variable: `TC_${q}`, rule: 'R5\'' });
+                            changed = true;
+                        }
+                    }
+                }
+
+                // R4: MC[Q] = TC[Q+1] - TC[Q]
+                for (let q = 0; q < N; q++) {
+                    const tc_q = `TC_${q}`, tc_q1 = `TC_${q + 1}`, mc_q = `MC_${q}`;
+
+                    if (known.has(tc_q) && known.has(tc_q1) && !known.has(mc_q)) {
+                        known.set(mc_q, known.get(tc_q1) - known.get(tc_q));
+                        path.push({ variable: mc_q, rule: 'R4' });
+                        changed = true;
+                    }
+                    if (known.has(mc_q) && known.has(tc_q) && !known.has(tc_q1)) {
+                        known.set(tc_q1, known.get(tc_q) + known.get(mc_q));
+                        path.push({ variable: tc_q1, rule: 'R4\'' });
+                        changed = true;
+                    }
+                    if (known.has(mc_q) && known.has(tc_q1) && !known.has(tc_q)) {
+                        known.set(tc_q, known.get(tc_q1) - known.get(mc_q));
+                        path.push({ variable: tc_q, rule: 'R4\'\'' });
+                        changed = true;
+                    }
+                }
+
+                // R6: VC[Q] = sum of MC[0..Q-1]
+                for (let q = 1; q <= N; q++) {
+                    if (!known.has(`VC_${q}`)) {
+                        // Check if all required MCs are known
+                        let allMCsKnown = true;
+                        let sum = 0;
+                        for (let i = 0; i < q; i++) {
+                            if (known.has(`MC_${i}`)) {
+                                sum += known.get(`MC_${i}`);
+                            } else {
+                                allMCsKnown = false;
+                                break;
+                            }
+                        }
+                        if (allMCsKnown) {
+                            known.set(`VC_${q}`, sum);
+                            path.push({ variable: `VC_${q}`, rule: 'R6' });
+                            changed = true;
+                        }
+                    }
+                }
+            }
+
+            return { known, path };
+        }
+
+        // ============================================
+        // PUZZLE GENERATION
+        // ============================================
+        function getAllVariables(N) {
+            const vars = [];
+            for (let q = 0; q <= N; q++) {
+                vars.push(`TC_${q}`);
+                vars.push(`VC_${q}`);
+                vars.push(`FC_${q}`);
+                if (q < N) vars.push(`MC_${q}`);
+                if (q > 0) vars.push(`ATC_${q}`);
+            }
+            return vars;
+        }
+
+        function getFillableVariables(N) {
+            // Exclude VC_0 (always 0)
+            return getAllVariables(N).filter(v => v !== 'VC_0');
+        }
+
+        function getClosedCells(N) {
+            // ATC_0 is always closed (undefined)
+            // MC_N is closed unless we explicitly provide it
+            return new Set(['ATC_0', `MC_${N}`]);
+        }
+
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function generateValidPuzzle(N, targetPrefilledRatio) {
+            const values = generateConsistentValues(N);
+            const fillable = getFillableVariables(N);
+            const targetPrefilled = Math.floor(fillable.length * targetPrefilledRatio);
+
+            // Try random configurations until we find a valid one
+            const maxAttempts = 500;
+
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+                const shuffled = shuffle(fillable);
+                const prefilled = shuffled.slice(0, targetPrefilled);
+
+                // Create initial known map
+                const initialKnown = new Map();
+                prefilled.forEach(v => initialKnown.set(v, values.get(v)));
+
+                // Propagate
+                const { known } = propagate(initialKnown, values, N);
+
+                // Check if all variables are derivable
+                const allVars = getAllVariables(N);
+                const allDerived = allVars.every(v => known.has(v) || v === 'ATC_0' || v === `MC_${N}`);
+
+                if (allDerived) {
+                    return {
+                        values,
+                        prefilled: new Set(prefilled),
+                        N
+                    };
+                }
+            }
+
+            // Fallback: return a simple valid configuration
+            console.warn('Could not find optimal puzzle, using fallback');
+            const prefilled = new Set(['FC', 'TC_1', 'TC_2', 'MC_0', 'MC_1']);
+            return { values, prefilled, N };
+        }
+
+        // ============================================
+        // UI RENDERING
+        // ============================================
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            const N = gameState.N;
+            const closed = getClosedCells(N);
+            gameState.closed = closed;
+
+            for (let q = 0; q <= N; q++) {
+                const row = document.createElement('tr');
+
+                // Q column
+                const qCell = document.createElement('td');
+                qCell.innerHTML = `<div class="cell-content cell-q">${q}</div>`;
+                row.appendChild(qCell);
+
+                // TC column
+                row.appendChild(createCell(`TC_${q}`, q));
+
+                // VC column
+                row.appendChild(createCell(`VC_${q}`, q));
+
+                // FC column (treated like any other cell)
+                row.appendChild(createCell(`FC_${q}`, q));
+
+                // MC column
+                const mcKey = `MC_${q}`;
+                if (closed.has(mcKey)) {
+                    const mcCell = document.createElement('td');
+                    mcCell.innerHTML = `<div class="cell-content cell-closed">—</div>`;
+                    row.appendChild(mcCell);
+                } else {
+                    row.appendChild(createCell(mcKey, q));
+                }
+
+                // ATC column
+                const atcKey = `ATC_${q}`;
+                if (q === 0) {
+                    const atcCell = document.createElement('td');
+                    atcCell.innerHTML = `<div class="cell-content cell-closed">—</div>`;
+                    row.appendChild(atcCell);
+                } else {
+                    row.appendChild(createCell(atcKey, q));
+                }
+
+                tbody.appendChild(row);
+            }
+        }
+
+        function createCell(key, q) {
+            const td = document.createElement('td');
+            td.id = `cell-${key}`;
+            td.dataset.key = key;
+
+            const value = gameState.values.get(key);
+            const isPrefilled = gameState.known.has(key);
+            const isBlank = gameState.blanks.has(key);
+
+            if (isPrefilled) {
+                // Pre-filled - glassy tile
+                const displayValue = formatValue(value);
+                td.innerHTML = `<div class="cell-content cell-filled">${displayValue}</div>`;
+            } else if (isBlank) {
+                // Blank - clickable
+                td.innerHTML = `<div class="cell-content cell-blank" onclick="activateCell('${key}')"></div>`;
+            }
+
+            return td;
+        }
+
+        function formatValue(value) {
+            if (typeof value !== 'number') return value;
+            // Round to 2 decimal places if needed
+            if (Number.isInteger(value)) return value;
+            return Math.round(value * 100) / 100;
+        }
+
+        function activateCell(key) {
+            const td = document.getElementById(`cell-${key}`);
+            if (!td || !gameState.blanks.has(key)) return;
+
+            // Create input
+            td.innerHTML = `
+                <input type="number"
+                       class="cell-input"
+                       id="input-${key}"
+                       onkeydown="handleKeydown(event, '${key}')"
+                       onblur="handleBlur('${key}')"
+                       step="any">
+            `;
+
+            const input = document.getElementById(`input-${key}`);
+            input.focus();
+        }
+
+
+        function handleKeydown(event, key) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                checkAnswer(key);
+            } else if (event.key === 'Escape') {
+                resetCell(key);
+            }
+        }
+
+        function handleBlur(key) {
+            const input = document.getElementById(`input-${key}`);
+            if (input && input.value.trim() !== '') {
+                checkAnswer(key);
+            } else {
+                resetCell(key);
+            }
+        }
+
+        function checkAnswer(key) {
+            const input = document.getElementById(`input-${key}`);
+            if (!input) return;
+
+            const userValue = parseFloat(input.value);
+            const correctValue = gameState.values.get(key);
+
+            // Allow small tolerance for floating point
+            const tolerance = 0.01;
+            const isCorrect = Math.abs(userValue - correctValue) < tolerance;
+
+            if (isCorrect) {
+                // Correct - show glassy tile
+                markCorrect(key, correctValue);
+
+                // Update known values and propagate
+                gameState.known.set(key, correctValue);
+                gameState.blanks.delete(key);
+
+                // Check for win
+                if (gameState.blanks.size === 0) {
+                    showSuccess();
+                }
+            } else {
+                // Wrong - shake
+                shakeCell(key);
+            }
+        }
+
+        function markCorrect(key, value) {
+            const td = document.getElementById(`cell-${key}`);
+            const displayValue = formatValue(value);
+            td.innerHTML = `<div class="cell-content cell-correct">${displayValue}</div>`;
+        }
+
+        function shakeCell(key) {
+            const td = document.getElementById(`cell-${key}`);
+            const input = document.getElementById(`input-${key}`);
+
+            td.classList.add('cell-shake');
+            if (input) input.value = '';
+
+            setTimeout(() => {
+                td.classList.remove('cell-shake');
+            }, 400);
+        }
+
+        function resetCell(key) {
+            const td = document.getElementById(`cell-${key}`);
+            td.innerHTML = `<div class="cell-content cell-blank" onclick="activateCell('${key}')"></div>`;
+        }
+
+        function showSuccess() {
+            document.getElementById('success-message').classList.add('show');
+        }
+
+        function hideSuccess() {
+            document.getElementById('success-message').classList.remove('show');
+        }
+
+        // Listen for Bootstrap collapse events to sync title
+        document.addEventListener('DOMContentLoaded', () => {
+            const collapseEl = document.getElementById('formulas-collapse');
+            if (collapseEl) {
+                collapseEl.addEventListener('shown.bs.collapse', () => {
+                    const header = document.querySelector('.collapsible-header');
+                    header.querySelector('.collapse-title').textContent = 'Key Relationships';
+                    header.setAttribute('aria-expanded', 'true');
+                });
+                collapseEl.addEventListener('hidden.bs.collapse', () => {
+                    const header = document.querySelector('.collapsible-header');
+                    header.querySelector('.collapse-title').textContent = 'Assistance';
+                    header.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+
+        // ============================================
+        // GAME CONTROL
+        // ============================================
+        function setDifficulty(level) {
+            currentDifficulty = level;
+
+            // Update button states
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.level === level);
+            });
+
+            generateNewProblem();
+        }
+
+        function generateNewProblem() {
+            hideSuccess();
+
+            const config = DIFFICULTY_CONFIG[currentDifficulty];
+            const puzzle = generateValidPuzzle(config.N, config.prefilledRatio);
+
+            // Set up game state
+            gameState.values = puzzle.values;
+            gameState.N = puzzle.N;
+            gameState.known = new Map();
+            gameState.blanks = new Set();
+
+            const closed = getClosedCells(puzzle.N);
+            const allVars = getAllVariables(puzzle.N);
+
+            // Categorize each variable
+            allVars.forEach(v => {
+                if (closed.has(v)) {
+                    // Closed - not playable
+                } else if (puzzle.prefilled.has(v)) {
+                    // Pre-filled
+                    gameState.known.set(v, puzzle.values.get(v));
+                } else if (v === 'VC_0') {
+                    // VC_0 is always shown as 0
+                    gameState.known.set(v, 0);
+                } else {
+                    // Blank - student must fill
+                    gameState.blanks.add(v);
+                }
+            });
+
+            renderTable();
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            generateNewProblem();
+
+            // Render KaTeX formulas
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+
+        // Also render after KaTeX loads (in case it loads after DOMContentLoaded)
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.querySelector('.formulas-section'), {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
