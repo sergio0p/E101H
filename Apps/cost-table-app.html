@@ -14,7 +14,7 @@
     <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, doc, updateDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB6rBladdyEyXIJnrDnh5_UeNN-vJDbV1Q",
@@ -32,6 +32,8 @@
         window.firebaseDB = db;
         window.firebaseCollection = collection;
         window.firebaseAddDoc = addDoc;
+        window.firebaseDoc = doc;
+        window.firebaseUpdateDoc = updateDoc;
         window.firebaseQuery = query;
         window.firebaseOrderBy = orderBy;
         window.firebaseLimit = limit;
@@ -1003,11 +1005,8 @@
             const elapsedMs = Date.now() - gameState.startTime;
             const elapsedSeconds = Math.round(elapsedMs / 100) / 10; // Round to 1 decimal
 
-            // Ask for name
-            const name = prompt(`Completed in ${elapsedSeconds}s!\n\nEnter your name for the leaderboard:`);
-            if (!name || name.trim() === '') return;
-
-            // Save to Firestore
+            // Save to Firestore IMMEDIATELY (before prompt, in case user closes browser)
+            let docRef = null;
             try {
                 const db = window.firebaseDB;
                 if (!db) {
@@ -1015,32 +1014,47 @@
                     return;
                 }
 
-                // Add score
-                await window.firebaseAddDoc(window.firebaseCollection(db, 'leaderboard'), {
-                    name: name.trim(),
+                // Save immediately as Anonymous
+                docRef = await window.firebaseAddDoc(window.firebaseCollection(db, 'leaderboard'), {
+                    name: 'Anonymous',
                     time: elapsedSeconds,
                     difficulty: currentDifficulty,
                     timestamp: new Date().toISOString()
                 });
-
-                // Check if #1 for this difficulty
-                const q = window.firebaseQuery(
-                    window.firebaseCollection(db, 'leaderboard'),
-                    window.firebaseOrderBy('time', 'asc'),
-                    window.firebaseLimit(1)
-                );
-
-                const snapshot = await window.firebaseGetDocs(q);
-                const topScore = snapshot.docs[0]?.data();
-
-                if (topScore && topScore.name === name.trim() && topScore.time === elapsedSeconds) {
-                    // They're #1!
-                    setTimeout(() => {
-                        alert(`🏆 NEW RECORD! 🏆\n\nYou're #1 on the leaderboard!\n${name}: ${elapsedSeconds}s (${currentDifficulty})`);
-                    }, 500);
-                }
             } catch (error) {
-                console.error('Leaderboard error:', error);
+                console.error('Leaderboard save error:', error);
+            }
+
+            // Now ask for name (after save is complete)
+            const name = prompt(`Completed in ${elapsedSeconds}s!\n\nEnter your name for the leaderboard:`);
+
+            // If they provided a name, update the record
+            if (name && name.trim() !== '' && docRef) {
+                try {
+                    const db = window.firebaseDB;
+                    await window.firebaseUpdateDoc(window.firebaseDoc(db, 'leaderboard', docRef.id), {
+                        name: name.trim()
+                    });
+
+                    // Check if #1
+                    const q = window.firebaseQuery(
+                        window.firebaseCollection(db, 'leaderboard'),
+                        window.firebaseOrderBy('time', 'asc'),
+                        window.firebaseLimit(1)
+                    );
+
+                    const snapshot = await window.firebaseGetDocs(q);
+                    const topScore = snapshot.docs[0]?.data();
+
+                    if (topScore && topScore.name === name.trim() && topScore.time === elapsedSeconds) {
+                        // They're #1!
+                        setTimeout(() => {
+                            alert(`🏆 NEW RECORD! 🏆\n\nYou're #1 on the leaderboard!\n${name}: ${elapsedSeconds}s (${currentDifficulty})`);
+                        }, 500);
+                    }
+                } catch (error) {
+                    console.error('Leaderboard update error:', error);
+                }
             }
         }
 
