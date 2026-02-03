@@ -875,12 +875,12 @@
 
             // Create input
             td.innerHTML = `
-                <input type="number"
+                <input type="text"
                        class="cell-input"
                        id="input-${key}"
                        onkeydown="handleKeydown(event, '${key}')"
                        onblur="handleBlur('${key}')"
-                       step="any">
+                       inputmode="decimal">
             `;
 
             const input = document.getElementById(`input-${key}`);
