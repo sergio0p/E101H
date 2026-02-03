@@ -988,8 +988,8 @@
                 tape.className = 'ticker-tape';
                 tape.style.left = Math.random() * 100 + '%';
                 tape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                tape.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                tape.style.animationDelay = Math.random() * 2 + 's';
+                tape.style.animationDuration = (Math.random() * 2.1 + 2.1) + 's';
+                tape.style.animationDelay = Math.random() * 1.4 + 's';
                 // Thin rectangular strips like ticker tape
                 tape.style.width = (Math.random() * 6 + 4) + 'px';
                 tape.style.height = (Math.random() * 40 + 30) + 'px';
@@ -1000,7 +1000,7 @@
             // Clean up after animation
             setTimeout(() => {
                 container.innerHTML = '';
-            }, 7000);
+            }, 5000);
         }
 
         // Listen for Bootstrap collapse events to sync title
