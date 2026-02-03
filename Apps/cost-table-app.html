@@ -346,31 +346,44 @@
         }
 
         /* ========================================
-           SUCCESS MESSAGE
+           TICKER-TAPE ANIMATION
            ======================================== */
-        .success-message {
-            display: none;
-            background: var(--bg-secondary);
-            border: 2px solid var(--text-primary);
-            border-radius: 6px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-            animation: fadeIn 0.5s ease;
+        .ticker-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 9999;
         }
 
-        .success-message.show {
-            display: block;
+        .ticker-tape {
+            position: absolute;
+            top: -50px;
+            border-radius: 2px;
+            animation: ticker-fall linear forwards;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .success-message h4 {
-            margin-bottom: 10px;
-            font-weight: 700;
+        @keyframes ticker-fall {
+            0% {
+                transform: translateY(0) translateX(0) rotateZ(0deg) rotateY(0deg);
+                opacity: 1;
+            }
+            25% {
+                transform: translateY(25vh) translateX(30px) rotateZ(90deg) rotateY(180deg);
+            }
+            50% {
+                transform: translateY(50vh) translateX(-20px) rotateZ(180deg) rotateY(360deg);
+            }
+            75% {
+                transform: translateY(75vh) translateX(40px) rotateZ(270deg) rotateY(540deg);
+            }
+            100% {
+                transform: translateY(105vh) translateX(-10px) rotateZ(360deg) rotateY(720deg);
+                opacity: 0.6;
+            }
         }
 
         /* ========================================
@@ -480,11 +493,8 @@
             </table>
         </div>
 
-        <!-- Success Message -->
-        <div class="success-message" id="success-message">
-            <h4>Congratulations!</h4>
-            <p>You've correctly filled in all the blanks!</p>
-        </div>
+        <!-- Ticker-Tape Container -->
+        <div class="ticker-container" id="ticker-container"></div>
 
         <!-- Formulas Section (Collapsible) -->
         <div class="formulas-section">
@@ -959,11 +969,38 @@
         }
 
         function showSuccess() {
-            document.getElementById('success-message').classList.add('show');
+            launchTickerTape();
         }
 
         function hideSuccess() {
-            document.getElementById('success-message').classList.remove('show');
+            const container = document.getElementById('ticker-container');
+            container.innerHTML = '';
+        }
+
+        function launchTickerTape() {
+            const container = document.getElementById('ticker-container');
+            // Classic ticker-tape colors: white, cream, yellow (like old stock ticker paper)
+            const colors = ['#ffffff', '#f5f5dc', '#fffacd', '#ffefd5', '#e8e8e8', '#d4d4d4'];
+            const tapeCount = 80;
+
+            for (let i = 0; i < tapeCount; i++) {
+                const tape = document.createElement('div');
+                tape.className = 'ticker-tape';
+                tape.style.left = Math.random() * 100 + '%';
+                tape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                tape.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                tape.style.animationDelay = Math.random() * 2 + 's';
+                // Thin rectangular strips like ticker tape
+                tape.style.width = (Math.random() * 6 + 4) + 'px';
+                tape.style.height = (Math.random() * 40 + 30) + 'px';
+                tape.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+                container.appendChild(tape);
+            }
+
+            // Clean up after animation
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 7000);
         }
 
         // Listen for Bootstrap collapse events to sync title
