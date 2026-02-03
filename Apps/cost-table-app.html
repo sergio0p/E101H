@@ -416,6 +416,105 @@
         }
 
         /* ========================================
+           LEADERBOARD
+           ======================================== */
+        .leaderboard-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--text-primary);
+            border-radius: 6px;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .leaderboard-header {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .leaderboard-header:hover {
+            background: var(--bg-secondary);
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 15px;
+        }
+
+        .leaderboard-tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .leaderboard-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .leaderboard-tab.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--text-primary);
+        }
+
+        .leaderboard-content {
+            padding: 15px;
+        }
+
+        .leaderboard-list {
+            display: none;
+        }
+
+        .leaderboard-list.active {
+            display: block;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dotted var(--border-color);
+        }
+
+        .leaderboard-entry:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-rank {
+            font-weight: 600;
+            min-width: 25px;
+        }
+
+        .leaderboard-name {
+            flex: 1;
+            margin: 0 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .leaderboard-time {
+            font-family: monospace;
+            font-weight: 500;
+        }
+
+        .leaderboard-empty {
+            color: var(--text-muted);
+            font-style: italic;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* ========================================
            RESPONSIVE
            ======================================== */
         @media (max-width: 600px) {
@@ -537,6 +636,31 @@
                     <div class="formula-item">$\mathrm{MC}(Q) = \mathrm{TC}(Q+1) - \mathrm{TC}(Q)$</div>
                     <div class="formula-item">$\mathrm{ATC} = \dfrac{\mathrm{TC}}{Q}$</div>
                     <div class="formula-item formula-item-wide">$\mathrm{VC}(Q) = \displaystyle\sum\limits_{i=0}^{Q-1} \mathrm{MC}(i) = \mathrm{MC}(0) + \cdots + \mathrm{MC}(Q-1)$</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Section (Collapsible) -->
+        <div class="leaderboard-section">
+            <h5 class="leaderboard-header" data-bs-toggle="collapse" data-bs-target="#leaderboard-collapse" aria-expanded="false">
+                <span>Leaderboard</span>
+            </h5>
+            <div class="collapse" id="leaderboard-collapse">
+                <div class="leaderboard-tabs">
+                    <button class="leaderboard-tab active" data-difficulty="easy">Easy</button>
+                    <button class="leaderboard-tab" data-difficulty="medium">Medium</button>
+                    <button class="leaderboard-tab" data-difficulty="hard">Hard</button>
+                </div>
+                <div class="leaderboard-content">
+                    <div class="leaderboard-list active" id="leaderboard-easy">
+                        <div class="leaderboard-empty">Loading...</div>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboard-medium">
+                        <div class="leaderboard-empty">Loading...</div>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboard-hard">
+                        <div class="leaderboard-empty">Loading...</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1052,6 +1176,9 @@
                             alert(`🏆 NEW RECORD! 🏆\n\nYou're #1 on the leaderboard!\n${name}: ${elapsedSeconds}s (${currentDifficulty})`);
                         }, 500);
                     }
+
+                    // Refresh leaderboard if open
+                    loadLeaderboard();
                 } catch (error) {
                     console.error('Leaderboard update error:', error);
                 }
@@ -1104,7 +1231,83 @@
                     header.setAttribute('aria-expanded', 'false');
                 });
             }
+
+            // Leaderboard collapse - load data when opened
+            const leaderboardEl = document.getElementById('leaderboard-collapse');
+            if (leaderboardEl) {
+                leaderboardEl.addEventListener('shown.bs.collapse', () => {
+                    loadLeaderboard();
+                });
+            }
+
+            // Leaderboard tab switching
+            document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const difficulty = tab.dataset.difficulty;
+
+                    // Update active tab
+                    document.querySelectorAll('.leaderboard-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Show corresponding list
+                    document.querySelectorAll('.leaderboard-list').forEach(list => list.classList.remove('active'));
+                    document.getElementById(`leaderboard-${difficulty}`).classList.add('active');
+                });
+            });
         });
+
+        // ============================================
+        // LEADERBOARD
+        // ============================================
+        async function loadLeaderboard() {
+            const difficulties = ['easy', 'medium', 'hard'];
+
+            for (const difficulty of difficulties) {
+                const container = document.getElementById(`leaderboard-${difficulty}`);
+
+                try {
+                    const db = window.firebaseDB;
+                    if (!db) {
+                        container.innerHTML = '<div class="leaderboard-empty">Leaderboard unavailable</div>';
+                        continue;
+                    }
+
+                    // Query top 5 for this difficulty
+                    const q = window.firebaseQuery(
+                        window.firebaseCollection(db, 'leaderboard'),
+                        window.firebaseOrderBy('time', 'asc'),
+                        window.firebaseLimit(50)  // Get more, filter by difficulty
+                    );
+
+                    const snapshot = await window.firebaseGetDocs(q);
+                    const entries = snapshot.docs
+                        .map(doc => doc.data())
+                        .filter(entry => entry.difficulty === difficulty)
+                        .slice(0, 5);
+
+                    if (entries.length === 0) {
+                        container.innerHTML = '<div class="leaderboard-empty">No scores yet</div>';
+                    } else {
+                        container.innerHTML = entries.map((entry, index) => `
+                            <div class="leaderboard-entry">
+                                <span class="leaderboard-rank">${index + 1}.</span>
+                                <span class="leaderboard-name">${escapeHtml(entry.name)}</span>
+                                <span class="leaderboard-time">${entry.time.toFixed(1)}s</span>
+                            </div>
+                        `).join('');
+                    }
+                } catch (error) {
+                    console.error('Leaderboard load error:', error);
+                    container.innerHTML = '<div class="leaderboard-empty">Error loading</div>';
+                }
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         // ============================================
         // GAME CONTROL
