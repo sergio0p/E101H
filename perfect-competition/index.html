@@ -165,7 +165,7 @@
 
   <!-- Frame 1: Price-Taking Firm -->
   <section class="graph-frame" id="price-taking-firm">
-    <svg id="price-firm-graph" viewBox="-45 -40 400 420">
+    <svg id="price-firm-graph" viewBox="-100 -40 455 420">
       <defs>
         <!-- Arrow marker for axes -->
         <marker id="arrowhead2" markerWidth="12" markerHeight="5" refX="11" refY="2.5" orient="auto">
@@ -226,7 +226,9 @@
       <line id="price-line" x1="20" y1="55" x2="20" y2="55" stroke="#586e75" stroke-width="3" fill="none" opacity="0"/>
 
       <!-- Price label on y-axis -->
-      <text id="price-label" x="-5" y="60" text-anchor="end" class="eq-label" opacity="0">110</text>
+      <text id="price-label" y="60" class="eq-label" opacity="0">
+        <tspan x="-60" text-anchor="end">P</tspan><tspan x="-55"> = </tspan><tspan>110</tspan>
+      </text>
 
       <!-- Quantity line (vertical dotted from price-MC intersection to x-axis) -->
       <line id="q-line-firm" x1="20" y1="55" x2="20" y2="350" class="dotted-line" stroke="#6c71c4" opacity="0"/>
@@ -238,7 +240,9 @@
       <line id="atc-value-line" x1="20" y1="55" x2="20" y2="55" class="dotted-line" opacity="0"/>
 
       <!-- ATC value label -->
-      <text id="atc-value-label" x="-5" y="60" text-anchor="end" class="eq-label" opacity="0">0</text>
+      <text id="atc-value-label" y="60" class="eq-label" opacity="0">
+        <tspan x="-60" text-anchor="end">ATC</tspan><tspan x="-55"> = </tspan><tspan>0</tspan>
+      </text>
     </svg>
   </section>
 
@@ -401,8 +405,9 @@
         document.getElementById('price-line').setAttribute('x2', qX);
 
         // Update price label
-        document.getElementById('price-label').textContent = Math.round(P);
-        document.getElementById('price-label').setAttribute('y', priceY + 5);
+        const priceLabel = document.getElementById('price-label');
+        priceLabel.querySelectorAll('tspan')[2].textContent = Math.round(P);
+        priceLabel.setAttribute('y', priceY + 5);
 
         // Update quantity line (from price-MC intersection down to x-axis)
         document.getElementById('q-line-firm').setAttribute('x1', qX);
@@ -421,8 +426,9 @@
           document.getElementById('atc-value-line').setAttribute('y2', atcY);
 
           // Update ATC value label
-          document.getElementById('atc-value-label').textContent = Math.round(ATC);
-          document.getElementById('atc-value-label').setAttribute('y', atcY + 5);
+          const atcLabel = document.getElementById('atc-value-label');
+          atcLabel.querySelectorAll('tspan')[2].textContent = Math.round(ATC);
+          atcLabel.setAttribute('y', atcY + 5);
         }
 
         // Create or update profit/loss rectangle if it doesn't exist
