@@ -31,7 +31,8 @@ function initRevealAnimations() {
         scrollTrigger: {
           trigger: elem,
           start: 'top 85%',
-          toggleActions: 'play none none reverse'
+          toggleActions: 'play none none reverse',
+          invalidateOnRefresh: true
         }
       }
     );
@@ -51,12 +52,12 @@ function initHorizontalScroll() {
     const totalWidth = track.scrollWidth - window.innerWidth;
 
     gsap.to(track, {
-      x: -totalWidth,
+      x: () => -totalWidth,
       ease: 'none',
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: () => `+=${totalWidth}`,
+        end: () => `+=${track.scrollWidth - window.innerWidth}`,
         pin: true,
         scrub: 1,
         anticipatePin: 1,
@@ -82,7 +83,8 @@ function initHorizontalScroll() {
             containerAnimation: gsap.getById ? undefined : undefined,
             start: 'left 80%',
             toggleActions: 'play none none reverse',
-            horizontal: true
+            horizontal: true,
+            invalidateOnRefresh: true
           }
         }
       );
@@ -102,7 +104,8 @@ function initStepReveals() {
         trigger: container,
         start: 'top 60%',
         end: 'bottom 40%',
-        scrub: true
+        scrub: true,
+        invalidateOnRefresh: true
       }
     });
 
@@ -132,7 +135,8 @@ function animateGraphPath(selector, duration = 2) {
       scrollTrigger: {
         trigger: path,
         start: 'top 80%',
-        toggleActions: 'play none none reverse'
+        toggleActions: 'play none none reverse',
+        invalidateOnRefresh: true
       }
     });
   });
@@ -150,6 +154,7 @@ function typewriter(selector, speed = 50) {
     ScrollTrigger.create({
       trigger: el,
       start: 'top 80%',
+      invalidateOnRefresh: true,
       onEnter: () => {
         const interval = setInterval(() => {
           if (i < text.length) {
@@ -173,6 +178,7 @@ function animateCounter(selector, duration = 2) {
     ScrollTrigger.create({
       trigger: el,
       start: 'top 80%',
+      invalidateOnRefresh: true,
       onEnter: () => {
         gsap.to({ val: 0 }, {
           val: target,
@@ -197,7 +203,8 @@ function pulseHighlight(selector) {
       yoyo: true,
       scrollTrigger: {
         trigger: el,
-        start: 'top 80%'
+        start: 'top 80%',
+        invalidateOnRefresh: true
       }
     });
   });
@@ -210,7 +217,32 @@ if (document.readyState === 'loading') {
   initAnimations();
 }
 
-// Refresh ScrollTrigger on window resize
-window.addEventListener('resize', () => {
-  ScrollTrigger.refresh();
-});
+// Refresh ScrollTrigger on window resize and zoom
+let lastWidth = window.innerWidth;
+let lastHeight = window.innerHeight;
+let resizeTimer;
+
+function handleViewportChange() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const currentWidth = window.innerWidth;
+    const currentHeight = window.innerHeight;
+
+    // Detect if viewport dimensions changed (including zoom)
+    if (currentWidth !== lastWidth || currentHeight !== lastHeight) {
+      lastWidth = currentWidth;
+      lastHeight = currentHeight;
+
+      // Kill and refresh all ScrollTriggers to recalculate positions
+      ScrollTrigger.refresh(true);
+    }
+  }, 250); // Debounce to avoid excessive recalculations
+}
+
+window.addEventListener('resize', handleViewportChange);
+window.addEventListener('orientationchange', handleViewportChange);
+
+// Also detect zoom via visualViewport API if available
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', handleViewportChange);
+}

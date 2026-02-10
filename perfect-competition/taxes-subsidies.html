@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taxes and Subsidies | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+
+  <style>
+    /* Page-specific styles */
+
+    /* Crane color palette */
+    :root {
+      --crane-amber: #f9a825;
+      --text-primary: #000000;
+      --text-secondary: #333333;
+      --text-muted: #666666;
+    }
+
+    /* Title slide - Crane (white background with amber title/subtitle box) */
+    .title-slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: #ffffff;
+    }
+
+    .title-slide .title-box {
+      background: var(--crane-amber);
+      padding: 1.5rem 3rem 1.25rem 3rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .title-slide h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .title-slide h2 {
+      font-size: 1.25rem;
+      margin: 0;
+      padding: 0 1rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    .title-slide .author {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 1rem 0 0.25rem 0;
+    }
+
+    .title-slide .institute {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin: 0.25rem 0 0.125rem 0;
+    }
+
+    .title-slide .date {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0.25rem 0;
+    }
+
+    /* Frame styling for scroll animations */
+    .scroll-frame {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-frame-inner {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      background: #ffffff;
+    }
+
+    .frame-container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .frame-container .frame-title-bar {
+      background: var(--crane-amber);
+      padding: 0.75rem 2rem;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .frame-container .frame-title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .frame-container .frame-content {
+      background: #ffffff;
+      padding: 2rem;
+    }
+
+    /* Main content paragraph */
+    .main-paragraph {
+      opacity: 0;
+      transform: translateY(40px);
+      margin-top: 1.5rem;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+
+    /* Side comment - slides in horizontally */
+    .side-comment {
+      position: fixed;
+      top: 50%;
+      right: -500px;
+      transform: translateY(-50%);
+      width: 350px;
+      padding: 1.5rem;
+      background: #fff8e1;
+      border-left: 4px solid var(--crane-amber);
+      border-radius: 8px;
+      box-shadow: -8px 8px 30px rgba(0,0,0,0.25), -4px 4px 15px rgba(0,0,0,0.15);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      z-index: 100;
+      opacity: 0;
+    }
+
+    .side-comment-title {
+      font-weight: bold;
+      color: var(--crane-amber);
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Graph frame background */
+    .graph-frame .scroll-frame-inner {
+      background: #fdf6e3;
+    }
+
+    /* Horizontal scroll container for dual graphs */
+    .graph-frame {
+      overflow: hidden;
+    }
+
+    .graph-frame .scroll-frame-inner {
+      position: relative;
+    }
+
+    /* Blocks in scroll frames start hidden */
+    .scroll-frame .block {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    /* List styling in blocks */
+    .block-body ol {
+      list-style: decimal;
+      padding-left: 0;
+    }
+
+    .block-body ol li {
+      margin-bottom: 0.5rem;
+    }
+
+    .block-body ol li::before {
+      content: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Taxes and Subsidies</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+
+    <!-- DEBUG: Table of Contents -->
+    <nav style="margin-top: 2rem; text-align: left; background: #eee; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+      <a href="#unit-tax-frame" style="margin-left: 1rem;">1. Unit Tax</a>
+      <a href="#tax-wedge-frame" style="margin-left: 1rem;">2. Tax Wedge</a>
+      <a href="#tax-wedge-graph-frame" style="margin-left: 1rem;">3. Graph</a>
+      <a href="#equilibrium-frame" style="margin-left: 1rem;">4. Equilibrium</a>
+      <a href="#welfare-graph-frame" style="margin-left: 1rem;">5. Welfare</a>
+      <a href="#trump-tariff-frame" style="margin-left: 1rem;">6. Trump</a>
+      <a href="#incidence-graph-frame" style="margin-left: 1rem;">7. Incidence</a>
+    </nav>
+  </section>
+
+  <!-- Frame 1: Definition of Unit Tax -->
+  <section class="scroll-frame" id="unit-tax-frame">
+    <div class="scroll-frame-inner">
+      <div class="frame-container">
+        <div class="frame-title-bar">
+          <h2 class="frame-title">Unit Tax (Excise Tax)</h2>
+        </div>
+        <div class="frame-content">
+          <div class="block" id="definition-block">
+            <div class="block-title">Definition: Unit Tax</div>
+            <div class="block-body">
+              A <strong>unit tax</strong> (or <strong>excise tax</strong>) is a fixed dollar amount levied on each unit of a good sold, regardless of its price.
+            </div>
+          </div>
+
+          <!-- First paragraph - reveals vertically -->
+          <p class="main-paragraph" id="example-paragraph">
+            For example, the federal cigarette tax is $\$1.01$ per pack whether you're buying premium or budget cigarettes. Similarly, gasoline taxes are charged per gallon—the same tax applies whether gas costs $\$2.50$ or $\$4.00$ per gallon.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side comment - slides in horizontally -->
+    <div class="side-comment" id="side-comment">
+      <div class="side-comment-title">Compare: Ad Valorem Tax</div>
+      This contrasts with an <strong>ad valorem tax</strong>, which is a percentage of the good's price. A 7% sales tax, for instance, collects more revenue on a $\$50$ item than a $\$20$ item. With a unit tax, the tax burden is identical across price points—a $\$5$ bottle of wine and a $\$50$ bottle of wine face the same per-gallon excise tax in NC.
+    </div>
+  </section>
+
+  <!-- Frame 2: The Tax Wedge -->
+  <section class="scroll-frame" id="tax-wedge-frame">
+    <div class="scroll-frame-inner">
+      <div class="frame-container">
+        <div class="frame-title-bar">
+          <h2 class="frame-title">The Tax Wedge</h2>
+        </div>
+        <div class="frame-content">
+          <p class="main-paragraph" id="wedge-intro" style="margin-top: calc(1.5rem - 20px);">
+            A per-unit tax of $t$ is collected on each unit sold. It doesn't matter whether the government collects from buyers or sellers—the economic outcome is the same.
+          </p>
+
+          <div class="block" id="wedge-definition">
+            <div class="block-title">The Tax Wedge</div>
+            <div class="block-body">
+              Let $P_B$ = price paid by buyers and $P_S$ = price received by sellers.<br>
+              With a tax of $t$ per unit:
+              <span style="display: block; text-align: center; font-size: 1.3rem; margin: 1.5rem 0;">
+                $$P_B = P_S + t$$
+              </span>
+              <span style="display: block; text-align: center; color: #666;">(what buyers pay) = (what sellers get) + (tax)</span>
+            </div>
+          </div>
+
+          <p class="main-paragraph" id="wedge-explanation">
+            The tax creates a "wedge" of size $t$ between the two prices. Buyers face a higher price, sellers receive a lower price, and the difference goes to the government.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side block - Seller Remitted Taxes (slides from right) -->
+    <div class="side-comment" id="seller-remitted-block" style="top: 55%; border-radius: 8px; border-left: none; border-right: 4px solid var(--crane-amber); min-height: 180px;">
+      <div class="side-comment-title">Seller-Remitted Taxes</div>
+      More common, easier to enforce:<br>
+      <strong>Sales tax</strong> — added at checkout, remitted by retailer<br>
+      <strong>Excise taxes</strong> — on gasoline, alcohol, tobacco<br>
+      <strong>VAT</strong> (almost any country but USA) — collected at each production stage
+    </div>
+
+    <!-- Side block - Buyer Remitted Taxes (slides from left) -->
+    <div class="side-comment" id="buyer-remitted-block" style="top: 55%; right: auto; left: -500px; border-left: none; border-right: 4px solid var(--crane-amber); border-radius: 8px; min-height: 180px;">
+      <div class="side-comment-title">Buyer-Remitted Taxes</div>
+      Less common, harder to enforce:<br>
+      <strong>Use tax</strong> — on aircraft, boats, business equipment bought out-of-state<br>
+      <strong>Customs duties</strong> — paid by importer<br>
+      <strong>Private vehicle sales</strong> — buyer pays at DMV (NC Highway Use Tax)
+    </div>
+  </section>
+
+  <!-- Frame 3: Tax Wedge Graph -->
+  <section class="scroll-frame graph-frame" id="tax-wedge-graph-frame">
+    <div class="scroll-frame-inner" style="background: #fdf6e3;">
+      <svg id="tax-wedge-graph" viewBox="0 0 530 395" style="max-width: 640px; width: 100%;">
+        <defs>
+          <marker id="arrowhead-tax" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+            <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- Graph Title (at top, changes with scroll) -->
+        <text id="eq-title-label" x="250" y="18" text-anchor="middle" font-family="Times New Roman, serif" font-size="18" font-weight="bold" fill="#586e75">No Taxes Equilibrium</text>
+        <text id="eq-t-label" x="250" y="36" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#586e75">t = 0</text>
+
+        <!-- Coordinate system:
+             xOrigin = 60, yOrigin = 360
+             P range: 0-220, yScale = 1.5, so y = 360 - P * 1.5
+             Q range: 0-210, xScale = 2, so x = 60 + Q * 2
+             Axes end with arrows at y=30 (P-axis) and x=480 (Q-axis)
+        -->
+
+        <!-- Axes (extend to 220 on both) -->
+        <!-- P=220: y = 360 - 220*1.5 = 30, Q=220: x = 60 + 220*2 = 500 -->
+        <line x1="60" y1="360" x2="60" y2="30" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead-tax)"/>
+        <line x1="60" y1="360" x2="500" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead-tax)"/>
+
+        <!-- Y-axis label (changes from P to P_B) -->
+        <text id="y-axis-label" x="60" y="17" text-anchor="middle" font-family="Times New Roman, serif" font-size="20" fill="#586e75">P</text>
+        <text x="510" y="365" font-family="Times New Roman, serif" font-size="20" font-style="italic" fill="#586e75">Q</text>
+
+        <!-- Intercept labels on Y-axis (10px left of axis at x=50) -->
+        <!-- Demand intercept: P=200 at Q=0, y = 360 - 200*1.5 = 60 -->
+        <text id="demand-intercept" x="50" y="64" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">200</text>
+        <!-- Supply intercept: P=20 at Q=0, y = 360 - 20*1.5 = 330 -->
+        <text id="supply-intercept" x="50" y="334" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">20</text>
+
+        <!-- Demand curve: P = 200 - Q -->
+        <!-- Q=0: x=60, P=200, y=60 | Q=200: x=460, P=0, y=360 (touches both axes) -->
+        <line id="demand-tax" x1="60" y1="60" x2="460" y2="360" stroke="#dc322f" stroke-width="4"/>
+        <!-- D label in NE at (Q=140, P=50) → x=340, y=260 -->
+        <text x="340" y="260" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#dc322f">D</text>
+
+        <!-- Supply curve: P = 20 + Q (original, will fade) -->
+        <!-- Q=0: x=60, P=20, y=330 | Q=170: x=400, P=190, y=75 (touches y-axis) -->
+        <line id="supply-tax" x1="60" y1="330" x2="400" y2="75" stroke="#268bd2" stroke-width="4"/>
+        <text id="supply-label" x="405" y="70" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#268bd2">S</text>
+
+        <!-- New Supply curve: P = 60 + Q (with tax t=40, initially hidden) -->
+        <!-- Q=0: x=60, P=60, y=270 | Q=140: x=340, P=200, y=60 (touches y-axis) -->
+        <line id="supply-tax-new" x1="60" y1="270" x2="340" y2="60" stroke="#268bd2" stroke-width="4" opacity="0"/>
+        <text id="supply-label-new" x="345" y="55" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#268bd2" opacity="0">S</text>
+        <!-- New supply intercept: P=60 at Q=0, y = 360 - 60*1.5 = 270 -->
+        <text id="supply-intercept-new" x="50" y="274" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">60</text>
+
+        <!-- No-tax equilibrium: Q*=90, P*=110 -->
+        <!-- x = 60 + 90*2 = 240, y = 360 - 110*1.5 = 195 -->
+        <circle id="eq-dot-notax" cx="240" cy="195" r="4" fill="#586e75"/>
+
+        <!-- No-tax equilibrium dashed lines -->
+        <!-- Horizontal: from eq to y-axis -->
+        <line id="eq-h-line" x1="60" y1="195" x2="240" y2="195" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+        <!-- Vertical: from eq to x-axis -->
+        <line id="eq-v-line" x1="240" y1="195" x2="240" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+        <!-- P* label -->
+        <text id="eq-p-label" x="50" y="200" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">110</text>
+        <!-- Q* label -->
+        <text id="eq-q-label" x="240" y="380" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">90</text>
+
+        <!-- With-tax equilibrium: Q*=70, P_B=130, P_S=90 (t=40) -->
+        <!-- x = 60 + 70*2 = 200, y_B = 360 - 130*1.5 = 165, y_S = 360 - 90*1.5 = 225 -->
+        <!-- P_B horizontal line -->
+        <line id="pb-line" x1="60" y1="165" x2="200" y2="165" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+        <!-- P_S horizontal line -->
+        <line id="ps-line" x1="60" y1="225" x2="200" y2="225" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+        <!-- Q* vertical line (new) -->
+        <line id="qstar-tax-line" x1="200" y1="165" x2="200" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- Tax wedge bracket (far left of y-axis) -->
+        <line id="wedge-bracket" x1="15" y1="165" x2="15" y2="225" stroke="#859900" stroke-width="3" opacity="0"/>
+        <line id="wedge-cap-top" x1="10" y1="165" x2="20" y2="165" stroke="#859900" stroke-width="3" opacity="0"/>
+        <line id="wedge-cap-bot" x1="10" y1="225" x2="20" y2="225" stroke="#859900" stroke-width="3" opacity="0"/>
+        <text id="wedge-t-label" x="5" y="200" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#859900" opacity="0">t</text>
+
+        <!-- Price labels for tax equilibrium -->
+        <text id="pb-num-label" x="50" y="170" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">130</text>
+        <text id="ps-num-label" x="50" y="230" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">90</text>
+        <text id="qstar-tax-label" x="200" y="380" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">70</text>
+
+        <!-- Buyer point on demand (at tax equilibrium) -->
+        <circle id="buyer-dot" cx="200" cy="165" r="4" fill="#dc322f" opacity="0"/>
+        <!-- Seller point on original supply (at tax equilibrium) -->
+        <circle id="seller-dot" cx="200" cy="225" r="4" fill="#268bd2" opacity="0"/>
+
+        <!-- Dynamic elements for arrow key navigation (initially hidden) -->
+        <!-- These will be controlled by JavaScript -->
+        <g id="arrow-nav-group" opacity="0">
+          <!-- Dynamic P_B horizontal line (to new supply) -->
+          <line id="dyn-pb-line" x1="60" y1="195" x2="240" y2="195" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <!-- Dynamic P_S horizontal line (to old supply) -->
+          <line id="dyn-ps-line" x1="60" y1="255" x2="240" y2="255" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <!-- Dynamic vertical line from P_B to x-axis -->
+          <line id="dyn-v-line" x1="240" y1="195" x2="240" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+
+          <!-- Dynamic wedge bracket -->
+          <line id="dyn-wedge-bracket" x1="15" y1="195" x2="15" y2="255" stroke="#859900" stroke-width="3"/>
+          <line id="dyn-wedge-cap-top" x1="10" y1="195" x2="20" y2="195" stroke="#859900" stroke-width="3"/>
+          <line id="dyn-wedge-cap-bot" x1="10" y1="255" x2="20" y2="255" stroke="#859900" stroke-width="3"/>
+          <text id="dyn-wedge-t" x="5" y="230" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#859900">t</text>
+
+          <!-- Dynamic price labels -->
+          <text id="dyn-pb-label" x="50" y="200" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">150</text>
+          <text id="dyn-ps-label" x="50" y="260" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">110</text>
+          <text id="dyn-q-label" x="240" y="380" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#586e75">90</text>
+
+          <!-- Dynamic dots on curves -->
+          <circle id="dyn-buyer-dot" cx="240" cy="195" r="4" fill="#dc322f"/>
+          <circle id="dyn-seller-dot" cx="240" cy="255" r="4" fill="#268bd2"/>
+        </g>
+
+        <!-- Equilibrium circles (only shown at Q=70) -->
+        <g id="eq-circles-group" opacity="0">
+          <circle id="eq-buyer-circle" cx="200" cy="165" r="10" fill="none" stroke="#dc322f" stroke-width="2"/>
+          <circle id="eq-seller-circle" cx="200" cy="225" r="10" fill="none" stroke="#268bd2" stroke-width="2"/>
+        </g>
+      </svg>
+
+    </div>
+
+    <!-- Dual Graph Panel (horizontal scroll) -->
+    <div class="scroll-panel" id="dual-graph-panel" style="position: absolute; left: -100%; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #fdf6e3;">
+      <svg id="dual-graph" viewBox="0 0 530 395" style="max-width: 640px; width: 100%;">
+        <defs>
+          <marker id="arrowhead-dual" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+            <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- Graph Title -->
+        <text id="dual-title-label" x="250" y="18" text-anchor="middle" font-family="Times New Roman, serif" font-size="18" font-weight="bold" fill="#586e75">Equilibrium without Taxes</text>
+        <text id="dual-t-label" x="250" y="36" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#586e75">t = 0</text>
+
+        <!-- Axes -->
+        <line x1="60" y1="360" x2="60" y2="30" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead-dual)"/>
+        <line x1="60" y1="360" x2="500" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead-dual)"/>
+
+        <!-- Y-axis label: P initially, changes to P_S -->
+        <text id="dual-y-axis-label" x="60" y="17" text-anchor="middle" font-family="Times New Roman, serif" font-size="20" fill="#586e75">P</text>
+        <text x="510" y="365" font-family="Times New Roman, serif" font-size="20" font-style="italic" fill="#586e75">Q</text>
+
+        <!-- Intercept labels on Y-axis -->
+        <!-- Original demand intercept: P=200 at Q=0 -->
+        <text id="dual-demand-intercept" x="50" y="64" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">200</text>
+        <!-- New demand intercept: P=160 at Q=0, y = 360 - 160*1.5 = 120 -->
+        <text id="dual-demand-intercept-new" x="50" y="124" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">160</text>
+        <!-- Supply intercept: P=20 at Q=0 -->
+        <text id="dual-supply-intercept" x="50" y="334" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">20</text>
+
+        <!-- Supply curve: P = 20 + Q (stays the same) -->
+        <!-- Q=0: x=60, P=20, y=330 | Q=170: x=400, P=190, y=75 -->
+        <line id="dual-supply" x1="60" y1="330" x2="400" y2="75" stroke="#268bd2" stroke-width="4"/>
+        <text id="dual-supply-label" x="405" y="70" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#268bd2">S</text>
+
+        <!-- Original Demand curve: P = 200 - Q (will fade) -->
+        <!-- Q=0: x=60, P=200, y=60 | Q=200: x=460, P=0, y=360 -->
+        <line id="dual-demand" x1="60" y1="60" x2="460" y2="360" stroke="#dc322f" stroke-width="4"/>
+        <text id="dual-demand-label" x="340" y="260" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#dc322f">D</text>
+
+        <!-- New Demand curve: P = 160 - Q (initially hidden) -->
+        <!-- Q=0: x=60, P=160, y=120 | Q=160: x=380, P=0, y=360 -->
+        <line id="dual-demand-new" x1="60" y1="120" x2="380" y2="360" stroke="#dc322f" stroke-width="4" opacity="0"/>
+        <text id="dual-demand-label-new" x="280" y="280" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#dc322f" opacity="0">D</text>
+
+        <!-- No-tax equilibrium: Q*=90, P*=110 -->
+        <!-- x = 60 + 90*2 = 240, y = 360 - 110*1.5 = 195 -->
+        <circle id="dual-eq-dot-notax" cx="240" cy="195" r="4" fill="#586e75"/>
+
+        <!-- No-tax equilibrium dashed lines -->
+        <line id="dual-eq-h-line" x1="60" y1="195" x2="240" y2="195" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+        <line id="dual-eq-v-line" x1="240" y1="195" x2="240" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+        <text id="dual-eq-p-label" x="50" y="200" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">110</text>
+        <text id="dual-eq-q-label" x="240" y="380" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#586e75">90</text>
+
+        <!-- Dynamic elements for arrow key navigation (initially hidden) -->
+        <g id="dual-arrow-nav-group" opacity="0">
+          <!-- Dynamic P_B horizontal line (to old demand) -->
+          <line id="dual-dyn-pb-line" x1="60" y1="195" x2="240" y2="195" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <!-- Dynamic P_S horizontal line (to new demand) -->
+          <line id="dual-dyn-ps-line" x1="60" y1="255" x2="240" y2="255" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <!-- Dynamic vertical line from P_B to x-axis -->
+          <line id="dual-dyn-v-line" x1="240" y1="195" x2="240" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+
+          <!-- Dynamic wedge bracket -->
+          <line id="dual-dyn-wedge-bracket" x1="15" y1="195" x2="15" y2="255" stroke="#859900" stroke-width="3"/>
+          <line id="dual-dyn-wedge-cap-top" x1="10" y1="195" x2="20" y2="195" stroke="#859900" stroke-width="3"/>
+          <line id="dual-dyn-wedge-cap-bot" x1="10" y1="255" x2="20" y2="255" stroke="#859900" stroke-width="3"/>
+          <text id="dual-dyn-wedge-t" x="5" y="230" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#859900">t</text>
+
+          <!-- Dynamic price labels -->
+          <text id="dual-dyn-pb-label" x="50" y="200" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">110</text>
+          <text id="dual-dyn-ps-label" x="50" y="260" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">70</text>
+          <text id="dual-dyn-q-label" x="240" y="380" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#586e75">90</text>
+
+          <!-- Dynamic dots on curves -->
+          <circle id="dual-dyn-buyer-dot" cx="240" cy="195" r="4" fill="#dc322f"/>
+          <circle id="dual-dyn-seller-dot" cx="240" cy="255" r="4" fill="#268bd2"/>
+        </g>
+
+        <!-- Equilibrium circles (only shown at Q=70) -->
+        <g id="dual-eq-circles-group" opacity="0">
+          <circle id="dual-eq-buyer-circle" cx="200" cy="165" r="10" fill="none" stroke="#dc322f" stroke-width="2"/>
+          <circle id="dual-eq-seller-circle" cx="200" cy="225" r="10" fill="none" stroke="#268bd2" stroke-width="2"/>
+        </g>
+      </svg>
+
+    </div>
+  </section>
+
+  <!-- Frame 4: Equilibrium Conditions -->
+  <section class="scroll-frame" id="equilibrium-frame">
+    <div class="scroll-frame-inner">
+      <div class="frame-container">
+        <div class="frame-title-bar">
+          <h2 class="frame-title">Equilibrium with a Tax</h2>
+        </div>
+        <div class="frame-content">
+          <div class="block" id="key-insight">
+            <div class="block-title">Equilibrium Conditions</div>
+            <div class="block-body">
+              In equilibrium, three conditions must hold simultaneously:<br>
+              <ol style="margin: 0 0 0 1.5rem; line-height: 2;">
+                <li>Buyers are on their demand curve: $Q = D(P_B)$</li>
+                <li>Sellers are on their supply curve: $Q = S(P_S)$</li>
+                <li>The tax wedge holds: $P_B = P_S + t$</li>
+              </ol>
+            </div>
+          </div>
+
+          <p class="main-paragraph" id="solve-text">
+            So we solve: $D(P_B) = S(P_S)$ and $P_B = P_S + t$
+          </p>
+
+          <p class="main-paragraph" id="equivalent-text" style="text-align: center;">
+            <span id="eq-formula-ps">Or equivalently: $D(P_S + t) = S(P_S)$</span>
+            <span id="eq-formula-pb" style="display: none;">Or equivalently: $D(P_B) = S(P_B - t)$</span>
+          </p>
+
+          <p class="main-paragraph" id="determines-text">
+            This determines the new equilibrium quantity $Q^*$ and both prices $P_B$ and $P_S$.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 5: Welfare Analysis Graph -->
+  <section class="scroll-frame graph-frame" id="welfare-graph-frame">
+    <div class="scroll-frame-inner" style="background: #fdf6e3; position: relative;">
+      <!-- Welfare Table -->
+      <table id="welfare-table" style="position: absolute; top: 60px; right: 30px; border-collapse: collapse; background: #eee8d5; border-radius: 8px; overflow: hidden; font-family: 'Times New Roman', serif; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); color: #657b83;">
+        <tr>
+          <th id="welfare-table-dwl" style="border: 1px solid #586e75; padding: 6px 12px; color: #6c71c4;">Dead Weight Loss = 0</th>
+          <th id="welfare-table-t" style="border: 1px solid #586e75; padding: 6px 12px;">t = 0</th>
+          <th style="border: 1px solid #586e75; padding: 6px 12px;">t = 0</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #586e75; padding: 6px 12px; color: #268bd2;">Producer Surplus</td>
+          <td id="welfare-table-ps" style="border: 1px solid #586e75; padding: 6px 12px; text-align: right;">4050</td>
+          <td style="border: 1px solid #586e75; padding: 6px 12px; text-align: right;">4050</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #586e75; padding: 6px 12px; color: #dc322f;">Consumer Surplus</td>
+          <td id="welfare-table-cs" style="border: 1px solid #586e75; padding: 6px 12px; text-align: right;">4050</td>
+          <td style="border: 1px solid #586e75; padding: 6px 12px; text-align: right;">4050</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #586e75; padding: 6px 12px; color: #859900;">Tax Revenue</td>
+          <td id="welfare-table-tax" style="border: 1px solid #586e75; padding: 6px 12px; text-align: right;">0</td>
+          <td style="border: 1px solid #586e75; padding: 6px 12px; text-align: right;">0</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #586e75; padding: 6px 12px; font-weight: bold; color: #b58900;">Social Surplus</td>
+          <td id="welfare-table-ss" style="border: 1px solid #586e75; padding: 6px 12px; text-align: right; font-weight: bold;">8100</td>
+          <td style="border: 1px solid #586e75; padding: 6px 12px; text-align: right; font-weight: bold;">8100</td>
+        </tr>
+      </table>
+
+      <!-- Tax subtitle with KaTeX -->
+      <div id="welfare-t-label" style="position: absolute; top: 45px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; color: #586e75;">
+        $t = 0$
+      </div>
+
+      <!-- KaTeX labels for P_B and P_S on y-axis (positioned via JavaScript) -->
+      <div id="welfare-pb-katex" style="position: absolute; font-size: 0.9rem; color: #586e75; white-space: nowrap;">
+        $P_B = 110$
+      </div>
+      <div id="welfare-ps-katex" style="position: absolute; font-size: 0.9rem; color: #586e75; white-space: nowrap; opacity: 0;">
+        $P_S = 110$
+      </div>
+
+      <svg id="welfare-graph" viewBox="0 0 530 395" style="max-width: 640px; width: 100%;">
+        <defs>
+          <marker id="arrowhead-welfare" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+            <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- Graph Title -->
+        <text id="welfare-title-label" x="250" y="18" text-anchor="middle" font-family="Times New Roman, serif" font-size="18" font-weight="bold" fill="#586e75">Welfare Analysis</text>
+
+        <!-- Welfare areas (drawn first so they appear behind curves) -->
+        <!-- Consumer Surplus: triangle below demand, above P_B -->
+        <polygon id="welfare-cs" points="60,60 60,195 240,195" fill="#dc322f" fill-opacity="0.3"/>
+        <!-- Producer Surplus: triangle above supply, below P_S -->
+        <polygon id="welfare-ps" points="60,330 60,195 240,195" fill="#268bd2" fill-opacity="0.3"/>
+        <!-- Tax Revenue: rectangle between P_B and P_S (initially zero height) -->
+        <polygon id="welfare-tax" points="60,195 240,195 240,195 60,195" fill="#859900" fill-opacity="0.3"/>
+        <!-- Deadweight Loss: triangle between Q* and no-tax eq (initially zero) -->
+        <polygon id="welfare-dwl" points="240,195 240,195 240,195" fill="#6c71c4" fill-opacity="0.3"/>
+
+        <!-- Axes -->
+        <line x1="60" y1="360" x2="60" y2="30" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead-welfare)"/>
+        <line x1="60" y1="360" x2="500" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead-welfare)"/>
+
+        <!-- Axis labels -->
+        <text x="60" y="17" text-anchor="middle" font-family="Times New Roman, serif" font-size="20" fill="#586e75">P<tspan dy="5" font-size="12">B</tspan></text>
+        <text x="510" y="365" font-family="Times New Roman, serif" font-size="20" font-style="italic" fill="#586e75">Q</text>
+
+        <!-- Intercept labels -->
+        <text x="50" y="64" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">200</text>
+        <text x="50" y="334" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">20</text>
+
+        <!-- Demand curve: P = 200 - Q -->
+        <line id="welfare-demand" x1="60" y1="60" x2="460" y2="360" stroke="#dc322f" stroke-width="4"/>
+        <text x="340" y="260" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#dc322f">D</text>
+
+        <!-- Original Supply curve: P = 20 + Q -->
+        <line id="welfare-supply" x1="60" y1="330" x2="400" y2="75" stroke="#268bd2" stroke-width="4"/>
+        <text id="welfare-supply-label" x="405" y="70" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#268bd2">S</text>
+
+        <!-- New Supply curve: P = 20 + t + Q (initially same as original) -->
+        <line id="welfare-supply-new" x1="60" y1="330" x2="400" y2="75" stroke="#268bd2" stroke-width="4" opacity="0"/>
+        <text id="welfare-supply-label-new" x="405" y="70" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#268bd2" opacity="0">S</text>
+
+        <!-- Equilibrium dashed lines -->
+        <line id="welfare-pb-line" x1="60" y1="195" x2="240" y2="195" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+        <line id="welfare-ps-line" x1="60" y1="195" x2="240" y2="195" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+        <line id="welfare-q-line" x1="240" y1="195" x2="240" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+
+        <!-- Price and quantity labels (P_B and P_S now rendered via KaTeX outside SVG) -->
+        <!-- Keeping these hidden for potential fallback -->
+        <text id="welfare-pb-label" x="50" y="200" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">110</text>
+        <text id="welfare-ps-label" x="50" y="200" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75" opacity="0">110</text>
+        <text id="welfare-q-label" x="240" y="380" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#586e75">90</text>
+
+        <!-- Equilibrium point -->
+        <circle id="welfare-eq-dot" cx="240" cy="195" r="4" fill="#586e75"/>
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- Frame 6: Trump Tariff Announcement -->
+  <section class="scroll-frame" id="trump-tariff-frame">
+    <div class="scroll-frame-inner" style="padding: 3rem 0 2rem 0; min-height: auto; justify-content: flex-start;">
+      <div class="frame-container" style="max-width: 900px; margin: 0 auto;">
+        <div class="frame-title-bar" style="padding: 0.5rem 1rem;">
+          <h2 class="frame-title">Donald Trump's Rose Garden Address</h2>
+          <p class="frame-subtitle" style="margin: 0;">April 2nd, 2025</p>
+        </div>
+        <div class="frame-content" style="padding: 0.5rem 1rem; font-size: 1.17rem; line-height: 1.5;">
+          <p style="margin: 0 0 0.8rem 0;">"If imposing tariffs and protective barriers made nations poorer, then every country on earth would be racing to eliminate these policies and China would be the first in line. They run a very strong country, but they're not first in line. And the American people are paying a very big price. From 1789 to 1913, we were a tariff-backed nation, and the United States was proportionately the wealthiest it has ever been.</p>
+
+          <p style="margin: 0 0 0.8rem 0;">So wealthy, in fact, that in the 1880s, they established a commission to decide what they were going to do with the vast sums of money they were collecting. We were collecting so much money so fast we didn't know what to do with it. Isn't that a nice problem to have? What do you think, Marco? Good problem?</p>
+
+          <p style="margin: 0 0 0.8rem 0;">Marco would love that problem. But we don't have that problem anymore, but we're not going to have it very much longer, I will tell you. But they collected so much money, they actually formed a commission to determine what they were going to do with the money, who they were going to give it to and how much.</p>
+
+          <p style="margin: 0;">Then in 1913, for reasons unknown to mankind, they established the income tax so that citizens, rather than foreign countries, would start paying the money necessary to run our government."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 7: Tax Incidence Graph -->
+  <section class="scroll-frame graph-frame" id="incidence-graph-frame">
+    <div class="scroll-frame-inner" style="background: #fdf6e3; position: relative;">
+      <!-- KaTeX labels for P_B and P_S (positioned via JavaScript) -->
+      <div id="incidence-pb-katex" style="position: absolute; font-size: 0.9rem; color: #586e75; white-space: nowrap;">
+        $P_B = 130$
+      </div>
+      <div id="incidence-ps-katex" style="position: absolute; font-size: 0.9rem; color: #586e75; white-space: nowrap;">
+        $P_S = 90$
+      </div>
+
+      <svg id="incidence-graph" viewBox="0 0 530 395" style="max-width: 640px; width: 100%;">
+        <defs>
+          <marker id="arrowhead-incidence" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+            <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- Graph Title -->
+        <text id="incidence-title" x="250" y="18" text-anchor="middle" font-family="Times New Roman, serif" font-size="18" font-weight="bold" fill="#586e75">Tax Incidence</text>
+        <!-- Pass-through rate display (top right) -->
+        <text id="incidence-passthrough" x="520" y="18" text-anchor="end" font-family="Times New Roman, serif" font-size="14" fill="#586e75">Pass-through: 50.00%</text>
+
+        <!-- Tax burden bars (drawn first, behind curves) -->
+        <!-- Consumer burden: from P* to P_B (red) -->
+        <rect id="incidence-consumer-bar" x="60" y="165" width="140" height="30" fill="#dc322f" fill-opacity="0.3"/>
+        <!-- Producer burden: from P_S to P* (blue) -->
+        <rect id="incidence-producer-bar" x="60" y="195" width="140" height="30" fill="#268bd2" fill-opacity="0.3"/>
+
+        <!-- Consumer burden bracket (red, left of y-axis): from P_B to P* -->
+        <line id="incidence-consumer-bracket" x1="35" y1="165" x2="35" y2="195" stroke="#dc322f" stroke-width="3"/>
+        <line id="incidence-consumer-cap-top" x1="30" y1="165" x2="40" y2="165" stroke="#dc322f" stroke-width="3"/>
+        <line id="incidence-consumer-cap-bot" x1="30" y1="195" x2="40" y2="195" stroke="#dc322f" stroke-width="3"/>
+
+        <!-- Producer burden bracket (blue, left of y-axis): from P* to P_S -->
+        <line id="incidence-producer-bracket" x1="35" y1="195" x2="35" y2="225" stroke="#268bd2" stroke-width="3"/>
+        <line id="incidence-producer-cap-top" x1="30" y1="195" x2="40" y2="195" stroke="#268bd2" stroke-width="3"/>
+        <line id="incidence-producer-cap-bot" x1="30" y1="225" x2="40" y2="225" stroke="#268bd2" stroke-width="3"/>
+
+        <!-- Axes -->
+        <line x1="60" y1="360" x2="60" y2="30" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead-incidence)"/>
+        <line x1="60" y1="360" x2="500" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead-incidence)"/>
+
+        <!-- Axis labels -->
+        <text x="60" y="17" text-anchor="middle" font-family="Times New Roman, serif" font-size="20" fill="#586e75">P</text>
+        <text x="510" y="365" font-family="Times New Roman, serif" font-size="20" font-style="italic" fill="#586e75">Q</text>
+
+        <!-- Demand curve (rotates around no-tax eq) -->
+        <line id="incidence-demand" x1="60" y1="60" x2="460" y2="360" stroke="#dc322f" stroke-width="4"/>
+        <text id="incidence-demand-label" x="340" y="260" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#dc322f">D</text>
+
+        <!-- Original Supply curve (rotates around no-tax eq, faded) -->
+        <line id="incidence-supply" x1="60" y1="330" x2="400" y2="75" stroke="#268bd2" stroke-width="4" opacity="0.25"/>
+        <text id="incidence-supply-label" x="405" y="70" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#268bd2" opacity="0.25">S</text>
+
+        <!-- New Supply curve (shifted up by tax, parallel to original) -->
+        <line id="incidence-supply-new" x1="60" y1="270" x2="340" y2="60" stroke="#268bd2" stroke-width="4"/>
+        <text id="incidence-supply-label-new" x="345" y="55" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#268bd2">S</text>
+
+        <!-- No-tax equilibrium point (pinned) -->
+        <circle id="incidence-eq-dot" cx="240" cy="195" r="5" fill="#586e75"/>
+
+        <!-- Dashed line for P* (no-tax price) -->
+        <line id="incidence-pstar-line" x1="60" y1="195" x2="240" y2="195" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+        <text id="incidence-pstar-label" x="25" y="200" text-anchor="end" font-family="Times New Roman, serif" font-size="16" fill="#586e75">110</text>
+
+        <!-- Dashed lines for tax equilibrium -->
+        <line id="incidence-pb-line" x1="60" y1="165" x2="200" y2="165" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+        <line id="incidence-ps-line" x1="60" y1="225" x2="200" y2="225" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+        <line id="incidence-q-line" x1="200" y1="165" x2="200" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+
+        <!-- Q label -->
+        <text id="incidence-q-label" x="200" y="380" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#586e75">70</text>
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- KaTeX JS -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- GSAP and ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="js/katex-macros.js"></script>
+  <script src="js/scroll-animations.js"></script>
+
+  <!-- Page-specific animations -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Force scroll to top on page load/reload
+      history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Main timeline for the unit tax frame
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#unit-tax-frame',
+          start: 'top top',
+          end: '+=300%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      // Phase 1: Definition block fades in (vertical)
+      tl.to('#definition-block', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'none'
+      }, 0);
+
+      // Phase 2: Example paragraph fades in (vertical)
+      tl.to('#example-paragraph', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'none'
+      }, 1);
+
+      // Phase 3: Side comment slides in from right (horizontal)
+      tl.to('#side-comment', {
+        right: 20,
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out'
+      }, 2);
+
+      // Phase 4: Side comment slides out to right (horizontal)
+      tl.to('#side-comment', {
+        right: -500,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.in'
+      }, 3.5);
+
+      // Set initial states
+      gsap.set('#definition-block', { opacity: 0, y: 40 });
+      gsap.set('#example-paragraph', { opacity: 0, y: 40 });
+      gsap.set('#side-comment', { opacity: 0, right: -500 });
+
+      // ============================================
+      // FRAME 2: Tax Wedge
+      // ============================================
+      const tl2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#tax-wedge-frame',
+          start: 'top top',
+          end: '+=450%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      // Phase 1: Intro text appears
+      tl2.to('#wedge-intro', { opacity: 1, y: 0, duration: 1 }, 0);
+
+      // Phase 2: Seller-remitted block slides in from right
+      tl2.to('#seller-remitted-block', { right: 230, opacity: 1, duration: 1, ease: 'power2.out' }, 1.5);
+
+      // Phase 3: Buyer-remitted block slides in from left (right edge meets left edge of right block)
+      // Right block: right edge at 230px from right, 350px wide, so left edge at 580px from right = calc(100vw - 580px)
+      // Left block: 350px wide, so left edge at calc(100vw - 580px - 350px) = calc(100vw - 930px)
+      tl2.to('#buyer-remitted-block', { left: 'calc(100vw - 930px)', opacity: 1, duration: 1, ease: 'power2.out' }, 2.5);
+
+      // Phase 4: Both blocks slide out
+      tl2.to('#seller-remitted-block', { right: -500, opacity: 0, duration: 1, ease: 'power2.in' }, 4);
+      tl2.to('#buyer-remitted-block', { left: -500, opacity: 0, duration: 1, ease: 'power2.in' }, 4);
+
+      // Phase 5: Definition block (equation) appears
+      tl2.to('#wedge-definition', { opacity: 1, y: 0, duration: 1 }, 5.5);
+
+      // Phase 6: Explanation appears
+      tl2.to('#wedge-explanation', { opacity: 1, y: 0, duration: 1 }, 6.5);
+
+      gsap.set('#wedge-intro', { opacity: 0, y: 40 });
+      gsap.set('#wedge-definition', { opacity: 0, y: 40 });
+      gsap.set('#wedge-explanation', { opacity: 0, y: 40 });
+      gsap.set('#seller-remitted-block', { opacity: 0, right: -500 });
+      gsap.set('#buyer-remitted-block', { opacity: 0, left: -500 });
+
+      // ============================================
+      // FRAME 3: Tax Wedge Graph
+      // ============================================
+
+      // Arrow navigation state (first graph)
+      let currentQ = 90;  // Start at old equilibrium
+      let arrowNavEnabled = false;
+      const minQ = 10;
+      const maxQ = 180;
+      const stepQ = 10;
+
+      // Arrow navigation state (dual graph)
+      let dualCurrentQ = 90;
+      let dualArrowNavEnabled = false;
+
+      // Coordinate conversion functions
+      const xOrigin = 60, yOrigin = 360;
+      const xScale = 2, yScale = 1.5;
+      const toSvgX = (q) => xOrigin + q * xScale;
+      const toSvgY = (p) => yOrigin - p * yScale;
+
+      // Calculate prices at given Q
+      const getPB = (q) => 60 + q;  // New supply: P = 60 + Q
+      const getPS = (q) => 20 + q;  // Old supply: P = 20 + Q
+
+      // Update graph for current Q value
+      function updateForQ(q) {
+        const pb = getPB(q);
+        const ps = getPS(q);
+        const svgX = toSvgX(q);
+        const svgYB = toSvgY(pb);
+        const svgYS = toSvgY(ps);
+        const wedgeMidY = (svgYB + svgYS) / 2;
+
+        // Update dynamic lines
+        document.getElementById('dyn-pb-line').setAttribute('x2', svgX);
+        document.getElementById('dyn-pb-line').setAttribute('y1', svgYB);
+        document.getElementById('dyn-pb-line').setAttribute('y2', svgYB);
+
+        document.getElementById('dyn-ps-line').setAttribute('x2', svgX);
+        document.getElementById('dyn-ps-line').setAttribute('y1', svgYS);
+        document.getElementById('dyn-ps-line').setAttribute('y2', svgYS);
+
+        document.getElementById('dyn-v-line').setAttribute('x1', svgX);
+        document.getElementById('dyn-v-line').setAttribute('x2', svgX);
+        document.getElementById('dyn-v-line').setAttribute('y1', svgYB);
+
+        // Update wedge bracket
+        document.getElementById('dyn-wedge-bracket').setAttribute('y1', svgYB);
+        document.getElementById('dyn-wedge-bracket').setAttribute('y2', svgYS);
+        document.getElementById('dyn-wedge-cap-top').setAttribute('y1', svgYB);
+        document.getElementById('dyn-wedge-cap-top').setAttribute('y2', svgYB);
+        document.getElementById('dyn-wedge-cap-bot').setAttribute('y1', svgYS);
+        document.getElementById('dyn-wedge-cap-bot').setAttribute('y2', svgYS);
+        document.getElementById('dyn-wedge-t').setAttribute('y', wedgeMidY + 5);
+
+        // Update labels
+        document.getElementById('dyn-pb-label').textContent = pb;
+        document.getElementById('dyn-pb-label').setAttribute('y', svgYB + 5);
+        document.getElementById('dyn-ps-label').textContent = ps;
+        document.getElementById('dyn-ps-label').setAttribute('y', svgYS + 5);
+        document.getElementById('dyn-q-label').textContent = q;
+        document.getElementById('dyn-q-label').setAttribute('x', svgX);
+
+        // Update dots
+        document.getElementById('dyn-buyer-dot').setAttribute('cx', svgX);
+        document.getElementById('dyn-buyer-dot').setAttribute('cy', svgYB);
+        document.getElementById('dyn-seller-dot').setAttribute('cx', svgX);
+        document.getElementById('dyn-seller-dot').setAttribute('cy', svgYS);
+
+        // Show/hide equilibrium circles (only at Q=70)
+        const eqGroup = document.getElementById('eq-circles-group');
+        if (q === 70) {
+          gsap.to(eqGroup, { opacity: 1, duration: 0.3 });
+          // Position equilibrium circles at Q=70
+          document.getElementById('eq-buyer-circle').setAttribute('cx', svgX);
+          document.getElementById('eq-buyer-circle').setAttribute('cy', svgYB);
+          document.getElementById('eq-seller-circle').setAttribute('cx', svgX);
+          document.getElementById('eq-seller-circle').setAttribute('cy', svgYS);
+        } else {
+          gsap.to(eqGroup, { opacity: 0, duration: 0.3 });
+        }
+      }
+
+      // Arrow key handler
+      function handleArrowKey(e) {
+        if (!arrowNavEnabled) return;
+
+        if (e.key === 'ArrowLeft' && currentQ > minQ) {
+          currentQ -= stepQ;
+          updateForQ(currentQ);
+        } else if (e.key === 'ArrowRight' && currentQ < maxQ) {
+          currentQ += stepQ;
+          updateForQ(currentQ);
+        }
+      }
+
+      document.addEventListener('keydown', handleArrowKey);
+
+      const tl3 = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#tax-wedge-graph-frame',
+          start: 'top top',
+          end: '+=900%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          onLeave: () => { arrowNavEnabled = false; dualArrowNavEnabled = false; },
+          onEnterBack: () => { dualArrowNavEnabled = true; }
+        }
+      });
+
+      // Phase 1: Show no-tax equilibrium dashed lines and labels
+      tl3.to('#eq-h-line', { opacity: 1, duration: 0.5 }, 0);
+      tl3.to('#eq-v-line', { opacity: 1, duration: 0.5 }, 0.2);
+      tl3.to('#eq-p-label', { opacity: 1, duration: 0.5 }, 0.4);
+      tl3.to('#eq-q-label', { opacity: 1, duration: 0.5 }, 0.6);
+
+      // Phase 2: Change title, t-label, and Y-axis label ALL simultaneously
+      // Fade out all three at the same time (position 1.5)
+      tl3.to('#eq-title-label', {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: function() {
+          document.getElementById('eq-title-label').textContent = 'Equilibrium with Taxes';
+        },
+        onReverseComplete: function() {
+          document.getElementById('eq-title-label').textContent = 'No Taxes Equilibrium';
+        }
+      }, 1.5);
+      tl3.to('#eq-t-label', {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: function() {
+          document.getElementById('eq-t-label').textContent = 't = 40';
+        },
+        onReverseComplete: function() {
+          document.getElementById('eq-t-label').textContent = 't = 0';
+        }
+      }, 1.5);
+      tl3.to('#y-axis-label', {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: function() {
+          document.getElementById('y-axis-label').innerHTML = 'P<tspan dy="5" font-size="12">B</tspan>';
+        },
+        onReverseComplete: function() {
+          document.getElementById('y-axis-label').textContent = 'P';
+        }
+      }, 1.5);
+
+      // Fade in all three at the same time (position 1.8)
+      tl3.to('#eq-title-label', { opacity: 1, duration: 0.3 }, 1.8);
+      tl3.to('#eq-t-label', { opacity: 1, duration: 0.3 }, 1.8);
+      tl3.to('#y-axis-label', { opacity: 1, duration: 0.3 }, 1.8);
+
+      // Fade original supply to 25%
+      tl3.to('#supply-tax', { opacity: 0.25, duration: 0.5 }, 2);
+      tl3.to('#supply-label', { opacity: 0.25, duration: 0.5 }, 2);
+
+      // Show new supply curve
+      tl3.to('#supply-tax-new', { opacity: 1, duration: 0.5 }, 2.2);
+      tl3.to('#supply-label-new', { opacity: 1, duration: 0.5 }, 2.2);
+      tl3.to('#supply-intercept-new', { opacity: 1, duration: 0.5 }, 2.2);
+
+      // Phase 4: Switch from old equilibrium to dynamic navigation at Q=90
+      tl3.call(() => {
+        currentQ = 90;
+        updateForQ(90);
+        // Hide old eq lines instantly
+        gsap.set('#eq-h-line', { opacity: 0 });
+        gsap.set('#eq-v-line', { opacity: 0 });
+        gsap.set('#eq-p-label', { opacity: 0 });
+        gsap.set('#eq-q-label', { opacity: 0 });
+        gsap.set('#eq-dot-notax', { opacity: 0 });
+      }, [], 3.5);
+
+      tl3.to('#arrow-nav-group', { opacity: 1, duration: 0.5 }, 3.5);
+      tl3.to('#arrow-instruction', { opacity: 1, duration: 0.5 }, 3.7);
+
+      // Phase 5: Enable arrow navigation
+      tl3.call(() => {
+        arrowNavEnabled = true;
+      }, [], 4);
+
+      // Phase 6: Horizontal scroll to dual graph (left to right)
+      tl3.to('#dual-graph-panel', { left: '0%', duration: 1, ease: 'none' }, 5);
+      tl3.to('#tax-wedge-graph', { x: '100vw', duration: 1, ease: 'none' }, 5);
+      tl3.to('#arrow-nav-group', { opacity: 0, duration: 0.5 }, 5);
+      tl3.call(() => {
+        arrowNavEnabled = false;
+      }, [], 5);
+
+      // Phase 7: Dual graph - change labels simultaneously (title, t, Y-axis)
+      // Fade out all three labels
+      tl3.to('#dual-title-label', {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: function() {
+          document.getElementById('dual-title-label').textContent = 'Equilibrium with Taxes';
+        },
+        onReverseComplete: function() {
+          document.getElementById('dual-title-label').textContent = 'Equilibrium without Taxes';
+        }
+      }, 7.2);
+      tl3.to('#dual-t-label', {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: function() {
+          document.getElementById('dual-t-label').textContent = 't = 40';
+        },
+        onReverseComplete: function() {
+          document.getElementById('dual-t-label').textContent = 't = 0';
+        }
+      }, 7.2);
+      tl3.to('#dual-y-axis-label', {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: function() {
+          document.getElementById('dual-y-axis-label').innerHTML = 'P<tspan dy="5" font-size="12">S</tspan>';
+        },
+        onReverseComplete: function() {
+          document.getElementById('dual-y-axis-label').textContent = 'P';
+        }
+      }, 7.2);
+
+      // Fade in all three labels
+      tl3.to('#dual-title-label', { opacity: 1, duration: 0.3 }, 7.5);
+      tl3.to('#dual-t-label', { opacity: 1, duration: 0.3 }, 7.5);
+      tl3.to('#dual-y-axis-label', { opacity: 1, duration: 0.3 }, 7.5);
+
+      // Fade original demand, show new demand
+      tl3.to('#dual-demand', { opacity: 0.25, duration: 0.5 }, 7.5);
+      tl3.to('#dual-demand-label', { opacity: 0.25, duration: 0.5 }, 7.5);
+      tl3.to('#dual-demand-new', { opacity: 1, duration: 0.5 }, 7.7);
+      tl3.to('#dual-demand-label-new', { opacity: 1, duration: 0.5 }, 7.7);
+      tl3.to('#dual-demand-intercept-new', { opacity: 1, duration: 0.5 }, 7.7);
+
+      // Hide old equilibrium on dual graph
+      tl3.to('#dual-eq-h-line', { opacity: 0, duration: 0.5 }, 7.5);
+      tl3.to('#dual-eq-v-line', { opacity: 0, duration: 0.5 }, 7.5);
+      tl3.to('#dual-eq-p-label', { opacity: 0, duration: 0.5 }, 7.5);
+      tl3.to('#dual-eq-q-label', { opacity: 0, duration: 0.5 }, 7.5);
+      tl3.to('#dual-eq-dot-notax', { opacity: 0, duration: 0.5 }, 7.5);
+
+      // Phase 8: Show dual graph arrow navigation at Q=90
+      tl3.call(() => {
+        dualCurrentQ = 90;
+        updateDualForQ(90);
+      }, [], 8);
+
+      tl3.to('#dual-arrow-nav-group', { opacity: 1, duration: 0.5 }, 8);
+
+      // Phase 9: Enable dual graph arrow navigation
+      tl3.call(() => {
+        dualArrowNavEnabled = true;
+      }, [], 8.5);
+
+      // ============================================
+      // DUAL GRAPH: Arrow Navigation
+      // ============================================
+
+      // Calculate prices at given Q for dual graph
+      const getDualPB = (q) => 200 - q;  // Old demand: P = 200 - Q
+      const getDualPS = (q) => 160 - q;  // New demand: P = 160 - Q
+
+      // Update dual graph for current Q value
+      function updateDualForQ(q) {
+        const pb = getDualPB(q);
+        const ps = getDualPS(q);
+        const svgX = toSvgX(q);
+        const svgYB = toSvgY(pb);
+        const svgYS = toSvgY(ps);
+        const wedgeMidY = (svgYB + svgYS) / 2;
+
+        // Update dynamic lines
+        document.getElementById('dual-dyn-pb-line').setAttribute('x2', svgX);
+        document.getElementById('dual-dyn-pb-line').setAttribute('y1', svgYB);
+        document.getElementById('dual-dyn-pb-line').setAttribute('y2', svgYB);
+
+        document.getElementById('dual-dyn-ps-line').setAttribute('x2', svgX);
+        document.getElementById('dual-dyn-ps-line').setAttribute('y1', svgYS);
+        document.getElementById('dual-dyn-ps-line').setAttribute('y2', svgYS);
+
+        document.getElementById('dual-dyn-v-line').setAttribute('x1', svgX);
+        document.getElementById('dual-dyn-v-line').setAttribute('x2', svgX);
+        document.getElementById('dual-dyn-v-line').setAttribute('y1', svgYB);
+
+        // Update wedge bracket
+        document.getElementById('dual-dyn-wedge-bracket').setAttribute('y1', svgYB);
+        document.getElementById('dual-dyn-wedge-bracket').setAttribute('y2', svgYS);
+        document.getElementById('dual-dyn-wedge-cap-top').setAttribute('y1', svgYB);
+        document.getElementById('dual-dyn-wedge-cap-top').setAttribute('y2', svgYB);
+        document.getElementById('dual-dyn-wedge-cap-bot').setAttribute('y1', svgYS);
+        document.getElementById('dual-dyn-wedge-cap-bot').setAttribute('y2', svgYS);
+        document.getElementById('dual-dyn-wedge-t').setAttribute('y', wedgeMidY + 5);
+
+        // Update labels
+        document.getElementById('dual-dyn-pb-label').textContent = pb;
+        document.getElementById('dual-dyn-pb-label').setAttribute('y', svgYB + 5);
+        document.getElementById('dual-dyn-ps-label').textContent = ps;
+        document.getElementById('dual-dyn-ps-label').setAttribute('y', svgYS + 5);
+        document.getElementById('dual-dyn-q-label').textContent = q;
+        document.getElementById('dual-dyn-q-label').setAttribute('x', svgX);
+
+        // Update dots
+        document.getElementById('dual-dyn-buyer-dot').setAttribute('cx', svgX);
+        document.getElementById('dual-dyn-buyer-dot').setAttribute('cy', svgYB);
+        document.getElementById('dual-dyn-seller-dot').setAttribute('cx', svgX);
+        document.getElementById('dual-dyn-seller-dot').setAttribute('cy', svgYS);
+
+        // Show/hide equilibrium circles (only at Q=70)
+        const eqGroup = document.getElementById('dual-eq-circles-group');
+        if (q === 70) {
+          gsap.to(eqGroup, { opacity: 1, duration: 0.3 });
+          // Position equilibrium circles at Q=70
+          document.getElementById('dual-eq-buyer-circle').setAttribute('cx', svgX);
+          document.getElementById('dual-eq-buyer-circle').setAttribute('cy', svgYB);
+          document.getElementById('dual-eq-seller-circle').setAttribute('cx', svgX);
+          document.getElementById('dual-eq-seller-circle').setAttribute('cy', svgYS);
+        } else {
+          gsap.to(eqGroup, { opacity: 0, duration: 0.3 });
+        }
+      }
+
+      // Arrow key handler for dual graph
+      const dualMaxQ = 160;  // New demand P=160-Q hits 0 at Q=160
+      function handleDualArrowKey(e) {
+        if (!dualArrowNavEnabled) return;
+
+        if (e.key === 'ArrowLeft' && dualCurrentQ > minQ) {
+          dualCurrentQ -= stepQ;
+          updateDualForQ(dualCurrentQ);
+        } else if (e.key === 'ArrowRight' && dualCurrentQ < dualMaxQ) {
+          dualCurrentQ += stepQ;
+          updateDualForQ(dualCurrentQ);
+        }
+      }
+
+      document.addEventListener('keydown', handleDualArrowKey);
+
+      // ============================================
+      // FRAME 4: Equilibrium Conditions
+      // ============================================
+      const tl4 = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#equilibrium-frame',
+          start: 'top top',
+          end: '+=300%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      tl4.to('#key-insight', { opacity: 1, y: 0, duration: 1 }, 0);
+      tl4.to('#solve-text', { opacity: 1, y: 0, duration: 1 }, 1);
+      tl4.to('#equivalent-text', { opacity: 1, y: 0, duration: 1, onComplete: () => { formulaNavEnabled = true; } }, 2);
+      tl4.to('#determines-text', { opacity: 1, y: 0, duration: 1 }, 3);
+
+      gsap.set('#key-insight', { opacity: 0, y: 40 });
+      gsap.set('#solve-text', { opacity: 0, y: 40 });
+      gsap.set('#equivalent-text', { opacity: 0, y: 40 });
+      gsap.set('#determines-text', { opacity: 0, y: 40 });
+
+      // ============================================
+      // Equivalent formula toggle (arrow keys)
+      // ============================================
+      let showingPS = true;
+      let formulaNavEnabled = false;
+      const formulaPS = document.getElementById('eq-formula-ps');
+      const formulaPB = document.getElementById('eq-formula-pb');
+
+      function toggleFormula() {
+        showingPS = !showingPS;
+        if (showingPS) {
+          formulaPS.style.display = 'inline';
+          formulaPB.style.display = 'none';
+        } else {
+          formulaPS.style.display = 'none';
+          formulaPB.style.display = 'inline';
+          // Re-render KaTeX for the newly visible formula
+          if (typeof renderMathInElement !== 'undefined') {
+            renderMathInElement(formulaPB);
+          }
+        }
+      }
+
+      function handleFormulaArrowKey(e) {
+        if (!formulaNavEnabled) return;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          toggleFormula();
+        }
+      }
+
+      document.addEventListener('keydown', handleFormulaArrowKey);
+
+      // Disable formula nav only when leaving the equilibrium section
+      ScrollTrigger.create({
+        trigger: '#equilibrium-frame',
+        start: 'top top',
+        end: 'bottom top',
+        onLeave: () => { formulaNavEnabled = false; },
+        onLeaveBack: () => { formulaNavEnabled = false; }
+      });
+
+      // ============================================
+      // FRAME 5: Welfare Analysis Graph
+      // ============================================
+      let welfareTax = 0;  // Current tax level
+      let welfareNavEnabled = false;
+      const welfareTaxStep = 10;
+      const welfareMinTax = -80;  // Allow subsidies
+      const welfareMaxTax = 80;
+
+      // KaTeX options for renderMathInElement
+      const katexOptions = {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      };
+
+      // Calculate equilibrium values for given tax
+      // Demand: P = 200 - Q, Supply: P = 20 + Q
+      // With tax t: P_B = P_S + t, and 200 - Q = 20 + Q + t
+      // Q* = (180 - t) / 2 = 90 - t/2
+      // P_B = 110 + t/2, P_S = 110 - t/2
+      function getWelfareEq(t) {
+        const qStar = 90 - t / 2;
+        const pB = 110 + t / 2;
+        const pS = 110 - t / 2;
+        return { qStar, pB, pS };
+      }
+
+      function updateWelfareGraph(t) {
+        const eq = getWelfareEq(t);
+        const xQ = toSvgX(eq.qStar);
+        const yPB = toSvgY(eq.pB);
+        const yPS = toSvgY(eq.pS);
+
+        // Update title with KaTeX
+        const tLabel = document.getElementById('welfare-t-label');
+        tLabel.innerHTML = '$t = ' + t + '$';
+        if (typeof renderMathInElement !== 'undefined') {
+          renderMathInElement(tLabel, katexOptions);
+        }
+
+        // Position KaTeX labels for P_B and P_S
+        const svg = document.getElementById('welfare-graph');
+        const svgRect = svg.getBoundingClientRect();
+        const container = svg.parentElement;
+        const containerRect = container.getBoundingClientRect();
+
+        // SVG viewBox is 0 0 530 395, so scale factor:
+        const scaleY = svgRect.height / 395;
+        const scaleX = svgRect.width / 530;
+
+        // Calculate screen positions relative to container
+        const pbKatex = document.getElementById('welfare-pb-katex');
+        const psKatex = document.getElementById('welfare-ps-katex');
+
+        // Position and update P_B label with KaTeX
+        const pbScreenY = (svgRect.top - containerRect.top) + yPB * scaleY;
+        const pbScreenX = (svgRect.left - containerRect.left) + 5 * scaleX - 20;
+        pbKatex.style.top = (pbScreenY - 11) + 'px';
+        pbKatex.style.left = pbScreenX + 'px';
+        pbKatex.innerHTML = '$P_B = ' + Math.round(eq.pB) + '$';
+        if (typeof renderMathInElement !== 'undefined') {
+          renderMathInElement(pbKatex, katexOptions);
+        }
+
+        // Position and update P_S label with KaTeX
+        const psScreenY = (svgRect.top - containerRect.top) + yPS * scaleY;
+        psKatex.style.top = (psScreenY - 11) + 'px';
+        psKatex.style.left = pbScreenX + 'px';
+        psKatex.innerHTML = '$P_S = ' + Math.round(eq.pS) + '$';
+        if (typeof renderMathInElement !== 'undefined') {
+          renderMathInElement(psKatex, katexOptions);
+        }
+
+        // Show/hide P_S label based on tax
+        psKatex.style.opacity = t !== 0 ? '1' : '0';
+
+        // Update new supply curve position: P = 20 + t + Q
+        // At Q=0: P = 20 + t, y = 360 - (20+t)*1.5
+        // At Q=170-t: P = 190, y = 75 (or adjust endpoint)
+        const supplyIntercept = 20 + t;
+        const supplyY1 = toSvgY(supplyIntercept);
+        const supplyEndQ = Math.min(170, 180 - t);  // Don't go past reasonable range
+        const supplyEndP = 20 + t + supplyEndQ;
+        const supplyX2 = toSvgX(supplyEndQ);
+        const supplyY2 = toSvgY(supplyEndP);
+
+        document.getElementById('welfare-supply-new').setAttribute('x1', 60);
+        document.getElementById('welfare-supply-new').setAttribute('y1', supplyY1);
+        document.getElementById('welfare-supply-new').setAttribute('x2', supplyX2);
+        document.getElementById('welfare-supply-new').setAttribute('y2', supplyY2);
+
+        // Update supply label position
+        document.getElementById('welfare-supply-label-new').setAttribute('x', supplyX2 + 5);
+        document.getElementById('welfare-supply-label-new').setAttribute('y', supplyY2 - 5);
+
+        // Show/hide new supply based on tax
+        if (t !== 0) {
+          document.getElementById('welfare-supply').style.opacity = 0.25;
+          document.getElementById('welfare-supply-label').style.opacity = 0.25;
+          document.getElementById('welfare-supply-new').style.opacity = 1;
+          document.getElementById('welfare-supply-label-new').style.opacity = 1;
+        } else {
+          document.getElementById('welfare-supply').style.opacity = 1;
+          document.getElementById('welfare-supply-label').style.opacity = 1;
+          document.getElementById('welfare-supply-new').style.opacity = 0;
+          document.getElementById('welfare-supply-label-new').style.opacity = 0;
+        }
+
+        // Update dashed lines
+        document.getElementById('welfare-pb-line').setAttribute('x2', xQ);
+        document.getElementById('welfare-pb-line').setAttribute('y1', yPB);
+        document.getElementById('welfare-pb-line').setAttribute('y2', yPB);
+
+        document.getElementById('welfare-ps-line').setAttribute('x2', xQ);
+        document.getElementById('welfare-ps-line').setAttribute('y1', yPS);
+        document.getElementById('welfare-ps-line').setAttribute('y2', yPS);
+
+        document.getElementById('welfare-q-line').setAttribute('x1', xQ);
+        document.getElementById('welfare-q-line').setAttribute('x2', xQ);
+        document.getElementById('welfare-q-line').setAttribute('y1', yPB);
+
+        // Update Q label (P_B and P_S labels are now KaTeX, updated above)
+        document.getElementById('welfare-q-label').textContent = Math.round(eq.qStar);
+        document.getElementById('welfare-q-label').setAttribute('x', xQ);
+
+        // Update equilibrium dot
+        document.getElementById('welfare-eq-dot').setAttribute('cx', xQ);
+        document.getElementById('welfare-eq-dot').setAttribute('cy', yPB);
+
+        // Update welfare areas
+        // Consumer Surplus: triangle (0,200) to (0,P_B) to (Q*,P_B)
+        const csPoints = `60,60 60,${yPB} ${xQ},${yPB}`;
+        document.getElementById('welfare-cs').setAttribute('points', csPoints);
+
+        // Producer Surplus: triangle (0,20) to (0,P_S) to (Q*,P_S)
+        const psPoints = `60,330 60,${yPS} ${xQ},${yPS}`;
+        document.getElementById('welfare-ps').setAttribute('points', psPoints);
+
+        // Tax Revenue: rectangle from P_S to P_B, width Q*
+        const taxPoints = `60,${yPS} ${xQ},${yPS} ${xQ},${yPB} 60,${yPB}`;
+        document.getElementById('welfare-tax').setAttribute('points', taxPoints);
+
+        // Deadweight Loss: triangle from (Q*, P_B) to (Q*, P_S) to (90, 110)
+        // No-tax equilibrium is at x=240, y=195
+        const noTaxX = 240;
+        const noTaxY = 195;
+        const dwlPoints = `${xQ},${yPB} ${xQ},${yPS} ${noTaxX},${noTaxY}`;
+        document.getElementById('welfare-dwl').setAttribute('points', dwlPoints);
+
+        // Hide welfare areas for subsidies (t < 0)
+        const areaOpacity = t >= 0 ? 0.3 : 0;
+        document.getElementById('welfare-cs').setAttribute('fill-opacity', areaOpacity);
+        document.getElementById('welfare-ps').setAttribute('fill-opacity', areaOpacity);
+        document.getElementById('welfare-tax').setAttribute('fill-opacity', areaOpacity);
+        document.getElementById('welfare-dwl').setAttribute('fill-opacity', areaOpacity);
+
+        // Calculate welfare values
+        // CS = 0.5 × Q* × (200 - P_B)
+        // PS = 0.5 × Q* × (P_S - 20)
+        // Tax Revenue = t × Q*
+        const cs = 0.5 * eq.qStar * (200 - eq.pB);
+        const ps = 0.5 * eq.qStar * (eq.pS - 20);
+        const taxRev = t * eq.qStar;
+        const ss = cs + ps + taxRev;
+
+        // Equilibrium values (t = 0)
+        const eqSS = 8100;  // 4050 + 4050 + 0
+
+        // Update table
+        document.getElementById('welfare-table-t').textContent = 't = ' + t;
+        document.getElementById('welfare-table-cs').textContent = Math.round(cs);
+        document.getElementById('welfare-table-ps').textContent = Math.round(ps);
+        document.getElementById('welfare-table-tax').textContent = Math.round(taxRev);
+        document.getElementById('welfare-table-ss').textContent = Math.round(ss);
+        document.getElementById('welfare-table-dwl').textContent = 'Dead Weight Loss = ' + Math.round(eqSS - ss);
+      }
+
+      // Arrow key handler for welfare graph
+      function handleWelfareArrowKey(e) {
+        if (!welfareNavEnabled) return;
+
+        if (e.key === 'ArrowLeft' && welfareTax > welfareMinTax) {
+          welfareTax -= welfareTaxStep;
+          updateWelfareGraph(welfareTax);
+        } else if (e.key === 'ArrowRight' && welfareTax < welfareMaxTax) {
+          welfareTax += welfareTaxStep;
+          updateWelfareGraph(welfareTax);
+        }
+      }
+
+      document.addEventListener('keydown', handleWelfareArrowKey);
+
+      // Welfare graph scroll trigger
+      ScrollTrigger.create({
+        trigger: '#welfare-graph-frame',
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => { welfareNavEnabled = true; },
+        onLeave: () => { welfareNavEnabled = false; },
+        onEnterBack: () => { welfareNavEnabled = true; },
+        onLeaveBack: () => { welfareNavEnabled = false; }
+      });
+
+      // Initialize welfare graph
+      // Render KaTeX for P_B and P_S labels
+      const pbKatex = document.getElementById('welfare-pb-katex');
+      const psKatex = document.getElementById('welfare-ps-katex');
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(pbKatex, katexOptions);
+        renderMathInElement(psKatex, katexOptions);
+      }
+      updateWelfareGraph(0);
+
+      // Re-position KaTeX labels on window resize
+      window.addEventListener('resize', () => {
+        updateWelfareGraph(welfareTax);
+      });
+
+      // ============================================
+      // FRAME 6: Trump Tariff Announcement
+      // ============================================
+      // No animation needed - static content
+
+      // ============================================
+      // FRAME 7: Tax Incidence Graph
+      // ============================================
+      let incidenceNavEnabled = false;
+      let demandSlope = 1;  // Initial slope (absolute value)
+      let supplySlope = 1;  // Initial slope
+      const minDemandSlope = 0;      // Perfectly elastic (horizontal) demand
+      const minSupplySlope = 0;      // Perfectly elastic (horizontal) supply
+      const maxDemandSlope = Infinity; // Perfectly inelastic (vertical) demand
+      const maxSupplySlope = Infinity; // Perfectly inelastic (vertical) supply
+      const taxAmount = 40;
+
+      // No-tax equilibrium (pinned point)
+      const eqQ = 90;
+      const eqP = 110;
+
+      // Calculate tax equilibrium given slopes
+      function getIncidenceEq(slopeD, slopeS, t) {
+        // Handle perfectly inelastic demand (vertical) - consumers bear all burden
+        if (slopeD === Infinity) {
+          return { qStar: eqQ, pB: eqP + t, pS: eqP };
+        }
+
+        // Handle perfectly inelastic supply (vertical) - producers bear zero burden
+        if (slopeS === Infinity) {
+          return { qStar: eqQ, pB: eqP + t, pS: eqP };
+        }
+
+        // Safeguard against division by zero if both slopes are 0
+        const totalSlope = slopeD + slopeS;
+        if (totalSlope < 0.001) {
+          // Both nearly horizontal - tax burden is undefined, use equal split
+          return { qStar: eqQ, pB: eqP + t/2, pS: eqP - t/2 };
+        }
+        const qStar = eqQ - t / totalSlope;
+        const pB = eqP + slopeD * t / totalSlope;
+        const pS = eqP - slopeS * t / totalSlope;
+        return { qStar, pB, pS };
+      }
+
+      // Get demand curve endpoints (always passes through pinned eq point)
+      function getDemandEndpoints(slopeD) {
+        // Demand: P = eqP - slopeD * (Q - eqQ)
+        // Always pinned to (eqQ, eqP) = (90, 110)
+
+        const eqSvgX = toSvgX(eqQ);  // SVG x for eq point
+        const eqSvgY = toSvgY(eqP);  // SVG y for eq point
+
+        // Handle perfectly elastic (horizontal)
+        if (slopeD === 0) {
+          return {
+            x1: 60, y1: eqSvgY,
+            x2: toSvgX(200), y2: eqSvgY
+          };
+        }
+
+        // Handle perfectly inelastic (vertical)
+        if (slopeD === Infinity || slopeD >= 50) {
+          return {
+            x1: eqSvgX, y1: toSvgY(220),
+            x2: eqSvgX, y2: toSvgY(0)
+          };
+        }
+
+        // General case: extend from eq point to graph boundaries
+        let x1, y1, x2, y2;
+
+        // Upper-left endpoint: towards Q=0, higher P
+        const pAtQ0 = eqP + slopeD * eqQ;
+        if (pAtQ0 <= 220) {
+          // Intersects left edge (Q=0) within visible area
+          x1 = 60;
+          y1 = toSvgY(pAtQ0);
+        } else {
+          // Goes above visible, find Q where P=220
+          const qAtP220 = eqQ - (220 - eqP) / slopeD;
+          x1 = toSvgX(qAtP220);
+          y1 = toSvgY(220);
+        }
+
+        // Lower-right endpoint: towards higher Q, lower P
+        const qAtP0 = eqQ + eqP / slopeD;
+        if (qAtP0 <= 200) {
+          // Intersects bottom (P=0) within visible area
+          x2 = toSvgX(qAtP0);
+          y2 = toSvgY(0);
+        } else {
+          // Extends beyond visible Q, use Q=200
+          const pAtQ200 = eqP - slopeD * (200 - eqQ);
+          x2 = toSvgX(200);
+          y2 = toSvgY(Math.max(0, pAtQ200));
+        }
+
+        return { x1, y1, x2, y2 };
+      }
+
+      // Get supply curve endpoints (always passes through pinned eq point)
+      function getSupplyEndpoints(slopeS) {
+        // Supply: P = eqP + slopeS * (Q - eqQ)
+        // Always pinned to (eqQ, eqP) = (90, 110)
+
+        const eqSvgX = toSvgX(eqQ);  // SVG x for eq point
+        const eqSvgY = toSvgY(eqP);  // SVG y for eq point
+
+        // Handle perfectly elastic (horizontal)
+        if (slopeS === 0) {
+          return {
+            x1: 60, y1: eqSvgY,
+            x2: toSvgX(200), y2: eqSvgY
+          };
+        }
+
+        // Handle perfectly inelastic (vertical)
+        if (slopeS === Infinity || slopeS >= 50) {
+          return {
+            x1: eqSvgX, y1: toSvgY(220),
+            x2: eqSvgX, y2: toSvgY(0)
+          };
+        }
+
+        // General case: extend from eq point to graph boundaries
+        let x1, y1, x2, y2;
+
+        // Lower-left endpoint: towards Q=0, lower P
+        const pAtQ0 = eqP - slopeS * eqQ;
+        if (pAtQ0 >= 0) {
+          // Intersects left edge (Q=0) within visible area
+          x1 = 60;
+          y1 = toSvgY(pAtQ0);
+        } else {
+          // Goes below visible, find Q where P=0
+          const qAtP0 = eqQ - eqP / slopeS;
+          x1 = toSvgX(qAtP0);
+          y1 = toSvgY(0);
+        }
+
+        // Upper-right endpoint: towards higher Q, higher P
+        const pAtQ200 = eqP + slopeS * (200 - eqQ);
+        if (pAtQ200 <= 220) {
+          // Reaches Q=200 within visible area
+          x2 = toSvgX(200);
+          y2 = toSvgY(pAtQ200);
+        } else {
+          // Hits top boundary P=220 first
+          const qAtP220 = eqQ + (220 - eqP) / slopeS;
+          x2 = toSvgX(qAtP220);
+          y2 = toSvgY(220);
+        }
+
+        return { x1, y1, x2, y2 };
+      }
+
+      // Get NEW supply curve endpoints (shifted up by tax, parallel to original)
+      function getNewSupplyEndpoints(slopeS, t) {
+        // New Supply: P = (eqP + t) + slopeS * (Q - eqQ)
+        // Parallel to original, shifted up by t
+
+        const newEqP = eqP + t;  // New equilibrium P on this curve (at Q=eqQ)
+        const eqSvgX = toSvgX(eqQ);
+        const newEqSvgY = toSvgY(newEqP);
+
+        // Handle perfectly elastic (horizontal)
+        if (slopeS === 0) {
+          return {
+            x1: 60, y1: newEqSvgY,
+            x2: toSvgX(200), y2: newEqSvgY
+          };
+        }
+
+        // Handle perfectly inelastic (vertical)
+        if (slopeS === Infinity || slopeS >= 50) {
+          return {
+            x1: eqSvgX, y1: toSvgY(220),
+            x2: eqSvgX, y2: toSvgY(0)
+          };
+        }
+
+        // General case: extend from pinned point to graph boundaries
+        let x1, y1, x2, y2;
+
+        // Lower-left endpoint: towards Q=0, lower P
+        const pAtQ0 = newEqP - slopeS * eqQ;
+        if (pAtQ0 >= 0) {
+          // Intersects left edge (Q=0) within visible area
+          x1 = 60;
+          y1 = toSvgY(pAtQ0);
+        } else {
+          // Goes below visible, find Q where P=0
+          const qAtP0 = eqQ - newEqP / slopeS;
+          x1 = toSvgX(qAtP0);
+          y1 = toSvgY(0);
+        }
+
+        // Upper-right endpoint: towards higher Q, higher P
+        const pAtQ200 = newEqP + slopeS * (200 - eqQ);
+        if (pAtQ200 <= 220) {
+          // Reaches Q=200 within visible area
+          x2 = toSvgX(200);
+          y2 = toSvgY(pAtQ200);
+        } else {
+          // Hits top boundary P=220 first
+          const qAtP220 = eqQ + (220 - newEqP) / slopeS;
+          x2 = toSvgX(qAtP220);
+          y2 = toSvgY(220);
+        }
+
+        return { x1, y1, x2, y2 };
+      }
+
+      function updateIncidenceGraph() {
+        const eq = getIncidenceEq(demandSlope, supplySlope, taxAmount);
+        const xQ = toSvgX(eq.qStar);
+        const yPB = toSvgY(eq.pB);
+        const yPS = toSvgY(eq.pS);
+        const yPstar = toSvgY(eqP);
+
+        // Update demand curve
+        const demandPts = getDemandEndpoints(demandSlope);
+        document.getElementById('incidence-demand').setAttribute('x1', demandPts.x1);
+        document.getElementById('incidence-demand').setAttribute('y1', demandPts.y1);
+        document.getElementById('incidence-demand').setAttribute('x2', demandPts.x2);
+        document.getElementById('incidence-demand').setAttribute('y2', demandPts.y2);
+
+        // Update demand label position (D label near lower-right end)
+        document.getElementById('incidence-demand-label').setAttribute('x', demandPts.x2 - 15);
+        document.getElementById('incidence-demand-label').setAttribute('y', demandPts.y2 - 10);
+
+        // Update original supply curve (faded)
+        const supplyPts = getSupplyEndpoints(supplySlope);
+        document.getElementById('incidence-supply').setAttribute('x1', supplyPts.x1);
+        document.getElementById('incidence-supply').setAttribute('y1', supplyPts.y1);
+        document.getElementById('incidence-supply').setAttribute('x2', supplyPts.x2);
+        document.getElementById('incidence-supply').setAttribute('y2', supplyPts.y2);
+
+        // Update original supply label position (faded S)
+        document.getElementById('incidence-supply-label').setAttribute('x', supplyPts.x2 + 5);
+        document.getElementById('incidence-supply-label').setAttribute('y', supplyPts.y2 - 5);
+
+        // Update new supply curve (shifted by tax)
+        const newSupplyPts = getNewSupplyEndpoints(supplySlope, taxAmount);
+        document.getElementById('incidence-supply-new').setAttribute('x1', newSupplyPts.x1);
+        document.getElementById('incidence-supply-new').setAttribute('y1', newSupplyPts.y1);
+        document.getElementById('incidence-supply-new').setAttribute('x2', newSupplyPts.x2);
+        document.getElementById('incidence-supply-new').setAttribute('y2', newSupplyPts.y2);
+
+        // Update new supply label position
+        document.getElementById('incidence-supply-label-new').setAttribute('x', newSupplyPts.x2 + 5);
+        document.getElementById('incidence-supply-label-new').setAttribute('y', newSupplyPts.y2 - 5);
+
+        // Update tax burden bars
+        // Consumer bar: from P* to P_B
+        document.getElementById('incidence-consumer-bar').setAttribute('y', yPB);
+        document.getElementById('incidence-consumer-bar').setAttribute('height', yPstar - yPB);
+        document.getElementById('incidence-consumer-bar').setAttribute('width', xQ - 60);
+
+        // Producer bar: from P_S to P*
+        document.getElementById('incidence-producer-bar').setAttribute('y', yPstar);
+        document.getElementById('incidence-producer-bar').setAttribute('height', yPS - yPstar);
+        document.getElementById('incidence-producer-bar').setAttribute('width', xQ - 60);
+
+        // Update consumer burden bracket (red): from P_B to P*
+        document.getElementById('incidence-consumer-bracket').setAttribute('y1', yPB);
+        document.getElementById('incidence-consumer-bracket').setAttribute('y2', yPstar);
+        document.getElementById('incidence-consumer-cap-top').setAttribute('y1', yPB);
+        document.getElementById('incidence-consumer-cap-top').setAttribute('y2', yPB);
+        document.getElementById('incidence-consumer-cap-bot').setAttribute('y1', yPstar);
+        document.getElementById('incidence-consumer-cap-bot').setAttribute('y2', yPstar);
+
+        // Update producer burden bracket (blue): from P* to P_S
+        document.getElementById('incidence-producer-bracket').setAttribute('y1', yPstar);
+        document.getElementById('incidence-producer-bracket').setAttribute('y2', yPS);
+        document.getElementById('incidence-producer-cap-top').setAttribute('y1', yPstar);
+        document.getElementById('incidence-producer-cap-top').setAttribute('y2', yPstar);
+        document.getElementById('incidence-producer-cap-bot').setAttribute('y1', yPS);
+        document.getElementById('incidence-producer-cap-bot').setAttribute('y2', yPS);
+
+        // Update dashed lines
+        document.getElementById('incidence-pb-line').setAttribute('y1', yPB);
+        document.getElementById('incidence-pb-line').setAttribute('y2', yPB);
+        document.getElementById('incidence-pb-line').setAttribute('x2', xQ);
+
+        document.getElementById('incidence-ps-line').setAttribute('y1', yPS);
+        document.getElementById('incidence-ps-line').setAttribute('y2', yPS);
+        document.getElementById('incidence-ps-line').setAttribute('x2', xQ);
+
+        document.getElementById('incidence-q-line').setAttribute('x1', xQ);
+        document.getElementById('incidence-q-line').setAttribute('x2', xQ);
+        document.getElementById('incidence-q-line').setAttribute('y1', yPB);
+
+        // Update Q label
+        document.getElementById('incidence-q-label').textContent = Math.round(eq.qStar);
+        document.getElementById('incidence-q-label').setAttribute('x', xQ);
+
+        // Update KaTeX labels
+        const svg = document.getElementById('incidence-graph');
+        const svgRect = svg.getBoundingClientRect();
+        const container = svg.parentElement;
+        const containerRect = container.getBoundingClientRect();
+        const scaleY = svgRect.height / 395;
+        const scaleX = svgRect.width / 530;
+
+        const pbKatex = document.getElementById('incidence-pb-katex');
+        const psKatex = document.getElementById('incidence-ps-katex');
+
+        const pbScreenY = (svgRect.top - containerRect.top) + yPB * scaleY;
+        const pbScreenX = (svgRect.left - containerRect.left) - 55;
+        pbKatex.style.top = (pbScreenY - 11) + 'px';
+        pbKatex.style.left = pbScreenX + 'px';
+        pbKatex.innerHTML = '$P_B = ' + Math.round(eq.pB) + '$';
+
+        const psScreenY = (svgRect.top - containerRect.top) + yPS * scaleY;
+        psKatex.style.top = (psScreenY - 11) + 'px';
+        psKatex.style.left = pbScreenX + 'px';
+        psKatex.innerHTML = '$P_S = ' + Math.round(eq.pS) + '$';
+
+        if (typeof renderMathInElement !== 'undefined') {
+          renderMathInElement(pbKatex, katexOptions);
+          renderMathInElement(psKatex, katexOptions);
+        }
+
+        // Hide P* = 110 label if P_B or P_S is close to 110 (avoid overlap)
+        const pstarLabel = document.getElementById('incidence-pstar-label');
+        if (Math.abs(eq.pB - 110) < 8 || Math.abs(eq.pS - 110) < 8) {
+          pstarLabel.style.opacity = '0';
+        } else {
+          pstarLabel.style.opacity = '1';
+        }
+
+        // Update pass-through rate: (P_B - 110) / 40 × 100%
+        const passThrough = ((eq.pB - eqP) / taxAmount) * 100;
+        document.getElementById('incidence-passthrough').textContent = 'Pass-through: ' + passThrough.toFixed(2) + '%';
+      }
+
+      // Keyboard handler for incidence graph
+      function handleIncidenceKey(e) {
+        if (!incidenceNavEnabled) return;
+
+        let changed = false;
+
+        if (e.key === 'q' || e.key === 'Q') {
+          // Increase demand slope (steeper) - multiplicative for natural progression
+          if (demandSlope === 0) {
+            demandSlope = 0.2;
+          } else if (demandSlope < 50) {
+            demandSlope = demandSlope * 1.25;
+          } else {
+            demandSlope = Infinity;  // Perfectly inelastic
+          }
+          changed = true;
+        } else if (e.key === 'a' || e.key === 'A') {
+          // Decrease demand slope (flatter)
+          if (demandSlope === Infinity) {
+            demandSlope = 50;
+          } else {
+            demandSlope = demandSlope / 1.25;
+            if (demandSlope < 0.15) demandSlope = 0;  // Snap to perfectly elastic
+          }
+          changed = true;
+        } else if (e.key === 'ArrowRight') {
+          // Increase supply slope (steeper) - multiplicative like demand
+          if (supplySlope === 0) {
+            supplySlope = 0.2;
+          } else if (supplySlope < 50) {
+            supplySlope = supplySlope * 1.25;
+          } else {
+            supplySlope = Infinity;  // Perfectly inelastic
+          }
+          changed = true;
+        } else if (e.key === 'ArrowLeft') {
+          // Decrease supply slope (flatter)
+          if (supplySlope === Infinity) {
+            supplySlope = 50;
+          } else {
+            supplySlope = supplySlope / 1.25;
+            if (supplySlope < 0.15) supplySlope = 0;  // Snap to perfectly elastic
+          }
+          changed = true;
+        }
+
+        if (changed) {
+          updateIncidenceGraph();
+        }
+      }
+
+      // Escape key - go back to menu (works globally)
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+
+      document.addEventListener('keydown', handleIncidenceKey);
+
+      // Scroll trigger for incidence graph
+      ScrollTrigger.create({
+        trigger: '#incidence-graph-frame',
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => { incidenceNavEnabled = true; },
+        onLeave: () => { incidenceNavEnabled = false; },
+        onEnterBack: () => { incidenceNavEnabled = true; },
+        onLeaveBack: () => { incidenceNavEnabled = false; }
+      });
+
+      // Initialize incidence graph
+      const incPbKatex = document.getElementById('incidence-pb-katex');
+      const incPsKatex = document.getElementById('incidence-ps-katex');
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(incPbKatex, katexOptions);
+        renderMathInElement(incPsKatex, katexOptions);
+      }
+      updateIncidenceGraph();
+
+      // Re-position on resize
+      window.addEventListener('resize', () => {
+        updateIncidenceGraph();
+      });
+    });
+  </script>
+
+</body>
+</html>
