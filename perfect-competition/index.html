@@ -3,41 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Introduction to Economics | Web Lectures</title>
+  <title>Perfect Competition | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/beamer-theme.css">
 
   <style>
-    /* Table of Contents styling */
-    .toc-list {
-      list-style: none;
-      padding: 0;
-      margin: 2rem 0;
+    /* Page-specific styles can go here */
+
+    /* Crane color palette */
+    :root {
+      --crane-amber: #f9a825;
+      --text-primary: #000000;
+      --text-secondary: #333333;
+      --text-muted: #666666;
     }
 
-    .toc-list li {
-      margin: 1rem 0;
+    /* Title slide - Crane (white background with amber title/subtitle box) */
+    .title-slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: #ffffff;
     }
 
-    .toc-list li::before {
-      content: none;
+    .title-slide .title-box {
+      background: var(--crane-amber);
+      padding: 1.5rem 3rem 1.25rem 3rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
     }
 
-    .toc-list a {
-      display: block;
-      padding: 1rem 1.5rem;
-      background: #fff8e1;
-      border-left: 4px solid var(--crane-amber);
+    .title-slide h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
       color: var(--text-primary);
-      text-decoration: none;
-      font-size: 1.2rem;
-      transition: background 0.2s, border-color 0.2s;
     }
 
-    .toc-list a:hover {
-      background: var(--crane-amber-light);
-      border-left-color: var(--crane-amber-dark);
+    .title-slide h2 {
+      font-size: 1.25rem;
+      margin: 0;
+      padding: 0 1rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    .title-slide .author {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 1rem 0 0.25rem 0;
+    }
+
+    .title-slide .institute {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin: 0.25rem 0 0.125rem 0;
+    }
+
+    .title-slide .date {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0.25rem 0;
+    }
+
+    /* Market Equilibrium Graph */
+    .graph-frame {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: #fdf6e3;
+    }
+
+    .graph-frame h2 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      color: #657b83;
+    }
+
+    #price-firm-graph {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    #equilibrium-graph {
+      max-width: 950px;
+      width: 100%;
+    }
+
+    .axis-line {
+      stroke: #586e75;
+      stroke-width: 3;
+      fill: none;
+    }
+
+    .axis-arrow {
+      fill: #586e75;
+    }
+
+    .axis-label {
+      font-family: 'Times New Roman', serif;
+      font-size: 24px;
+      font-style: italic;
+      fill: #586e75;
+    }
+
+    .demand-line {
+      stroke: #dc322f;
+      stroke-width: 5;
+      fill: none;
+    }
+
+    .supply-line {
+      stroke: #268bd2;
+      stroke-width: 5;
+      fill: none;
+    }
+
+    .dotted-line {
+      stroke: #586e75;
+      stroke-width: 3;
+      stroke-dasharray: 8, 6;
+      fill: none;
+    }
+
+    .eq-label {
+      font-family: 'Times New Roman', serif;
+      font-size: 20px;
+      font-style: italic;
+      fill: #586e75;
+    }
+
+    .atc-line {
+      stroke: #859900;
+      stroke-width: 5;
+      fill: none;
     }
   </style>
 </head>
@@ -46,26 +155,841 @@
   <!-- Title Slide -->
   <section class="title-slide">
     <div class="title-box">
-      <h1>Introduction to Economics</h1>
-      <h2>Web Lectures</h2>
+      <h1>Perfect Competition</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
     </div>
     <p class="author">Sérgio O. Parreiras</p>
-    <p class="institute">Department of Economics</p>
-    <p class="institute">University of North Carolina at Chapel Hill</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
   </section>
 
-  <!-- Table of Contents -->
-  <section class="frame">
-    <div class="frame-title-bar">
-      <h2 class="frame-title">Lectures</h2>
-    </div>
-    <div class="frame-content">
-      <ul class="toc-list">
-        <li><a href="perfect-competition.html">Perfect Competition</a></li>
-        <li><a href="taxes-subsidies.html">Taxes and Subsidies</a></li>
-      </ul>
-    </div>
+  <!-- Frame 1: Price-Taking Firm -->
+  <section class="graph-frame" id="price-taking-firm">
+    <svg id="price-firm-graph" viewBox="-100 -40 455 420">
+      <defs>
+        <!-- Arrow marker for axes -->
+        <marker id="arrowhead2" markerWidth="12" markerHeight="5" refX="11" refY="2.5" orient="auto">
+          <polygon points="0 0, 12 2.5, 0 5" class="axis-arrow"/>
+        </marker>
+      </defs>
+
+      <!-- Axes -->
+      <!-- Y-axis (P) - extended to P=140 -->
+      <line x1="20" y1="350" x2="20" y2="6" class="axis-line" marker-end="url(#arrowhead2)"/>
+      <!-- X-axis (q) - smaller scale for individual firm -->
+      <line x1="20" y1="350" x2="330" y2="350" class="axis-line" marker-end="url(#arrowhead2)"/>
+
+      <!-- Axis labels -->
+      <text x="20" y="-2" text-anchor="middle" class="axis-label">P</text>
+      <text x="340" y="355" class="axis-label">q</text>
+
+      <!-- MC curve (violet): P = 5 + 2q -->
+      <!-- At q=0, P=5; at q=67.5, P=140 -->
+      <line id="mc-curve-firm" x1="20" y1="338" x2="232" y2="6" stroke="#6c71c4" stroke-width="5" fill="none"/>
+
+      <!-- MC label -->
+      <text x="224" y="-9" class="eq-label" fill="#6c71c4">MC</text>
+
+      <!-- ATC curve: ATC = 100/q + 5 + q -->
+      <!-- Starts at q≈0.87 (where ATC=120) and ends at q≈90 -->
+      <!-- q=0.87: x=23, ATC=120, y=55 -->
+      <!-- Q=2: x=26, ATC=57, y=210 -->
+      <!-- Q=5: x=36, ATC=30, y=276 -->
+      <!-- Q=10: x=51, ATC=25, y=288 (minimum) -->
+      <!-- Q=20: x=83, ATC=30, y=276 -->
+      <!-- Q=30: x=114, ATC=38.3, y=256 -->
+      <!-- Q=40: x=145, ATC=47.5, y=233 -->
+      <!-- Q=50: x=177, ATC=57, y=210 -->
+      <!-- Q=60: x=208, ATC=66.7, y=186 -->
+      <!-- Q=70: x=239, ATC=76.4, y=162 -->
+      <!-- Q=80: x=271, ATC=86.25, y=138 -->
+      <!-- Q=90: x=302, ATC=96.1, y=114 -->
+      <path id="atc-curve-firm"
+        d="M 23 55
+           C 24 100, 26 180, 26 210
+           C 29 250, 36 285, 51 288
+           L 58 287
+           L 64 286
+           L 70 283
+           L 76 280
+           L 83 276
+           L 92 270
+           C 103 263, 114 256, 129 245
+           C 153 228, 177 210, 208 186
+           C 239 162, 271 138, 302 114"
+        class="atc-line"/>
+
+      <!-- ATC label -->
+      <text x="310" y="108" class="eq-label" fill="#859900">ATC</text>
+
+      <!-- Price line (horizontal, thin, solid) - will be animated -->
+      <line id="price-line" x1="20" y1="55" x2="20" y2="55" stroke="#586e75" stroke-width="3" fill="none" opacity="0"/>
+
+      <!-- Price label on y-axis -->
+      <text id="price-label" y="60" class="eq-label" opacity="0">
+        <tspan x="-60" text-anchor="end">P</tspan><tspan x="-55"> = </tspan><tspan>110</tspan>
+      </text>
+
+      <!-- Quantity line (vertical dotted from price-MC intersection to x-axis) -->
+      <line id="q-line-firm" x1="20" y1="55" x2="20" y2="350" class="dotted-line" stroke="#6c71c4" opacity="0"/>
+
+      <!-- Quantity label -->
+      <text id="q-label-firm" x="12" y="375" text-anchor="middle" class="eq-label" fill="#6c71c4" opacity="0">0</text>
+
+      <!-- ATC value line (horizontal dotted from ATC at q to y-axis) -->
+      <line id="atc-value-line" x1="20" y1="55" x2="20" y2="55" class="dotted-line" opacity="0"/>
+
+      <!-- ATC value label -->
+      <text id="atc-value-label" y="60" class="eq-label" opacity="0">
+        <tspan x="-60" text-anchor="end">ATC</tspan><tspan x="-55"> = </tspan><tspan>0</tspan>
+      </text>
+    </svg>
   </section>
+
+  <!-- Frame 2: Market Equilibrium -->
+  <section class="graph-frame" id="market-equilibrium">
+    <svg id="equilibrium-graph" viewBox="-45 -40 760 420">
+      <defs>
+        <!-- Arrow marker for axes (slimmer) -->
+        <marker id="arrowhead" markerWidth="12" markerHeight="5" refX="11" refY="2.5" orient="auto">
+          <polygon points="0 0, 12 2.5, 0 5" class="axis-arrow"/>
+        </marker>
+      </defs>
+
+      <!-- Axes -->
+      <!-- Y-axis (P) - extended to P=140 -->
+      <line x1="20" y1="350" x2="20" y2="6" class="axis-line" marker-end="url(#arrowhead)"/>
+      <!-- X-axis (Q) - to Q=210 -->
+      <line x1="20" y1="350" x2="685" y2="350" class="axis-line" marker-end="url(#arrowhead)"/>
+
+      <!-- Axis labels -->
+      <text x="20" y="-2" text-anchor="middle" class="axis-label">P</text>
+      <text x="695" y="355" class="axis-label">Q</text>
+
+      <!-- Demand curve: P = 120 - Q/2 -->
+      <!-- At Q=0, P=120; at Q=210, P=15 -->
+      <!-- Scale: Q range 0-210 maps to x 20-678 (3.133px per unit) -->
+      <!-- Q=0 -> x=20, P=120 -> y=55 -->
+      <!-- Q=210 -> x=678, P=15 -> y=313 -->
+      <line id="demand-curve" x1="20" y1="55" x2="678" y2="313" class="demand-line"/>
+
+      <!-- Supply curve: P = 5 + 2Q -->
+      <!-- At Q=0, P=5; at Q=67.5, P=140 (top of chart) -->
+      <!-- Q=0 -> x=20, P=5 -> y=350-5*2.46=338 -->
+      <!-- Q=67.5 -> x=20+67.5*3.133=232, P=140 -> y=350-140*2.46=6 -->
+      <line id="supply-curve" x1="20" y1="338" x2="232" y2="6" class="supply-line"/>
+
+      <!-- Equilibrium point: Q*=46, P*=97 -->
+      <!-- Q=46 -> x=60+46*4=244 -->
+      <!-- P=97 -> y=350-97*2.46=111 -->
+
+      <!-- Dotted line from equilibrium to P-axis (horizontal) -->
+      <line id="eq-line-h" x1="244" y1="111" x2="244" y2="111" class="dotted-line"/>
+
+      <!-- Dotted line from equilibrium to Q-axis (vertical) -->
+      <line id="eq-line-v" x1="244" y1="111" x2="244" y2="111" class="dotted-line"/>
+
+      <!-- Equilibrium labels (hidden initially) -->
+      <!-- Y-axis at x=20, so price label at x=-5 gives 25px spacing (same as Q labels) -->
+      <text id="eq-p-label" x="-5" y="116" text-anchor="end" class="eq-label" opacity="0">97</text>
+      <text id="eq-q-label" x="236" y="375" class="eq-label" opacity="0">46</text>
+
+      <!-- Curve labels -->
+      <text x="635" y="325" class="eq-label" fill="#dc322f">D</text>
+      <!-- S label will be created dynamically to follow supply curve -->
+
+      <!-- ATC curve: ATC = 100/Q + 5 + Q -->
+      <!-- Min at Q=10 (ATC=25), dATC/dQ = -100/Q^2 + 1 = 0 at Q=10 -->
+      <!-- Scale: x = 20 + Q*3.133, y = 350 - ATC*2.46 (P range 0-140) -->
+      <!-- Key points (extra detail Q=10-23 for accuracy): -->
+      <!-- Q=2: x=26, ATC=57, y=210 -->
+      <!-- Q=5: x=36, ATC=30, y=276 -->
+      <!-- Q=10: x=51, ATC=25, y=288 (minimum) -->
+      <!-- Q=12: x=58, ATC=25.33, y=287 -->
+      <!-- Q=14: x=64, ATC=26.14, y=286 -->
+      <!-- Q=16: x=70, ATC=27.25, y=283 -->
+      <!-- Q=18: x=76, ATC=28.56, y=280 -->
+      <!-- Q=20: x=83, ATC=30, y=276 -->
+      <!-- Q=23: x=92, ATC=32.35, y=270 -->
+      <!-- Q=30: x=114, ATC=38.3, y=256 -->
+      <!-- Q=40: x=145, ATC=47.5, y=233 -->
+      <!-- Q=50: x=177, ATC=57, y=210 -->
+      <!-- Q=60: x=208, ATC=66.7, y=186 -->
+      <!-- Q=70: x=239, ATC=76.4, y=162 -->
+      <!-- Q=80: x=271, ATC=86.25, y=138 -->
+      <!-- Q=90: x=302, ATC=96.1, y=114 -->
+      <!-- Q=100: x=333, ATC=106, y=89 -->
+      <!-- Q=110: x=365, ATC=115.9, y=65 -->
+      <!-- Q=120: x=396, ATC=125.8, y=40 -->
+      <!-- Q=125: x=412, ATC=130.8, y=28 (near top) -->
+      <path id="atc-curve"
+        d="M 26 210
+           C 29 250, 36 285, 51 288
+           L 58 287
+           L 64 286
+           L 70 283
+           L 76 280
+           L 83 276
+           L 92 270
+           C 103 263, 114 256, 129 245
+           C 153 228, 177 210, 208 186
+           C 239 162, 271 138, 302 114
+           C 317 102, 333 89, 365 65
+           C 380 52, 396 40, 412 28"
+        class="atc-line" opacity="0"/>
+
+      <!-- ATC label (visible immediately with curve) -->
+      <text id="atc-label" x="415" y="20" class="eq-label" fill="#859900">ATC</text>
+    </svg>
+  </section>
+
+
+
+  <!-- KaTeX JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="js/katex-macros.js"></script>
+  <script src="js/scroll-animations.js"></script>
+
+  <!-- Price-Taking Firm Animation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ============================================
+      // PRICE-TAKING FIRM ANIMATION
+      // ============================================
+
+      // Economic parameters (same as market equilibrium)
+      const supplyIntercept = 5;
+      const supplySlope = 2;
+      const atcFixed = 100;
+      const atcConstant = 5;
+      const atcLinear = 1;
+
+      // Coordinate conversion
+      const xOrigin = 20;
+      const yOrigin = 350;
+      const xScale = 470 / 150;  // same scale as market graph
+      const yScale = 2.46;
+
+      const toX = (q) => xOrigin + q * xScale;
+      const toY = (P) => yOrigin - P * yScale;
+
+      // Animation state
+      const priceState = { P: 110 };
+
+      // Function to update all elements based on current price
+      function updateForPrice(P) {
+        // Find quantity where P = MC
+        // MC = supplyIntercept + supplySlope * q
+        // q = (P - supplyIntercept) / supplySlope
+        const q = Math.max(0, (P - supplyIntercept) / supplySlope);
+
+        // ATC at this quantity
+        const ATC = q > 0 ? (atcFixed / q + atcConstant + atcLinear * q) : 999;
+
+        const priceY = toY(P);
+        const qX = toX(q);
+        const atcY = toY(ATC);
+
+        // Update price line (from y-axis to MC curve)
+        document.getElementById('price-line').setAttribute('y1', priceY);
+        document.getElementById('price-line').setAttribute('y2', priceY);
+        document.getElementById('price-line').setAttribute('x2', qX);
+
+        // Update price label
+        const priceLabel = document.getElementById('price-label');
+        priceLabel.querySelectorAll('tspan')[2].textContent = Math.round(P);
+        priceLabel.setAttribute('y', priceY + 5);
+
+        // Update quantity line (from price-MC intersection down to x-axis)
+        document.getElementById('q-line-firm').setAttribute('x1', qX);
+        document.getElementById('q-line-firm').setAttribute('y1', priceY);
+        document.getElementById('q-line-firm').setAttribute('x2', qX);
+
+        // Update quantity label
+        document.getElementById('q-label-firm').textContent = Math.round(q);
+        document.getElementById('q-label-firm').setAttribute('x', qX);
+
+        // Update ATC line (from ATC point to y-axis)
+        if (ATC < 140 && q > 0) {
+          document.getElementById('atc-value-line').setAttribute('x1', qX);
+          document.getElementById('atc-value-line').setAttribute('y1', atcY);
+          document.getElementById('atc-value-line').setAttribute('x2', xOrigin);
+          document.getElementById('atc-value-line').setAttribute('y2', atcY);
+
+          // Update ATC value label
+          const atcLabel = document.getElementById('atc-value-label');
+          atcLabel.querySelectorAll('tspan')[2].textContent = Math.round(ATC);
+          atcLabel.setAttribute('y', atcY + 5);
+        }
+
+        // Create or update profit/loss rectangle if it doesn't exist
+        let profitRect = document.getElementById('profit-rect-firm');
+        if (!profitRect) {
+          profitRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          profitRect.setAttribute('id', 'profit-rect-firm');
+          document.getElementById('price-firm-graph').appendChild(profitRect);
+        }
+
+        // Create or update profit/loss label if it doesn't exist
+        let profitLabel = document.getElementById('profit-label-firm');
+        if (!profitLabel) {
+          profitLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          profitLabel.setAttribute('id', 'profit-label-firm');
+          profitLabel.setAttribute('text-anchor', 'middle');
+          profitLabel.setAttribute('class', 'eq-label');
+          profitLabel.setAttribute('font-weight', 'bold');
+          profitLabel.setAttribute('fill', '#fdf6e3');
+          document.getElementById('price-firm-graph').appendChild(profitLabel);
+        }
+
+        // Update profit/loss rectangle
+        if (q > 0 && ATC < 140) {
+          const isProfit = P > ATC;
+          const rectY = isProfit ? priceY : atcY;
+          const rectHeight = Math.abs(atcY - priceY);
+          const fillColor = isProfit ? '#2aa198' : '#d33682';
+
+          profitRect.setAttribute('x', xOrigin);
+          profitRect.setAttribute('y', rectY);
+          profitRect.setAttribute('width', qX - xOrigin);
+          profitRect.setAttribute('height', rectHeight);
+          profitRect.setAttribute('fill', fillColor);
+          profitRect.setAttribute('opacity', 0.4);
+
+          // Only show label for profits, not losses
+          if (isProfit && rectHeight > 20) {
+            profitLabel.textContent = 'Profits';
+            profitLabel.setAttribute('x', xOrigin + (qX - xOrigin) / 2);
+            profitLabel.setAttribute('y', rectY + rectHeight / 2 + 6);
+            profitLabel.setAttribute('opacity', 1);
+          } else {
+            profitLabel.setAttribute('opacity', 0);
+          }
+        } else {
+          profitRect.setAttribute('opacity', 0);
+          profitLabel.setAttribute('opacity', 0);
+        }
+      }
+
+      // Create timeline for price animation
+      const priceTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#price-taking-firm',
+          start: 'top top',
+          end: '+=500%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      // Phase 1: Show price line at P=110
+      priceTimeline.to('#price-line', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none',
+        onStart: function() {
+          updateForPrice(110);
+        }
+      }, 0);
+
+      priceTimeline.to('#price-label', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 0);
+
+      // Phase 2: Show quantity line and label
+      priceTimeline.to('#q-line-firm', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 0.5);
+
+      priceTimeline.to('#q-label-firm', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 0.5);
+
+      // Phase 3: Show ATC line and label
+      priceTimeline.to('#atc-value-line', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 1.0);
+
+      priceTimeline.to('#atc-value-label', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 1.0);
+
+      // Phase 4: Animate price from 110 to 5
+      priceTimeline.to(priceState, {
+        P: 5,
+        duration: 3,
+        ease: 'none',
+        onUpdate: function() {
+          updateForPrice(priceState.P);
+        }
+      }, 1.5);
+
+      // Small delay before unpin
+    });
+  </script>
+
+  <!-- Market Equilibrium Animation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ============================================
+      // ECONOMIC FUNCTIONS (change these to update the whole graph)
+      // ============================================
+      // Demand: P = demandIntercept - demandSlope * Q
+      const demandIntercept = 120;
+      const demandSlope = 0.5;
+
+      // Supply (MC): P = supplyIntercept + supplySlope * Q
+      const supplyIntercept = 5;
+      const supplySlope = 2;
+
+      // ATC: ATC = atcFixed/Q + atcConstant + atcLinear*Q
+      const atcFixed = 100;
+      const atcConstant = 5;
+      const atcLinear = 1;
+
+      // ============================================
+      // DERIVED VALUES
+      // ============================================
+      // Equilibrium: demandIntercept - demandSlope*Q = supplyIntercept + supplySlope*Q
+      // Q* = (demandIntercept - supplyIntercept) / (demandSlope + supplySlope)
+      const Qeq = (demandIntercept - supplyIntercept) / (demandSlope + supplySlope);
+      const Peq = supplyIntercept + supplySlope * Qeq;
+
+      // ATC at equilibrium
+      const ATCeq = atcFixed / Qeq + atcConstant + atcLinear * Qeq;
+
+      // Minimum ATC (where MC = ATC)
+      // MC = supplyIntercept + supplySlope * q
+      // ATC = atcFixed/q + atcConstant + atcLinear*q
+      // At min: supplySlope * q = atcFixed/q + atcLinear*q  =>  q = sqrt(atcFixed / (supplySlope - atcLinear))
+      const qMinATC = Math.sqrt(atcFixed / (supplySlope - atcLinear));  // = 10
+      const minATC = atcFixed / qMinATC + atcConstant + atcLinear * qMinATC;  // = 25
+
+      // ============================================
+      // COORDINATE CONVERSION
+      // ============================================
+      // Scale: Q range 0-150 maps to x 20-490 (3.133px per unit)
+      // Scale: P range 0-140 maps to y 350-6 (2.46px per unit)
+      const xOrigin = 20;
+      const yOrigin = 350;
+      const xScale = 752 / 240;  // px per Q unit (≈3.133), Q range 0-240
+      const yScale = 2.46;       // px per P unit
+
+      const toX = (Q) => xOrigin + Q * xScale;
+      const toY = (P) => yOrigin - P * yScale;
+
+      // Equilibrium point in SVG coordinates
+      const eqX = toX(Qeq);
+      const eqY = toY(Peq);
+
+      // ATC at equilibrium in SVG coordinates
+      const atcEqY = toY(ATCeq);
+
+      console.log(`Equilibrium: Q*=${Qeq}, P*=${Peq.toFixed(1)}`);
+      console.log(`ATC at Q*: ${ATCeq.toFixed(1)}`);
+      console.log(`Min ATC: ${minATC.toFixed(1)} at q=${qMinATC.toFixed(1)}`);
+      console.log(`SVG coords: eq=(${eqX}, ${eqY}), atcEq=(${eqX}, ${atcEqY})`);
+
+      // ============================================
+      // UPDATE SVG ELEMENTS WITH COMPUTED VALUES
+      // ============================================
+      // Update equilibrium dotted lines starting positions
+      document.getElementById('eq-line-h').setAttribute('x1', eqX);
+      document.getElementById('eq-line-h').setAttribute('y1', eqY);
+      document.getElementById('eq-line-h').setAttribute('x2', eqX);
+      document.getElementById('eq-line-h').setAttribute('y2', eqY);
+
+      document.getElementById('eq-line-v').setAttribute('x1', eqX);
+      document.getElementById('eq-line-v').setAttribute('y1', eqY);
+      document.getElementById('eq-line-v').setAttribute('x2', eqX);
+      document.getElementById('eq-line-v').setAttribute('y2', eqY);
+
+      // Update equilibrium labels
+      document.getElementById('eq-p-label').textContent = Math.round(Peq);
+      document.getElementById('eq-p-label').setAttribute('y', eqY + 5);
+      document.getElementById('eq-q-label').textContent = Math.round(Qeq);
+      document.getElementById('eq-q-label').setAttribute('x', eqX - 8);
+
+      // Create ATC horizontal line (from ATC(Q*) to P-axis)
+      const atcLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      atcLine.setAttribute('id', 'atc-line-h');
+      atcLine.setAttribute('x1', eqX);
+      atcLine.setAttribute('y1', atcEqY);
+      atcLine.setAttribute('x2', eqX);
+      atcLine.setAttribute('y2', atcEqY);
+      atcLine.setAttribute('class', 'dotted-line');
+      document.getElementById('equilibrium-graph').appendChild(atcLine);
+
+      // Create ATC price label (25px spacing from Y-axis, same as Q labels from X-axis)
+      const atcPriceLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      atcPriceLabel.setAttribute('id', 'atc-p-label');
+      atcPriceLabel.setAttribute('x', -5);
+      atcPriceLabel.setAttribute('y', atcEqY + 5);
+      atcPriceLabel.setAttribute('text-anchor', 'end');
+      atcPriceLabel.setAttribute('class', 'eq-label');
+      atcPriceLabel.setAttribute('opacity', 0);
+      atcPriceLabel.textContent = Math.round(ATCeq);
+      document.getElementById('equilibrium-graph').appendChild(atcPriceLabel);
+
+      // Create profit rectangle: from (0, P*) to (Q*, ATC(Q*))
+      // Rectangle corners: top-left (xOrigin, eqY), bottom-right (eqX, atcEqY)
+      const profitRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      profitRect.setAttribute('id', 'profit-rect');
+      profitRect.setAttribute('x', xOrigin);
+      profitRect.setAttribute('y', eqY);  // P* is higher (lower y value)
+      profitRect.setAttribute('width', eqX - xOrigin);
+      profitRect.setAttribute('height', atcEqY - eqY);  // from P* down to ATC(Q*)
+      profitRect.setAttribute('fill', '#2aa198');  // Solarized cyan
+      profitRect.setAttribute('opacity', 0);
+      document.getElementById('equilibrium-graph').appendChild(profitRect);
+
+      // Create profit label
+      const profitLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      profitLabel.setAttribute('id', 'profit-label');
+      profitLabel.setAttribute('x', xOrigin + (eqX - xOrigin) / 2);  // center of rectangle
+      profitLabel.setAttribute('y', eqY + (atcEqY - eqY) / 2 + 6);   // center of rectangle
+      profitLabel.setAttribute('text-anchor', 'middle');
+      profitLabel.setAttribute('class', 'eq-label');
+      profitLabel.setAttribute('fill', '#fdf6e3');  // Light text on green
+      profitLabel.setAttribute('font-weight', 'bold');
+      profitLabel.setAttribute('opacity', 0);
+      profitLabel.textContent = 'Profits';
+      document.getElementById('equilibrium-graph').appendChild(profitLabel);
+
+      // Create Supply curve label (dynamic, pinned at 80% of visible supply curve, 30px above)
+      const supplyLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      supplyLabel.setAttribute('id', 'supply-label');
+      const initialSupplyEndQ = 140 / supplySlope;  // Q where P=140
+      const supplyStartX = xOrigin;
+      const supplyStartY = toY(supplyIntercept);
+      const initialSupplyEndX = toX(initialSupplyEndQ);
+      const initialSupplyEndY = toY(140);
+      const labelX = supplyStartX + 0.8 * (initialSupplyEndX - supplyStartX);
+      const labelY = supplyStartY + 0.8 * (initialSupplyEndY - supplyStartY) - 30;
+      supplyLabel.setAttribute('x', labelX);
+      supplyLabel.setAttribute('y', labelY);
+      supplyLabel.setAttribute('class', 'eq-label');
+      supplyLabel.setAttribute('fill', '#268bd2');
+      supplyLabel.textContent = 'S';
+      document.getElementById('equilibrium-graph').appendChild(supplyLabel);
+
+      // Create MC line (original supply curve, stays pinned when k changes)
+      const mcLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      mcLine.setAttribute('id', 'mc-line');
+      mcLine.setAttribute('x1', '20');
+      mcLine.setAttribute('y1', '338');
+      mcLine.setAttribute('x2', '232');
+      mcLine.setAttribute('y2', '6');
+      mcLine.setAttribute('stroke', '#6c71c4');  // Solarized violet
+      mcLine.setAttribute('stroke-width', '5');
+      mcLine.setAttribute('opacity', '0');
+      document.getElementById('equilibrium-graph').appendChild(mcLine);
+
+      // Create MC label
+      const mcLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      mcLabel.setAttribute('id', 'mc-label');
+      mcLabel.setAttribute('x', '224');
+      mcLabel.setAttribute('y', '-9');
+      mcLabel.setAttribute('class', 'eq-label');
+      mcLabel.setAttribute('fill', '#6c71c4');  // Solarized violet
+      mcLabel.setAttribute('opacity', '0');
+      mcLabel.textContent = 'MC';
+      document.getElementById('equilibrium-graph').appendChild(mcLabel);
+
+      // Create individual quantity vertical line (from P* down to x-axis at q)
+      const indivQLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      indivQLine.setAttribute('id', 'indiv-q-line');
+      indivQLine.setAttribute('x1', eqX);  // starts at market eq position
+      indivQLine.setAttribute('y1', eqY);
+      indivQLine.setAttribute('x2', eqX);
+      indivQLine.setAttribute('y2', eqY);  // collapsed initially
+      indivQLine.setAttribute('class', 'dotted-line');
+      indivQLine.setAttribute('stroke', '#6c71c4');  // violet to match MC
+      indivQLine.setAttribute('opacity', '0');
+      document.getElementById('equilibrium-graph').appendChild(indivQLine);
+
+      // Create individual quantity label
+      const indivQLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      indivQLabel.setAttribute('id', 'indiv-q-label');
+      indivQLabel.setAttribute('x', eqX - 8);
+      indivQLabel.setAttribute('y', '375');
+      indivQLabel.setAttribute('text-anchor', 'middle');
+      indivQLabel.setAttribute('class', 'eq-label');
+      indivQLabel.setAttribute('fill', '#6c71c4');  // violet to match MC
+      indivQLabel.setAttribute('opacity', '0');
+      indivQLabel.textContent = 'q';
+      document.getElementById('equilibrium-graph').appendChild(indivQLabel);
+
+      // ============================================
+      // ANIMATION TIMELINE
+      // ============================================
+      const mainTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#market-equilibrium',
+          start: 'top top',
+          end: '+=680%',         // Adjusted for shorter ATC line animation
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      // Phase 1 (0-25%): Equilibrium dotted lines animation
+      mainTimeline.to('#eq-line-h', {
+        attr: { x2: xOrigin },
+        duration: 1,
+        ease: 'none'
+      }, 0);
+
+      mainTimeline.to('#eq-line-v', {
+        attr: { y2: yOrigin },
+        duration: 1,
+        ease: 'none'
+      }, 0);
+
+      mainTimeline.to('#eq-p-label', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 0.7);
+
+      mainTimeline.to('#eq-q-label', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 0.7);
+
+      // Phase 2 (25-50%): Delay / pause
+
+      // Phase 3 (50-75%): ATC curve draws from left to right
+      const atcPath = document.getElementById('atc-curve');
+      const atcLength = atcPath.getTotalLength();
+
+      gsap.set('#atc-curve', {
+        strokeDasharray: atcLength,
+        strokeDashoffset: atcLength,
+        opacity: 1
+      });
+
+      gsap.set('#atc-label', { opacity: 0 });
+
+      mainTimeline.to('#atc-curve', {
+        strokeDashoffset: 0,
+        duration: 1,
+        ease: 'none'
+      }, 2);
+
+      mainTimeline.set('#atc-label', {
+        opacity: 1
+      }, 3);
+
+      // Phase 4 (75-90%): Horizontal line from (Q*, ATC(Q*)) to P-axis
+      mainTimeline.to('#atc-line-h', {
+        attr: { x2: xOrigin },
+        duration: 0.8,
+        ease: 'none'
+      }, 3.5);
+
+      // Show ATC price label
+      mainTimeline.to('#atc-p-label', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 4.0);
+
+      // Phase 5: Profit rectangle fills in
+      mainTimeline.to('#profit-rect', {
+        opacity: 0.4,
+        duration: 1,
+        ease: 'none'
+      }, 4.3);
+
+      // Profit label appears at Phase 5 (updateForK will hide it when P < 55)
+      mainTimeline.to('#profit-label', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'none'
+      }, 5.0);
+
+      // Phase 6: Supply curve shifts - k goes from 1 to 0.133
+      // P = supplyIntercept + supplySlope * k * Q
+      // When k=1: original supply curve (Q*=46, P*=97)
+      // When k=0.133: flatter supply curve reaching equilibrium at right edge (Q*=150, P*=45)
+
+      // We need to animate multiple elements simultaneously based on k
+      // Use GSAP's onUpdate to recalculate positions as k changes
+
+      const kAnimState = { k: 1 };
+
+      // Function to compute equilibrium for a given k
+      function computeEqForK(k) {
+        // Market: Supply = Demand
+        // Supply: P = supplyIntercept + supplySlope * k * Q_market
+        // Demand: P = demandIntercept - demandSlope * Q_market
+        const effectiveSupplySlope = supplySlope * k;
+        const Q_market = (demandIntercept - supplyIntercept) / (demandSlope + effectiveSupplySlope);
+        const P = supplyIntercept + effectiveSupplySlope * Q_market;
+        
+        // Individual firm: P = MC(q) = supplyIntercept + supplySlope * q
+        // (MC is original supply, not scaled by k)
+        const q = (P - supplyIntercept) / supplySlope;
+        
+        // ATC evaluated at individual quantity q
+        const ATC = atcFixed / q + atcConstant + atcLinear * q;
+        
+        return { Q_market, P, q, ATC };
+      }
+
+      // Function to update all elements based on k
+      function updateForK(k) {
+        const eq = computeEqForK(k);
+        const newEqX = toX(eq.Q_market);  // Market equilibrium Q
+        const newEqY = toY(eq.P);
+        const newIndivQX = toX(eq.q);     // Individual firm quantity
+        const newAtcEqY = toY(eq.ATC);
+
+        console.log(`k=${k.toFixed(4)}, P=${eq.P.toFixed(1)}, q=${eq.q.toFixed(1)}, ATC=${eq.ATC.toFixed(1)}, profit=${(eq.P - eq.ATC).toFixed(1)}`);
+
+        // Update supply curve endpoints
+        // At Q=0, P=supplyIntercept (always)
+        // When k>0: find Q where supply reaches top of chart (P=140)
+        // When k→0.133: supply extends to Q=150 (right edge) where it meets demand at P=45
+        const effectiveSupplySlope = supplySlope * k;
+        const maxQ = effectiveSupplySlope > 0.01 ? (140 - supplyIntercept) / effectiveSupplySlope : 150;
+        const supplyEndX = toX(Math.min(maxQ, 240));
+        const supplyEndY = toY(supplyIntercept + effectiveSupplySlope * Math.min(maxQ, 240));
+
+        document.getElementById('supply-curve').setAttribute('x2', supplyEndX);
+        document.getElementById('supply-curve').setAttribute('y2', supplyEndY);
+
+        // Update Supply label position (pinned at 80% of visible supply curve, 30px above)
+        const supplyStartX = xOrigin;
+        const supplyStartY = toY(supplyIntercept);
+        const labelX = supplyStartX + 0.8 * (supplyEndX - supplyStartX);
+        const labelY = supplyStartY + 0.8 * (supplyEndY - supplyStartY) - 30;
+        document.getElementById('supply-label').setAttribute('x', labelX);
+        document.getElementById('supply-label').setAttribute('y', labelY);
+
+        // Update equilibrium horizontal line (from market eq point to P-axis)
+        document.getElementById('eq-line-h').setAttribute('x1', newEqX);
+        document.getElementById('eq-line-h').setAttribute('y1', newEqY);
+        document.getElementById('eq-line-h').setAttribute('x2', xOrigin);
+        document.getElementById('eq-line-h').setAttribute('y2', newEqY);
+
+        // Update equilibrium vertical line (from market eq point to Q-axis)
+        document.getElementById('eq-line-v').setAttribute('x1', newEqX);
+        document.getElementById('eq-line-v').setAttribute('y1', newEqY);
+        document.getElementById('eq-line-v').setAttribute('x2', newEqX);
+        document.getElementById('eq-line-v').setAttribute('y2', yOrigin);
+
+        // Update equilibrium labels (market Q)
+        document.getElementById('eq-p-label').textContent = Math.round(eq.P);
+        document.getElementById('eq-p-label').setAttribute('y', newEqY + 5);
+        document.getElementById('eq-q-label').textContent = Math.round(eq.Q_market);
+        document.getElementById('eq-q-label').setAttribute('x', newEqX - 8);
+
+        // Update individual q vertical line (from P* on MC curve down to x-axis)
+        document.getElementById('indiv-q-line').setAttribute('x1', newIndivQX);
+        document.getElementById('indiv-q-line').setAttribute('y1', newEqY);
+        document.getElementById('indiv-q-line').setAttribute('x2', newIndivQX);
+        document.getElementById('indiv-q-line').setAttribute('y2', yOrigin);
+
+        // Update individual q label
+        document.getElementById('indiv-q-label').textContent = Math.round(eq.q);
+        document.getElementById('indiv-q-label').setAttribute('x', newIndivQX - 8);
+
+        // Update ATC horizontal line (from individual q point to P-axis)
+        document.getElementById('atc-line-h').setAttribute('x1', newIndivQX);
+        document.getElementById('atc-line-h').setAttribute('y1', newAtcEqY);
+        document.getElementById('atc-line-h').setAttribute('x2', xOrigin);
+        document.getElementById('atc-line-h').setAttribute('y2', newAtcEqY);
+
+        // Update ATC price label
+        document.getElementById('atc-p-label').textContent = Math.round(eq.ATC);
+        document.getElementById('atc-p-label').setAttribute('y', newAtcEqY + 5);
+
+        // Update profit/loss rectangle (width is individual q, not market Q)
+        // Profit when P > ATC(q), Loss when P < ATC(q)
+        const isProfit = eq.P > eq.ATC;
+        const rectY = isProfit ? newEqY : newAtcEqY;
+        const rectHeight = Math.abs(newAtcEqY - newEqY);
+        const fillColor = isProfit ? '#2aa198' : '#d33682';  // cyan for profits, magenta for losses
+        const labelText = isProfit ? 'Profits' : 'Losses';
+
+        // Gradually fade label from k=1 (P=97) to barely visible at k=5/26 (P=55)
+        const kStart = 1;         // full opacity
+        const kEnd = 5/26;        // barely visible (P=55)
+        const opacityStart = 1;
+        const opacityEnd = 0.05;  // barely visible
+        
+        let labelOpacity;
+        if (k >= kStart) {
+          labelOpacity = opacityStart;
+        } else if (k <= kEnd) {
+          labelOpacity = opacityEnd;
+        } else {
+          // Linear fade
+          labelOpacity = opacityEnd + (opacityStart - opacityEnd) * (k - kEnd) / (kStart - kEnd);
+        }
+
+        document.getElementById('profit-rect').setAttribute('y', rectY);
+        document.getElementById('profit-rect').setAttribute('width', newIndivQX - xOrigin);
+        document.getElementById('profit-rect').setAttribute('height', rectHeight);
+        document.getElementById('profit-rect').setAttribute('fill', fillColor);
+        document.getElementById('profit-rect').setAttribute('opacity', 0.4);
+
+        // Update profit/loss label
+        document.getElementById('profit-label').textContent = labelText;
+        document.getElementById('profit-label').setAttribute('x', xOrigin + (newIndivQX - xOrigin) / 2);
+        document.getElementById('profit-label').setAttribute('y', rectY + rectHeight / 2 + 6);
+        gsap.set('#profit-label', { opacity: labelOpacity });
+
+        // Show/hide MC line, label, and individual q elements based on k (only visible when k != 1)
+        const mcOpacity = Math.abs(k - 1) < 0.001 ? 0 : 1;
+        document.getElementById('mc-line').setAttribute('opacity', mcOpacity);
+        document.getElementById('mc-label').setAttribute('opacity', mcOpacity);
+        document.getElementById('indiv-q-line').setAttribute('opacity', mcOpacity);
+        document.getElementById('indiv-q-label').setAttribute('opacity', mcOpacity);
+      }
+
+      // Phase 6: Animate k from 1 to zero profit point
+      // k = 1: Q*=46, P*=97 (profits)
+      // k = 1/19: P*=25 (zero profit, at minATC), Q_market=190, q=10
+      const kFinal = 1/19;  // ≈0.053, gives P*=25 (zero profit)
+      mainTimeline.to(kAnimState, {
+        k: kFinal,
+        duration: 2,
+        ease: 'none',
+        onUpdate: function() {
+          updateForK(kAnimState.k);
+        }
+      }, 5.8);
+
+      // Phase 7: Small delay before unpin
+    });
+  </script>
 
 </body>
 </html>

@@ -281,27 +281,71 @@ ol > li::before {
   margin-right: 0.5em;
 }
 
-/* Block environments - Crane theme (amber title, light yellow body, black text, no borders) */
+/* Block environments - Crane (amber title bar, light body) */
 .block {
   margin: 1rem 0;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .block-title {
   background: var(--crane-amber);
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 1rem;
   font-weight: bold;
   color: #000000;
 }
 
 .block-body {
-  background: #fff8e1;  /* Light yellow */
+  background: #fffde7;
   padding: 1rem;
-  color: #000000;
+  border: 1px solid var(--crane-amber-light);
+  border-top: none;
 }
 
-/* Definition, Example, Alert blocks - all use same Crane styling */
+/* Definition block */
+.definition {
+  border-left: 4px solid var(--crane-blue);
+}
+
+.definition .block-title {
+  background: var(--crane-blue);
+  color: #ffffff;
+}
+
+.definition .block-body {
+  background: #e3f2fd;
+  border-color: #bbdefb;
+}
+
+/* Example block */
+.example {
+  border-left: 4px solid #2e7d32;
+}
+
+.example .block-title {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+.example .block-body {
+  background: #e8f5e9;
+  border-color: #c8e6c9;
+}
+
+/* Alert/important block */
+.alert {
+  border-left: 4px solid #c62828;
+}
+
+.alert .block-title {
+  background: #c62828;
+  color: #ffffff;
+}
+
+.alert .block-body {
+  background: #ffebee;
+  border-color: #ffcdd2;
+}
 
 /* Emphasis */
 .structure {
