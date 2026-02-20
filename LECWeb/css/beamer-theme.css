@@ -57,7 +57,7 @@
 }
 
 html {
-  font-size: 18px;
+  font-size: 24px;
   scroll-behavior: smooth;
 }
 
@@ -89,19 +89,19 @@ body {
 .frame-title {
   margin: 0;
   font-size: 1.4rem;
-  font-weight: bold;
+  font-weight: 600;
   color: var(--frame-title-text);
 }
 
 .frame-subtitle {
-  margin: 0.2rem 0 0 0;
-  font-size: 0.95rem;
+  margin: 0 0 0 0;
+  font-size: 1.15rem;
   color: var(--frame-subtitle-text);
-  font-weight: normal;
+  font-weight: 600;
 }
 
 .frame-content {
-  padding: var(--frame-padding);
+  padding: calc(var(--frame-padding) / 2);
   min-height: 400px;
   background: #ffffff;
 }
@@ -234,7 +234,7 @@ ul, ol {
 }
 
 li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.9rem;
 }
 
 /* Itemize bullets - triangles like Beamer */
@@ -255,7 +255,7 @@ ul ul > li::before {
   content: "▹";
 }
 
-/* Enumerate - Beamer circles */
+/* Enumerate - Beamer circles (drawn with drop shadow) */
 ol {
   list-style: none;
   counter-reset: beamer-enum;
@@ -279,6 +279,8 @@ ol > li::before {
   justify-content: center;
   margin-left: -2em;
   margin-right: 0.5em;
+  border: 1.5px solid #000000;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Block environments - Crane theme (amber title, light yellow body, black text, no borders) */
@@ -332,6 +334,49 @@ ol > li::before {
   flex: 0.6;
 }
 
+/* Beamer description lists — dt and dd on same line */
+dl.beamer-description {
+  margin: 0;
+}
+
+dl.beamer-description dt {
+  float: left;
+  clear: left;
+  font-weight: bold;
+  margin-right: 0.4em;
+  margin-top: 0.5rem;
+}
+
+dl.beamer-description dt::after {
+  content: "";
+}
+
+dl.beamer-description dd {
+  margin-left: 0;
+  margin-top: 0.5rem;
+  overflow: hidden; /* keeps dd beside float */
+}
+
+dl.beamer-description dd + dt:first-of-type,
+dl.beamer-description dt:first-of-type {
+  margin-top: 0;
+}
+
+dl.beamer-description dt:first-of-type + dd {
+  margin-top: 0;
+}
+
+/* LaTeX font size helpers */
+.fs-14pt { font-size: 1.27em; line-height: 1.3; }
+.fs-11pt { font-size: 1em; line-height: 1.5; }
+.fs-10pt { font-size: 0.91em; line-height: 1.4; }
+
+/* LaTeX vertical spacing helpers — \vspace after title bar */
+.vspace-neg-9mm > .frame-content { padding-top: 0; }
+.vspace-neg-5mm > .frame-content { padding-top: 0.4rem; }
+.vspace-neg-4mm > .frame-content { padding-top: 0.55rem; }
+.vspace-neg-3mm > .frame-content { padding-top: 0.7rem; }
+
 /* Reveal animations - hidden by default */
 .reveal {
   opacity: 0;
@@ -379,6 +424,32 @@ ol > li::before {
   height: auto;
 }
 
+/* ============================================
+   OVERLAY SYSTEM
+   For frames with Beamer overlays (\pause, \uncover, <1->)
+   ============================================ */
+
+.overlay-frame {
+  position: relative;
+}
+
+.overlay-frame .frame-title-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.overlay-frame .overlay {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.overlay-frame .overlay.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Print styles */
 @media print {
   body {
@@ -416,12 +487,17 @@ ol > li::before {
     opacity: 1;
     transform: none;
   }
+
+  .overlay-frame .overlay {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   html {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .frame {
