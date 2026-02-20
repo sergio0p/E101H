@@ -31,6 +31,15 @@
     <p class="author">Sérgio O. Parreiras</p>
     <p class="institute">Economics Department, UNC at Chapel Hill</p>
     <p class="date">Spring 2026</p>
+
+    <!-- Table of Contents -->
+    <nav style="margin-top: 2rem; text-align: left; background: #eee; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+      <a href="#demand-frame" style="margin-left: 1rem;">1. Demand</a>
+      <a href="#mr-frame" style="margin-left: 1rem;">2. Marginal Revenue</a>
+      <a href="#equilibrium-frame" style="margin-left: 1rem;">3. Equilibrium</a>
+      <a href="#welfare-frame" style="margin-left: 1rem;">4. Welfare</a>
+      <a href="#lerner-frame" style="margin-left: 1rem;">5. Mark-up</a>
+    </nav>
   </section>
 
   <!-- Frame 1: Demand Curve Animation -->
@@ -138,7 +147,7 @@
   </section>
 
   <!-- Frame 2: Marginal Revenue -->
-  <section class="frame">
+  <section class="frame" id="mr-frame">
     <div class="frame-title-bar">
       <h1 class="frame-title">Monopoly</h1>
       <p class="frame-subtitle">Marginal Revenue</p>
@@ -426,9 +435,9 @@
           $$= \dfrac{1}{\eta_{Q,P}}$$
         </div>
       </div>
-      <!-- Right column: static equilibrium graph -->
-      <div style="flex: 1; min-width: 0; position: relative; left: -10rem;">
-        <svg viewBox="-40 -60 600 500" style="width: 165%;">
+      <!-- Right column: interactive equilibrium graph -->
+      <div style="flex: 1; min-width: 0; position: relative; left: -12.5rem;">
+        <svg id="lerner-graph" viewBox="-40 -60 600 500" style="width: 165%;">
           <defs>
             <marker id="arrow-lerner" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
               <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
@@ -442,30 +451,45 @@
                 font-size="27" font-style="italic" fill="#586e75">P</text>
           <text x="530" y="365" font-family="Times New Roman, serif"
                 font-size="27" font-style="italic" fill="#586e75">Q</text>
-          <!-- Demand curve -->
-          <line x1="60" y1="110" x2="460" y2="360" stroke="#dc322f" stroke-width="3"/>
-          <text x="420" y="320" font-family="Times New Roman, serif"
+          <!-- Demand curve (dynamic) -->
+          <line id="lerner-demand" x1="60" y1="110" x2="460" y2="360" stroke="#dc322f" stroke-width="3"/>
+          <text id="lerner-demand-label" x="420" y="320" font-family="Times New Roman, serif"
                 font-size="24" font-style="italic" fill="#dc322f">D</text>
-          <!-- MR curve -->
-          <line x1="60" y1="110" x2="280" y2="385" stroke="#268bd2" stroke-width="3"/>
-          <text x="258" y="340" font-family="Times New Roman, serif"
+          <!-- MR curve (dynamic) -->
+          <line id="lerner-mr" x1="60" y1="110" x2="280" y2="385" stroke="#268bd2" stroke-width="3"/>
+          <text id="lerner-mr-label" x="258" y="340" font-family="Times New Roman, serif"
                 font-size="24" font-style="italic" fill="#268bd2">MR</text>
-          <!-- MC curve -->
+          <!-- MC curve (fixed) -->
           <line x1="60" y1="335" x2="420" y2="110" stroke="#859900" stroke-width="3"/>
           <text x="400" y="100" font-family="Times New Roman, serif"
                 font-size="24" font-style="italic" fill="#859900">MC</text>
-          <!-- Equilibrium: dashed lines, dots, labels (all visible) -->
-          <line x1="180" y1="185" x2="180" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
-          <line x1="60" y1="185" x2="180" y2="185" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
-          <line x1="60" y1="260" x2="180" y2="260" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
-          <circle cx="180" cy="260" r="4" fill="#586e75"/>
-          <circle cx="180" cy="185" r="4" fill="#586e75"/>
-          <text x="180" y="385" text-anchor="middle" font-family="Times New Roman, serif"
+
+          <!-- Pivot point where D crosses MC (Q=90, P=55) -->
+          <circle cx="240" cy="222.5" r="5" fill="#586e75" opacity="0.5"/>
+
+          <!-- Mark-up bracket (left of y-axis): from P* to MC -->
+          <line id="lerner-bracket" x1="50" y1="185" x2="50" y2="260" stroke="#d33682" stroke-width="3"/>
+          <line id="lerner-cap-top" x1="45" y1="185" x2="55" y2="185" stroke="#d33682" stroke-width="3"/>
+          <line id="lerner-cap-bot" x1="45" y1="260" x2="55" y2="260" stroke="#d33682" stroke-width="3"/>
+
+          <!-- Equilibrium: dashed lines, dots, labels (dynamic) -->
+          <line id="lerner-v-line" x1="180" y1="185" x2="180" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <line id="lerner-p-line" x1="60" y1="185" x2="180" y2="185" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <line id="lerner-mc-line" x1="60" y1="260" x2="180" y2="260" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <circle id="lerner-mc-dot" cx="180" cy="260" r="4" fill="#586e75"/>
+          <circle id="lerner-p-dot" cx="180" cy="185" r="4" fill="#586e75"/>
+          <text id="lerner-q-label" x="180" y="385" text-anchor="middle" font-family="Times New Roman, serif"
                 font-size="21" fill="#586e75">Q*</text>
-          <text x="45" y="190" text-anchor="end" font-family="Times New Roman, serif"
+          <text id="lerner-p-label" x="45" y="190" text-anchor="end" font-family="Times New Roman, serif"
                 font-size="21" fill="#586e75">P*</text>
-          <text x="45" y="265" text-anchor="end" font-family="Times New Roman, serif"
+          <text id="lerner-mc-label" x="45" y="265" text-anchor="end" font-family="Times New Roman, serif"
                 font-size="21" fill="#586e75">MC</text>
+
+          <!-- Elasticity display (top right) -->
+          <text id="lerner-eta-display" x="510" y="0" text-anchor="end" font-family="Times New Roman, serif"
+                font-size="18" fill="#586e75">η = -2.33</text>
+          <text id="lerner-markup-display" x="510" y="22" text-anchor="end" font-family="Times New Roman, serif"
+                font-size="18" fill="#d33682">Mark-up = 42.9%</text>
         </svg>
       </div>
     </div>
@@ -878,6 +902,150 @@
     tl4.to('#lerner-line-3', { opacity: 1, duration: 1, ease: 'none' }, 1.5);
     tl4.to('#lerner-line-4', { opacity: 1, duration: 1, ease: 'none' }, 3);
     tl4.to('#lerner-line-5', { opacity: 1, duration: 1, ease: 'none' }, 4.5);
+
+    // =====================================================
+    // LERNER GRAPH ARROW KEY INTERACTION
+    // =====================================================
+
+    let lernerNavEnabled = false;
+
+    // Enable/disable arrow nav based on scroll position
+    ScrollTrigger.create({
+      trigger: '#lerner-frame',
+      start: 'top top',
+      end: '+=400%',
+      onEnter: () => { lernerNavEnabled = true; },
+      onLeave: () => { lernerNavEnabled = false; },
+      onEnterBack: () => { lernerNavEnabled = true; },
+      onLeaveBack: () => { lernerNavEnabled = false; }
+    });
+
+    // Coordinate system
+    const lernerXOrigin = 60, lernerYOrigin = 360;
+    const lernerXScale = 2, lernerYScale = 2.5;
+    const toX = (q) => lernerXOrigin + q * lernerXScale;
+    const toY = (p) => lernerYOrigin - p * lernerYScale;
+
+    // Pivot point: where D crosses MC (fixed)
+    // D: P = 100 - 0.5Q, MC: P = 10 + 0.5Q => Q=90, P=55
+    const pivotQ = 90, pivotP = 55;
+
+    // Demand slope parameter (controls elasticity)
+    // Demand rotates around pivot: P - 55 = -slope * (Q - 90)
+    // => P = 55 + 90*slope - slope*Q = (55 + 90*slope) - slope*Q
+    let demandSlope = 0.5;
+    const minSlope = 0.25;  // more elastic (flatter)
+    const maxSlope = 1.5;   // more inelastic (steeper)
+    const slopeStep = 0.05;
+
+    function updateLernerGraph() {
+      // MC is fixed: P = 10 + 0.5Q
+      // Demand rotates around (90, 55): P = (55 + 90*slope) - slope*Q
+      // Let intercept a = 55 + 90*slope
+      // MR has same intercept, double slope: MR = a - 2*slope*Q
+      // Equilibrium: MR = MC => a - 2*slope*Q = 10 + 0.5*Q
+      // => (a - 10) = Q * (2*slope + 0.5)
+      // => Q* = (45 + 90*slope) / (2*slope + 0.5)
+
+      const a = 55 + 90 * demandSlope;  // demand intercept
+      const qStar = (45 + 90 * demandSlope) / (2 * demandSlope + 0.5);
+      const pStar = a - demandSlope * qStar;
+      const mcStar = 10 + 0.5 * qStar;
+
+      // Elasticity at equilibrium: η = -(P / (slope * Q))
+      const eta = -pStar / (demandSlope * qStar);
+
+      // Mark-up = (P* - MC) / P*
+      const markup = (pStar - mcStar) / pStar;
+
+      // SVG coordinates
+      const xStar = toX(qStar);
+      const yP = toY(pStar);
+      const yMC = toY(mcStar);
+
+      // Update demand curve (rotates around pivot)
+      // Start at Q=0: P = a
+      // End where P=0: Q = a/slope
+      const qDemandEnd = Math.min(a / demandSlope, 230);
+      document.getElementById('lerner-demand').setAttribute('x1', toX(0));
+      document.getElementById('lerner-demand').setAttribute('y1', toY(a));
+      document.getElementById('lerner-demand').setAttribute('x2', toX(qDemandEnd));
+      document.getElementById('lerner-demand').setAttribute('y2', toY(0));
+      // Move D label near end of curve
+      const dLabelQ = Math.min(qDemandEnd - 20, pivotQ + 30);
+      const dLabelP = a - demandSlope * dLabelQ;
+      document.getElementById('lerner-demand-label').setAttribute('x', toX(dLabelQ));
+      document.getElementById('lerner-demand-label').setAttribute('y', toY(dLabelP) + 25);
+
+      // Update MR curve (same intercept, double slope)
+      // Start at Q=0: P = a
+      // End where P goes below axis or at reasonable Q
+      const qMRzero = a / (2 * demandSlope);
+      const mrEndQ = Math.min(qMRzero + 20, 150);
+      const mrEndP = a - 2 * demandSlope * mrEndQ;
+      document.getElementById('lerner-mr').setAttribute('x1', toX(0));
+      document.getElementById('lerner-mr').setAttribute('y1', toY(a));
+      document.getElementById('lerner-mr').setAttribute('x2', toX(mrEndQ));
+      document.getElementById('lerner-mr').setAttribute('y2', toY(mrEndP));
+      // Move MR label
+      const mrLabelQ = Math.min(qMRzero - 10, qStar + 30);
+      const mrLabelP = a - 2 * demandSlope * mrLabelQ;
+      document.getElementById('lerner-mr-label').setAttribute('x', toX(mrLabelQ));
+      document.getElementById('lerner-mr-label').setAttribute('y', toY(mrLabelP) + 25);
+
+      // Update equilibrium elements
+      document.getElementById('lerner-v-line').setAttribute('x1', xStar);
+      document.getElementById('lerner-v-line').setAttribute('x2', xStar);
+      document.getElementById('lerner-v-line').setAttribute('y1', yP);
+
+      document.getElementById('lerner-p-line').setAttribute('x2', xStar);
+      document.getElementById('lerner-p-line').setAttribute('y1', yP);
+      document.getElementById('lerner-p-line').setAttribute('y2', yP);
+
+      document.getElementById('lerner-mc-line').setAttribute('x2', xStar);
+      document.getElementById('lerner-mc-line').setAttribute('y1', yMC);
+      document.getElementById('lerner-mc-line').setAttribute('y2', yMC);
+
+      document.getElementById('lerner-p-dot').setAttribute('cx', xStar);
+      document.getElementById('lerner-p-dot').setAttribute('cy', yP);
+
+      document.getElementById('lerner-mc-dot').setAttribute('cx', xStar);
+      document.getElementById('lerner-mc-dot').setAttribute('cy', yMC);
+
+      document.getElementById('lerner-q-label').setAttribute('x', xStar);
+
+      document.getElementById('lerner-p-label').setAttribute('y', yP + 5);
+      document.getElementById('lerner-mc-label').setAttribute('y', yMC + 5);
+
+      // Update bracket
+      document.getElementById('lerner-bracket').setAttribute('y1', yP);
+      document.getElementById('lerner-bracket').setAttribute('y2', yMC);
+      document.getElementById('lerner-cap-top').setAttribute('y1', yP);
+      document.getElementById('lerner-cap-top').setAttribute('y2', yP);
+      document.getElementById('lerner-cap-bot').setAttribute('y1', yMC);
+      document.getElementById('lerner-cap-bot').setAttribute('y2', yMC);
+
+      // Update displays
+      document.getElementById('lerner-eta-display').textContent = 'η = ' + eta.toFixed(2);
+      document.getElementById('lerner-markup-display').textContent = 'Mark-up = ' + (markup * 100).toFixed(1) + '%';
+    }
+
+    // Arrow key handler
+    document.addEventListener('keydown', function(e) {
+      if (!lernerNavEnabled) return;
+      if (e.key === 'ArrowRight' && demandSlope < maxSlope) {
+        demandSlope = Math.min(demandSlope + slopeStep, maxSlope);
+      } else if (e.key === 'ArrowLeft' && demandSlope > minSlope) {
+        demandSlope = Math.max(demandSlope - slopeStep, minSlope);
+      } else {
+        return;
+      }
+      e.preventDefault();
+      updateLernerGraph();
+    });
+
+    // Initialize
+    updateLernerGraph();
 
     // =====================================================
     // INTERACTIVE D/MR AND TR GRAPHS (Frame 7)
