@@ -12,131 +12,7 @@
   <link rel="stylesheet" href="css/beamer-theme.css">
 
   <style>
-    :root {
-      --crane-amber: #f9a825;
-      --text-primary: #000000;
-      --text-secondary: #333333;
-      --text-muted: #666666;
-    }
-
-    .title-slide {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      background: #ffffff;
-    }
-
-    .title-slide .title-box {
-      background: var(--crane-amber);
-      padding: 1.5rem 3rem 1.25rem 3rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
-    }
-
-    .title-slide h1 {
-      font-size: 2.5rem;
-      margin: 0 0 0.5rem 0;
-      color: var(--text-primary);
-    }
-
-    .title-slide h2 {
-      font-size: 1.25rem;
-      margin: 0;
-      padding: 0 1rem;
-      color: var(--text-primary);
-      font-weight: normal;
-    }
-
-    .title-slide .author {
-      font-size: 1.1rem;
-      color: var(--text-primary);
-      margin: 1rem 0 0.25rem 0;
-    }
-
-    .title-slide .institute {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin: 0.25rem 0 0.125rem 0;
-    }
-
-    .title-slide .date {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin: 0.25rem 0;
-    }
-
-    .frame {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 3rem 4rem;
-      background: #ffffff;
-      color: var(--text-primary);
-    }
-
-    .frame-title-bar {
-      border-bottom: 3px solid var(--crane-amber);
-      padding-bottom: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .frame-title {
-      font-size: 2rem;
-      margin: 0 0 0.25rem 0;
-      color: var(--text-primary);
-    }
-
-    .frame-subtitle {
-      font-size: 1.1rem;
-      margin: 0;
-      color: var(--text-secondary);
-      font-weight: normal;
-    }
-
-    .frame-content {
-      flex: 1;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-
-    .frame-content p {
-      margin: 1rem 0;
-    }
-
-    .frame-content ul, .frame-content ol {
-      margin: 1rem 0;
-      padding-left: 2rem;
-    }
-
-    .frame-content li {
-      margin: 0.5rem 0;
-      line-height: 1.6;
-    }
-
-    .block {
-      background: #f9f9f9;
-      border-left: 4px solid var(--crane-amber);
-      padding: 1rem 1.5rem;
-      margin: 1.5rem 0;
-      border-radius: 4px;
-    }
-
-    .block-title {
-      font-weight: bold;
-      color: var(--crane-amber);
-      margin-bottom: 0.5rem;
-      font-size: 1.05rem;
-    }
-
-    .block-body {
-      margin: 0;
-      color: var(--text-secondary);
-    }
-
+    /* Only styles NOT in beamer-theme.css */
     .quote {
       font-style: italic;
       color: var(--text-secondary);
@@ -157,11 +33,7 @@
     }
 
     .link-text {
-      color: #0066cc;
-    }
-
-    .fs-small {
-      font-size: 0.9rem;
+      color: var(--link-color);
     }
   </style>
 </head>
@@ -178,7 +50,23 @@
     <p class="date">Spring 2026</p>
   </section>
 
-  <!-- Frame 1: Idea Two -->
+  <!-- Frame 1: Idea One -->
+  <section class="frame overlay-frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">One: Incentives Matter</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li class="overlay" data-overlay="1">Low powered vs. high powered incentives.</li>
+        <li class="overlay" data-overlay="2">The Great Hanoi Rat Massacre of 1902.</li>
+        <li class="overlay" data-overlay="3"><a href="#" class="link-text">Need a Kidney? Not Iranian? You'll Wait.</a></li>
+        <li class="overlay" data-overlay="4"><a href="#" class="link-text">2012 London Olympics Women's Doubles match, China vs. South Korea</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 2: Idea Two -->
   <section class="frame">
     <div class="frame-title-bar">
       <h2 class="frame-title">The Big Ideas in Economics</h2>
@@ -224,14 +112,12 @@
       <h2 class="frame-title">Scarcity</h2>
     </div>
     <div class="frame-content">
-      <div class="placeholder">
-        [Image placeholder: horse1.png]
-      </div>
+      <img src="images/horse1.png" alt="Scarcity" style="max-width: 100%;">
     </div>
   </section>
 
   <!-- Frame 4: Economics -->
-  <section class="frame fs-small">
+  <section class="frame fs-10pt">
     <div class="frame-title-bar">
       <h2 class="frame-title">Economics</h2>
     </div>
@@ -297,7 +183,7 @@
   </section>
 
   <!-- Frame 8: Idea Six -->
-  <section class="frame fs-small">
+  <section class="frame fs-10pt">
     <div class="frame-title-bar">
       <h2 class="frame-title">The Big Ideas in Economics</h2>
       <p class="frame-subtitle">Six: Wealth and Economic Growth Are Important</p>
@@ -327,9 +213,7 @@
         <li>Korean Peninsula from space, NASA, 2014.</li>
       </ul>
 
-      <div class="placeholder">
-        [Image placeholder: ISS038-E-38300.JPG (Korean Peninsula from space)]
-      </div>
+      <img src="images/ISS038-E-38300.JPG" alt="Korean Peninsula from space, NASA 2014" style="max-width: 100%;">
     </div>
   </section>
 

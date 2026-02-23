@@ -12,131 +12,7 @@
   <link rel="stylesheet" href="css/beamer-theme.css">
 
   <style>
-    :root {
-      --crane-amber: #f9a825;
-      --text-primary: #000000;
-      --text-secondary: #333333;
-      --text-muted: #666666;
-    }
-
-    .title-slide {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      background: #ffffff;
-    }
-
-    .title-slide .title-box {
-      background: var(--crane-amber);
-      padding: 1.5rem 3rem 1.25rem 3rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
-    }
-
-    .title-slide h1 {
-      font-size: 2.5rem;
-      margin: 0 0 0.5rem 0;
-      color: var(--text-primary);
-    }
-
-    .title-slide h2 {
-      font-size: 1.25rem;
-      margin: 0;
-      padding: 0 1rem;
-      color: var(--text-primary);
-      font-weight: normal;
-    }
-
-    .title-slide .author {
-      font-size: 1.1rem;
-      color: var(--text-primary);
-      margin: 1rem 0 0.25rem 0;
-    }
-
-    .title-slide .institute {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin: 0.25rem 0 0.125rem 0;
-    }
-
-    .title-slide .date {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin: 0.25rem 0;
-    }
-
-    .frame {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 3rem 4rem;
-      background: #ffffff;
-      color: var(--text-primary);
-    }
-
-    .frame-title-bar {
-      border-bottom: 3px solid var(--crane-amber);
-      padding-bottom: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .frame-title {
-      font-size: 2rem;
-      margin: 0 0 0.25rem 0;
-      color: var(--text-primary);
-    }
-
-    .frame-subtitle {
-      font-size: 1.1rem;
-      margin: 0;
-      color: var(--text-secondary);
-      font-weight: normal;
-    }
-
-    .frame-content {
-      flex: 1;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-
-    .frame-content p {
-      margin: 1rem 0;
-    }
-
-    .frame-content ul, .frame-content ol {
-      margin: 1rem 0;
-      padding-left: 2rem;
-    }
-
-    .frame-content li {
-      margin: 0.5rem 0;
-      line-height: 1.6;
-    }
-
-    .block {
-      background: #f9f9f9;
-      border-left: 4px solid var(--crane-amber);
-      padding: 1rem 1.5rem;
-      margin: 1.5rem 0;
-      border-radius: 4px;
-    }
-
-    .block-title {
-      font-weight: bold;
-      color: var(--crane-amber);
-      margin-bottom: 0.5rem;
-      font-size: 1.05rem;
-    }
-
-    .block-body {
-      margin: 0;
-      color: var(--text-secondary);
-    }
-
+    /* Only styles NOT in beamer-theme.css */
     .math-display {
       text-align: center;
       margin: 1.5rem 0;
@@ -150,10 +26,6 @@
       margin: 1.5rem 0;
       border-radius: 4px;
       color: #666;
-      font-size: 0.9rem;
-    }
-
-    .fs-small {
       font-size: 0.9rem;
     }
 
@@ -199,7 +71,7 @@
   </section>
 
   <!-- Frame 2: Marginal Utilities -->
-  <section class="frame fs-small">
+  <section class="frame fs-10pt">
     <div class="frame-title-bar">
       <h2 class="frame-title">Trade and Comparative Advantage</h2>
       <p class="frame-subtitle">Marginal utilities (not in the textbook!)</p>
@@ -215,7 +87,7 @@
   </section>
 
   <!-- Frame 3: Marginal Utility Definition -->
-  <section class="frame fs-small">
+  <section class="frame fs-10pt">
     <div class="frame-title-bar">
       <h2 class="frame-title">Trade and Comparative Advantage</h2>
       <p class="frame-subtitle">Marginal utilities (not in the textbook!)</p>
@@ -231,7 +103,7 @@
   </section>
 
   <!-- Frame 4: A Toy Economy -->
-  <section class="frame fs-small">
+  <section class="frame fs-10pt">
     <div class="frame-title-bar">
       <h2 class="frame-title">A Toy Economy</h2>
     </div>
@@ -250,9 +122,7 @@
           <p style="margin-top: 1rem;"><em>The ratio of marginal utilities is the individual's exchange rate for the goods.</em></p>
         </div>
         <div>
-          <div class="placeholder">
-            [Image placeholder: Crusoe.jpg]
-          </div>
+          <img src="images/Crusoe.jpg" alt="Crusoe" style="max-width: 100%;">
         </div>
       </div>
     </div>
@@ -349,7 +219,7 @@
   </section>
 
   <!-- Frame 10: PPF Example -->
-  <section class="frame fs-small">
+  <section class="frame fs-10pt">
     <div class="frame-title-bar">
       <h2 class="frame-title">The Production Possibilities Frontier</h2>
       <p class="frame-subtitle">Only one input case: labor</p>
@@ -360,18 +230,14 @@
         <div class="block-body">Crusoe has 24 hours per day that can be devoted either to fishing or harvesting coconuts. If Crusoe's fish and coconut production are given by the production functions $F(\ell)=\sqrt{\ell}$ and $C(\ell)=\sqrt{\ell}/2$, then Crusoe's PPS is the set of baskets of fish and coconuts $(f,c)$ such that $0 \le f \le \sqrt{\ell}$ and $0 \le c \le \sqrt{24-\ell}/2$ where $\ell$ varies from zero to 24.</div>
       </div>
 
-      <div class="placeholder">
-        [Image placeholder: PPS.png]
-      </div>
+      <img src="images/PPS.png" alt="Production Possibility Set" style="max-width: 100%;">
 
       <div class="block">
         <div class="block-title">Example: The Production Possibility Frontier</div>
         <div class="block-body">The PPF is the set of baskets of fish and coconuts $(f,c)$ such that $f = \sqrt{\ell}$ and $c = \sqrt{24-\ell}/2$ where $\ell$ varies from zero to 24.</div>
       </div>
 
-      <div class="placeholder">
-        [Image placeholder: PPF.png]
-      </div>
+      <img src="images/PPF.png" alt="Production Possibility Frontier" style="max-width: 100%;">
 
       <div class="placeholder" style="margin-top: 1rem;">
         [TikZ placeholder: The slope of the PPF is the marginal rate of transformation: by how many units production of coconuts must fall in order to produce one additional fish.]
