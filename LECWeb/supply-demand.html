@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supply and Demand | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <style>
+    .scroll-frame { min-height: 100vh; position: relative; overflow: hidden; }
+    .scroll-frame-inner { min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; padding: 2rem; background: #fff; }
+    .graph-frame .scroll-frame-inner { background: #fdf6e3; position: relative; }
+    .placeholder {
+      background: #f5f5f5;
+      border: 2px dashed #999;
+      border-radius: 4px;
+      padding: 2rem;
+      text-align: center;
+      color: #666;
+      margin: 1rem 0;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Supply and Demand</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Individual Demands - Emma -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Individual Demands</h1>
+      <p class="frame-subtitle">Emma's Weekly Demand For Cups Of Coffee</p>
+    </div>
+    <div class="frame-content">
+      <div class="columns">
+        <div class="column">
+          <p>Emma's weekly demand for cups of coffee depends on its price:</p>
+          <ul>
+            <li>When the price is above $9, Emma buys zero cups.</li>
+            <li>When the price is above $6 and at most $9, Emma buys 1 cup.</li>
+            <li>When the price is above $3 and at most $6, Emma buys 2 cups.</li>
+            <li>When the price is above $0 and at most $3, Emma buys 3 cups.</li>
+            <li>When the price is $0, Emma buys 4 cups.</li>
+          </ul>
+        </div>
+        <div class="column">
+          <div class="placeholder">[TikZ placeholder: Emma's step demand curve showing price on y-axis (0-14) and quantity on x-axis (0-4), with blue stepped demand curve]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 2: Individual Demands - Harriet -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Individual Demands</h1>
+      <p class="frame-subtitle">Harriet's Weekly Demand For Cups Of Coffee</p>
+    </div>
+    <div class="frame-content">
+      <div class="columns">
+        <div class="column">
+          <p>Harriet's weekly demand for cups of coffee depends on its price:</p>
+          <ul>
+            <li>When the price is above $4, Harriet buys zero cups.</li>
+            <li>When the price is above $3 and at most $4, Harriet buys 2 cups.</li>
+            <li>When the price is above $2 and at most $3, Harriet buys 4 cups.</li>
+            <li>When the price is above $1 and at most $2, Harriet buys 6 cups.</li>
+            <li>When the price is at most $1, Harriet buys 8 cups.</li>
+          </ul>
+        </div>
+        <div class="column">
+          <div class="placeholder">[TikZ placeholder: Harriet's step demand curve showing price on y-axis (0-10) and quantity on x-axis (0-9), with red stepped demand curve]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 3: Market Demand -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Market Demand</h1>
+      <p class="frame-subtitle">Emma and Harriet's Combined (i.e. "Market") Demand</p>
+    </div>
+    <div class="frame-content">
+      <div class="placeholder">[TikZ placeholder: Aggregated demand curve showing combined demand from both Emma and Harriet, price on y-axis (0-10) and quantity on x-axis (0-12), with stepped blue and red demand curve representing both consumers]</div>
+    </div>
+  </section>
+
+  <!-- Frame 4: Demand Curve Definition -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Demand Curve</h1>
+      <p class="frame-subtitle">Determinants of (Market) Demand</p>
+    </div>
+    <div class="frame-content">
+      <div class="placeholder">[TikZ placeholder: Flow diagram showing "individual income levels and prices" leading to "individual demands for all goods", then aggregating to "market demand for the good/service", with box showing determinants: income, population, price of substitutes, price of complements, expectations, tastes]</div>
+    </div>
+  </section>
+
+  <!-- Frame 5: Consumer Surplus - Definition -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Consumer Surplus</h1>
+      <p class="frame-subtitle">Emma's Surplus</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li>At price $P$, Emma buys $Q(P)$ cups of coffee.</li>
+        <li>The <span class="structure">willingness to pay</span> (WTP) is the maximum amount Emma would pay for $Q(P)$ cups. For a step demand, this is the sum of the values she places on each cup.</li>
+        <li>The <span class="structure">expenditure</span> is what Emma actually pays: $P \times Q(P)$.</li>
+        <li>The <span class="structure">consumer surplus</span> (CS) is the difference: $CS = WTP - Expenditure$.</li>
+        <li>Example: At $P = 4$, Emma buys 2 cups. She values the 1st cup at $9 and the 2nd at $6, so $WTP = 15$. Her expenditure is $4 \times 2 = 8$. Her consumer surplus is $15 - 8 = 7$.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 6: Consumer Surplus - Dynamic -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Consumer Surplus</h1>
+      <p class="frame-subtitle">Emma's Surplus as Price Falls</p>
+    </div>
+    <div class="frame-content">
+      <div class="columns">
+        <div class="column">
+          <p><strong>As price falls:</strong></p>
+          <ul>
+            <li>The quantity demanded increases (weakly).</li>
+            <li>Willingness to pay increases (weakly).</li>
+            <li>Expenditure may increase or decrease.</li>
+            <li>Consumer surplus increases.</li>
+          </ul>
+        </div>
+        <div class="column">
+          <div class="placeholder">[TikZ placeholder: Emma's demand curve with animated shading showing WTP, expenditure, and consumer surplus at different price levels]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 7: Consumer Surplus - Continuous Case -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Consumer Surplus</h1>
+      <p class="frame-subtitle">Formal Definition</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li>At price $p_X$, the consumer demands $x(p_X)$ units of good X (we are assuming income and other prices are constant so we do not refer to these variables when writing the demand for good X).</li>
+        <li>The area under an individual demand (for good X) curve (from 0 to $x(p_X)$) is a measure of how much the consumer is <span class="structure">willing to pay</span> for consuming $x(p_X)$ units. (Why? Try to see by writing a discrete/step demand as we did in class.)</li>
+        <li>At price $p_X$ the consumer pays the quantity demanded times the price, $x(p_X)\cdot p_X$ (expenditure on good X), to the producer/seller.</li>
+        <li>The <u>difference</u> between: (1) how much the consumer is willing to pay to consume $x(p_X)$ and (2): the payment $x(p_X)\cdot p_X$, is the <span class="structure">consumer surplus</span>.</li>
+        <li>See the next slide for a graphic depiction of the CS.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 8: Consumer Surplus - Graphic -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Consumer Surplus</h1>
+      <p class="frame-subtitle">Graphical Representation</p>
+    </div>
+    <div class="frame-content">
+      <div class="placeholder">[TikZ placeholder: Demand curve with shaded regions showing WTP (area under demand curve), Revenue/Expenditure (rectangle), and Consumer Surplus (difference). Regions labeled with colors: green for WTP, orange for expenditure, blue for consumer surplus]</div>
+    </div>
+  </section>
+
+  <!-- Frame 9: Cost Decomposition -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Decomposing Total Cost</h1>
+      <p class="frame-subtitle">Fixed Cost and Marginal Costs</p>
+    </div>
+    <div class="frame-content">
+      <div class="columns">
+        <div class="column">
+          <ul style="font-size: 0.9rem;">
+            <li>$TC(0)=20$ (fixed cost)</li>
+            <li>$MC(0)=8$, $MC(1)=4$, etc. (marginal cost)</li>
+            <li>$VC(0)=0$, $VC(1)=8$, etc. (variable cost)</li>
+          </ul>
+        </div>
+        <div class="column">
+          <div class="placeholder">[TikZ placeholder: Marginal cost step function (0-10 on Q-axis, 0-95 on MC-axis) with yellow shaded area under MC curve representing variable cost]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 10: Producer Surplus -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Producer Surplus</h1>
+      <p class="frame-subtitle">Profit and Variable Costs</p>
+    </div>
+    <div class="frame-content">
+      <div class="placeholder">[TikZ placeholder: Marginal cost curve with price line, shaded areas showing variable cost (red) below price line and producer surplus (orange) above MC curve but below price line. Info box showing P, Q, Revenue, VC, and PS values]</div>
+    </div>
+  </section>
+
+  <!-- Frame 11: Supply Curve Definition -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Supply Curve</h1>
+      <p class="frame-subtitle">Determinants of (Market) Supply</p>
+    </div>
+    <div class="frame-content">
+      <div class="placeholder">[TikZ placeholder: Flow diagram showing "price, available technology, prices of inputs" leading to "individual producer supply", then aggregating to "market supply for the good/service", with box showing determinants: available technology, prices of inputs, opportunity costs, taxes/subsidies, expectations, entry/exit of producers]</div>
+    </div>
+  </section>
+
+  <!-- Frame 12: Producer Surplus Definition -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Producer Surplus</h1>
+      <p class="frame-subtitle">Definition and Interpretation</p>
+    </div>
+    <div class="frame-content">
+      <p>The individual supply curve corresponds to the producer <strong>marginal cost curve</strong> (provided the marginal cost is increasing).</p>
+      <p>The producer surplus is the revenue (payments by the consumers) minus the area under the supply curve.</p>
+      <p>You should think of the producer surplus as the profits (plus any fixed costs the producer incurs).</p>
+      <p>Or equivalently the producer surplus is the revenue minus the variable cost (i.e. the area under the supply curve).</p>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false}
+        ]
+      });
+    });
+  </script>
+</body>
+</html>

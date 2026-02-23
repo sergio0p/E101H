@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monopoly | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <style>
+    .scroll-frame { min-height: 100vh; position: relative; overflow: hidden; }
+    .scroll-frame-inner { min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; padding: 2rem; background: #fff; }
+    .graph-frame .scroll-frame-inner { background: #fdf6e3; position: relative; }
+
+    #lerner-derivation .katex-display {
+      text-align: left !important;
+      margin: 0.2em 0;
+    }
+    #lerner-derivation .katex-display > .katex {
+      text-align: left !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Monopoly</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+
+    <!-- Table of Contents -->
+    <nav style="margin-top: 2rem; text-align: left; background: #eee; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+      <a href="#demand-frame" style="margin-left: 1rem;">1. Demand</a>
+      <a href="#mr-frame" style="margin-left: 1rem;">2. Marginal Revenue</a>
+      <a href="#equilibrium-frame" style="margin-left: 1rem;">3. Equilibrium</a>
+      <a href="#welfare-frame" style="margin-left: 1rem;">4. Welfare</a>
+      <a href="#lerner-frame" style="margin-left: 1rem;">5. Mark-up</a>
+    </nav>
+  </section>
+
+  <!-- Frame 1: Demand Curve Animation -->
+  <section class="scroll-frame graph-frame" id="demand-frame">
+    <div class="scroll-frame-inner">
+
+      <svg id="demand-graph" viewBox="-328 -60 1028 620" style="max-width: 800px; width: 100%;">
+        <!-- Coordinate system:
+             xOrigin = 60, yOrigin = 360
+             Demand: P = 100 - 0.5Q (intercepts: P=100 at Q=0, P=0 at Q=200)
+             yScale = 2.5 (y = 360 - P * 2.5)
+             xScale = 2 (x = 60 + Q * 2)
+             Generic point: P=60, Q=80 -> x=220, y=210
+        -->
+        <defs>
+          <marker id="arrowhead" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+            <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+          </marker>
+          <!-- Ellipse clip for Joan Robinson's face -->
+          <clipPath id="face-clip">
+            <ellipse cx="-200" cy="120" rx="66" ry="84"/>
+          </clipPath>
+        </defs>
+
+        <!-- Joan Robinson portrait (clipped to face) -->
+        <g id="joan-robinson" opacity="0">
+          <image href="images/Joan_Robinson_web.jpg"
+                 x="-318" y="40" width="280" height="420"
+                 clip-path="url(#face-clip)"
+                 preserveAspectRatio="xMidYMin slice"/>
+          <!-- Ellipse border around face -->
+          <ellipse cx="-200" cy="120" rx="66" ry="84"
+                   fill="none" stroke="#586e75" stroke-width="2"/>
+        </g>
+
+        <!-- Graph Title -->
+        <text x="265" y="20" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="24" font-weight="bold" fill="#586e75">Monopoly</text>
+
+        <!-- Axes -->
+        <line x1="60" y1="360" x2="60" y2="30" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <line x1="60" y1="360" x2="500" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Axis labels -->
+        <text x="60" y="18" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="27" font-style="italic" fill="#586e75">P</text>
+        <text x="510" y="365" font-family="Times New Roman, serif"
+              font-size="27" font-style="italic" fill="#586e75">Q</text>
+
+        <!-- Intercept labels -->
+        <text x="50" y="115" text-anchor="end" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75">100</text>
+        <text x="460" y="378" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75">200</text>
+
+        <!-- Demand curve: P = 100 - 0.5Q -->
+        <!-- Q=0: x=60, y=360-100*2.5=110 | Q=200: x=460, y=360 -->
+        <line id="demand-curve" x1="60" y1="110" x2="460" y2="360" stroke="#dc322f" stroke-width="4"/>
+        <text x="400" y="300" font-family="Times New Roman, serif"
+              font-size="24" font-style="italic" fill="#dc322f">D</text>
+
+        <!-- === PHASE 1 elements (price → quantity) === -->
+        <!-- P₀ label on y-axis (P=60 → y=210) -->
+        <text id="p0-label-1" x="50" y="215" text-anchor="end" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">P₀</text>
+
+        <!-- Horizontal dashed line: y-axis to demand curve (full length, hidden) -->
+        <line id="h-line-1" x1="60" y1="210" x2="220" y2="210"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- Point on demand curve -->
+        <circle id="dot-1" cx="220" cy="210" r="5" fill="#586e75" opacity="0"/>
+
+        <!-- Vertical dashed line: demand curve to x-axis (full length, hidden) -->
+        <line id="v-line-1" x1="220" y1="210" x2="220" y2="360"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- Q₀ label on x-axis (Q=80 → x=220) -->
+        <text id="q0-label-1" x="220" y="378" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">Q₀</text>
+
+        <!-- === PHASE 2 elements (quantity → price) === -->
+        <!-- These are separate elements so we can show/hide independently -->
+        <!-- Q₀ label (reused from phase 1) -->
+
+        <!-- Vertical dashed line: x-axis to demand curve -->
+        <line id="v-line-2" x1="220" y1="360" x2="220" y2="210"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- Point on demand curve (same position) -->
+        <circle id="dot-2" cx="220" cy="210" r="5" fill="#586e75" opacity="0"/>
+
+        <!-- Horizontal dashed line: demand curve to y-axis -->
+        <line id="h-line-2" x1="220" y1="210" x2="60" y2="210"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- P₀ label on y-axis -->
+        <text id="p0-label-2" x="50" y="215" text-anchor="end" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">P₀</text>
+
+        <!-- === CALLOUTS (created dynamically via callouts.js) === -->
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- Frame 2: Marginal Revenue -->
+  <section class="frame" id="mr-frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Monopoly</h1>
+      <p class="frame-subtitle">Marginal Revenue</p>
+    </div>
+    <div class="frame-content">
+      <p>To maximize profits, a firm produces where its <span class="structure">marginal revenue</span>
+         equals its <span class="structure">marginal cost</span>, regardless of market structure
+         (perfect competition, monopoly, oligopoly, etc.).</p>
+
+      <p>What makes the <span class="structure">monopoly</span> case different from perfect competition
+         is that the monopolist knows its quantity choice will affect the market price,
+         while firms in perfect competition are <em>price-takers</em>.</p>
+
+      <p>In particular, under monopoly, the marginal revenue is not constant and equal to the market price.</p>
+    </div>
+  </section>
+
+  <!-- Frame 3: Marginal Revenue - Numerical Example -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Monopoly</h1>
+      <p class="frame-subtitle">Marginal Revenue</p>
+    </div>
+    <div class="frame-content">
+      <p><strong>Numerical Example:</strong> A monopolist sells \(Q = 8\) units at \(P = 30\),
+         but to sell \(Q = 9\), the monopolist must charge \(P = 29.50\).</p>
+
+      <p style="text-align: center; margin-top: 2rem;">
+        \[
+        MR = TR(9) - TR(8) = 29.50 \times 9 - 30 \times 8 = \underbrace{29.50}_{P} + \underbrace{(29.50 - 30)}_{\Delta P} \times \underbrace{8}_{Q}
+        \]
+      </p>
+
+      <p style="margin-top: 1.5rem;"><strong>In general:</strong></p>
+
+      <p style="text-align: center;">
+        \[
+        \boxed{MR = \dfrac{\Delta TR}{\Delta Q} = P + \dfrac{\Delta P}{\Delta Q} \times Q}
+        \]
+      </p>
+
+      <p><strong>Notice:</strong> \(\Delta P < 0\) which implies that \(MR < P\): the marginal revenue curve lies below the demand curve.</p>
+    </div>
+  </section>
+
+  <!-- Frame 4: Monopoly Equilibrium Graph -->
+  <section class="scroll-frame graph-frame" id="equilibrium-frame">
+    <div class="scroll-frame-inner">
+
+      <svg id="equilibrium-graph" viewBox="-40 -60 600 500" style="max-width: 700px; width: 100%;">
+        <!-- Coordinate system:
+             xOrigin = 60, yOrigin = 360
+             yScale = 2.5 (y = 360 - P * 2.5)
+             xScale = 2 (x = 60 + Q * 2)
+
+             Demand: P = 100 - 0.5Q (intercepts: P=100 at Q=0, Q=200 at P=0)
+             MR: P = 100 - Q (intercepts: P=100 at Q=0, Q=100 at P=0)
+             MC: P = 10 + 0.5Q (starts at P=10, upward sloping)
+
+             Equilibrium: MR = MC → 100 - Q = 10 + 0.5Q → Q* = 60
+             P* (on demand) = 100 - 0.5(60) = 70
+             MR at Q* = 100 - 60 = 40
+
+             Q* = 60 → x = 60 + 60*2 = 180
+             P* = 70 → y = 360 - 70*2.5 = 185
+             MR(Q*) = 40 → y = 360 - 40*2.5 = 260
+        -->
+        <defs>
+          <marker id="arrow2" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+            <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- Graph Title -->
+        <text x="280" y="0" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="24" font-weight="bold" fill="#586e75">Monopoly Equilibrium</text>
+
+        <!-- Axes -->
+        <line x1="60" y1="360" x2="60" y2="30" stroke="#586e75" stroke-width="2" marker-end="url(#arrow2)"/>
+        <line x1="60" y1="360" x2="520" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrow2)"/>
+
+        <!-- Axis labels -->
+        <text x="60" y="18" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="27" font-style="italic" fill="#586e75">P</text>
+        <text x="530" y="365" font-family="Times New Roman, serif"
+              font-size="27" font-style="italic" fill="#586e75">Q</text>
+
+        <!-- Demand curve: P = 100 - 0.5Q -->
+        <!-- Q=0: x=60, y=110 | Q=200: x=460, y=360 -->
+        <line id="demand-line" x1="60" y1="110" x2="460" y2="360" stroke="#dc322f" stroke-width="3"/>
+        <text x="420" y="320" font-family="Times New Roman, serif"
+              font-size="24" font-style="italic" fill="#dc322f">D</text>
+
+        <!-- MR curve: P = 100 - Q -->
+        <!-- Q=0: x=60, y=110 | Q=110: x=280, y=385 -->
+        <line id="mr-line" x1="60" y1="110" x2="280" y2="385" stroke="#268bd2" stroke-width="3"/>
+        <text x="258" y="340" font-family="Times New Roman, serif"
+              font-size="24" font-style="italic" fill="#268bd2">MR</text>
+
+        <!-- MC curve: P = 10 + 0.5Q -->
+        <!-- Q=0: x=60, y=335 (P=10) | Q=180: x=420, y=110 (P=100) -->
+        <line id="mc-line" x1="60" y1="335" x2="420" y2="110" stroke="#859900" stroke-width="3"/>
+        <text x="400" y="100" font-family="Times New Roman, serif"
+              font-size="24" font-style="italic" fill="#859900">MC</text>
+
+        <!-- === ANIMATION ELEMENTS === -->
+
+        <!-- Intersection point MR=MC (Q*=60, MR=40) → x=180, y=260 -->
+        <circle id="eq-dot-mr" cx="180" cy="260" r="4" fill="#586e75" opacity="0"/>
+
+        <!-- Horizontal dashed line from y-axis to MR=MC intersection -->
+        <line id="h-line-mr" x1="60" y1="260" x2="180" y2="260"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- Vertical dashed line from MR=MC to x-axis -->
+        <line id="v-line-q" x1="180" y1="260" x2="180" y2="360"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- Q* label -->
+        <text id="q-star-label" x="180" y="385" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">Q*</text>
+
+        <!-- Point on demand curve at Q* (Q*=60, P*=70) → x=180, y=185 -->
+        <circle id="eq-dot-demand" cx="180" cy="185" r="4" fill="#586e75" opacity="0"/>
+
+        <!-- Vertical dashed line from Q* up to demand curve -->
+        <line id="v-line-to-demand" x1="180" y1="360" x2="180" y2="185"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- Horizontal dashed line from demand curve to y-axis -->
+        <line id="h-line-p" x1="180" y1="185" x2="60" y2="185"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- P* label -->
+        <text id="p-star-label" x="45" y="190" text-anchor="end" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">P*</text>
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- Frame 5: Welfare Comparison (PC vs Monopoly) -->
+  <section class="scroll-frame graph-frame" id="welfare-frame">
+    <div class="scroll-frame-inner">
+
+      <svg id="welfare-graph" viewBox="-40 -60 600 500" style="max-width: 700px; width: 100%;">
+        <!-- Coordinate system: same as equilibrium graph
+             Perfect Competition (D = MC): Q_pc = 90 → x=240, P_pc = 55 → y=222.5
+             Monopoly: Q_m = 60 → x=180, P_m = 70 → y=185, MC(Q_m) = 40 → y=260
+             Demand intercept: P=100 → y=110
+             MC intercept: P=10 → y=335
+        -->
+        <defs>
+          <marker id="arrow3" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+            <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- === WELFARE AREAS (drawn first, behind curves) === -->
+
+        <!-- Perfect Competition CS: triangle -->
+        <polygon id="pc-cs" points="60,110 60,222.5 240,222.5"
+                 fill="#dc322f" fill-opacity="0.3" opacity="0"/>
+
+        <!-- Perfect Competition PS: triangle -->
+        <polygon id="pc-ps" points="60,335 60,222.5 240,222.5"
+                 fill="#268bd2" fill-opacity="0.3" opacity="0"/>
+
+        <!-- Monopoly CS: smaller triangle -->
+        <polygon id="mono-cs" points="60,110 60,185 180,185"
+                 fill="#dc322f" fill-opacity="0.3" opacity="0"/>
+
+        <!-- Monopoly PS: quadrilateral -->
+        <polygon id="mono-ps" points="60,335 60,185 180,185 180,260"
+                 fill="#268bd2" fill-opacity="0.3" opacity="0"/>
+
+        <!-- DWL: triangle between PC and Monopoly -->
+        <polygon id="dwl" points="180,185 240,222.5 180,260"
+                 fill="#b58900" fill-opacity="0.4" opacity="0"/>
+
+        <!-- Graph Title -->
+        <text x="280" y="0" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="24" font-weight="bold" fill="#586e75">Welfare Comparison</text>
+
+        <!-- Axes -->
+        <line x1="60" y1="360" x2="60" y2="30" stroke="#586e75" stroke-width="2" marker-end="url(#arrow3)"/>
+        <line x1="60" y1="360" x2="520" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrow3)"/>
+
+        <!-- Axis labels -->
+        <text x="60" y="18" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="27" font-style="italic" fill="#586e75">P</text>
+        <text x="530" y="365" font-family="Times New Roman, serif"
+              font-size="27" font-style="italic" fill="#586e75">Q</text>
+
+        <!-- Demand curve: P = 100 - 0.5Q -->
+        <line x1="60" y1="110" x2="460" y2="360" stroke="#dc322f" stroke-width="3"/>
+        <text x="420" y="320" font-family="Times New Roman, serif"
+              font-size="24" font-style="italic" fill="#dc322f">D</text>
+
+        <!-- MR curve: P = 100 - Q -->
+        <line x1="60" y1="110" x2="280" y2="385" stroke="#268bd2" stroke-width="3"/>
+        <text x="258" y="340" font-family="Times New Roman, serif"
+              font-size="24" font-style="italic" fill="#268bd2">MR</text>
+
+        <!-- MC curve: P = 10 + 0.5Q -->
+        <line x1="60" y1="335" x2="420" y2="110" stroke="#859900" stroke-width="3"/>
+        <text x="400" y="100" font-family="Times New Roman, serif"
+              font-size="24" font-style="italic" fill="#859900">MC</text>
+
+        <!-- === PERFECT COMPETITION ELEMENTS === -->
+
+        <!-- PC equilibrium point (D=MC): x=240, y=222.5 -->
+        <circle id="pc-dot" cx="240" cy="222.5" r="4" fill="#586e75" opacity="0"/>
+
+        <!-- PC dashed lines -->
+        <line id="pc-v-line" x1="240" y1="222.5" x2="240" y2="360"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+        <line id="pc-h-line" x1="60" y1="222.5" x2="240" y2="222.5"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- PC labels -->
+        <text id="pc-q-label" x="240" y="385" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">Q<tspan baseline-shift="sub" font-size="14">PC</tspan></text>
+        <text id="pc-p-label" x="45" y="227" text-anchor="end" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">P<tspan baseline-shift="sub" font-size="14">PC</tspan></text>
+
+        <!-- Welfare labels for PC -->
+        <text id="pc-cs-label" x="100" y="180" font-family="Times New Roman, serif"
+              font-size="20" font-weight="bold" fill="#dc322f" opacity="0">CS</text>
+        <text id="pc-ps-label" x="100" y="290" font-family="Times New Roman, serif"
+              font-size="20" font-weight="bold" fill="#268bd2" opacity="0">PS</text>
+
+        <!-- === MONOPOLY ELEMENTS === -->
+
+        <!-- Monopoly equilibrium points -->
+        <circle id="mono-mr-dot" cx="180" cy="260" r="4" fill="#586e75" opacity="0"/>
+        <circle id="mono-d-dot" cx="180" cy="185" r="4" fill="#586e75" opacity="0"/>
+
+        <!-- Monopoly dashed lines -->
+        <line id="mono-v-line" x1="180" y1="185" x2="180" y2="360"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+        <line id="mono-h-line" x1="60" y1="185" x2="180" y2="185"
+              stroke="#586e75" stroke-width="2" stroke-dasharray="8,6" opacity="0"/>
+
+        <!-- Monopoly labels -->
+        <text id="mono-q-label" x="180" y="385" text-anchor="middle" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">Q<tspan baseline-shift="sub" font-size="14">M</tspan></text>
+        <text id="mono-p-label" x="45" y="190" text-anchor="end" font-family="Times New Roman, serif"
+              font-size="21" fill="#586e75" opacity="0">P<tspan baseline-shift="sub" font-size="14">M</tspan></text>
+
+        <!-- Welfare labels for Monopoly -->
+        <text id="mono-cs-label" x="90" y="160" font-family="Times New Roman, serif"
+              font-size="20" font-weight="bold" fill="#dc322f" opacity="0">CS</text>
+        <text id="mono-ps-label" x="100" y="270" font-family="Times New Roman, serif"
+              font-size="20" font-weight="bold" fill="#268bd2" opacity="0">PS</text>
+        <text id="dwl-label" x="186" y="230" font-family="Times New Roman, serif"
+              font-size="18" font-weight="bold" fill="#b58900" opacity="0">DWL</text>
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- Frame 6: The Mark-up -->
+  <section class="frame" id="lerner-frame" style="min-height: 100vh;">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Monopoly</h1>
+      <p class="frame-subtitle">The Mark-up</p>
+    </div>
+    <div class="frame-content" style="display: flex; gap: 1.5rem; align-items: flex-start;">
+      <!-- Left column: derivation -->
+      <div id="lerner-derivation" style="flex: 1.5; min-width: 0;">
+        <div id="lerner-line-1">
+          $$\dfrac{P^* - MC}{P^*} = \dfrac{P^* - MR}{P^*}$$
+        </div>
+        <div id="lerner-line-2" style="opacity: 0;">
+          $$= 1 - \dfrac{MR}{P^*}$$
+        </div>
+        <div id="lerner-line-3" style="opacity: 0; margin-top: 0.5em;">
+          $$= 1 - \dfrac{P^* + \dfrac{\Delta P}{\Delta Q} \cdot Q^*}{P^*}$$
+        </div>
+        <div id="lerner-line-4" style="opacity: 0; margin-top: 0.5em;">
+          $$= 1 - 1 + \dfrac{\Delta P}{\Delta Q} \cdot \dfrac{Q^*}{P^*}$$
+        </div>
+        <div id="lerner-line-5" style="opacity: 0;">
+          $$= \dfrac{1}{\eta_{Q,P}}$$
+        </div>
+      </div>
+      <!-- Right column: interactive equilibrium graph -->
+      <div style="flex: 1; min-width: 0; position: relative; left: -12.5rem;">
+        <svg id="lerner-graph" viewBox="-40 -60 600 500" style="width: 165%;">
+          <defs>
+            <marker id="arrow-lerner" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+              <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+            </marker>
+          </defs>
+          <!-- Axes -->
+          <line x1="60" y1="360" x2="60" y2="30" stroke="#586e75" stroke-width="2" marker-end="url(#arrow-lerner)"/>
+          <line x1="60" y1="360" x2="520" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrow-lerner)"/>
+          <!-- Axis labels -->
+          <text x="60" y="18" text-anchor="middle" font-family="Times New Roman, serif"
+                font-size="27" font-style="italic" fill="#586e75">P</text>
+          <text x="530" y="365" font-family="Times New Roman, serif"
+                font-size="27" font-style="italic" fill="#586e75">Q</text>
+          <!-- Demand curve (dynamic) -->
+          <line id="lerner-demand" x1="60" y1="110" x2="460" y2="360" stroke="#dc322f" stroke-width="3"/>
+          <text id="lerner-demand-label" x="420" y="320" font-family="Times New Roman, serif"
+                font-size="24" font-style="italic" fill="#dc322f">D</text>
+          <!-- MR curve (dynamic) -->
+          <line id="lerner-mr" x1="60" y1="110" x2="280" y2="385" stroke="#268bd2" stroke-width="3"/>
+          <text id="lerner-mr-label" x="258" y="340" font-family="Times New Roman, serif"
+                font-size="24" font-style="italic" fill="#268bd2">MR</text>
+          <!-- MC curve (fixed) -->
+          <line x1="60" y1="335" x2="420" y2="110" stroke="#859900" stroke-width="3"/>
+          <text x="400" y="100" font-family="Times New Roman, serif"
+                font-size="24" font-style="italic" fill="#859900">MC</text>
+
+          <!-- Pivot point where D crosses MC (Q=90, P=55) -->
+          <circle cx="240" cy="222.5" r="5" fill="#586e75" opacity="0.5"/>
+
+          <!-- Mark-up bracket (left of y-axis): from P* to MC -->
+          <line id="lerner-bracket" x1="50" y1="185" x2="50" y2="260" stroke="#d33682" stroke-width="3"/>
+          <line id="lerner-cap-top" x1="45" y1="185" x2="55" y2="185" stroke="#d33682" stroke-width="3"/>
+          <line id="lerner-cap-bot" x1="45" y1="260" x2="55" y2="260" stroke="#d33682" stroke-width="3"/>
+
+          <!-- Equilibrium: dashed lines, dots, labels (dynamic) -->
+          <line id="lerner-v-line" x1="180" y1="185" x2="180" y2="360" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <line id="lerner-p-line" x1="60" y1="185" x2="180" y2="185" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <line id="lerner-mc-line" x1="60" y1="260" x2="180" y2="260" stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+          <circle id="lerner-mc-dot" cx="180" cy="260" r="4" fill="#586e75"/>
+          <circle id="lerner-p-dot" cx="180" cy="185" r="4" fill="#586e75"/>
+          <text id="lerner-q-label" x="180" y="385" text-anchor="middle" font-family="Times New Roman, serif"
+                font-size="21" fill="#586e75">Q*</text>
+          <text id="lerner-p-label" x="45" y="190" text-anchor="end" font-family="Times New Roman, serif"
+                font-size="21" fill="#586e75">P*</text>
+          <text id="lerner-mc-label" x="45" y="265" text-anchor="end" font-family="Times New Roman, serif"
+                font-size="21" fill="#586e75">MC</text>
+
+          <!-- Elasticity display (top right) -->
+          <text id="lerner-eta-display" x="510" y="0" text-anchor="end" font-family="Times New Roman, serif"
+                font-size="18" fill="#586e75">η = -2.33</text>
+          <text id="lerner-markup-display" x="510" y="22" text-anchor="end" font-family="Times New Roman, serif"
+                font-size="18" fill="#d33682">Mark-up = 42.9%</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 7: Interactive D/MR and TR Graphs -->
+  <section class="scroll-frame graph-frame" id="interactive-frame">
+    <div class="scroll-frame-inner">
+      <div style="display: flex; gap: 2rem; width: 100%; max-width: 1200px; align-items: flex-start; position: relative; left: -2rem;">
+        <!-- Left graph: Demand and MR -->
+        <div style="flex: 1; position: relative;">
+          <svg id="dmr-graph" viewBox="-50 -50 590 540" style="width: 100%; display: block;">
+            <defs>
+              <marker id="arrow-dmr" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+                <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+              </marker>
+            </defs>
+            <!-- Graph title -->
+            <text x="270" y="-25" text-anchor="middle" font-family="Times New Roman, serif"
+                  font-size="24" fill="#586e75">Demand Elasticity</text>
+            <!-- Axes -->
+            <line x1="60" y1="360" x2="60" y2="10" stroke="#586e75" stroke-width="2" marker-end="url(#arrow-dmr)"/>
+            <line x1="60" y1="360" x2="510" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrow-dmr)"/>
+            <text x="60" y="-2" text-anchor="middle" font-family="Times New Roman, serif"
+                  font-size="22" font-style="italic" fill="#586e75">P</text>
+            <text x="525" y="365" font-family="Times New Roman, serif"
+                  font-size="22" font-style="italic" fill="#586e75">Q</text>
+            <!-- Intercept labels -->
+            <text x="50" y="115" text-anchor="end" font-family="Times New Roman, serif"
+                  font-size="18" fill="#586e75">100</text>
+            <text x="460" y="380" text-anchor="middle" font-family="Times New Roman, serif"
+                  font-size="18" fill="#586e75">200</text>
+            <!-- Demand curve: P = 100 - 0.5Q -->
+            <line x1="60" y1="110" x2="460" y2="360" stroke="#dc322f" stroke-width="3"/>
+            <text x="420" y="310" font-family="Times New Roman, serif"
+                  font-size="20" font-style="italic" fill="#dc322f">D</text>
+            <!-- MR curve: P = 100 - Q (extended to Q=150) -->
+            <line x1="60" y1="110" x2="360" y2="485" stroke="#268bd2" stroke-width="3"/>
+            <text x="258" y="340" font-family="Times New Roman, serif"
+                  font-size="20" font-style="italic" fill="#268bd2">MR</text>
+            <!-- Dynamic elements (initial Q=60, P=70) -->
+            <line id="dmr-hline" x1="60" y1="185" x2="180" y2="185"
+                  stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+            <line id="dmr-vline" x1="180" y1="185" x2="180" y2="360"
+                  stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+            <circle id="dmr-dot" cx="180" cy="185" r="5" fill="#586e75"/>
+            <text id="dmr-p-label" x="50" y="190" text-anchor="end" font-family="Times New Roman, serif"
+                  font-size="18" fill="#586e75">70</text>
+            <text id="dmr-q-label" x="180" y="380" text-anchor="middle" font-family="Times New Roman, serif"
+                  font-size="18" fill="#586e75">60</text>
+          </svg>
+          <!-- KaTeX eta label (positioned by JS) -->
+          <span id="eta-label" style="position: absolute; left: 0; top: 0; transform: translate(0, -50%);
+                       color: #586e75; font-size: 0.85em; pointer-events: none; white-space: nowrap;"></span>
+        </div>
+        <!-- Right graph: Total Revenue -->
+        <div style="flex: 1; position: relative;">
+          <svg id="tr-graph" viewBox="-50 -50 590 540" style="width: 100%; display: block;">
+            <defs>
+              <marker id="arrow-tr" markerWidth="8" markerHeight="4" refX="7" refY="2" orient="auto">
+                <polygon points="0 0, 8 2, 0 4" fill="#586e75"/>
+              </marker>
+            </defs>
+            <!-- Graph title -->
+            <text x="270" y="-25" text-anchor="middle" font-family="Times New Roman, serif"
+                  font-size="24" fill="#586e75">Total Revenue</text>
+            <!-- Axes -->
+            <line x1="60" y1="360" x2="60" y2="10" stroke="#586e75" stroke-width="2" marker-end="url(#arrow-tr)"/>
+            <line x1="60" y1="360" x2="510" y2="360" stroke="#586e75" stroke-width="2" marker-end="url(#arrow-tr)"/>
+            <text x="60" y="-2" text-anchor="middle" font-family="Times New Roman, serif"
+                  font-size="22" font-style="italic" fill="#586e75">TR</text>
+            <text x="525" y="365" font-family="Times New Roman, serif"
+                  font-size="22" font-style="italic" fill="#586e75">Q</text>
+            <text x="460" y="380" text-anchor="middle" font-family="Times New Roman, serif"
+                  font-size="18" fill="#586e75">200</text>
+            <!-- TR curve (path generated by JS) -->
+            <path id="tr-curve" fill="none" stroke="#cb4b16" stroke-width="3"/>
+            <!-- Dynamic elements (initial Q=60, TR=4200) -->
+            <line id="tr-hline" x1="60" y1="108" x2="180" y2="108"
+                  stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+            <line id="tr-vline" x1="180" y1="108" x2="180" y2="360"
+                  stroke="#586e75" stroke-width="2" stroke-dasharray="8,6"/>
+            <circle id="tr-dot" cx="180" cy="108" r="5" fill="#586e75"/>
+            <text id="tr-val-label" x="50" y="113" text-anchor="end" font-family="Times New Roman, serif"
+                  font-size="18" fill="#586e75">4200</text>
+            <text id="tr-q-label" x="180" y="380" text-anchor="middle" font-family="Times New Roman, serif"
+                  font-size="18" fill="#586e75">60</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="js/katex-macros.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="js/scroll-animations.js"></script>
+  <!-- Callouts library with polar mode (angle/distance positioning) -->
+  <script src="js/callouts.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Create ellipse callouts dynamically using polar mode
+    const svg = document.getElementById('demand-graph');
+
+    // Target positions
+    const P0_TARGET = {x: 45, y: 210};   // P₀ label position
+    const Q0_TARGET = {x: 220, y: 378};  // Q₀ label position
+
+    // Shared options
+    const baseOpts = {
+      fill: 'none',
+      strokeWidth: 2,
+      fontSize: 24,
+      fontStyle: 'normal',
+      pointerArc: 12
+    };
+
+    const redOpts = { ...baseOpts, stroke: '#dc322f', textFill: '#dc322f' };
+    const blueOpts = { ...baseOpts, stroke: '#268bd2', textFill: '#268bd2' };
+
+    // Callout 1: Points to P₀ label (red) - up and to the left
+    const callout1 = ellipseCallout(
+      P0_TARGET,
+      ["The monopolist can", "pick the price, but..."],
+      { ...redOpts, angle: -151, distance: 188, pointerGap: 25 }
+    );
+    callout1.id = 'callout-1';
+    callout1.setAttribute('opacity', '0');
+    svg.appendChild(callout1);
+
+    // Callout 2: Points to Q₀ label (blue) - down and to the right
+    const callout2 = ellipseCallout(
+      Q0_TARGET,
+      ["Consumers choose how much", "to buy at the price."],
+      { ...blueOpts, angle: 44, distance: 111, pointerGap: 10 }
+    );
+    callout2.id = 'callout-2';
+    callout2.setAttribute('opacity', '0');
+    svg.appendChild(callout2);
+
+    // Callout 3: Points to Q₀ label (red) - same position as callout 2
+    const callout3 = ellipseCallout(
+      Q0_TARGET,
+      ["The monopolist can choose", "how much to produce, but..."],
+      { ...redOpts, angle: 44, distance: 111, pointerGap: 10 }
+    );
+    callout3.id = 'callout-3';
+    callout3.setAttribute('opacity', '0');
+    svg.appendChild(callout3);
+
+    // Callout 4: Points to P₀ label (blue) - down and to the left
+    const callout4 = ellipseCallout(
+      P0_TARGET,
+      ["To sell its production,", "the monopolist must", "charge the price on", "the demand curve."],
+      { ...blueOpts, angle: 200, distance: 200, pointerGap: 20 }
+    );
+    callout4.id = 'callout-4';
+    callout4.setAttribute('opacity', '0');
+    svg.appendChild(callout4);
+
+    // Joan Robinson target (center of face ellipse)
+    const JOAN_TARGET = {x: -200, y: 150};
+
+    // Key point callout from Joan Robinson (rectangle for longer text)
+    const keyPointOpts = {
+      fill: 'none',
+      stroke: '#268bd2',
+      strokeWidth: 2,
+      fontSize: 24,
+      fontStyle: 'normal',
+      textFill: '#268bd2',
+      pointerWidth: 16,
+      cornerRadius: 20
+    };
+
+    const keyPointCallout = rectangleCallout(
+      JOAN_TARGET,
+      ["The monopolist chooses a point", "in the demand curve. It does not matter if", "the monopolist chooses price or quantity."],
+      { ...keyPointOpts, angle: 60, distance: 350, pointerGap: 15 }
+    );
+    keyPointCallout.id = 'key-point-callout';
+    keyPointCallout.setAttribute('opacity', '0');
+    svg.appendChild(keyPointCallout);
+
+    // Build GSAP timeline
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#demand-frame',
+        start: 'top top',
+        end: '+=600%',
+        pin: true,
+        scrub: 1,
+        anticipatePin: 1
+      }
+    });
+
+    // === PHASE 1: Monopolist picks price ===
+
+    // 0-1: P₀ label appears
+    tl.to('#p0-label-1', { opacity: 1, duration: 1 }, 0);
+
+    // 1-1.5: Callout 1 appears
+    tl.to('#callout-1', { opacity: 1, duration: 0.5 }, 1);
+
+    // 1.5-2: Horizontal line reveals (faster)
+    tl.to('#h-line-1', { opacity: 1, duration: 0.5 }, 1.5);
+
+    // 2-2.25: Dot appears
+    tl.to('#dot-1', { opacity: 1, duration: 0.25 }, 2);
+
+    // 2.25-2.75: Vertical line reveals (faster)
+    tl.to('#v-line-1', { opacity: 1, duration: 0.5 }, 2.25);
+
+    // 2.75-3.25: Q₀ label appears
+    tl.to('#q0-label-1', { opacity: 1, duration: 0.5 }, 2.75);
+
+    // 3.25-3.75: Callout 2 appears
+    tl.to('#callout-2', { opacity: 1, duration: 0.5 }, 3.25);
+
+    // 3.75-4.25: Pause to read
+
+    // === PHASE 2: Erase and reverse ===
+
+    // 4.25-4.75: Hide phase 1 elements (except Q₀)
+    tl.to('#p0-label-1', { opacity: 0, duration: 0.5 }, 4.25);
+    tl.to('#h-line-1', { opacity: 0, duration: 0.5 }, 4.25);
+    tl.to('#dot-1', { opacity: 0, duration: 0.5 }, 4.25);
+    tl.to('#v-line-1', { opacity: 0, duration: 0.5 }, 4.25);
+    tl.to('#callout-1', { opacity: 0, duration: 0.5 }, 4.25);
+    tl.to('#callout-2', { opacity: 0, duration: 0.5 }, 4.25);
+
+    // 4.75-5.25: Callout 3 appears
+    tl.to('#callout-3', { opacity: 1, duration: 0.5 }, 4.75);
+
+    // 5.25-5.75: Vertical line reveals (faster)
+    tl.to('#v-line-2', { opacity: 1, duration: 0.5 }, 5.25);
+
+    // 5.75-6: Dot appears
+    tl.to('#dot-2', { opacity: 1, duration: 0.25 }, 5.75);
+
+    // 6-6.5: Horizontal line reveals (faster)
+    tl.to('#h-line-2', { opacity: 1, duration: 0.5 }, 6);
+
+    // 6.5-7: P₀ label appears
+    tl.to('#p0-label-2', { opacity: 1, duration: 0.5 }, 6.5);
+
+    // 7-7.5: Callout 4 appears
+    tl.to('#callout-4', { opacity: 1, duration: 0.5 }, 7);
+
+    // 7.5-8: Pause to read
+
+    // === PHASE 3: Joan Robinson's key point ===
+
+    // 8-8.5: Hide callouts 3 and 4
+    tl.to('#callout-3', { opacity: 0, duration: 0.5 }, 8);
+    tl.to('#callout-4', { opacity: 0, duration: 0.5 }, 8);
+
+    // 8.5-9: Joan Robinson appears
+    tl.to('#joan-robinson', { opacity: 1, duration: 0.5 }, 8.5);
+
+    // 9-9.5: Key point callout appears
+    tl.to('#key-point-callout', { opacity: 1, duration: 0.5 }, 9);
+
+    // =====================================================
+    // EQUILIBRIUM GRAPH ANIMATIONS (Frame 4)
+    // =====================================================
+
+    const tl2 = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#equilibrium-frame',
+        start: 'top top',
+        end: '+=500%',
+        pin: true,
+        scrub: 1,
+        anticipatePin: 1
+      }
+    });
+
+    // === PHASE 1: Find MR = MC intersection ===
+
+    // 0-0.5: Horizontal dashed line appears (moving toward MR=MC)
+    tl2.to('#h-line-mr', { opacity: 1, duration: 0.5 }, 0);
+
+    // 0.5-1: Vertical dashed line appears (moving toward MR=MC)
+    tl2.to('#v-line-q', { opacity: 1, duration: 0.5 }, 0.5);
+
+    // 1-1.25: Dot at MR=MC intersection appears
+    tl2.to('#eq-dot-mr', { opacity: 1, duration: 0.25 }, 1);
+
+    // 1.25-1.75: Q* label appears
+    tl2.to('#q-star-label', { opacity: 1, duration: 0.5 }, 1.25);
+
+    // 1.75-2.25: Pause
+
+    // === PHASE 2: Find price on demand curve ===
+
+    // 2.25-2.5: Hide horizontal line to MR
+    tl2.to('#h-line-mr', { opacity: 0, duration: 0.25 }, 2.25);
+
+    // 2.5-3: Vertical line extends up to demand curve
+    tl2.to('#v-line-to-demand', { opacity: 1, duration: 0.5 }, 2.5);
+
+    // 3-3.25: Dot at demand curve appears
+    tl2.to('#eq-dot-demand', { opacity: 1, duration: 0.25 }, 3);
+
+    // 3.25-3.75: Horizontal line to P* appears
+    tl2.to('#h-line-p', { opacity: 1, duration: 0.5 }, 3.25);
+
+    // 3.75-4.25: P* label appears
+    tl2.to('#p-star-label', { opacity: 1, duration: 0.5 }, 3.75);
+
+    // =====================================================
+    // WELFARE COMPARISON ANIMATIONS (Frame 5)
+    // =====================================================
+
+    const tl3 = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#welfare-frame',
+        start: 'top top',
+        end: '+=800%',
+        pin: true,
+        scrub: 1,
+        anticipatePin: 1
+      }
+    });
+
+    // === PHASE 1: Show Perfect Competition Equilibrium ===
+
+    // 0-0.5: PC equilibrium dot appears
+    tl3.to('#pc-dot', { opacity: 1, duration: 0.5 }, 0);
+
+    // 0.5-1: PC dashed lines appear
+    tl3.to('#pc-v-line', { opacity: 1, duration: 0.5 }, 0.5);
+    tl3.to('#pc-h-line', { opacity: 1, duration: 0.5 }, 0.5);
+
+    // 1-1.5: PC labels appear
+    tl3.to('#pc-q-label', { opacity: 1, duration: 0.5 }, 1);
+    tl3.to('#pc-p-label', { opacity: 1, duration: 0.5 }, 1);
+
+    // 1.5-2: PC welfare areas appear
+    tl3.to('#pc-cs', { opacity: 1, duration: 0.5 }, 1.5);
+    tl3.to('#pc-ps', { opacity: 1, duration: 0.5 }, 1.5);
+
+    // 2-2.5: PC welfare labels appear
+    tl3.to('#pc-cs-label', { opacity: 1, duration: 0.5 }, 2);
+    tl3.to('#pc-ps-label', { opacity: 1, duration: 0.5 }, 2);
+
+    // 2.5-3.5: Pause to view PC equilibrium
+
+    // === PHASE 2: Transition to Monopoly ===
+
+    // 3.5-4: Fade out PC welfare areas and labels
+    tl3.to('#pc-cs', { opacity: 0, duration: 0.5 }, 3.5);
+    tl3.to('#pc-ps', { opacity: 0, duration: 0.5 }, 3.5);
+    tl3.to('#pc-cs-label', { opacity: 0, duration: 0.5 }, 3.5);
+    tl3.to('#pc-ps-label', { opacity: 0, duration: 0.5 }, 3.5);
+
+    // 4-4.5: Fade out PC equilibrium elements
+    tl3.to('#pc-dot', { opacity: 0, duration: 0.5 }, 4);
+    tl3.to('#pc-v-line', { opacity: 0, duration: 0.5 }, 4);
+    tl3.to('#pc-h-line', { opacity: 0, duration: 0.5 }, 4);
+    tl3.to('#pc-q-label', { opacity: 0, duration: 0.5 }, 4);
+    tl3.to('#pc-p-label', { opacity: 0, duration: 0.5 }, 4);
+
+    // === PHASE 3: Show Monopoly Equilibrium ===
+
+    // 4.5-5: Monopoly dots appear
+    tl3.to('#mono-mr-dot', { opacity: 1, duration: 0.5 }, 4.5);
+    tl3.to('#mono-d-dot', { opacity: 1, duration: 0.5 }, 4.5);
+
+    // 5-5.5: Monopoly dashed lines appear
+    tl3.to('#mono-v-line', { opacity: 1, duration: 0.5 }, 5);
+    tl3.to('#mono-h-line', { opacity: 1, duration: 0.5 }, 5);
+
+    // 5.5-6: Monopoly labels appear
+    tl3.to('#mono-q-label', { opacity: 1, duration: 0.5 }, 5.5);
+    tl3.to('#mono-p-label', { opacity: 1, duration: 0.5 }, 5.5);
+
+    // 6-6.5: Monopoly welfare areas appear
+    tl3.to('#mono-cs', { opacity: 1, duration: 0.5 }, 6);
+    tl3.to('#mono-ps', { opacity: 1, duration: 0.5 }, 6);
+
+    // 6.5-7: Monopoly welfare labels appear
+    tl3.to('#mono-cs-label', { opacity: 1, duration: 0.5 }, 6.5);
+    tl3.to('#mono-ps-label', { opacity: 1, duration: 0.5 }, 6.5);
+
+    // 7-7.5: DWL appears
+    tl3.to('#dwl', { opacity: 1, duration: 0.5 }, 7);
+
+    // 7.5-8: DWL label appears
+    tl3.to('#dwl-label', { opacity: 1, duration: 0.5 }, 7.5);
+
+    // 8+: Hold
+
+    // =====================================================
+    // LERNER INDEX / MARK-UP DERIVATION (Frame 6)
+    // =====================================================
+
+    const tl4 = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#lerner-frame',
+        start: 'top top',
+        end: '+=400%',
+        pin: true,
+        scrub: 1,
+        anticipatePin: 1
+      }
+    });
+
+    // Reveal derivation lines one by one
+    tl4.to('#lerner-line-2', { opacity: 1, duration: 1, ease: 'none' }, 0);
+    tl4.to('#lerner-line-3', { opacity: 1, duration: 1, ease: 'none' }, 1.5);
+    tl4.to('#lerner-line-4', { opacity: 1, duration: 1, ease: 'none' }, 3);
+    tl4.to('#lerner-line-5', { opacity: 1, duration: 1, ease: 'none' }, 4.5);
+
+    // =====================================================
+    // LERNER GRAPH ARROW KEY INTERACTION
+    // =====================================================
+
+    let lernerNavEnabled = false;
+
+    // Enable/disable arrow nav based on scroll position
+    ScrollTrigger.create({
+      trigger: '#lerner-frame',
+      start: 'top top',
+      end: '+=400%',
+      onEnter: () => { lernerNavEnabled = true; },
+      onLeave: () => { lernerNavEnabled = false; },
+      onEnterBack: () => { lernerNavEnabled = true; },
+      onLeaveBack: () => { lernerNavEnabled = false; }
+    });
+
+    // Coordinate system
+    const lernerXOrigin = 60, lernerYOrigin = 360;
+    const lernerXScale = 2, lernerYScale = 2.5;
+    const toX = (q) => lernerXOrigin + q * lernerXScale;
+    const toY = (p) => lernerYOrigin - p * lernerYScale;
+
+    // Pivot point: where D crosses MC (fixed)
+    // D: P = 100 - 0.5Q, MC: P = 10 + 0.5Q => Q=90, P=55
+    const pivotQ = 90, pivotP = 55;
+
+    // Demand slope parameter (controls elasticity)
+    // Demand rotates around pivot: P - 55 = -slope * (Q - 90)
+    // => P = 55 + 90*slope - slope*Q = (55 + 90*slope) - slope*Q
+    let demandSlope = 0.5;
+    const minSlope = 0.25;  // more elastic (flatter)
+    const maxSlope = 1.5;   // more inelastic (steeper)
+    const slopeStep = 0.05;
+
+    function updateLernerGraph() {
+      // MC is fixed: P = 10 + 0.5Q
+      // Demand rotates around (90, 55): P = (55 + 90*slope) - slope*Q
+      // Let intercept a = 55 + 90*slope
+      // MR has same intercept, double slope: MR = a - 2*slope*Q
+      // Equilibrium: MR = MC => a - 2*slope*Q = 10 + 0.5*Q
+      // => (a - 10) = Q * (2*slope + 0.5)
+      // => Q* = (45 + 90*slope) / (2*slope + 0.5)
+
+      const a = 55 + 90 * demandSlope;  // demand intercept
+      const qStar = (45 + 90 * demandSlope) / (2 * demandSlope + 0.5);
+      const pStar = a - demandSlope * qStar;
+      const mcStar = 10 + 0.5 * qStar;
+
+      // Elasticity at equilibrium: η = -(P / (slope * Q))
+      const eta = -pStar / (demandSlope * qStar);
+
+      // Mark-up = (P* - MC) / P*
+      const markup = (pStar - mcStar) / pStar;
+
+      // SVG coordinates
+      const xStar = toX(qStar);
+      const yP = toY(pStar);
+      const yMC = toY(mcStar);
+
+      // Update demand curve (rotates around pivot)
+      // Start at Q=0: P = a
+      // End where P=0: Q = a/slope
+      const qDemandEnd = Math.min(a / demandSlope, 230);
+      document.getElementById('lerner-demand').setAttribute('x1', toX(0));
+      document.getElementById('lerner-demand').setAttribute('y1', toY(a));
+      document.getElementById('lerner-demand').setAttribute('x2', toX(qDemandEnd));
+      document.getElementById('lerner-demand').setAttribute('y2', toY(0));
+      // Move D label near end of curve
+      const dLabelQ = Math.min(qDemandEnd - 20, pivotQ + 30);
+      const dLabelP = a - demandSlope * dLabelQ;
+      document.getElementById('lerner-demand-label').setAttribute('x', toX(dLabelQ));
+      document.getElementById('lerner-demand-label').setAttribute('y', toY(dLabelP) + 25);
+
+      // Update MR curve (same intercept, double slope)
+      // Start at Q=0: P = a
+      // End where P goes below axis or at reasonable Q
+      const qMRzero = a / (2 * demandSlope);
+      const mrEndQ = Math.min(qMRzero + 20, 150);
+      const mrEndP = a - 2 * demandSlope * mrEndQ;
+      document.getElementById('lerner-mr').setAttribute('x1', toX(0));
+      document.getElementById('lerner-mr').setAttribute('y1', toY(a));
+      document.getElementById('lerner-mr').setAttribute('x2', toX(mrEndQ));
+      document.getElementById('lerner-mr').setAttribute('y2', toY(mrEndP));
+      // Move MR label
+      const mrLabelQ = Math.min(qMRzero - 10, qStar + 30);
+      const mrLabelP = a - 2 * demandSlope * mrLabelQ;
+      document.getElementById('lerner-mr-label').setAttribute('x', toX(mrLabelQ));
+      document.getElementById('lerner-mr-label').setAttribute('y', toY(mrLabelP) + 25);
+
+      // Update equilibrium elements
+      document.getElementById('lerner-v-line').setAttribute('x1', xStar);
+      document.getElementById('lerner-v-line').setAttribute('x2', xStar);
+      document.getElementById('lerner-v-line').setAttribute('y1', yP);
+
+      document.getElementById('lerner-p-line').setAttribute('x2', xStar);
+      document.getElementById('lerner-p-line').setAttribute('y1', yP);
+      document.getElementById('lerner-p-line').setAttribute('y2', yP);
+
+      document.getElementById('lerner-mc-line').setAttribute('x2', xStar);
+      document.getElementById('lerner-mc-line').setAttribute('y1', yMC);
+      document.getElementById('lerner-mc-line').setAttribute('y2', yMC);
+
+      document.getElementById('lerner-p-dot').setAttribute('cx', xStar);
+      document.getElementById('lerner-p-dot').setAttribute('cy', yP);
+
+      document.getElementById('lerner-mc-dot').setAttribute('cx', xStar);
+      document.getElementById('lerner-mc-dot').setAttribute('cy', yMC);
+
+      document.getElementById('lerner-q-label').setAttribute('x', xStar);
+
+      document.getElementById('lerner-p-label').setAttribute('y', yP + 5);
+      document.getElementById('lerner-mc-label').setAttribute('y', yMC + 5);
+
+      // Update bracket
+      document.getElementById('lerner-bracket').setAttribute('y1', yP);
+      document.getElementById('lerner-bracket').setAttribute('y2', yMC);
+      document.getElementById('lerner-cap-top').setAttribute('y1', yP);
+      document.getElementById('lerner-cap-top').setAttribute('y2', yP);
+      document.getElementById('lerner-cap-bot').setAttribute('y1', yMC);
+      document.getElementById('lerner-cap-bot').setAttribute('y2', yMC);
+
+      // Update displays
+      document.getElementById('lerner-eta-display').textContent = 'η = ' + eta.toFixed(2);
+      document.getElementById('lerner-markup-display').textContent = 'Mark-up = ' + (markup * 100).toFixed(1) + '%';
+    }
+
+    // Arrow key handler
+    document.addEventListener('keydown', function(e) {
+      if (!lernerNavEnabled) return;
+      if (e.key === 'ArrowRight' && demandSlope < maxSlope) {
+        demandSlope = Math.min(demandSlope + slopeStep, maxSlope);
+      } else if (e.key === 'ArrowLeft' && demandSlope > minSlope) {
+        demandSlope = Math.max(demandSlope - slopeStep, minSlope);
+      } else {
+        return;
+      }
+      e.preventDefault();
+      updateLernerGraph();
+    });
+
+    // Initialize
+    updateLernerGraph();
+
+    // =====================================================
+    // INTERACTIVE D/MR AND TR GRAPHS (Frame 7)
+    // =====================================================
+
+    // Generate TR curve path: TR = (100 - 0.5Q) * Q
+    (function() {
+      let d = '';
+      for (let q = 0; q <= 200; q += 2) {
+        const x = 60 + q * 2;
+        const tr = (100 * q - 0.5 * q * q);
+        const y = 360 - tr * 0.06;
+        d += (q === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+      }
+      document.getElementById('tr-curve').setAttribute('d', d);
+    })();
+
+    // Pin the interactive frame
+    let interactiveEnabled = false;
+    ScrollTrigger.create({
+      trigger: '#interactive-frame',
+      start: 'top top',
+      end: '+=200%',
+      pin: true,
+      anticipatePin: 1,
+      onEnter: () => { interactiveEnabled = true; },
+      onLeave: () => { interactiveEnabled = false; },
+      onEnterBack: () => { interactiveEnabled = true; },
+      onLeaveBack: () => { interactiveEnabled = false; }
+    });
+
+    // Arrow key interaction (waits for KaTeX to load)
+    document.addEventListener('DOMContentLoaded', function() {
+      const xOrigin = 60, yOrigin = 360;
+      const xScale = 2, yScaleP = 2.5, yScaleTR = 0.06;
+      const vbMinX = -50, vbMinY = -20, vbW = 560, vbH = 510;
+      const Qmin = 1, Qmax = 190, Qstep = 5;
+      let currentQ = 60;
+
+      function demandP(q) { return 100 - 0.5 * q; }
+      function totalRevenue(q) { return (100 - 0.5 * q) * q; }
+      function elasticity(q) { return -2 * demandP(q) / q; }
+      function toX(q) { return xOrigin + q * xScale; }
+      function toYP(p) { return yOrigin - p * yScaleP; }
+      function toYTR(tr) { return yOrigin - tr * yScaleTR; }
+
+      function updateGraphs(q) {
+        const p = demandP(q);
+        const tr = totalRevenue(q);
+        const e = elasticity(q);
+        const x = toX(q);
+        const yP = toYP(p);
+        const yTR = toYTR(tr);
+
+        // Left graph: D/MR
+        document.getElementById('dmr-dot').setAttribute('cx', x);
+        document.getElementById('dmr-dot').setAttribute('cy', yP);
+        document.getElementById('dmr-hline').setAttribute('y1', yP);
+        document.getElementById('dmr-hline').setAttribute('y2', yP);
+        document.getElementById('dmr-hline').setAttribute('x2', x);
+        document.getElementById('dmr-vline').setAttribute('x1', x);
+        document.getElementById('dmr-vline').setAttribute('x2', x);
+        document.getElementById('dmr-vline').setAttribute('y1', yP);
+        document.getElementById('dmr-p-label').setAttribute('y', yP + 5);
+        document.getElementById('dmr-p-label').textContent = Math.round(p);
+        document.getElementById('dmr-q-label').setAttribute('x', x);
+        document.getElementById('dmr-q-label').textContent = Math.round(q);
+
+        // Right graph: TR
+        document.getElementById('tr-dot').setAttribute('cx', x);
+        document.getElementById('tr-dot').setAttribute('cy', yTR);
+        document.getElementById('tr-hline').setAttribute('y1', yTR);
+        document.getElementById('tr-hline').setAttribute('y2', yTR);
+        document.getElementById('tr-hline').setAttribute('x2', x);
+        document.getElementById('tr-vline').setAttribute('x1', x);
+        document.getElementById('tr-vline').setAttribute('x2', x);
+        document.getElementById('tr-vline').setAttribute('y1', yTR);
+        document.getElementById('tr-val-label').setAttribute('y', yTR + 5);
+        document.getElementById('tr-val-label').textContent = Math.round(tr);
+        document.getElementById('tr-q-label').setAttribute('x', x);
+        document.getElementById('tr-q-label').textContent = Math.round(q);
+
+        // Eta label (KaTeX) — north-east of demand point
+        const etaLabel = document.getElementById('eta-label');
+        katex.render('\\eta_{Q,P} = ' + e.toFixed(2), etaLabel, { throwOnError: false });
+        const etaSvgX = x + 15;
+        const etaSvgY = yP - 20;
+        etaLabel.style.left = ((etaSvgX - vbMinX) / vbW * 100) + '%';
+        etaLabel.style.top = ((etaSvgY - vbMinY) / vbH * 100) + '%';
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (!interactiveEnabled) return;
+        if (e.key === 'ArrowRight' && currentQ < Qmax) {
+          currentQ = Math.min(currentQ + Qstep, Qmax);
+        } else if (e.key === 'ArrowLeft' && currentQ > Qmin) {
+          currentQ = Math.max(currentQ - Qstep, Qmin);
+        } else {
+          return;
+        }
+        e.preventDefault();
+        updateGraphs(currentQ);
+      });
+
+      updateGraphs(currentQ);
+    });
+  </script>
+</body>
+</html>

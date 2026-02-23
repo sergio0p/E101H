@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cost Functions | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <style>
+    .placeholder {
+      background: #f5f5f5;
+      border: 2px dashed #999;
+      border-radius: 4px;
+      padding: 2rem;
+      text-align: center;
+      color: #666;
+      margin: 1rem 0;
+      font-style: italic;
+    }
+    .footnote {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Cost Functions</h1>
+      <h2>Perfectly Competitive Markets</h2>
+      <h3>ECON 101H: Introduction to Economics</h3>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Cost Function Definitions -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Cost Functions</h1>
+      <p class="frame-subtitle">Definitions</p>
+    </div>
+    <div class="frame-content">
+      <p>Fix the price of inputs, so the cost function (it does not matter if it is the SR or LR) can be written as a function of the quantity only, $C(Q)$. We define:</p>
+      <ul>
+        <li>$TC(Q) = C(Q)$: total cost (or the cost function)</li>
+        <li>$MC(Q) = C'(Q)$: marginal cost</li>
+        <li>$ATC(Q) = C(Q)/Q$: average total cost (or the unit cost)</li>
+        <li>$FC = C(0)$: fixed cost</li>
+        <li>$VC(Q) = TC(Q) - FC$: variable cost</li>
+        <li>$AVC(Q) = VC(Q)/Q$: average variable cost</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 2: Relationship between ATC and MC -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Cost Functions</h1>
+      <p class="frame-subtitle">Relation between ATC (or AVC) and MC</p>
+    </div>
+    <div class="frame-content">
+      <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;">
+        If $MC(Q) < ATC(Q)$ then $ATC \searrow$
+      </p>
+      <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;">
+        If $MC(Q) > ATC(Q)$ then $ATC \nearrow$
+      </p>
+      <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;">
+        If $MC(Q) = ATC(Q)$ then $ATC$ 's slope is zero.
+      </p>
+
+      <p style="margin-top: 2rem;">In words, if the marginal cost is below the average total cost, then the average total cost must be decreasing; if the marginal cost is above the average total cost, then the average total cost must be increasing; when the marginal cost is equal the average total cost, then the average total cost slope is zero.</p>
+
+      <p>This last property implies that if the MC is U-shaped and the ATC crosses it, then it crosses the ATC at its minimum.</p>
+
+      <p class="footnote">Everything here remains true if you use AVC instead of ATC. Please, refer to the textbook or the Mathematica file for pictures.</p>
+    </div>
+  </section>
+
+  <!-- Frame 3: Perfect Competition -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Perfect Competition</h1>
+      <p class="frame-subtitle">Firm Assumptions and Profit Maximization</p>
+    </div>
+    <div class="frame-content">
+      <p style="font-size: 0.95rem;">We assume that firms:</p>
+      <ul style="margin-bottom: 1.5rem;">
+        <li>are price takers</li>
+        <li>aim to maximize profits</li>
+        <li>use a technology that exhibits decreasing returns to scale (for the "relevant" range)—that is the MC is increasing when producing above some quantity</li>
+      </ul>
+
+      <p style="text-align: center; margin: 1.5rem 0;">
+        $\pi(q) = p \cdot q - c(q)$
+      </p>
+
+      <p style="font-size: 0.85rem; margin: 1rem 0;">Notice that we assume constant input prices, so we write the cost function as a function of the quantity only.</p>
+
+      <p style="margin-top: 1.5rem;">To maximize profit we need that:</p>
+      <p style="text-align: center; margin: 1rem 0;">
+        $\pi'(q) = \underbrace{p}_{MR} - \underbrace{c'(q)}_{MC(q)} = 0 \Rightarrow MC(q) = p$
+      </p>
+
+      <p style="margin-top: 1.5rem;">We also need the marginal cost to be increasing, so:</p>
+      <p style="text-align: center; margin: 1rem 0;">
+        $q^S = MC^{-1}(p)$ provided that $MC'(q) > 0$
+      </p>
+
+      <p>is the supply decision of a firm with cost function $c(q)$.</p>
+    </div>
+  </section>
+
+  <!-- Frame 4: Entry and Exit (Long Run) -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Perfect Competition</h1>
+      <p class="frame-subtitle">Entry and Exit: Long Run</p>
+    </div>
+    <div class="frame-content">
+      <p>In the previous short-run analysis, the firm might choose to produce a quantity and incur negative profits but in the long run, such firm will exit the industry.</p>
+
+      <p style="margin-top: 1.5rem;">In order for a firm to leave the industry must be that the market price $p$ is such that:</p>
+
+      <p style="text-align: center; margin: 1.5rem 0;">
+        $\pi(q) = p \cdot q - c(q) < 0$ for all $q > 0$, or
+      </p>
+
+      <p style="text-align: center; margin: 1rem 0;">
+        $\pi(q) = \left(p - \underbrace{c(q)/q}_{ATC(q)}\right) \cdot q < 0$ for all $q$, or
+      </p>
+
+      <p style="text-align: center; margin: 1rem 0;">
+        $\min_q ATC(q) > p$
+      </p>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false},
+          {left: "\\[", right: "\\]", display: true},
+          {left: "\\(", right: "\\)", display: false}
+        ]
+      });
+    });
+  </script>
+</body>
+</html>

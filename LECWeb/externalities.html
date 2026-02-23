@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Externalities and Public Goods | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+
+  <style>
+    :root {
+      --crane-amber: #f9a825;
+      --text-primary: #000000;
+      --text-secondary: #333333;
+      --text-muted: #666666;
+    }
+
+    .title-slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: #ffffff;
+    }
+
+    .title-slide .title-box {
+      background: var(--crane-amber);
+      padding: 1.5rem 3rem 1.25rem 3rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .title-slide h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .title-slide h2 {
+      font-size: 1.25rem;
+      margin: 0;
+      padding: 0 1rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    .title-slide .author {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 1rem 0 0.25rem 0;
+    }
+
+    .title-slide .institute {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin: 0.25rem 0 0.125rem 0;
+    }
+
+    .title-slide .date {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0.25rem 0;
+    }
+
+    .frame {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 3rem 4rem;
+      background: #ffffff;
+      color: var(--text-primary);
+    }
+
+    .frame-title-bar {
+      border-bottom: 3px solid var(--crane-amber);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .frame-title {
+      font-size: 2rem;
+      margin: 0 0 0.25rem 0;
+      color: var(--text-primary);
+    }
+
+    .frame-subtitle {
+      font-size: 1.1rem;
+      margin: 0;
+      color: var(--text-secondary);
+      font-weight: normal;
+    }
+
+    .frame-content {
+      flex: 1;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .frame-content p {
+      margin: 1rem 0;
+    }
+
+    .frame-content ul, .frame-content ol {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .frame-content li {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 1.5rem auto;
+      font-size: 0.95rem;
+    }
+
+    table th, table td {
+      border: 1px solid #999;
+      padding: 0.75rem 1rem;
+      text-align: center;
+    }
+
+    table th {
+      background: #f0f0f0;
+      font-weight: bold;
+    }
+
+    .math-display {
+      text-align: center;
+      margin: 1.5rem 0;
+      font-size: 1rem;
+    }
+
+    .fs-small {
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Externalities and Public Goods</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Externalities -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Externalities</h2>
+    </div>
+    <div class="frame-content">
+      <p>Externality is when an action of an agent (firm, consumer, government) affects the actions of another agent. If the impact is beneficial, we call it a positive externality. If the impact is negative, we call it a negative externality.</p>
+
+      <p><strong>So far, we assumed that there were no externalities:</strong></p>
+
+      <ul>
+        <li>In consumer theory, the consumption of one consumer does not affect the utility level of another consumer. Of course, this rules out envy or guilt.</li>
+        <li>In producer theory (perfect competition), the production of one firm does not affect the profits of another firm. Thus, in perfect competition (without externalities), firms can ignore other firms' behavior and focus only on the market price.</li>
+        <li>Without externalities, the market equilibrium maximizes total surplus (we say that the market equilibrium delivers an efficient outcome).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 2: Externalities Example -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Externalities</h2>
+      <p class="frame-subtitle">Example</p>
+    </div>
+    <div class="frame-content">
+      <p>Consider two firms such that firm A imposes a negative externality on firm B: when firm A increases production, the marginal cost of firm B also increases. In particular, assume their marginal cost functions are:</p>
+      <div class="math-display">$MC_A=2q_{A} \quad \text{and} \quad MC_B=q_A+2q_B$</div>
+
+      <p>Remember that to maximize profits, a firm will increase production if its marginal cost is below the market price, and decrease production if the marginal cost is above the market price. Thus, the individual supply coincides with the firm's marginal cost curve (provided the MC is increasing).</p>
+
+      <p><strong>Thus, the supply curves are:</strong></p>
+      <div class="math-display">$q_{A}^{S}=P_{A}/2 \quad \text{and} \quad q_{B}^{S}=(P_{B}-q_{A})/2$</div>
+    </div>
+  </section>
+
+  <!-- Frame 3: Externalities Example - Market Equilibrium -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Externalities Example (cont.)</h2>
+      <p class="frame-subtitle">The Market Equilibrium</p>
+    </div>
+    <div class="frame-content">
+      <p><strong>The supply curves are:</strong></p>
+      <div class="math-display">$q_{A}^{S}=P_{A}/2 \quad \text{and} \quad q_{B}^{S}=(P_{B}-q_{A})/2$</div>
+
+      <p><strong>Now, assume the following demand functions:</strong></p>
+      <div class="math-display">$q_{A}^{D}=120-P_{A} \quad \text{and} \quad q_{B}^{D}=200-2P_{B}$</div>
+
+      <p>Notice that in a market equilibrium (supply = demand) for good A:</p>
+      <div class="math-display">$q_{A}=40 \quad \text{and} \quad P_{A}=80$</div>
+
+      <p>Using this information, $q_{B}^{S}=(P_{B}-40)/2$ and so equilibrium in the market for good B yields:</p>
+      <div class="math-display">$q_{B}=24 \quad \text{and} \quad P_{B}=88$</div>
+    </div>
+  </section>
+
+  <!-- Frame 4: Externalities Example (cont.) -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Externalities</h2>
+      <p class="frame-subtitle">Example cont.</p>
+    </div>
+    <div class="frame-content">
+      <p>Notice that an increase in the production of firm A shifts the supply curve of firm B: In order for firm B to keep producing the same quantity (since the marginal cost is now higher), the market price for firm B must also increase. Otherwise, if the price $P_{B}$ remains fixed, firm B will lower its production.</p>
+
+      <p><strong>Using the market equilibrium, compute the total surplus:</strong> consumer and producer surplus. In this case, however, due to the externalities the total surplus is not maximized at the market equilibrium because firm A ignores the cost imposed on firm B by A's production (the externality).</p>
+
+      <p><strong>Check the following:</strong> If firm A were to decrease its production by a "little", the total surplus would increase.</p>
+    </div>
+  </section>
+
+  <!-- Frame 5: Externalities Example - Efficient Outcome -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Externalities Example (cont.)</h2>
+      <p class="frame-subtitle">The Efficient Outcome</p>
+    </div>
+    <div class="frame-content">
+      <p>To find the efficient outcome (quantities that maximize the social surplus), we need to equate the prices (given by the demand function) to the social marginal cost. In our case, the social cost of producing good A is the cost of producing A plus the externalities created by the production of A:</p>
+
+      <div class="math-display">$SMC_A=\underbrace{2q_{A}}_{MC_{A}}+\underbrace{q_{A}}_{\text{externality}}$</div>
+
+      <p>Setting $SMC_{A}=P_{A}=120-q_{A}$:</p>
+      <div class="math-display">$q_{A}=30 \quad \text{and} \quad P_{A}=90$</div>
+
+      <p>Now, the efficient quantity of B is:</p>
+      <div class="math-display">$SMC_{B}=2q_{B}=P_{B}=400-2q_{B} \Rightarrow q_{B}=100 \quad \text{and} \quad P_{B}=200$</div>
+    </div>
+  </section>
+
+  <!-- Frame 6: Coase's Theorem (statement) -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Coase's Theorem</h2>
+      <p class="frame-subtitle">statement</p>
+    </div>
+    <div class="frame-content">
+      <p>The socially efficient quantities can be reached if:</p>
+      <ul>
+        <li>Property rights are clearly assigned and</li>
+        <li>Bargaining costs are low</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 7: Coase's Theorem in action (1) -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Coase's Theorem in action</h2>
+    </div>
+    <div class="frame-content">
+      <p>Assume that legal rights are such that firm B has the right to avoid the negative externalities. In this case, firm B will require that firm A cease production so $q_A=0$.</p>
+
+      <p><strong>Find:</strong></p>
+      <ul>
+        <li>Firm B's quantity and profit when $q_A=0$.</li>
+        <li>What is the minimum amount of compensation that firm B would require from firm A to allow firm A to produce at the socially efficient level $q_A=30$?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 8: Coase's Theorem in action (2) -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Coase's Theorem in action</h2>
+    </div>
+    <div class="frame-content">
+      <p>Consider now the alternative case in which firm A has the right to produce as much as it wants. You already saw the equilibrium in this case: $q_A=40$ and $q_B=24$.</p>
+
+      <p><strong>Find:</strong></p>
+      <ul>
+        <li>What is the maximum payment that firm B is willing to pay as compensation to firm A so that A would reduce its production to the efficient level $q_A=30$?</li>
+        <li>What is the minimum amount firm A demands in this case?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 9: Coase's Theorem in action (3) -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Coase's Theorem in action</h2>
+    </div>
+    <div class="frame-content">
+      <p>As you saw above, it does not matter if B has the right of avoiding the negative externality or if A has the right to impose the negative externality. One party is always able to find a mutually agreeable compensation scheme so that both firms would produce at the socially efficient level.</p>
+    </div>
+  </section>
+
+  <!-- Frame 10: Public Goods -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Public Goods</h2>
+    </div>
+    <div class="frame-content">
+      <p>Public goods are a particular case of positive (consumption) externality. A public good is:</p>
+
+      <ul>
+        <li><strong>Non-rival:</strong> if one person consumes the good, the amount that others can consume of the good remains the same.</li>
+        <li><strong>Non-excludable:</strong> it is too costly to exclude one person from consuming the good.</li>
+      </ul>
+
+      <table>
+        <tr>
+          <th></th>
+          <th>Rival</th>
+          <th>Non-Rival</th>
+        </tr>
+        <tr>
+          <td><strong>Excludable</strong></td>
+          <td>Private Good</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Non-Excludable</strong></td>
+          <td></td>
+          <td><strong>Public Good</strong></td>
+        </tr>
+      </table>
+
+      <p>As in the case of positive externalities (production of the public good is a particular case of positive externalities), the market equilibrium level of the public good is below the socially efficient level.</p>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz 01 | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <style>
+    .align-star {
+      text-align: left;
+    }
+    .align-star > p {
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Quiz 01</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Question 03 -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Quiz 01</h1>
+      <p class="frame-subtitle">Question 03</p>
+    </div>
+    <div class="frame-content">
+      <div class="block">
+        <div class="block-title">Question 03</div>
+        <div class="block-body">
+          <p>Bob's marginal utilities for apples is $MU^{Bob}_a = 19$ and for bananas is $MU^{Bob}_b = 3$. Carlo's marginal utilities for apples is $MU^{Carlos}_a = 3$ and for bananas is $MU^{Carlos}_b = 11$. Assume Carlos sells one apple to Bob and Bob pays Carlos with $x$ bananas. As long as $x$ is in the range: min $x = 3$ $< x <$ max $x = 3.67$, the utility of both will increase after this trade.</p>
+        </div>
+      </div>
+
+      <div class="align-star">
+        <p>
+          $\Delta U^{Carlos} = -1 \times MU^{Carlos}_a + x \times MU^{Carlos}_b = -3 + x \times 11$
+        </p>
+        <p>
+          $\Delta U^{Carlos} > 0 \Leftrightarrow x > 3/11 = 0.272727$
+        </p>
+        <p></p>
+        <p>
+          $\Delta U^{Bob} = 1 \times MU^{Bob}_a - x \times MU^{Bob}_b = 19 - x \times 3$
+        </p>
+        <p>
+          $\Delta U^{Bob} > 0 \Leftrightarrow 19 > 3x \Rightarrow x < 19/3 = 6.33333$
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false},
+          {left: "\\[", right: "\\]", display: true},
+          {left: "\\(", right: "\\)", display: false}
+        ]
+      });
+    });
+  </script>
+</body>
+</html>

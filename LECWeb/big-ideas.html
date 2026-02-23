@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Big Ideas in Economics | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+
+  <style>
+    :root {
+      --crane-amber: #f9a825;
+      --text-primary: #000000;
+      --text-secondary: #333333;
+      --text-muted: #666666;
+    }
+
+    .title-slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: #ffffff;
+    }
+
+    .title-slide .title-box {
+      background: var(--crane-amber);
+      padding: 1.5rem 3rem 1.25rem 3rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .title-slide h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .title-slide h2 {
+      font-size: 1.25rem;
+      margin: 0;
+      padding: 0 1rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    .title-slide .author {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 1rem 0 0.25rem 0;
+    }
+
+    .title-slide .institute {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin: 0.25rem 0 0.125rem 0;
+    }
+
+    .title-slide .date {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0.25rem 0;
+    }
+
+    .frame {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 3rem 4rem;
+      background: #ffffff;
+      color: var(--text-primary);
+    }
+
+    .frame-title-bar {
+      border-bottom: 3px solid var(--crane-amber);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .frame-title {
+      font-size: 2rem;
+      margin: 0 0 0.25rem 0;
+      color: var(--text-primary);
+    }
+
+    .frame-subtitle {
+      font-size: 1.1rem;
+      margin: 0;
+      color: var(--text-secondary);
+      font-weight: normal;
+    }
+
+    .frame-content {
+      flex: 1;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .frame-content p {
+      margin: 1rem 0;
+    }
+
+    .frame-content ul, .frame-content ol {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .frame-content li {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    .block {
+      background: #f9f9f9;
+      border-left: 4px solid var(--crane-amber);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+    }
+
+    .block-title {
+      font-weight: bold;
+      color: var(--crane-amber);
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .block-body {
+      margin: 0;
+      color: var(--text-secondary);
+    }
+
+    .quote {
+      font-style: italic;
+      color: var(--text-secondary);
+      margin: 1.5rem 2rem;
+      padding: 1rem;
+      border-left: 4px solid var(--crane-amber);
+    }
+
+    .placeholder {
+      background: #f0f0f0;
+      border: 2px dashed #999;
+      padding: 2rem;
+      text-align: center;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .link-text {
+      color: #0066cc;
+    }
+
+    .fs-small {
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>The Big Ideas in Economics</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Idea Two -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Two: Good Institutions Align Self-Interest with the Social Interest</p>
+    </div>
+    <div class="frame-content">
+      <blockquote class="quote">
+        "It is not from the benevolence of the butcher, the brewer, or the baker, that we expect our dinner, but from their regard to their own interest."
+        <br><span style="font-weight: bold;">— Adam Smith, 1776</span>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Frame 2: Idea Three -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Three: Trade-offs Are Everywhere</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li><a href="#" class="link-text">"Should I stay or should I go?" The Clash (1981)</a></li>
+        <li>Opportunity and Sunk costs.</li>
+        <li><a href="#" class="link-text">"UNC should help students afford LinkedIn premium"</a> — Daily Tar Heel, opinion article (2017).</li>
+        <li><a href="#" class="link-text">"The Immortal"</a> — Jorge Luis Borges, 1974.</li>
+      </ul>
+
+      <div class="block">
+        <div class="block-title">Definition: Sunk cost</div>
+        <div class="block-body">A cost that is irreversible.</div>
+      </div>
+
+      <div class="block">
+        <div class="block-title">Definition: Opportunity cost</div>
+        <div class="block-body">The opportunity cost of a given choice is the value of the highest alternative choice.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 3: Scarcity -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Scarcity</h2>
+    </div>
+    <div class="frame-content">
+      <div class="placeholder">
+        [Image placeholder: horse1.png]
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 4: Economics -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Economics</h2>
+    </div>
+    <div class="frame-content">
+      <div class="block">
+        <div class="block-title">Dictionary definition</div>
+        <div class="block-body">The branch of knowledge concerned with the production, consumption, and transfer of wealth.</div>
+      </div>
+
+      <p><em>"Economists view the individual as the unit of agency and investigate the interaction of the purposeful behaviors of different individuals within various economic institutions. The purpose of economics is to analyze institutions, such as trading mechanisms and organization structures, and to ask how those institutions mediate the interests of different economic agents."</em> — Faruk Gul and Wolfgang Pesendorfer (2005).</p>
+
+      <div class="block">
+        <div class="block-title">Our definition</div>
+        <div class="block-body">The study of individuals' choices in the presence of trade-offs generated by scarcity.</div>
+      </div>
+
+      <p><em>"Economics is not about the intersection of supply and demand curves, and about what direction prices move if a curve 'shifts.' It is a quantitative theory of human behavior both individually and in interaction with other people."</em> — David Levine (2012).</p>
+    </div>
+  </section>
+
+  <!-- Frame 5: Idea Four -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Four: Think On The Margin</p>
+    </div>
+    <div class="frame-content">
+      <p class="quote">
+        "It is only then because land is of different qualities with respect to its productive powers, and because in the progress of population, land of an inferior quality, or less advantageously situated, is called into cultivation, that rent is ever paid for the use of it. When, in the progress of society, land of the second degree of fertility is taken into cultivation, rent immediately commences on that of the first quality, and the amount of that rent will depend on the difference in the quality of these two portions of land."
+      </p>
+      <p><strong>— David Ricardo (1817): Principles of Political Economy and Taxation</strong></p>
+
+      <div class="placeholder">
+        [TikZ placeholder: nested rectangles visualization]
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 6: Marginal Analysis -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Marginal Analysis</h2>
+    </div>
+    <div class="frame-content">
+      <p>We will consider three different ways of looking at the behavior of a function $f$ at some point $x_0$. We shall refer to $\dfrac{d}{dx}f(x_0)$ as the:</p>
+      <ol>
+        <li>derivative of $f$ at $x_0$ (analytical view).</li>
+        <li>slope of $f$ at $x_0$ (geometric view).</li>
+        <li>marginal value of $f$ at $x_0$ (economic view).</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Frame 7: Idea Five -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Five: Trade Makes People Better Off</p>
+    </div>
+    <div class="frame-content">
+      <p><a href="#" class="link-text">"Trump's steel tariffs cost U.S. consumers $900,000 for every job created, experts say."</a> — Washington Post (May 7, 2019)</p>
+    </div>
+  </section>
+
+  <!-- Frame 8: Idea Six -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Six: Wealth and Economic Growth Are Important</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li><strong>Title:</strong> A Samurai in Time (Samurai Taimu Surippā)</li>
+        <li><strong>Director:</strong> Jun'ichi Yasuda</li>
+        <li><strong>Release Year:</strong> 2024</li>
+        <li><strong>Protagonist:</strong> Shinzaemon Kosaka (played by Makiya Yamaguchi)</li>
+        <li><strong>Premise:</strong> A Bakumatsu-era samurai is struck by lightning and transported to a modern-day movie set in Kyoto.</li>
+        <li><strong>Key Theme:</strong> The transition from a life of killing (as a warrior) to a life of "dying" (as a <em>kirareyaku</em> stunt actor).</li>
+        <li><strong>Cultural Impact:</strong> Originally opened in only one theater; became a nationwide viral sensation due to audience word-of-mouth.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 9: Idea Seven -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Seven: Institutions Matter</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li><a href="#" class="link-text">"The secret document that transformed China"</a> — Planet Money NPR, 2012.</li>
+        <li>Korean Peninsula from space, NASA, 2014.</li>
+      </ul>
+
+      <div class="placeholder">
+        [Image placeholder: ISS038-E-38300.JPG (Korean Peninsula from space)]
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 10: Idea Eight -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Eight: Economic Booms and Busts Cannot Be Avoided but Can Be Moderated</p>
+    </div>
+    <div class="frame-content">
+      <p><a href="#" class="link-text">"This time is different."</a> — Reinhart and Rogoff (2009).</p>
+    </div>
+  </section>
+
+  <!-- Frame 11: Idea Nine -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Nine: Inflation Is Caused by Increases in the Supply of Money</p>
+    </div>
+    <div class="frame-content">
+      <p><strong>Is it?</strong></p>
+      <ul>
+        <li><a href="#" class="link-text">"The football game theory of inflation"</a></li>
+        <li><a href="#" class="link-text">"Shopper Rebellion Against Higher Prices Helps Slow Inflation"</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 12: Idea Ten -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Big Ideas in Economics</h2>
+      <p class="frame-subtitle">Ten: Central Banking Is a Hard Job</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li><a href="#" class="link-text">The Fed Dual Mandate</a></li>
+        <li><a href="#" class="link-text">Civilian Unemployment Rate</a></li>
+        <li><a href="#" class="link-text">Consumer Price Index</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+
+</body>
+</html>

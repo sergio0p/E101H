@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+
+  <style>
+    :root {
+      --crane-amber: #f9a825;
+      --text-primary: #000000;
+      --text-secondary: #333333;
+      --text-muted: #666666;
+    }
+
+    .title-slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: #ffffff;
+    }
+
+    .title-slide .title-box {
+      background: var(--crane-amber);
+      padding: 1.5rem 3rem 1.25rem 3rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .title-slide h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .title-slide h2 {
+      font-size: 1.25rem;
+      margin: 0;
+      padding: 0 1rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    .title-slide .author {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 1rem 0 0.25rem 0;
+    }
+
+    .title-slide .institute {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin: 0.25rem 0 0.125rem 0;
+    }
+
+    .title-slide .date {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0.25rem 0;
+    }
+
+    .frame {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 3rem 4rem;
+      background: #ffffff;
+      color: var(--text-primary);
+    }
+
+    .frame-title-bar {
+      border-bottom: 3px solid var(--crane-amber);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .frame-title {
+      font-size: 2rem;
+      margin: 0 0 0.25rem 0;
+      color: var(--text-primary);
+    }
+
+    .frame-subtitle {
+      font-size: 1.1rem;
+      margin: 0;
+      color: var(--text-secondary);
+      font-weight: normal;
+    }
+
+    .frame-content {
+      flex: 1;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .block {
+      background: #f9f9f9;
+      border-left: 4px solid var(--crane-amber);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+    }
+
+    .block-title {
+      font-weight: bold;
+      color: var(--crane-amber);
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .block-body {
+      margin: 0;
+      color: var(--text-secondary);
+    }
+
+    .frame-content ul, .frame-content ol {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .frame-content li {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    .overlay {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Growth</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Growth - Solow Model -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Growth</h2>
+      <p class="frame-subtitle">Solow Model</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li>One good model.</li>
+        <li>Production function, $Y=F(A,K,eL)$ where,</li>
+        <li>$Y$ is the output amount (real GDP/flow variable),</li>
+        <li>$A$ is the technology/knowledge "amount",</li>
+        <li>$e$ is the quality/level of education,</li>
+        <li>$L$ is the amount of labor (stock variable),</li>
+        <li>$K$ is capital (stock variable).</li>
+        <li>$F$ has decreasing marginal returns wrt. each variable.</li>
+        <li>Capital depreciates at a linear rate, $0<\delta<1$. The depreciation period $t$ is then $\delta\cdot K_{t}$.</li>
+        <li>Capital and output measured with the same units.</li>
+        <li>$\gamma$ savings rate (exogenous/given/a constant by assumption).</li>
+        <li>$K_{t+1}=K_{t}+I_{t}-\delta\cdot K_{t}$.</li>
+        <li>Investment is savings, $I_{t}=S_{t}=\gamma\cdot Y_{t}$, where $\gamma$ is the fraction of output that is saved (a constant by assumption of the model).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 2: Exogenous vs Endogenous variables -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Exogenous vs Endogenous variables</h2>
+      <p class="frame-subtitle">in Economics</p>
+    </div>
+    <div class="frame-content">
+      <ol>
+        <li>Whether an economic variable is exogenous or endogenous is context dependent.</li>
+        <li>Exogenous: the value of the variable is given; the variable is a constant; economic agents do not choose the value of the variable; etc...</li>
+        <li>Endogenous: economic agents chose the value of the variable; the variable or the value of the variable is determined in equilibrium, etc...</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Frame 3: Growth - Solow Model (steady-state) -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Growth</h2>
+      <p class="frame-subtitle">Solow Model</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li>The output and capital stock converge to their steady-state values.</li>
+        <li>At the steady-state, the growth rate, $\%\Delta \mathrm{GDP}=\dfrac{\mathrm{GDP}(t+1)-\mathrm{GDP}(t)}{\mathrm{GDP}(t)}$ is zero.</li>
+        <li>If population increases at a linear rate, $L_{t+1}=g\cdot L_{t}$ with $g>1$, the per-capita variables converge to their steady-state values.</li>
+        <li>If $A$, the technology/knowledge increases continuously, convergence may not occur: growth rate will remain positive.</li>
+        <li>Steady-state equations: $\overline K=\overline K+ \overline I-\delta\cdot \overline K$, $\overline Y=F(A, \overline K, eL)$, $\overline I=s\overline Y$.</li>
+        <li>Please, see Mathematica File &gt; Module &gt; Week TBA.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 4: How to compute steady-state equilibrium -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">How to compute the steady-state equilibrium</h2>
+      <p class="frame-subtitle">in the Solow model</p>
+    </div>
+    <div class="frame-content" style="font-size: 0.95rem;">
+      <p>The equations that describe the evolution of output and stock of capital (assuming labor is constant) in the Solow Model are:</p>
+      <p style="text-align: center;">
+        $Y_{t}=Y=F(A,K_{t},eL)$<br>
+        $K_{t+1}=(1-\delta)K_{t}+s\cdot Y_{t}$
+      </p>
+      <p>In a steady state, variables do not change: $Y_{t+1}=Y_{t}$ and $K_{t+1}=K_{t}$—growth rates are zero—and so the value of the steady-state variables must satisfy:</p>
+      <p style="text-align: center;">
+        $Y=F(A,K,eL)$<br>
+        $K=(1-\delta)K+s\cdot Y$
+      </p>
+      <p>We use the first equation to eliminate the output variable $Y$ from the second equation. This substitution yields:</p>
+      <p style="text-align: center;">
+        $\delta K = s\cdot F(A,K,eL)$
+      </p>
+      <p>If we assume a specific production function form, $F(A,K,eL)=\sqrt{A\cdot K\cdot eL}$, we can solve for steady-state $K$:</p>
+      <p style="text-align: center;">
+        $\delta K = s\cdot \sqrt{A\cdot K\cdot eL}$<br>
+        $K=\left(\dfrac{s}{\delta}\right)^2\cdot A \cdot eL$<br>
+        $Y=\dfrac{s}{\delta}A\cdot eL$
+      </p>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+
+</body>
+</html>

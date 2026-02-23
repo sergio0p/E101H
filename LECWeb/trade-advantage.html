@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trade and Comparative Advantage | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+
+  <style>
+    :root {
+      --crane-amber: #f9a825;
+      --text-primary: #000000;
+      --text-secondary: #333333;
+      --text-muted: #666666;
+    }
+
+    .title-slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: #ffffff;
+    }
+
+    .title-slide .title-box {
+      background: var(--crane-amber);
+      padding: 1.5rem 3rem 1.25rem 3rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .title-slide h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .title-slide h2 {
+      font-size: 1.25rem;
+      margin: 0;
+      padding: 0 1rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    .title-slide .author {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 1rem 0 0.25rem 0;
+    }
+
+    .title-slide .institute {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin: 0.25rem 0 0.125rem 0;
+    }
+
+    .title-slide .date {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0.25rem 0;
+    }
+
+    .frame {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 3rem 4rem;
+      background: #ffffff;
+      color: var(--text-primary);
+    }
+
+    .frame-title-bar {
+      border-bottom: 3px solid var(--crane-amber);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .frame-title {
+      font-size: 2rem;
+      margin: 0 0 0.25rem 0;
+      color: var(--text-primary);
+    }
+
+    .frame-subtitle {
+      font-size: 1.1rem;
+      margin: 0;
+      color: var(--text-secondary);
+      font-weight: normal;
+    }
+
+    .frame-content {
+      flex: 1;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .frame-content p {
+      margin: 1rem 0;
+    }
+
+    .frame-content ul, .frame-content ol {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .frame-content li {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    .block {
+      background: #f9f9f9;
+      border-left: 4px solid var(--crane-amber);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+    }
+
+    .block-title {
+      font-weight: bold;
+      color: var(--crane-amber);
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .block-body {
+      margin: 0;
+      color: var(--text-secondary);
+    }
+
+    .math-display {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .placeholder {
+      background: #f0f0f0;
+      border: 2px dashed #999;
+      padding: 2rem;
+      text-align: center;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .fs-small {
+      font-size: 0.9rem;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Trade and Comparative Advantage</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Trade Benefits -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Trade and Comparative Advantage</h2>
+    </div>
+    <div class="frame-content">
+      <p>There are two main reasons why individuals (or countries) can benefit from trade:</p>
+      <ul>
+        <li><strong>Differences in tastes:</strong> $\Rightarrow$ differences in marginal rates of substitution (ratio of marginal utilities).</li>
+        <li><strong>Differences in productive capabilities:</strong> $\Rightarrow$ differences in opportunity costs of production (ratio of marginal products).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 2: Marginal Utilities -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Trade and Comparative Advantage</h2>
+      <p class="frame-subtitle">Marginal utilities (not in the textbook!)</p>
+    </div>
+    <div class="frame-content">
+      <p>Let's assume that individuals rank consumption baskets in a manner that their ranking can be expressed by a (individual specific) utility function. In ECON 410 you will learn how a utility function is "extracted" from an individual's preferences, but here we are taking it as a given.</p>
+
+      <div class="block">
+        <div class="block-title">Example: Two-good economy</div>
+        <div class="block-body">There are only two goods: apples and bananas. A consumption basket is denoted by $(a,b)$ where $a$ is the number of apples and $b$ is the number of bananas. Assume that Eve ranks baskets according to the utility function $u^{\text{Eve}}(a,b)=a\cdot b^2$. Eve prefers the basket $(1,3)$ over the basket $(0,4)$ since $u^{\text{Eve}}(1,3)=9 > u^{\text{Eve}}(0,4)=0$.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 3: Marginal Utility Definition -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Trade and Comparative Advantage</h2>
+      <p class="frame-subtitle">Marginal utilities (not in the textbook!)</p>
+    </div>
+    <div class="frame-content">
+      <p><strong>Definition:</strong> The marginal utility of an agent for a given good at the current consumption basket is by how much his/her utility increases if we increase the consumption of the good by one unit.</p>
+
+      <div class="block">
+        <div class="block-title">Example: Two-good economy</div>
+        <div class="block-body">There are only two goods: apples and bananas. Assume that Eve uses the utility function $u^{\text{Eve}}(a,b)=a\cdot b^2$. Eve's marginal utility for apples when consuming the basket $(1,3)$ is $M_a u^{\text{Eve}}(1,3) = u^{\text{Eve}}(2,3) - u^{\text{Eve}}(1,3) = 18 - 9 = 9$.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 4: A Toy Economy -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">A Toy Economy</h2>
+    </div>
+    <div class="frame-content">
+      <p>Two-agent (Crusoe and Friday), two-good (fish and coconuts) economy. Assume that marginal utilities are constant for both agents.</p>
+
+      <div class="two-column">
+        <div>
+          <p>$M^C_f = 50$ — Crusoe's marginal utility for fish.<br>
+          $M^C_c = 20$ — Crusoe's marginal utility for coconuts.<br>
+          $M^F_f = 4$ — Friday's marginal utility for fish.<br>
+          $M^F_c = 3$ — Friday's marginal utility for coconuts.</p>
+
+          <p style="margin-top: 1.5rem;"><strong>Claim:</strong> The maximum amount of coconuts that Crusoe is willing to give up in exchange for receiving an additional fish is $2.5$, while the maximum amount of coconuts that Friday is willing to give up in exchange for receiving an additional fish is $1.\overline{33}$.</p>
+
+          <p style="margin-top: 1rem;"><em>The ratio of marginal utilities is the individual's exchange rate for the goods.</em></p>
+        </div>
+        <div>
+          <div class="placeholder">
+            [Image placeholder: Crusoe.jpg]
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 5: Difference in Tastes -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Difference in Tastes</h2>
+      <p class="frame-subtitle">Main takeaway</p>
+    </div>
+    <div class="frame-content">
+      <ol>
+        <li>The ratio of marginal utility of good F and good C for an individual is called the <strong>marginal rate of substitution</strong> $\text{MRS}_{F,C}$ between good F and good C of the individual.</li>
+        <li>$\text{MRS}_{F,C}$ is the value of 1 unit of good F in terms of good C for the individual: the maximum amount of good C that the individual would sacrifice in order to obtain an extra unit of good F.</li>
+        <li>When the MRSs are different across two individuals, they can increase their respective utilities by trading.</li>
+        <li>In the end, either their MRSs will be equalized OR they will have exhausted all trade possibilities (e.g., either Crusoe has no coconuts to trade or Friday has no fish to trade).</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Frame 6: Topics -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Trade and Comparative Advantage</h2>
+    </div>
+    <div class="frame-content">
+      <ul style="font-size: 1.3rem;">
+        <li>The production possibilities frontier.</li>
+        <li>Absolute advantage.</li>
+        <li>Comparative advantage.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 7: Production Possibilities Frontier -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Production Possibilities Frontier</h2>
+    </div>
+    <div class="frame-content">
+      <div class="block">
+        <div class="block-title">Definition: The Production Possibility Set</div>
+        <div class="block-body">The set of all possible combinations of goods/services (outputs) that can be generated with the existing resources available in the economy (inputs).</div>
+      </div>
+
+      <div class="block">
+        <div class="block-title">Definition: The Production Possibility Frontier</div>
+        <div class="block-body">The set of all efficient combinations of goods/services (outputs) that can be generated with the existing resources available in the economy (inputs).</div>
+      </div>
+
+      <p><strong>"Efficient"</strong> means that if the economy is at the PPF: to increase production of one good, the production of some other good must be decreased (i.e., there are trade-offs; the opportunity cost of increasing production of any good is positive).</p>
+    </div>
+  </section>
+
+  <!-- Frame 8: Marginal Products -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Marginal Products</h2>
+      <p class="frame-subtitle">Definitions and Examples</p>
+    </div>
+    <div class="frame-content">
+      <div class="block">
+        <div class="block-title">Definition: Marginal product</div>
+        <div class="block-body">By how much the output would increase if we were to increase the input by one unit.</div>
+      </div>
+
+      <div class="block">
+        <div class="block-title">Example: Production with one input (labor)</div>
+        <div class="block-body">If the amount of output that can be generated with $\ell$ units of labor is $F(\ell)$, then $MP_\ell = F(\ell+1) - F(\ell)$.</div>
+      </div>
+
+      <div class="block">
+        <div class="block-title">Example: Production with two inputs (labor and capital)</div>
+        <div class="block-body">If the amount of output that can be generated with $\ell$ units of labor and $\kappa$ units of capital is $F(\ell,\kappa)$, then $MP_\ell = F(\ell+1,\kappa) - F(\ell,\kappa)$ and $MP_\kappa = F(\ell,\kappa+1) - F(\ell,\kappa)$.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 9: PPF Equilibrium Condition -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Production Possibilities Frontier</h2>
+    </div>
+    <div class="frame-content">
+      <p>Assuming that marginal products are decreasing: At the frontier, the ratio of marginal products with respect to any two inputs must be equal across all goods being produced:</p>
+
+      <div class="math-display">
+        $\boxed{\dfrac{M_{\kappa}\text{Fish}}{M_{\ell}\text{Fish}} = \dfrac{M_{\kappa}\text{Coconut}}{M_{\ell}\text{Coconut}}}$
+      </div>
+
+      <p>If $\tfrac{M_{\kappa}\text{Fish}}{M_{\ell}\text{Fish}} > \tfrac{M_{\kappa}\text{Coconut}}{M_{\ell}\text{Coconut}}$, we should use more capital and less labor in the production of fish. This also implies we should use less capital and more labor in the production of coconuts.</p>
+    </div>
+  </section>
+
+  <!-- Frame 10: PPF Example -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">The Production Possibilities Frontier</h2>
+      <p class="frame-subtitle">Only one input case: labor</p>
+    </div>
+    <div class="frame-content">
+      <div class="block">
+        <div class="block-title">Example: The Production Possibility Set</div>
+        <div class="block-body">Crusoe has 24 hours per day that can be devoted either to fishing or harvesting coconuts. If Crusoe's fish and coconut production are given by the production functions $F(\ell)=\sqrt{\ell}$ and $C(\ell)=\sqrt{\ell}/2$, then Crusoe's PPS is the set of baskets of fish and coconuts $(f,c)$ such that $0 \le f \le \sqrt{\ell}$ and $0 \le c \le \sqrt{24-\ell}/2$ where $\ell$ varies from zero to 24.</div>
+      </div>
+
+      <div class="placeholder">
+        [Image placeholder: PPS.png]
+      </div>
+
+      <div class="block">
+        <div class="block-title">Example: The Production Possibility Frontier</div>
+        <div class="block-body">The PPF is the set of baskets of fish and coconuts $(f,c)$ such that $f = \sqrt{\ell}$ and $c = \sqrt{24-\ell}/2$ where $\ell$ varies from zero to 24.</div>
+      </div>
+
+      <div class="placeholder">
+        [Image placeholder: PPF.png]
+      </div>
+
+      <div class="placeholder" style="margin-top: 1rem;">
+        [TikZ placeholder: The slope of the PPF is the marginal rate of transformation: by how many units production of coconuts must fall in order to produce one additional fish.]
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 11: Trade and Specialization -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Trade and Specialization</h2>
+    </div>
+    <div class="frame-content">
+      <p>When the marginal rate of transformation is different across countries, there are <strong>comparative advantages</strong>, and both countries can mutually benefit from trade.</p>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+
+</body>
+</html>

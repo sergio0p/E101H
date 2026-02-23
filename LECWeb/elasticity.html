@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elasticity | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <style>
+    .placeholder {
+      background: #f5f5f5;
+      border: 2px dashed #999;
+      border-radius: 4px;
+      padding: 2rem;
+      text-align: center;
+      color: #666;
+      margin: 1rem 0;
+      font-style: italic;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    th {
+      background: var(--crane-amber);
+      color: #000;
+      font-weight: bold;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    tr.header-section {
+      background: #e8e8e8;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Elasticity</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Abstract Definition -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Elasticity</h1>
+      <p class="frame-subtitle">Abstract Definition</p>
+    </div>
+    <div class="frame-content">
+      <div class="columns">
+        <div class="column">
+          <div class="block">
+            <div class="block-title">Discrete Definition:</div>
+            <div class="block-body">
+              <p>The elasticity $\eta_{f,x}(x)$ of the function $f(x)$ at point $x$ is:</p>
+              <p style="text-align: center;">$\eta_{f,x}(x) = \dfrac{f(x+1)-f(x)}{1} \cdot \dfrac{x}{f(x)}$</p>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="block">
+            <div class="block-title">Continuous Definition:</div>
+            <div class="block-body">
+              <p>The elasticity $\eta_{f,x}(x)$ of the function $f(x)$ at point $x$ is:</p>
+              <p style="text-align: center;">$\eta_{f,x}(x) = \dfrac{f'(x)}{1} \cdot \dfrac{x}{f(x)}$</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.5rem;">Another way to define the elasticity is as the ratio of the percentage change in $f$ to the percentage change in $x$.</p>
+      <p>For two values of $x$, $x_0$ and $x_1$, define: $\Delta x = x_1 - x_0$, $\Delta f = f(x_1) - f(x_0)$, $\%\Delta x = \frac{\Delta x}{x_0}$, and $\%\Delta f = \frac{\Delta f}{f(x_0)}$. Thus:</p>
+      <p style="text-align: center; margin-top: 1rem;">$\eta_{f,x}(x) = \dfrac{\%\Delta f}{\%\Delta x}$</p>
+    </div>
+  </section>
+
+  <!-- Frame 2: Demand Elasticity -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Demand Elasticity</h1>
+      <p class="frame-subtitle">Definition and Application</p>
+    </div>
+    <div class="frame-content">
+      <p style="font-size: 0.9rem;">Consider two price levels $P_0$ and $P_1$ at period 0 and period 1 respectively.</p>
+
+      <div class="columns" style="margin-top: 1rem;">
+        <div class="column">
+          <div class="block">
+            <div class="block-title">Discrete Definition:</div>
+            <div class="block-body">
+              <p style="font-size: 0.9rem;">The price elasticity $\eta_{Q^d,P}$ of the demand $Q^d$ curve is:</p>
+              <p style="text-align: center; font-size: 0.85rem;">$\eta_{Q^d,P} = \dfrac{Q^d(P_1) - Q^d(P_0)}{P_1 - P_0} \cdot \dfrac{P_0}{Q^d(P_0)}$</p>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="block">
+            <div class="block-title">Continuous Definition:</div>
+            <div class="block-body">
+              <p style="font-size: 0.9rem;">The price elasticity $\eta_{Q^d,P}$ of the demand $Q^d$ curve at price $P$ is:</p>
+              <p style="text-align: center; font-size: 0.85rem;">$\eta_{Q^d,P} = \frac{\partial Q^d}{\partial P}(P) \cdot \dfrac{P}{Q^d(P)}$</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.5rem;">Knowing the values of the elasticity allow us to <strong>estimate</strong> the impact of price changes since the percentage change in quantities will be the percentage change in price times the value of the elasticity:</p>
+      <p style="text-align: center;">$\%\Delta Q^d = \eta_{Q^d,P} \cdot \%\Delta P$</p>
+    </div>
+  </section>
+
+  <!-- Frame 3: Classification of Elasticity Ranges -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Elasticity</h1>
+      <p class="frame-subtitle">Classification of Elasticity Ranges</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li>Perfectly inelastic curve: $|\eta_{f,x}| = 0$</li>
+        <li>Inelastic curve: $|\eta_{f,x}| < 1$</li>
+        <li>Unit elastic curve: $|\eta_{f,x}| = 1$</li>
+        <li>Elastic curve: $|\eta_{f,x}| \geq 1$</li>
+        <li>Perfectly elastic curve: $|\eta_{f,x}| = +\infty$</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 4: Classification of Elasticities Table -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h1 class="frame-title">Elasticity</h1>
+      <p class="frame-subtitle">Classification of Different Types of Elasticities</p>
+    </div>
+    <div class="frame-content" style="padding: 1rem;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 35%;">Elasticity</th>
+            <th style="width: 25%;">Range</th>
+            <th style="width: 40%;">Classification</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="header-section">
+            <td colspan="3"><strong>Own-Price Elasticity of Demand</strong></td>
+          </tr>
+          <tr>
+            <td>$\eta_{Q_x^D, P_x}$</td>
+            <td>$> 0$</td>
+            <td>Giffen Good</td>
+          </tr>
+          <tr>
+            <td>$\eta_{Q_x^D, P_x}$</td>
+            <td>$< 0$</td>
+            <td>Ordinary Good</td>
+          </tr>
+          <tr class="header-section">
+            <td colspan="3"><strong>Cross-Price Elasticity of Demand</strong></td>
+          </tr>
+          <tr>
+            <td>$\eta_{Q_x^D, P_y}$</td>
+            <td>$> 0$</td>
+            <td>Substitutes</td>
+          </tr>
+          <tr>
+            <td>$\eta_{Q_x^D, P_y}$</td>
+            <td>$= 0$</td>
+            <td>Unrelated Goods</td>
+          </tr>
+          <tr>
+            <td>$\eta_{Q_x^D, P_y}$</td>
+            <td>$< 0$</td>
+            <td>Complements</td>
+          </tr>
+          <tr class="header-section">
+            <td colspan="3"><strong>Income Elasticity of Demand</strong></td>
+          </tr>
+          <tr>
+            <td>$\eta_{Q_x^D, I}$</td>
+            <td>$< 0$</td>
+            <td>Inferior Good</td>
+          </tr>
+          <tr>
+            <td>$\eta_{Q_x^D, I}$</td>
+            <td>$\in (0,1)$</td>
+            <td>Normal Good (Necessity)</td>
+          </tr>
+          <tr>
+            <td>$\eta_{Q_x^D, I}$</td>
+            <td>$> 1$</td>
+            <td>Normal Good (Luxury)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false},
+          {left: "\\[", right: "\\]", display: true},
+          {left: "\\(", right: "\\)", display: false}
+        ]
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfect Competition (Converted) | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+
+  <style>
+    :root {
+      --crane-amber: #f9a825;
+      --text-primary: #000000;
+      --text-secondary: #333333;
+      --text-muted: #666666;
+    }
+
+    .title-slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: #ffffff;
+    }
+
+    .title-slide .title-box {
+      background: var(--crane-amber);
+      padding: 1.5rem 3rem 1.25rem 3rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .title-slide h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .title-slide h2 {
+      font-size: 1.25rem;
+      margin: 0;
+      padding: 0 1rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    .title-slide .author {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 1rem 0 0.25rem 0;
+    }
+
+    .title-slide .institute {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin: 0.25rem 0 0.125rem 0;
+    }
+
+    .title-slide .date {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0.25rem 0;
+    }
+
+    .frame {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 3rem 4rem;
+      background: #ffffff;
+      color: var(--text-primary);
+    }
+
+    .frame-title-bar {
+      border-bottom: 3px solid var(--crane-amber);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .frame-title {
+      font-size: 2rem;
+      margin: 0 0 0.25rem 0;
+      color: var(--text-primary);
+    }
+
+    .frame-subtitle {
+      font-size: 1.1rem;
+      margin: 0;
+      color: var(--text-secondary);
+      font-weight: normal;
+    }
+
+    .frame-content {
+      flex: 1;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .frame-content p {
+      margin: 1rem 0;
+    }
+
+    .frame-content ul, .frame-content ol {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .frame-content li {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    .math-display {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .placeholder {
+      background: #f0f0f0;
+      border: 2px dashed #999;
+      padding: 2rem;
+      text-align: center;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .fs-small {
+      font-size: 0.9rem;
+    }
+
+    .footnote {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Perfect Competition</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Perfect Competition -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Perfect Competition</h2>
+    </div>
+    <div class="frame-content">
+      <p>We assume that firms:</p>
+      <ul>
+        <li>are price takers;</li>
+        <li>aim to maximize profits;</li>
+        <li>use a technology that exhibits decreasing returns to scale (for the "relevant" range)—that is the MC is increasing when producing above some quantity...</li>
+      </ul>
+
+      <div class="math-display">
+        $\pi(q)=p\cdot q - c(q)$
+      </div>
+
+      <p class="footnote">Notice that we assume constant input prices, so we write the cost function as a function of the quantity only.</p>
+
+      <p><strong>To maximize profit we need that:</strong></p>
+      <div class="math-display">
+        $\pi'(q)=\underbrace{p}_{MR}- \underbrace{c'(q)}_{MC(q)}=0 \Rightarrow MC(q)=p$
+      </div>
+
+      <p>We also need the marginal cost to be increasing, so:</p>
+      <div class="math-display">
+        $q^S=MC^{-1}(p) \text{ provided that } MC'(q)>0$
+      </div>
+
+      <p>is the supply decision of a firm with cost function $c(q)$.</p>
+    </div>
+  </section>
+
+  <!-- Frame 2: Entry and Exit: Short Run -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Perfect Competition</h2>
+      <p class="frame-subtitle">Entry and exit: Long Run</p>
+    </div>
+    <div class="frame-content">
+      <p>In the previous short-run analysis, the firm might choose to produce a quantity and incur negative profits but in the long run, such firm will exit the industry.</p>
+
+      <p>In order for a firm to leave the industry, the market price $p$ must be such that:</p>
+
+      <div class="math-display">
+        $\pi(q) = p\cdot q - c(q) < 0 \text{ for all } q > 0$,
+      </div>
+
+      <p>or equivalently,</p>
+
+      <div class="math-display">
+        $\pi(q) = \left(p - \underbrace{c(q)/q}_{ATC(q)}\right)\cdot q < 0 \text{ for all } q$,
+      </div>
+
+      <p>or</p>
+
+      <div class="math-display">
+        $\min_q ATC(q) > p$
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 3: Entry and Exit: Long Run Equilibrium -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Perfect Competition</h2>
+      <p class="frame-subtitle">Entry and exit: Long Run Eq.</p>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li>$p > \min_q ATC(q) \Rightarrow$ firms enter the industry $\Rightarrow$ industry supply curve shifts to the right (in $(p,q)$ coordinates).</li>
+        <li>$p < \min_q ATC(q) \Rightarrow$ firms leave the industry $\Rightarrow$ industry supply curve shifts to the left (in $(p,q)$ coordinates).</li>
+      </ul>
+
+      <p style="margin-top: 2rem;">Notice that the quantity that yields the minimum of the ATC, $ATC(\underline{q})=\min_q ATC(q)$, is the one where the MC and ATC are equal: $ATC(\underline{q})=MC(\underline{q})$.</p>
+
+      <p style="margin-top: 2rem;"><strong>In the LR eq., $p^* = \min_q ATC(q)$.</strong></p>
+    </div>
+  </section>
+
+  <!-- Frame 4: Solving for the LR Equilibrium -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Solving for the LR equilibrium</h2>
+    </div>
+    <div class="frame-content">
+      <ol>
+        <li><strong>Profit maximization condition:</strong> $MC(q)=p$</li>
+        <li><strong>Zero profit condition:</strong> $ATC(q)=p$</li>
+        <li><strong>Market eq. condition:</strong> $Q_{d}(p)=\underbrace{\underbrace{n}_{\text{# of firms}} \times \underbrace{q}_{\text{individual supply}}}_{\text{market supply}}$</li>
+      </ol>
+
+      <p style="margin-top: 2rem;"><strong>Procedure:</strong></p>
+      <ul>
+        <li>Solve (1) & (2): find the equilibrium values of $p$ and $q$.</li>
+        <li>Plug in (3), find the equilibrium number of firms $n$ (non-integers are OK!).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 5: Long-run eq - An Example -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Long-run eq</h2>
+      <p class="frame-subtitle">An Example</p>
+    </div>
+    <div class="frame-content">
+      <p>An individual firm cost function is:</p>
+      <div class="math-display">
+        $c(q)=q^2-2q+4$
+      </div>
+
+      <p>and the market demand is:</p>
+      <div class="math-display">
+        $Q=120-2P$
+      </div>
+
+      <p><strong>Find:</strong></p>
+      <ul>
+        <li>What is the LR eq. price?</li>
+        <li>What is the LR eq. quantity?</li>
+        <li>How many firms are active in the LR?</li>
+        <li>How much each individual firm produces?</li>
+        <li>What is the consumer surplus?</li>
+        <li>What is the producer surplus?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 6: Long-run eq - Solution -->
+  <section class="frame fs-small">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Long-run eq</h2>
+      <p class="frame-subtitle">An Example (Solution)</p>
+    </div>
+    <div class="frame-content">
+      <p>The individual firm cost function and market demand are:</p>
+      <div class="math-display">
+        $c(q)=q^2-2q+4 \text{ and } Q=120-2P$
+      </div>
+
+      <p><strong>Step 1:</strong> Find minimum ATC. The min. of the ATC is reached at $q$ such that:</p>
+      <div class="math-display">
+        $ATC(q)=MC(q) \Leftrightarrow q-2+4/q=2q-2 \Leftrightarrow q=2$
+      </div>
+
+      <p>So $\min ATC = ATC(2) = 2$. This is the LR eq. price: $p^* = 2$.</p>
+
+      <p><strong>Step 2:</strong> Find quantities. The demand at this price is $Q^D = 120 - 2 \cdot 2 = 116$. Since in eq., $Q^S = Q^D$, the total supply in eq. must also be $116$. Since each firm supplies $q=2$ units, there must be $N = Q^S/q = 116/2 = 58$ firms operating.</p>
+
+      <p><strong>Step 3:</strong> Consumer surplus (area under demand curve minus revenue):</p>
+      <div class="math-display">
+        $CS = (60-2) \cdot 116/2 = 58^2$
+      </div>
+
+      <p><strong>Step 4:</strong> Producer surplus (revenue minus variable cost). As $q=2$, the producer surplus per firm is $4-0=4$, so total producer surplus is $4 \cdot 58$.</p>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+
+</body>
+</html>
