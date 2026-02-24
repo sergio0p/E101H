@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDP Sorting Game</title>
+
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, doc, updateDoc, query, orderBy, limit, getDocs, where } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6rBladdyEyXIJnrDnh5_UeNN-vJDbV1Q",
+            authDomain: "econ101h-apps.firebaseapp.com",
+            projectId: "econ101h-apps",
+            storageBucket: "econ101h-apps.firebasestorage.app",
+            messagingSenderId: "180334031510",
+            appId: "1:180334031510:web:b9b717b600d4c6306ec8b7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.firebaseDB = db;
+        window.firebaseCollection = collection;
+        window.firebaseAddDoc = addDoc;
+        window.firebaseDoc = doc;
+        window.firebaseUpdateDoc = updateDoc;
+        window.firebaseQuery = query;
+        window.firebaseOrderBy = orderBy;
+        window.firebaseLimit = limit;
+        window.firebaseGetDocs = getDocs;
+        window.firebaseWhere = where;
+    </script>
+
+    <style>
+        /* ========================================
+           CAROLINA BLUE THEME
+           ======================================== */
+        :root {
+            --unc-navy: #13294B;
+            --carolina-blue: #4B9CD3;
+            --carolina-blue-light: #7AB8E0;
+            --carolina-blue-pale: #E8F4FA;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #13294B;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --success: #48bb78;
+            --error: #f56565;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(19, 41, 75, 0.1);
+        }
+
+        h1 {
+            color: var(--unc-navy);
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        /* ========================================
+           HEADER & INFO
+           ======================================== */
+        .instructor-info {
+            background-color: var(--carolina-blue-pale);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--carolina-blue);
+        }
+
+        .instructor-info p {
+            margin-bottom: 0.3rem;
+            color: var(--text-secondary);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--unc-navy);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .game-info .year {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .game-info .gdp-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .game-info .note {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+
+        /* ========================================
+           PANELS
+           ======================================== */
+        .panels-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            flex: 1;
+            min-height: 280px;
+            background: var(--bg-secondary);
+            border: 3px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .panel.drag-over {
+            border-color: var(--carolina-blue);
+            background: var(--carolina-blue-pale);
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--unc-navy);
+            margin-bottom: 5px;
+        }
+
+        .panel-formula {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .panel-tiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 180px;
+            align-content: flex-start;
+        }
+
+        /* ========================================
+           TILES
+           ======================================== */
+        .tile {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: linear-gradient(145deg, #ffffff 0%, #f0f4f8 50%, #e8eef3 100%);
+            border: 2px solid var(--carolina-blue);
+            border-radius: 8px;
+            cursor: grab;
+            user-select: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(19, 41, 75, 0.1);
+            font-size: 0.95rem;
+        }
+
+        .tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(75, 156, 211, 0.25);
+        }
+
+        .tile.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .tile .icon {
+            font-size: 1.2rem;
+        }
+
+        .tile .label {
+            font-weight: 600;
+            color: var(--unc-navy);
+        }
+
+        .tile .value {
+            font-weight: 700;
+            color: var(--carolina-blue);
+            margin-left: 2px;
+        }
+
+        .tile .value.hidden {
+            color: var(--error);
+        }
+
+        .tile .sign {
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-right: 4px;
+            display: none;
+        }
+
+        .tile.placed .sign {
+            display: inline;
+        }
+
+        .tile .sign.positive {
+            color: var(--success);
+        }
+
+        .tile .sign.negative {
+            color: var(--error);
+        }
+
+        .tile.placed .sign {
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .tile.placed .sign:hover {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .sign-selector {
+            display: inline-flex;
+            gap: 4px;
+            margin-right: 4px;
+        }
+
+        .sign-btn {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--carolina-blue);
+            background: white;
+            border-radius: 4px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .sign-btn:hover {
+            background: var(--carolina-blue);
+            color: white;
+        }
+
+        .tile.needs-sign {
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(75, 156, 211, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(75, 156, 211, 0); }
+        }
+
+        .tile.correct {
+            border-color: var(--success);
+            background: linear-gradient(145deg, #f0fff4 0%, #c6f6d5 100%);
+            animation: popIn 0.3s ease-out;
+        }
+
+        .tile.incorrect {
+            border-color: var(--error);
+            background: linear-gradient(145deg, #fff5f5 0%, #fed7d7 100%);
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+            20%, 40%, 60%, 80% { transform: translateX(4px); }
+        }
+
+        /* ========================================
+           TILE TRAY (BOTTOM)
+           ======================================== */
+        .tile-tray {
+            background: var(--unc-navy);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tile-tray-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tile-tray-tiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        /* ========================================
+           HIDDEN VALUE INPUTS
+           ======================================== */
+        .hidden-values-section {
+            background: var(--carolina-blue-pale);
+            border: 2px solid var(--carolina-blue);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .hidden-values-section.active {
+            display: block;
+        }
+
+        .hidden-values-title {
+            font-weight: 700;
+            color: var(--unc-navy);
+            margin-bottom: 15px;
+        }
+
+        .hidden-value-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .hidden-value-row .icon {
+            font-size: 1.3rem;
+        }
+
+        .hidden-value-row .label {
+            font-weight: 600;
+            min-width: 180px;
+        }
+
+        .hidden-value-row input {
+            width: 100px;
+            padding: 8px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .hidden-value-row input:focus {
+            outline: none;
+            border-color: var(--carolina-blue);
+        }
+
+        /* ========================================
+           BUTTONS
+           ======================================== */
+        .btn-toolbar-custom {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-carolina {
+            background: var(--carolina-blue);
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-carolina:hover {
+            background: var(--unc-navy);
+        }
+
+        .btn-outline {
+            background: var(--bg-primary);
+            border: 2px solid var(--carolina-blue);
+            color: var(--carolina-blue);
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            background: var(--carolina-blue);
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* ========================================
+           TICKER-TAPE ANIMATION
+           ======================================== */
+        .ticker-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 9999;
+        }
+
+        .ticker-tape {
+            position: absolute;
+            top: -50px;
+            border-radius: 2px;
+            animation: ticker-fall linear forwards;
+        }
+
+        @keyframes ticker-fall {
+            0% {
+                transform: translateY(0) translateX(0) rotateZ(0deg) rotateY(0deg);
+                opacity: 1;
+            }
+            25% {
+                transform: translateY(25vh) translateX(30px) rotateZ(90deg) rotateY(180deg);
+            }
+            50% {
+                transform: translateY(50vh) translateX(-20px) rotateZ(180deg) rotateY(360deg);
+            }
+            75% {
+                transform: translateY(75vh) translateX(40px) rotateZ(270deg) rotateY(540deg);
+            }
+            100% {
+                transform: translateY(105vh) translateX(-10px) rotateZ(360deg) rotateY(720deg);
+                opacity: 0.6;
+            }
+        }
+
+        /* ========================================
+           LEADERBOARD
+           ======================================== */
+        .leaderboard-section {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-left: 4px solid var(--carolina-blue);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .leaderboard-header {
+            width: 100%;
+            padding: 12px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--unc-navy);
+            background: var(--bg-primary);
+            border: none;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .leaderboard-header:hover {
+            background: var(--bg-secondary);
+        }
+
+        .leaderboard-content {
+            padding: 15px;
+        }
+
+        .leaderboard-list {
+            display: none;
+        }
+
+        .leaderboard-list.active {
+            display: block;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dotted var(--border-color);
+        }
+
+        .leaderboard-entry:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-rank {
+            font-weight: 600;
+            min-width: 30px;
+            color: var(--carolina-blue);
+        }
+
+        .leaderboard-name {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .leaderboard-time {
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--unc-navy);
+        }
+
+        .leaderboard-empty {
+            color: var(--text-muted);
+            font-style: italic;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            text-align: center;
+            padding: 20px 0 10px 0;
+            margin-top: 25px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .panels-container {
+                flex-direction: column;
+            }
+
+            .panel {
+                min-height: 200px;
+            }
+
+            .game-info {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .tile {
+                font-size: 0.85rem;
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>GDP Sorting Game</h1>
+            <div class="btn-toolbar-custom">
+                <button class="btn-carolina" onclick="generateNewProblem()">New Game</button>
+                <button class="btn-outline" onclick="window.print()">Print</button>
+            </div>
+        </div>
+
+        <!-- Instructor Info -->
+        <div class="instructor-info">
+            <p><strong>Instructor:</strong> Sérgio O. Parreiras</p>
+            <p><strong>Course:</strong> ECON 101 - Introduction to Economics</p>
+        </div>
+
+        <!-- Game Info Bar -->
+        <div class="game-info">
+            <div>
+                <span class="year" id="game-year">Year: 2023</span>
+                <span class="note">(values in $100 billion)</span>
+            </div>
+            <div class="gdp-total">GDP (Y) = <span id="gdp-value">273</span></div>
+        </div>
+
+        <!-- Panels -->
+        <div class="panels-container">
+            <div class="panel" id="expenditure-panel" ondrop="handleDrop(event, 'expenditure')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <div class="panel-header">
+                    <div class="panel-title">National Spending Approach</div>
+                </div>
+                <div class="panel-tiles" id="expenditure-tiles"></div>
+            </div>
+
+            <div class="panel" id="income-panel" ondrop="handleDrop(event, 'income')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <div class="panel-header">
+                    <div class="panel-title">Factor Income Approach</div>
+                </div>
+                <div class="panel-tiles" id="income-tiles"></div>
+            </div>
+        </div>
+
+        <!-- Tile Tray -->
+        <div class="tile-tray">
+            <div class="tile-tray-title">Drag tiles to the correct panel and/or change signs</div>
+            <div class="tile-tray-tiles" id="tile-tray"></div>
+        </div>
+
+        <!-- Hidden Values Section -->
+        <div class="hidden-values-section" id="hidden-values-section">
+            <div class="hidden-values-title">Calculate the missing values:</div>
+            <div id="hidden-values-inputs"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn-carolina" id="submit-btn" onclick="submitAnswer()">Submit</button>
+        </div>
+
+        <!-- Ticker-Tape Container -->
+        <div class="ticker-container" id="ticker-container"></div>
+
+        <!-- Leaderboard -->
+        <div class="leaderboard-section">
+            <button class="leaderboard-header" type="button" data-bs-toggle="collapse" data-bs-target="#leaderboard-collapse">
+                🏆 Leaderboard
+            </button>
+            <div class="collapse" id="leaderboard-collapse">
+                <div class="leaderboard-content">
+                    <div class="leaderboard-list active" id="leaderboard-main">
+                        <div class="leaderboard-empty">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            Economics Department | UNC Chapel Hill
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        // ============================================
+        // GAME STATE
+        // ============================================
+        let gameState = {
+            year: 2023,
+            gdp: 0,
+            tiles: [],
+            hiddenTiles: [],
+            placements: { expenditure: [], income: [] },
+            userSigns: {}, // User-selected signs for each tile
+            phase: 'sorting', // 'sorting' | 'calculating' | 'complete'
+            startTime: null
+        };
+
+        // ============================================
+        // TILE DEFINITIONS
+        // ============================================
+        const EXPENDITURE_TILES = [
+            { id: 'C', label: 'Consumption', icon: '🛒', sign: '+', side: 'expenditure' },
+            { id: 'I', label: 'Investment', icon: '🏗️', sign: '+', side: 'expenditure' },
+            { id: 'G', label: 'Government', icon: '🏛️', sign: '+', side: 'expenditure' },
+            { id: 'X', label: 'Exports', icon: '📦', sign: '+', side: 'expenditure' },
+            { id: 'M', label: 'Imports', icon: '🚢', sign: '−', side: 'expenditure' }
+        ];
+
+        const INCOME_TILES = [
+            { id: 'W', label: 'Compensation', icon: '💼', sign: '+', side: 'income' },
+            { id: 'R', label: 'Rent', icon: '🏠', sign: '+', side: 'income' },
+            { id: 'INT', label: 'Interest', icon: '🏦', sign: '+', side: 'income' },
+            { id: 'P', label: 'Profit', icon: '💰', sign: '+', side: 'income' },
+            { id: 'T', label: 'Taxes', icon: '💸', sign: '+', side: 'income' }
+        ];
+
+        // BEA NIPA data (values in $100 billion)
+        // Source: gdp_game_data.json
+        const GDP_DATA = {
+            2015: { C: 123, I: 33, G: 32, X: 23, M: 28, W: 97, R: 6, INT: 5, T: 13, P: 62 },
+            2016: { C: 127, I: 33, G: 33, X: 22, M: 27, W: 100, R: 6, INT: 5, T: 13, P: 64 },
+            2017: { C: 133, I: 35, G: 34, X: 24, M: 29, W: 104, R: 6, INT: 5, T: 13, P: 67 },
+            2018: { C: 139, I: 37, G: 36, X: 25, M: 31, W: 110, R: 7, INT: 5, T: 14, P: 71 },
+            2019: { C: 144, I: 39, G: 38, X: 25, M: 31, W: 114, R: 7, INT: 5, T: 15, P: 74 },
+            2020: { C: 142, I: 38, G: 40, X: 22, M: 28, W: 116, R: 7, INT: 5, T: 16, P: 70 },
+            2021: { C: 161, I: 42, G: 42, X: 26, M: 34, W: 126, R: 8, INT: 5, T: 16, P: 83 },
+            2022: { C: 177, I: 48, G: 45, X: 30, M: 40, W: 134, R: 9, INT: 4, T: 18, P: 95 },
+            2023: { C: 188, I: 50, G: 47, X: 31, M: 39, W: 142, R: 10, INT: 3, T: 18, P: 105 },
+            2024: { C: 199, I: 53, G: 50, X: 32, M: 41, W: 150, R: 11, INT: 2, T: 19, P: 111 }
+        };
+
+        // ============================================
+        // DIFFICULTY CONFIGURATIONS
+        // ============================================
+        // Always hide 2 tiles
+        const HIDDEN_COUNT = 2;
+
+        // ============================================
+        // GAME LOGIC
+        // ============================================
+        function generateNewProblem() {
+            // Pick random year
+            const years = Object.keys(GDP_DATA).map(Number);
+            const year = years[Math.floor(Math.random() * years.length)];
+            const data = GDP_DATA[year];
+
+            // Calculate GDP from expenditure side
+            const gdp = data.C + data.I + data.G + data.X - data.M;
+
+            // Calculate Profit as residual so income side sums exactly to GDP
+            const profit = gdp - data.W - data.R - data.INT - data.T;
+
+            // Create tiles with values (use calculated Profit, not stored)
+            const allTiles = [
+                ...EXPENDITURE_TILES.map(t => ({ ...t, value: data[t.id] })),
+                ...INCOME_TILES.map(t => ({ ...t, value: t.id === 'P' ? profit : data[t.id] }))
+            ];
+
+            // Select hidden tiles (always 2) - one from each side
+            const expenditureTiles = allTiles.filter(t => t.side === 'expenditure');
+            const incomeTiles = allTiles.filter(t => t.side === 'income');
+            const hiddenExpenditure = expenditureTiles[Math.floor(Math.random() * expenditureTiles.length)];
+            const hiddenIncome = incomeTiles[Math.floor(Math.random() * incomeTiles.length)];
+            const hiddenTiles = [hiddenExpenditure.id, hiddenIncome.id];
+
+            // Update game state
+            gameState = {
+                year,
+                gdp,
+                tiles: allTiles,
+                hiddenTiles,
+                placements: { expenditure: [], income: [] },
+                userSigns: {},
+                phase: 'sorting',
+                startTime: Date.now()
+            };
+
+            // Update UI
+            document.getElementById('game-year').textContent = `Year: ${year}`;
+            document.getElementById('gdp-value').textContent = gdp;
+            document.getElementById('hidden-values-section').classList.remove('active');
+            document.getElementById('submit-btn').textContent = 'Submit';
+
+            renderTileTray();
+            clearPanels();
+        }
+
+        function renderTileTray() {
+            const tray = document.getElementById('tile-tray');
+            const shuffledTiles = [...gameState.tiles].sort(() => Math.random() - 0.5);
+
+            tray.innerHTML = shuffledTiles.map(tile => createTileHTML(tile, false)).join('');
+        }
+
+        function createTileHTML(tile, placed) {
+            const isHidden = gameState.hiddenTiles.includes(tile.id);
+            const valueDisplay = isHidden ? '?' : tile.value;
+            const valueClass = isHidden ? 'value hidden' : 'value';
+            const placedClass = placed ? 'placed' : '';
+
+            // Check if user already selected a sign for this tile
+            const userSign = gameState.userSigns[tile.id];
+
+            let signHTML;
+            if (!placed) {
+                // In tray - no sign shown
+                signHTML = '';
+            } else if (userSign) {
+                // Sign selected - but clickable to change
+                const signClass = userSign === '+' ? 'positive' : 'negative';
+                signHTML = `<span class="sign ${signClass}" onclick="resetSign('${tile.id}')" style="cursor:pointer;" title="Click to change">${userSign}</span>`;
+            } else {
+                // Needs sign selection - show buttons
+                signHTML = `
+                    <span class="sign-selector">
+                        <button class="sign-btn" onclick="selectSign('${tile.id}', '+')">+</button>
+                        <button class="sign-btn" onclick="selectSign('${tile.id}', '−')">−</button>
+                    </span>
+                `;
+            }
+
+            return `
+                <div class="tile ${placedClass}"
+                     id="tile-${tile.id}"
+                     draggable="true"
+                     ondragstart="handleDragStart(event, '${tile.id}')"
+                     ondragend="handleDragEnd(event)"
+                     data-id="${tile.id}">
+                    ${signHTML}
+                    <span class="icon">${tile.icon}</span>
+                    <span class="label">${tile.label}</span>
+                    <span class="${valueClass}">${valueDisplay}</span>
+                </div>
+            `;
+        }
+
+        function selectSign(tileId, sign) {
+            gameState.userSigns[tileId] = sign;
+
+            // Re-render the tile with the selected sign
+            const tile = gameState.tiles.find(t => t.id === tileId);
+            const tileEl = document.getElementById(`tile-${tileId}`);
+            const parent = tileEl.parentElement;
+
+            // Remove error styling if present
+            tileEl.classList.remove('incorrect');
+
+            tileEl.remove();
+            parent.insertAdjacentHTML('beforeend', createTileHTML(tile, true));
+        }
+
+        function resetSign(tileId) {
+            // Clear the sign so user can re-select
+            delete gameState.userSigns[tileId];
+
+            // Re-render the tile with sign selector
+            const tile = gameState.tiles.find(t => t.id === tileId);
+            const tileEl = document.getElementById(`tile-${tileId}`);
+            const parent = tileEl.parentElement;
+
+            // Remove error styling
+            tileEl.classList.remove('incorrect');
+
+            tileEl.remove();
+            parent.insertAdjacentHTML('beforeend', createTileHTML(tile, true));
+        }
+
+        function clearPanels() {
+            document.getElementById('expenditure-tiles').innerHTML = '';
+            document.getElementById('income-tiles').innerHTML = '';
+        }
+
+        // ============================================
+        // DRAG AND DROP
+        // ============================================
+        function handleDragStart(event, tileId) {
+            event.dataTransfer.setData('text/plain', tileId);
+            event.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(event) {
+            event.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(event) {
+            event.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(event, panelSide) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('drag-over');
+
+            const tileId = event.dataTransfer.getData('text/plain');
+            const tile = gameState.tiles.find(t => t.id === tileId);
+
+            if (!tile) return;
+
+            // Remove from tray
+            const trayTile = document.getElementById(`tile-${tileId}`);
+            if (trayTile && trayTile.parentElement.id === 'tile-tray') {
+                trayTile.remove();
+            }
+
+            // Remove from other panel if already placed
+            ['expenditure', 'income'].forEach(side => {
+                const idx = gameState.placements[side].indexOf(tileId);
+                if (idx > -1) {
+                    gameState.placements[side].splice(idx, 1);
+                    const existingTile = document.querySelector(`#${side}-tiles #tile-${tileId}`);
+                    if (existingTile) existingTile.remove();
+                }
+            });
+
+            // Add to new panel
+            gameState.placements[panelSide].push(tileId);
+            const panelTiles = document.getElementById(`${panelSide}-tiles`);
+            panelTiles.insertAdjacentHTML('beforeend', createTileHTML(tile, true));
+        }
+
+        // ============================================
+        // SUBMISSION & VALIDATION
+        // ============================================
+        function submitAnswer() {
+            if (gameState.phase === 'sorting') {
+                // Check if all tiles are placed
+                const totalPlaced = gameState.placements.expenditure.length + gameState.placements.income.length;
+                if (totalPlaced < gameState.tiles.length) {
+                    alert('Please place all tiles before submitting!');
+                    return;
+                }
+
+                // Check if all tiles have signs selected
+                const tilesWithoutSigns = gameState.tiles.filter(t => !gameState.userSigns[t.id]);
+                if (tilesWithoutSigns.length > 0) {
+                    alert('Please select + or − for all tiles!');
+                    return;
+                }
+
+                // Validate placements AND signs
+                let allCorrect = true;
+
+                gameState.tiles.forEach(tile => {
+                    const tileEl = document.getElementById(`tile-${tile.id}`);
+                    const placedIn = gameState.placements.expenditure.includes(tile.id) ? 'expenditure' : 'income';
+                    const userSign = gameState.userSigns[tile.id];
+
+                    // Normalize signs for comparison (− and - are the same)
+                    const correctSign = tile.sign;
+                    const normalizedUserSign = userSign === '−' ? '−' : userSign;
+                    const normalizedCorrectSign = correctSign === '−' ? '−' : correctSign;
+
+                    const placementCorrect = placedIn === tile.side;
+                    const signCorrect = normalizedUserSign === normalizedCorrectSign;
+
+                    if (placementCorrect && signCorrect) {
+                        tileEl.classList.add('correct');
+                        tileEl.classList.remove('incorrect');
+                    } else {
+                        tileEl.classList.add('incorrect');
+                        tileEl.classList.remove('correct');
+                        allCorrect = false;
+                    }
+                });
+
+                if (allCorrect) {
+                    if (gameState.hiddenTiles.length > 0) {
+                        // Move to calculation phase
+                        gameState.phase = 'calculating';
+                        showHiddenValuesInputs();
+                        document.getElementById('submit-btn').textContent = 'Check Values';
+                    } else {
+                        // No hidden values, game complete
+                        gameComplete();
+                    }
+                }
+            } else if (gameState.phase === 'calculating') {
+                // Validate hidden values
+                let allCorrect = true;
+
+                gameState.hiddenTiles.forEach(tileId => {
+                    const tile = gameState.tiles.find(t => t.id === tileId);
+                    const input = document.getElementById(`hidden-input-${tileId}`);
+                    const userValue = parseFloat(input.value);
+
+                    if (Math.abs(userValue - tile.value) < 0.5) {
+                        input.style.borderColor = 'var(--success)';
+                        input.style.background = '#f0fff4';
+                    } else {
+                        input.style.borderColor = 'var(--error)';
+                        input.style.background = '#fff5f5';
+                        allCorrect = false;
+                    }
+                });
+
+                if (allCorrect) {
+                    gameComplete();
+                }
+            }
+        }
+
+        function showHiddenValuesInputs() {
+            const section = document.getElementById('hidden-values-section');
+            const container = document.getElementById('hidden-values-inputs');
+
+            container.innerHTML = gameState.hiddenTiles.map(tileId => {
+                const tile = gameState.tiles.find(t => t.id === tileId);
+                return `
+                    <div class="hidden-value-row">
+                        <span class="icon">${tile.icon}</span>
+                        <span class="label">${tile.label}:</span>
+                        <input type="number" id="hidden-input-${tileId}" placeholder="?" step="1">
+                    </div>
+                `;
+            }).join('');
+
+            section.classList.add('active');
+        }
+
+        async function gameComplete() {
+            gameState.phase = 'complete';
+            console.log('gameComplete() called');
+
+            launchTickerTape();
+
+            // Calculate time
+            const elapsedMs = Date.now() - gameState.startTime;
+            const elapsedSeconds = Math.round(elapsedMs / 100) / 10;
+
+            // Save to Firebase
+            let docRef = null;
+            try {
+                const db = window.firebaseDB;
+                console.log('Firebase DB:', db ? 'connected' : 'not connected');
+                if (db) {
+                    docRef = await window.firebaseAddDoc(window.firebaseCollection(db, 'leaderboard'), {
+                        name: 'Anonymous',
+                        time: elapsedSeconds,
+                        difficulty: 'gdp-sorting',
+                        timestamp: new Date().toISOString()
+                    });
+                    console.log('Score saved with ID:', docRef.id);
+                }
+            } catch (error) {
+                console.error('Leaderboard save error:', error);
+                alert('Error saving score: ' + error.message);
+            }
+
+            // Ask for name
+            const name = prompt(`Completed in ${elapsedSeconds}s!\n\nEnter your name for the leaderboard:`);
+
+            if (name && name.trim() !== '' && docRef) {
+                try {
+                    const db = window.firebaseDB;
+                    await window.firebaseUpdateDoc(window.firebaseDoc(db, 'leaderboard', docRef.id), {
+                        name: name.trim()
+                    });
+                } catch (error) {
+                    console.error('Leaderboard update error:', error);
+                }
+            }
+
+            // Always refresh and expand leaderboard after game complete
+            loadLeaderboard();
+            const leaderboardCollapse = document.getElementById('leaderboard-collapse');
+            if (leaderboardCollapse) {
+                new bootstrap.Collapse(leaderboardCollapse, { toggle: false }).show();
+            }
+        }
+
+
+        // ============================================
+        // CELEBRATION
+        // ============================================
+        function launchTickerTape() {
+            const container = document.getElementById('ticker-container');
+            const colors = ['#4B9CD3', '#7AB8E0', '#13294B', '#ffffff', '#E8F4FA'];
+            const tapeCount = 80;
+
+            for (let i = 0; i < tapeCount; i++) {
+                const tape = document.createElement('div');
+                tape.className = 'ticker-tape';
+                tape.style.left = Math.random() * 100 + '%';
+                tape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                tape.style.animationDuration = (Math.random() * 2.1 + 2.1) + 's';
+                tape.style.animationDelay = Math.random() * 1.4 + 's';
+                tape.style.width = (Math.random() * 6 + 4) + 'px';
+                tape.style.height = (Math.random() * 40 + 30) + 'px';
+                tape.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+                container.appendChild(tape);
+            }
+
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // ============================================
+        // LEADERBOARD
+        // ============================================
+        async function loadLeaderboard() {
+            const container = document.getElementById('leaderboard-main');
+
+            try {
+                const db = window.firebaseDB;
+                if (!db) {
+                    container.innerHTML = '<div class="leaderboard-empty">Leaderboard unavailable</div>';
+                    return;
+                }
+
+                const q = window.firebaseQuery(
+                    window.firebaseCollection(db, 'leaderboard'),
+                    window.firebaseOrderBy('time', 'asc'),
+                    window.firebaseLimit(50)
+                );
+
+                const snapshot = await window.firebaseGetDocs(q);
+                console.log('Total docs fetched:', snapshot.docs.length);
+                // Filter to only this game's entries
+                const allEntries = snapshot.docs.map(doc => doc.data());
+                console.log('All entries:', allEntries);
+                const entries = allEntries
+                    .filter(entry => entry.difficulty === 'gdp-sorting')
+                    .slice(0, 10);
+                console.log('GDP-sorting entries:', entries);
+
+                if (entries.length === 0) {
+                    container.innerHTML = '<div class="leaderboard-empty">No scores yet</div>';
+                } else {
+                    container.innerHTML = entries.map((entry, index) => `
+                        <div class="leaderboard-entry">
+                            <span class="leaderboard-rank">${index + 1}.</span>
+                            <span class="leaderboard-name">${escapeHtml(entry.name)}</span>
+                            <span class="leaderboard-time">${entry.time.toFixed(1)}s</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Leaderboard load error:', error);
+                container.innerHTML = '<div class="leaderboard-empty">Error loading</div>';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            generateNewProblem();
+
+            // Load leaderboard when expanded
+            const leaderboardEl = document.getElementById('leaderboard-collapse');
+            if (leaderboardEl) {
+                leaderboardEl.addEventListener('shown.bs.collapse', loadLeaderboard);
+            }
+        });
+    </script>
+</body>
+</html>

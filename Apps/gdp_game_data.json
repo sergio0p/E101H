@@ -1,0 +1,174 @@
+{
+  "years": {
+    "2015": {
+      "gdp": 183,
+      "expenditure": {
+        "consumption": 123,
+        "investment": 33,
+        "government": 32,
+        "exports": 23,
+        "imports": 28
+      },
+      "income": {
+        "compensation": 97,
+        "rent": 6,
+        "interest": 5,
+        "taxes": 13,
+        "profit": 62
+      }
+    },
+    "2016": {
+      "gdp": 188,
+      "expenditure": {
+        "consumption": 127,
+        "investment": 33,
+        "government": 33,
+        "exports": 22,
+        "imports": 27
+      },
+      "income": {
+        "compensation": 100,
+        "rent": 6,
+        "interest": 5,
+        "taxes": 13,
+        "profit": 64
+      }
+    },
+    "2017": {
+      "gdp": 196,
+      "expenditure": {
+        "consumption": 133,
+        "investment": 35,
+        "government": 34,
+        "exports": 24,
+        "imports": 29
+      },
+      "income": {
+        "compensation": 104,
+        "rent": 6,
+        "interest": 5,
+        "taxes": 13,
+        "profit": 67
+      }
+    },
+    "2018": {
+      "gdp": 207,
+      "expenditure": {
+        "consumption": 139,
+        "investment": 37,
+        "government": 36,
+        "exports": 25,
+        "imports": 31
+      },
+      "income": {
+        "compensation": 110,
+        "rent": 7,
+        "interest": 5,
+        "taxes": 14,
+        "profit": 71
+      }
+    },
+    "2019": {
+      "gdp": 215,
+      "expenditure": {
+        "consumption": 144,
+        "investment": 39,
+        "government": 38,
+        "exports": 25,
+        "imports": 31
+      },
+      "income": {
+        "compensation": 114,
+        "rent": 7,
+        "interest": 5,
+        "taxes": 15,
+        "profit": 74
+      }
+    },
+    "2020": {
+      "gdp": 214,
+      "expenditure": {
+        "consumption": 142,
+        "investment": 38,
+        "government": 40,
+        "exports": 22,
+        "imports": 28
+      },
+      "income": {
+        "compensation": 116,
+        "rent": 7,
+        "interest": 5,
+        "taxes": 16,
+        "profit": 70
+      }
+    },
+    "2021": {
+      "gdp": 237,
+      "expenditure": {
+        "consumption": 161,
+        "investment": 42,
+        "government": 42,
+        "exports": 26,
+        "imports": 34
+      },
+      "income": {
+        "compensation": 126,
+        "rent": 8,
+        "interest": 5,
+        "taxes": 16,
+        "profit": 83
+      }
+    },
+    "2022": {
+      "gdp": 261,
+      "expenditure": {
+        "consumption": 177,
+        "investment": 48,
+        "government": 45,
+        "exports": 30,
+        "imports": 40
+      },
+      "income": {
+        "compensation": 134,
+        "rent": 9,
+        "interest": 4,
+        "taxes": 18,
+        "profit": 95
+      }
+    },
+    "2023": {
+      "gdp": 278,
+      "expenditure": {
+        "consumption": 188,
+        "investment": 50,
+        "government": 47,
+        "exports": 31,
+        "imports": 39
+      },
+      "income": {
+        "compensation": 142,
+        "rent": 10,
+        "interest": 3,
+        "taxes": 18,
+        "profit": 105
+      }
+    },
+    "2024": {
+      "gdp": 293,
+      "expenditure": {
+        "consumption": 199,
+        "investment": 53,
+        "government": 50,
+        "exports": 32,
+        "imports": 41
+      },
+      "income": {
+        "compensation": 150,
+        "rent": 11,
+        "interest": 2,
+        "taxes": 19,
+        "profit": 111
+      }
+    }
+  }
+}
