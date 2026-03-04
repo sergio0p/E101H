@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savings, Investment, and the Financial System | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+
+  <style>
+    /* No page-specific styles needed */
+  </style>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Savings, Investment, and the Financial System</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sérgio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Consumption Smoothing -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Consumption Smoothing</h2>
+    </div>
+    <div class="frame-content">
+      <ol>
+        <li>Marginal utility is decreasing within a period.</li>
+        <li>Future utility is discounted at rate $0 \lt \delta \lt 1$.</li>
+        <li>Utility over consumption path: $U(c_{0},c_{1},\ldots,c_{T})=u(c_{0})+\delta\, u(c_{1})+\ldots+\delta^{T-1} u(c_{T})$ where $u' \gt 0$ and $u'' \lt 0$.</li>
+        <li>Assumption (1) implies that the consumer prefers to smooth out consumption.</li>
+        <li>Assumption (2) implies that the consumer prefers present consumption to future consumption.</li>
+      </ol>
+      <div class="block">
+        <div class="block-title">Example</div>
+        <div class="block-body">
+          $U(c_{0},c_{1})=\sqrt{c_{0}}+0.9\sqrt{c_{1}}\;\Rightarrow$<br>
+          $U(5,5) \gt U(10,0) \gt U(0,10).$
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 2: Life Cycle and Consumption Smoothing -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Life Cycle and Consumption Smoothing</h2>
+    </div>
+    <div class="frame-content">
+      <p>Consumption smoothing drives savings and borrowing during the life cycle:</p>
+      <ul>
+        <li>Start of career period $\Rightarrow$ borrow,</li>
+        <li>High earnings period $\Rightarrow$ save,</li>
+        <li>Retirement period $\Rightarrow$ dissave.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 3: Equilibrium in Financial Markets -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Equilibrium in Financial Markets</h2>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li>The higher the interest rate $1+r$, the higher the incentives to save (lend money).</li>
+        <li>The lower the interest rate $1+r$, the higher the incentives to borrow.</li>
+        <li>The equilibrium interest rate is determined so that savings (supply) equals borrowing (demand).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 4: Financial Intermediaries -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Financial Intermediaries</h2>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li>Banks $\Rightarrow$ transform short-term loans (from depositors) into long-term loans.</li>
+        <li>Liquidity = the degree to which a financial asset can be converted into cash.</li>
+        <li>Liquidity demand = demand for cash or liquid assets.</li>
+        <li>Since depositors' liquidity demands are likely to be uncorrelated, the risk that many depositors will need their money at the same time is low, so <strong>diversification</strong> (of risk) allows banks to do this.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Frame 5: Bonds -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Bonds</h2>
+    </div>
+    <div class="frame-content">
+      <p>Firms with high reputation may borrow money directly (from the public) by issuing bonds:</p>
+      <ul>
+        <li>Face value of the bond = value of the bond to be paid at its expiration date.</li>
+        <li>Coupons = periodic interest payments made to bondholders.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="js/katex-macros.js"></script>
+
+</body>
+</html>
