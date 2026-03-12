@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solow Growth Model | ECON 101H</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <style>
+        /* ── CSS Variables ── */
+        :root {
+            --unc-navy: #13294B;
+            --carolina-blue: #4B9CD3;
+            --carolina-blue-light: #7AB8E0;
+            --carolina-blue-pale: #E8F4FA;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #13294B;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --success: #48bb78;
+            --error: #f56565;
+        }
+
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ── Container ── */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .app-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            box-shadow:
+                0 1px 3px rgba(19, 41, 75, 0.08),
+                0 8px 32px rgba(19, 41, 75, 0.12);
+            overflow: hidden;
+        }
+
+        /* ── Header ── */
+        .app-header {
+            background: var(--unc-navy);
+            color: white;
+            padding: 18px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .app-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .header-toolbar {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 6px;
+            padding: 6px 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.22);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .header-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* ── Instructor Info ── */
+        .instructor-info {
+            padding: 10px 28px;
+            background: var(--carolina-blue-pale);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .instructor-info strong {
+            color: var(--text-primary);
+        }
+
+        /* ── Parameters Panel (horizontal above graphs) ── */
+        .params-panel {
+            background: var(--carolina-blue-pale);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 16px;
+        }
+
+        .params-title {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--unc-navy);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-right: 8px;
+        }
+
+        .param-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .param-label {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            flex-shrink: 0;
+        }
+
+        .param-label .katex {
+            font-size: 0.92rem !important;
+        }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .stepper-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: white;
+            color: var(--carolina-blue);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            user-select: none;
+        }
+
+        .stepper-btn:hover {
+            background: var(--carolina-blue-pale);
+            transform: scale(1.05);
+            box-shadow: 0 1px 4px rgba(75,156,211,0.2);
+        }
+
+        .stepper-btn:active {
+            transform: scale(0.94);
+            background: var(--carolina-blue-light);
+            color: white;
+        }
+
+        .stepper-value {
+            width: 52px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            padding: 2px 2px;
+            height: 28px;
+            line-height: 24px;
+        }
+
+        /* ── Graph Area ── */
+        .graph-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .svg-wrapper {
+            position: relative;
+            background: var(--bg-secondary);
+            padding: 8px 12px 4px 12px;
+            flex: 1;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .katex-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            overflow: visible;
+        }
+        .katex-overlay .graph-label {
+            position: absolute;
+            white-space: nowrap;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .katex-overlay .graph-label.axis-title {
+            font-size: 0.85rem;
+        }
+        .katex-overlay .graph-label.y-axis-title {
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+
+        #solow-svg {
+            width: 100%;
+        }
+
+        /* ── Controls Toolbar ── */
+        .controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background: white;
+            flex-wrap: wrap;
+        }
+
+        .ctrl-btn {
+            background: var(--carolina-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ctrl-btn:hover {
+            background: var(--carolina-blue-light);
+            box-shadow: 0 2px 8px rgba(75,156,211,0.3);
+            transform: translateY(-1px);
+        }
+
+        .ctrl-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .ctrl-btn.outline {
+            background: transparent;
+            color: var(--carolina-blue);
+            border: 2px solid var(--carolina-blue);
+        }
+
+        .ctrl-btn.outline:hover {
+            background: var(--carolina-blue-pale);
+        }
+
+        .ctrl-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .speed-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 8px;
+        }
+
+        .speed-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .speed-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 90px;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 4px;
+            height: 20px;
+            margin-top: -7px;
+            background: var(--unc-navy);
+            border-radius: 2px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+            transition: transform 0.15s;
+        }
+
+        .speed-slider::-webkit-slider-thumb:hover {
+            transform: scaleY(1.2);
+        }
+
+        .speed-slider::-moz-range-thumb {
+            width: 4px;
+            height: 20px;
+            background: var(--unc-navy);
+            border-radius: 2px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .speed-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, var(--carolina-blue), var(--carolina-blue-light));
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        .speed-slider::-moz-range-track {
+            background: linear-gradient(to right, var(--carolina-blue), var(--carolina-blue-light));
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        .speed-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--text-primary);
+            min-width: 36px;
+            font-weight: 500;
+        }
+
+        /* ── Info Panel ── */
+        .info-panel {
+            padding: 16px 24px;
+            background: white;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .info-cell {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .info-cell.highlight {
+            border-color: var(--carolina-blue);
+            box-shadow: 0 0 12px rgba(75,156,211,0.15);
+        }
+
+        .info-cell-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .info-cell-label .katex {
+            text-transform: none;
+        }
+
+        .info-cell-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .info-cell-value.positive { color: var(--success); }
+        .info-cell-value.negative { color: var(--error); }
+
+        /* ── SVG styles ── */
+        .axis-line {
+            stroke: var(--text-secondary);
+            stroke-width: 1.5;
+        }
+
+        .tick-line {
+            stroke: var(--text-muted);
+            stroke-width: 1;
+        }
+
+        .tick-label {
+            fill: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .axis-label {
+            fill: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .curve-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ── Print ── */
+        @media print {
+            body { background: white; }
+            .app-card { box-shadow: none; }
+            .controls-bar { display: none; }
+            .header-toolbar { display: none; }
+            .stepper-btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="app-card" data-app="solow-model">
+        <!-- Header -->
+        <div class="app-header">
+            <h1>Solow Growth Model</h1>
+            <div class="header-toolbar">
+                <button class="header-btn" onclick="resetApp()">Reset</button>
+                <button class="header-btn" onclick="window.print()">Print</button>
+            </div>
+        </div>
+
+        <!-- Instructor Info -->
+        <div class="instructor-info">
+            <div>
+                <strong>Sérgio O. Parreiras</strong> | Economics Department, UNC at Chapel Hill<br>
+                ECON 101H: Introduction to Economics | Spring 2026
+            </div>
+            <span id="prod-fn-display" style="margin-right: 20%;"></span>
+        </div>
+
+        <!-- Parameters Panel (horizontal, above graphs) -->
+        <div class="params-panel">
+            <div class="params-title">Parameters</div>
+            <div id="params-container" style="display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center;"></div>
+        </div>
+
+        <!-- Graph Area (full width, single wide SVG with two plots) -->
+        <div class="graph-area">
+            <div class="svg-wrapper" id="svg-wrapper">
+                <svg id="solow-svg" viewBox="0 0 1850 550" xmlns="http://www.w3.org/2000/svg"></svg>
+                <div class="katex-overlay" id="katex-overlay"></div>
+            </div>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+            <button class="ctrl-btn" id="btn-play" onclick="handlePlay()">
+                <span id="play-icon">&#9654;</span> <span id="play-label">Play</span>
+            </button>
+            <button class="ctrl-btn outline" id="btn-step" onclick="handleStep()">
+                Step
+            </button>
+            <button class="ctrl-btn outline" id="btn-reset" onclick="resetAnimation()">
+                Reset
+            </button>
+            <div class="speed-group">
+                <span class="speed-label">Speed</span>
+                <input type="range" class="speed-slider" id="speed-slider"
+                       min="0.1" max="3" step="0.1" value="1"
+                       oninput="updateSpeed()">
+                <span class="speed-val" id="speed-val">1x</span>
+            </div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-panel">
+            <div class="info-grid">
+                <div class="info-cell">
+                    <div class="info-cell-label">Period</div>
+                    <div class="info-cell-value" id="info-t">0</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Capital $K_t$</div>
+                    <div class="info-cell-value" id="info-kt">--</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Output $Y_t$</div>
+                    <div class="info-cell-value" id="info-yt">--</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Investment $\gamma Y_t$</div>
+                    <div class="info-cell-value" id="info-it">--</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Depreciation $\delta K_t$</div>
+                    <div class="info-cell-value" id="info-dt">--</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Net Inv. $\Delta K$</div>
+                    <div class="info-cell-value" id="info-dk">--</div>
+                </div>
+                <div class="info-cell highlight">
+                    <div class="info-cell-label">Steady State $K^*$</div>
+                    <div class="info-cell-value" id="info-kstar">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CDN Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+
+const PARAMS_DEF = [
+    { key: 'K0',    label: '$K_0$',       labelDesc: 'Initial capital',  def: 'auto', min: 1,   max: 500,  step: 'dynamic' },
+    { key: 'alpha', label: '$\\alpha$',   labelDesc: 'Exponent',         def: 0.5,  min: 0.1,  max: 0.9,  step: 0.05 },
+    { key: 'A',     label: '$A$',         labelDesc: 'Technology',       def: 1,    min: 0.1,  max: 10,   step: 0.1  },
+    { key: 'e',     label: '$e$',         labelDesc: 'Education',        def: 1,    min: 0.1,  max: 10,   step: 0.1  },
+    { key: 'L',     label: '$L$',         labelDesc: 'Labor',            def: 1,    min: 0.1,  max: 10,   step: 0.1  },
+    { key: 'gamma', label: '$\\gamma$',   labelDesc: 'Savings rate',     def: 0.25, min: 0.01, max: 0.99, step: 0.01 },
+    { key: 'delta', label: '$\\delta$',   labelDesc: 'Depreciation',     def: 0.10, min: 0.01, max: 0.5,  step: 0.01 },
+];
+
+let params = {};
+let animState = {
+    running: false,
+    paused: false,
+    period: 0,
+    Kt: 0,
+    cobwebPoints: [],  // accumulated cobweb [{Kt, Kt1}, ...]
+    animId: 0,
+    converged: false,
+};
+let speed = 1;
+
+// ═══════════════════════════════════════════════════════════════
+// DUAL-GRAPH DIMENSIONAL CONSTANTS
+// ═══════════════════════════════════════════════════════════════
+
+const SVG_W = 1850, SVG_H = 550;
+
+// Graph 1 (Solow Diagram) — Left Half
+const G1_ML = 80, G1_MR = 40, G1_MT = 25, G1_MB = 60;
+const G1_X0 = G1_ML;           // 80
+const G1_PW = 740;
+const G1_PH = SVG_H - G1_MT - G1_MB; // 465
+const G1_X1 = G1_X0 + G1_PW;  // 820
+
+// Gap between graphs: 130px
+
+// Graph 2 (Phase Diagram) — Right Half
+const G2_ML_START = 950;       // left edge of G2 area
+const G2_AXIS_ML = 70;         // axis margin within G2
+const G2_X0 = G2_ML_START + G2_AXIS_ML; // 1020
+const G2_PW = 740;
+const G2_PH = G1_PH;          // 465 (same height)
+const G2_MT = G1_MT;           // 25
+const G2_MB = G1_MB;           // 60
+const G2_MR = 40;
+const G2_X1 = G2_X0 + G2_PW;  // 1760
+
+// Axis ranges (recomputed)
+let xMax, g1_yMax;
+let g2Min, g2Max; // Graph 2 narrowed range [g2Min, g2Max] for both axes
+
+// ═══════════════════════════════════════════════════════════════
+// MODEL FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+
+function Y(K) {
+    const { A, e, L, alpha } = params;
+    return Math.pow(A * e * L * K, alpha);
+}
+
+function gammaY(K) {
+    return params.gamma * Y(K);
+}
+
+function deltaK(K) {
+    return params.delta * K;
+}
+
+function Kt1(Kt) {
+    return Kt + gammaY(Kt) - deltaK(Kt);
+}
+
+function Kstar() {
+    const { A, e, L, alpha, gamma, delta } = params;
+    return Math.pow(gamma * Math.pow(A * e * L, alpha) / delta, 1 / (1 - alpha));
+}
+
+function Ystar() {
+    return Y(Kstar());
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COORDINATE TRANSFORMS
+// ═══════════════════════════════════════════════════════════════
+
+// Graph 1 transforms
+function g1ToSvgX(k) {
+    return G1_X0 + (k / xMax) * G1_PW;
+}
+function g1ToSvgY(y) {
+    return G1_MT + G1_PH - (y / g1_yMax) * G1_PH;
+}
+
+// Graph 2 transforms (narrowed range)
+function g2ToSvgX(kt) {
+    return G2_X0 + ((kt - g2Min) / (g2Max - g2Min)) * G2_PW;
+}
+function g2ToSvgY(kt1) {
+    return G2_MT + G2_PH - ((kt1 - g2Min) / (g2Max - g2Min)) * G2_PH;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// KATEX OVERLAY LABELS
+// ═══════════════════════════════════════════════════════════════
+
+function clearKatexLabels() {
+    const overlay = document.getElementById('katex-overlay');
+    overlay.querySelectorAll('.graph-label').forEach(el => el.remove());
+}
+
+function addKatexLabel(svgX, svgY, tex, color, extraClass, align) {
+    const overlay = document.getElementById('katex-overlay');
+    const span = document.createElement('span');
+    span.className = 'graph-label' + (extraClass ? ' ' + extraClass : '');
+    span.style.left = (svgX / SVG_W * 100) + '%';
+    span.style.top = (svgY / SVG_H * 100) + '%';
+    span.style.color = color || 'var(--text-primary)';
+    if (align === 'left') span.style.transform = 'translate(0, -50%)';
+    if (typeof katex !== 'undefined') {
+        katex.render(tex, span, { throwOnError: false });
+    } else {
+        span.textContent = tex;
+    }
+    overlay.appendChild(span);
+    return span;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NICE TICKS
+// ═══════════════════════════════════════════════════════════════
+
+function niceTickInterval(range, targetTicks) {
+    const rough = range / targetTicks;
+    const mag = Math.pow(10, Math.floor(Math.log10(rough)));
+    const residual = rough / mag;
+    let nice;
+    if (residual <= 1.5) nice = 1;
+    else if (residual <= 3.5) nice = 2.5;
+    else if (residual <= 7.5) nice = 5;
+    else nice = 10;
+    return nice * mag;
+}
+
+function generateTicks(maxVal, targetTicks) {
+    const interval = niceTickInterval(maxVal, targetTicks || 8);
+    const ticks = [];
+    for (let v = interval; v < maxVal; v += interval) {
+        ticks.push(v);
+    }
+    return ticks;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SVG HELPERS
+// ═══════════════════════════════════════════════════════════════
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+function svgEl(tag, attrs) {
+    const el = document.createElementNS(SVG_NS, tag);
+    if (attrs) {
+        for (const [k, v] of Object.entries(attrs)) {
+            el.setAttribute(k, v);
+        }
+    }
+    return el;
+}
+
+function clearSvg() {
+    const svg = document.getElementById('solow-svg');
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    return svg;
+}
+
+function formatTickVal(v) {
+    if (v >= 1000) return (v / 1000).toFixed(1) + 'k';
+    if (v >= 100) return Math.round(v).toString();
+    if (v >= 10) return Number(v.toPrecision(3)).toString();
+    if (v >= 1) return Number(v.toPrecision(3)).toString();
+    return Number(v.toPrecision(2)).toString();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DRAW GRAPH (Both graphs in single SVG)
+// ═══════════════════════════════════════════════════════════════
+
+function computeAxisRanges() {
+    const ks = Kstar();
+    // Graph 1 x-axis: 0 to 2K*
+    xMax = 2 * ks;
+    // Graph 1 y-axis: fit Y(xMax)
+    g1_yMax = Y(xMax) * 1.1;
+    if (g1_yMax < 2) g1_yMax = 2;
+    // Graph 2 narrowed range: tight window around [K0, K*]
+    g2Min = Math.max(0, Math.min(params.K0, ks) - 5);
+    g2Max = Math.min(xMax, Math.max(params.K0, ks) + 5);
+}
+
+function drawGraph() {
+    computeAxisRanges();
+    const svg = clearSvg();
+
+    // ── Defs ──
+    const defs = svgEl('defs');
+
+    // Glow filter
+    const filter = svgEl('filter', { id: 'glow', x: '-50%', y: '-50%', width: '200%', height: '200%' });
+    const blur = svgEl('feGaussianBlur', { stdDeviation: '3', result: 'coloredBlur' });
+    const merge = svgEl('feMerge');
+    merge.appendChild(svgEl('feMergeNode', { in: 'coloredBlur' }));
+    merge.appendChild(svgEl('feMergeNode', { in: 'SourceGraphic' }));
+    filter.appendChild(blur);
+    filter.appendChild(merge);
+    defs.appendChild(filter);
+
+    // Arrow markers
+    const marker = svgEl('marker', {
+        id: 'arrow', markerWidth: '10', markerHeight: '7',
+        refX: '9', refY: '3.5', orient: 'auto', markerUnits: 'strokeWidth'
+    });
+    marker.appendChild(svgEl('polygon', { points: '0 0, 10 3.5, 0 7', fill: '#4a5568' }));
+    defs.appendChild(marker);
+
+    // Clip paths
+    const clip1 = svgEl('clipPath', { id: 'clip-g1' });
+    clip1.appendChild(svgEl('rect', { x: String(G1_X0), y: String(G1_MT), width: String(G1_PW), height: String(G1_PH) }));
+    defs.appendChild(clip1);
+
+    const clip2 = svgEl('clipPath', { id: 'clip-g2' });
+    clip2.appendChild(svgEl('rect', { x: String(G2_X0), y: String(G2_MT), width: String(G2_PW), height: String(G2_PH) }));
+    defs.appendChild(clip2);
+
+    svg.appendChild(defs);
+
+    // ── Full background ──
+    svg.appendChild(svgEl('rect', {
+        x: '0', y: '0', width: String(SVG_W), height: String(SVG_H),
+        fill: '#f8f9fa', rx: '0'
+    }));
+
+    // ════════════════════════════════════════════
+    // GRAPH 1 — Solow Diagram
+    // ════════════════════════════════════════════
+    const g1Frame = svgEl('g', { id: 'g1-frame' });
+
+    // Grid
+    const g1xTicks = generateTicks(xMax, 7);
+    const g1yTicks = generateTicks(g1_yMax, 6);
+
+    g1xTicks.forEach(v => {
+        const sx = g1ToSvgX(v);
+        g1Frame.appendChild(svgEl('line', {
+            x1: String(sx), y1: String(G1_MT), x2: String(sx), y2: String(G1_MT + G1_PH),
+            stroke: '#edf2f7', 'stroke-width': '1'
+        }));
+    });
+    g1yTicks.forEach(v => {
+        const sy = g1ToSvgY(v);
+        g1Frame.appendChild(svgEl('line', {
+            x1: String(G1_X0), y1: String(sy), x2: String(G1_X1), y2: String(sy),
+            stroke: '#edf2f7', 'stroke-width': '1'
+        }));
+    });
+
+    // Axes
+    g1Frame.appendChild(svgEl('line', {
+        x1: String(G1_X0), y1: String(G1_MT + G1_PH), x2: String(G1_X1 + 10), y2: String(G1_MT + G1_PH),
+        stroke: '#4a5568', 'stroke-width': '1.5', 'marker-end': 'url(#arrow)'
+    }));
+    g1Frame.appendChild(svgEl('line', {
+        x1: String(G1_X0), y1: String(G1_MT + G1_PH), x2: String(G1_X0), y2: String(G1_MT - 10),
+        stroke: '#4a5568', 'stroke-width': '1.5', 'marker-end': 'url(#arrow)'
+    }));
+
+    // Tick marks
+    g1xTicks.forEach(v => {
+        const sx = g1ToSvgX(v);
+        g1Frame.appendChild(svgEl('line', {
+            x1: String(sx), y1: String(G1_MT + G1_PH), x2: String(sx), y2: String(G1_MT + G1_PH + 6),
+            stroke: '#718096', 'stroke-width': '1'
+        }));
+        const txt = svgEl('text', {
+            x: String(sx), y: String(G1_MT + G1_PH + 20),
+            'text-anchor': 'middle', fill: '#718096',
+            'font-family': "'JetBrains Mono', monospace", 'font-size': '11'
+        });
+        txt.textContent = formatTickVal(v);
+        g1Frame.appendChild(txt);
+    });
+
+    // K0 tick mark on x-axis (moves with controls, no label)
+    const k0x = g1ToSvgX(params.K0);
+    g1Frame.appendChild(svgEl('line', {
+        x1: String(k0x), y1: String(G1_MT + G1_PH - 6),
+        x2: String(k0x), y2: String(G1_MT + G1_PH + 6),
+        stroke: '#4B9CD3', 'stroke-width': '2'
+    }));
+
+    g1yTicks.forEach(v => {
+        const sy = g1ToSvgY(v);
+        g1Frame.appendChild(svgEl('line', {
+            x1: String(G1_X0 - 6), y1: String(sy), x2: String(G1_X0), y2: String(sy),
+            stroke: '#718096', 'stroke-width': '1'
+        }));
+        const txt = svgEl('text', {
+            x: String(G1_X0 - 10), y: String(sy + 4),
+            'text-anchor': 'end', fill: '#718096',
+            'font-family': "'JetBrains Mono', monospace", 'font-size': '11'
+        });
+        txt.textContent = formatTickVal(v);
+        g1Frame.appendChild(txt);
+    });
+
+    // Graph 1 title (HTML overlay so it isn't clipped by SVG viewBox)
+
+    svg.appendChild(g1Frame);
+
+    // Group for dynamic capital-level tick marks (persists across animation periods)
+    const g1DynTicks = svgEl('g', { id: 'g1-dyn-ticks' });
+    animState.cobwebPoints.forEach(pt => {
+        const tx = g1ToSvgX(pt.Kt1);
+        if (tx > G1_X0 && tx < G1_X1) {
+            g1DynTicks.appendChild(svgEl('line', {
+                x1: String(tx), y1: String(G1_MT + G1_PH - 4),
+                x2: String(tx), y2: String(G1_MT + G1_PH + 4),
+                stroke: '#718096', 'stroke-width': '1'
+            }));
+        }
+    });
+    svg.appendChild(g1DynTicks);
+
+    // G1 clipped content group (mirrors G2 structure)
+    const g1Clip = svgEl('g', { id: 'g1-clip', 'clip-path': 'url(#clip-g1)' });
+    const g1Zoom = svgEl('g', { id: 'g1-zoom' });
+    const g1CurvesG = svgEl('g', { id: 'g1-curves' });
+
+    const nPts = 200;
+
+    // Depreciation line (red)
+    const depPts = [];
+    for (let i = 0; i <= nPts; i++) {
+        const k = (i / nPts) * xMax;
+        depPts.push(`${g1ToSvgX(k)},${g1ToSvgY(deltaK(k))}`);
+    }
+    g1CurvesG.appendChild(svgEl('polyline', {
+        points: depPts.join(' '),
+        fill: 'none', stroke: '#f56565', 'stroke-width': '2.5',
+        'vector-effect': 'non-scaling-stroke'
+    }));
+
+    // Investment curve (green)
+    const invPts = [];
+    for (let i = 0; i <= nPts; i++) {
+        const k = (i / nPts) * xMax;
+        invPts.push(`${g1ToSvgX(k)},${g1ToSvgY(gammaY(k))}`);
+    }
+    g1CurvesG.appendChild(svgEl('polyline', {
+        points: invPts.join(' '),
+        fill: 'none', stroke: '#48bb78', 'stroke-width': '2.5',
+        'vector-effect': 'non-scaling-stroke'
+    }));
+
+    // Production function (blue)
+    const prodPts = [];
+    for (let i = 0; i <= nPts; i++) {
+        const k = (i / nPts) * xMax;
+        prodPts.push(`${g1ToSvgX(k)},${g1ToSvgY(Y(k))}`);
+    }
+    g1CurvesG.appendChild(svgEl('polyline', {
+        points: prodPts.join(' '),
+        fill: 'none', stroke: '#4B9CD3', 'stroke-width': '3',
+        'vector-effect': 'non-scaling-stroke'
+    }));
+
+    // K* vertical dashed line
+    const ks = Kstar();
+    if (ks > 0 && ks < xMax) {
+        g1CurvesG.appendChild(svgEl('line', {
+            x1: String(g1ToSvgX(ks)), y1: String(g1ToSvgY(0)),
+            x2: String(g1ToSvgX(ks)), y2: String(G1_MT + 5),
+            stroke: '#718096', 'stroke-width': '1.5', 'stroke-dasharray': '8,5',
+            'vector-effect': 'non-scaling-stroke'
+        }));
+    }
+
+    g1Zoom.appendChild(g1CurvesG);
+    g1Zoom.appendChild(svgEl('g', { id: 'g1-anim-layer' }));
+    g1Clip.appendChild(g1Zoom);
+    svg.appendChild(g1Clip);
+
+    // ════════════════════════════════════════════
+    // GRAPH 2 — Phase Diagram
+    // ════════════════════════════════════════════
+    const g2Frame = svgEl('g', { id: 'g2-frame' });
+
+    // Grid — ticks for narrowed [g2Min, g2Max] range
+    const g2Range = g2Max - g2Min;
+    const g2TickInterval = niceTickInterval(g2Range, 7);
+    const g2xTicks = [];
+    for (let v = Math.ceil(g2Min / g2TickInterval) * g2TickInterval; v < g2Max; v += g2TickInterval) {
+        if (v > g2Min) g2xTicks.push(v);
+    }
+    const g2yTicks = g2xTicks; // same range, same ticks
+
+    g2xTicks.forEach(v => {
+        const sx = g2ToSvgX(v);
+        g2Frame.appendChild(svgEl('line', {
+            x1: String(sx), y1: String(G2_MT), x2: String(sx), y2: String(G2_MT + G2_PH),
+            stroke: '#edf2f7', 'stroke-width': '1'
+        }));
+    });
+    g2yTicks.forEach(v => {
+        const sy = g2ToSvgY(v);
+        g2Frame.appendChild(svgEl('line', {
+            x1: String(G2_X0), y1: String(sy), x2: String(G2_X1), y2: String(sy),
+            stroke: '#edf2f7', 'stroke-width': '1'
+        }));
+    });
+
+    // Axes
+    g2Frame.appendChild(svgEl('line', {
+        x1: String(G2_X0), y1: String(G2_MT + G2_PH), x2: String(G2_X1 + 10), y2: String(G2_MT + G2_PH),
+        stroke: '#4a5568', 'stroke-width': '1.5', 'marker-end': 'url(#arrow)'
+    }));
+    g2Frame.appendChild(svgEl('line', {
+        x1: String(G2_X0), y1: String(G2_MT + G2_PH), x2: String(G2_X0), y2: String(G2_MT - 10),
+        stroke: '#4a5568', 'stroke-width': '1.5', 'marker-end': 'url(#arrow)'
+    }));
+
+    // Tick marks
+    g2xTicks.forEach(v => {
+        const sx = g2ToSvgX(v);
+        g2Frame.appendChild(svgEl('line', {
+            x1: String(sx), y1: String(G2_MT + G2_PH), x2: String(sx), y2: String(G2_MT + G2_PH + 6),
+            stroke: '#718096', 'stroke-width': '1'
+        }));
+        const txt = svgEl('text', {
+            x: String(sx), y: String(G2_MT + G2_PH + 20),
+            'text-anchor': 'middle', fill: '#718096',
+            'font-family': "'JetBrains Mono', monospace", 'font-size': '11'
+        });
+        txt.textContent = formatTickVal(v);
+        g2Frame.appendChild(txt);
+    });
+    // K0 tick mark on G2 x-axis (blue, no label)
+    if (params.K0 >= g2Min && params.K0 <= g2Max) {
+        const k0x2 = g2ToSvgX(params.K0);
+        g2Frame.appendChild(svgEl('line', {
+            x1: String(k0x2), y1: String(G2_MT + G2_PH - 6),
+            x2: String(k0x2), y2: String(G2_MT + G2_PH + 6),
+            stroke: '#4B9CD3', 'stroke-width': '2'
+        }));
+    }
+
+    g2yTicks.forEach(v => {
+        const sy = g2ToSvgY(v);
+        g2Frame.appendChild(svgEl('line', {
+            x1: String(G2_X0 - 6), y1: String(sy), x2: String(G2_X0), y2: String(sy),
+            stroke: '#718096', 'stroke-width': '1'
+        }));
+        const txt = svgEl('text', {
+            x: String(G2_X0 - 10), y: String(sy + 4),
+            'text-anchor': 'end', fill: '#718096',
+            'font-family': "'JetBrains Mono', monospace", 'font-size': '11'
+        });
+        txt.textContent = formatTickVal(v);
+        g2Frame.appendChild(txt);
+    });
+
+    // Graph 2 title (HTML overlay so it isn't clipped by SVG viewBox)
+
+    svg.appendChild(g2Frame);
+
+    // G2 clipped content group
+    const g2Clip = svgEl('g', { id: 'g2-clip', 'clip-path': 'url(#clip-g2)' });
+
+    // Zoom group (curves + cobweb go inside)
+    const g2Zoom = svgEl('g', { id: 'g2-zoom' });
+
+    // G2 curves
+    const g2CurvesG = svgEl('g', { id: 'g2-curves' });
+
+    // 45-degree line (K_{t+1} = K_t) — within narrowed range
+    g2CurvesG.appendChild(svgEl('line', {
+        x1: String(g2ToSvgX(g2Min)), y1: String(g2ToSvgY(g2Min)),
+        x2: String(g2ToSvgX(g2Max)), y2: String(g2ToSvgY(g2Max)),
+        stroke: '#a0aec0', 'stroke-width': '1.5', 'stroke-dasharray': '8,5',
+        'vector-effect': 'non-scaling-stroke'
+    }));
+
+    // Transition curve K_{t+1} = Kt + gamma*Y(Kt) - delta*Kt
+    const transPts = [];
+    for (let i = 0; i <= nPts; i++) {
+        const k = g2Min + (i / nPts) * (g2Max - g2Min);
+        const k1 = Kt1(k);
+        transPts.push(`${g2ToSvgX(k)},${g2ToSvgY(k1)}`);
+    }
+    g2CurvesG.appendChild(svgEl('polyline', {
+        points: transPts.join(' '),
+        fill: 'none', stroke: '#2B6CB0', 'stroke-width': '3',
+        'vector-effect': 'non-scaling-stroke'
+    }));
+
+    // K* on Graph 2 - vertical dashed
+    if (ks >= g2Min && ks <= g2Max) {
+        g2CurvesG.appendChild(svgEl('line', {
+            x1: String(g2ToSvgX(ks)), y1: String(g2ToSvgY(g2Min)),
+            x2: String(g2ToSvgX(ks)), y2: String(g2ToSvgY(g2Max)),
+            stroke: '#718096', 'stroke-width': '1.5', 'stroke-dasharray': '8,5',
+            'vector-effect': 'non-scaling-stroke'
+        }));
+    }
+
+    g2Zoom.appendChild(g2CurvesG);
+
+    // Cobweb group (persists across periods)
+    const g2Cobweb = svgEl('g', { id: 'g2-cobweb' });
+    g2Zoom.appendChild(g2Cobweb);
+
+    // Animation group for current period cobweb
+    g2Zoom.appendChild(svgEl('g', { id: 'g2-anim' }));
+
+    g2Clip.appendChild(g2Zoom);
+    svg.appendChild(g2Clip);
+
+    // Flying bar layer (unclipped — crosses between graphs)
+    svg.appendChild(svgEl('g', { id: 'fly-layer' }));
+
+    // Redraw accumulated cobweb lines
+    redrawCobweb();
+
+    // ── KaTeX labels ──
+    clearKatexLabels();
+
+    // Graph titles (HTML overlays at same level as y-axis labels)
+    addKatexLabel(G1_X0 + G1_PW / 2, G1_MT - 22, '\\textbf{Solow Diagram}', '#13294B', 'axis-title');
+    addKatexLabel(G2_X0 + G2_PW / 2, G2_MT - 22, '\\textbf{Phase Diagram}', '#13294B', 'axis-title');
+
+    // G1 axis labels
+    addKatexLabel(G1_X1 + 28, G1_MT + G1_PH, 'K', '#13294B', 'axis-title');
+    addKatexLabel(G1_X0, G1_MT - 22, 'Y', '#13294B', 'axis-title');
+
+    // G1 curve labels
+    const labelK = xMax * 0.85;
+    addKatexLabel(g1ToSvgX(labelK) + 10, g1ToSvgY(Y(labelK)) - 16, 'Y(K)', '#4B9CD3');
+    addKatexLabel(g1ToSvgX(labelK) + 10, g1ToSvgY(gammaY(labelK)) - 14, '\\gamma Y', '#48bb78');
+    addKatexLabel(g1ToSvgX(labelK) + 10, g1ToSvgY(deltaK(labelK)) - 14, '\\delta K', '#f56565');
+
+    // G1 K* labels: K^\ast on the dashed line, numeric value on x-axis
+    // Use model-space offset so label distance looks proportional to graph scale
+    const kLabelOff = xMax * 0.06;
+    if (ks > 0 && ks < xMax) {
+        addKatexLabel(g1ToSvgX(ks + kLabelOff), G1_MT + G1_PH / 2, 'K^\\ast', '#718096', '', 'left');
+        addKatexLabel(g1ToSvgX(ks), g1ToSvgY(0) + 35, '\\small{' + formatVal(ks) + '}', '#718096');
+    }
+
+    // G2 axis labels
+    addKatexLabel(G2_X1 + 28, G2_MT + G2_PH, 'K_t', '#13294B', 'axis-title');
+    addKatexLabel(G2_X0, G2_MT - 22, 'K_{t+1}', '#13294B', 'axis-title');
+
+    // G2 curve labels
+    const g2LabelK = g2Min + (g2Max - g2Min) * 0.82;
+    const curveAbove45 = Kt1(g2LabelK) > g2LabelK; // curve above 45° line?
+    const g2LabelDx = 20, g2LabelDy = 32;
+    if (curveAbove45) {
+        // 45° is below → place label above-left of curve
+        addKatexLabel(g2ToSvgX(g2LabelK) - g2LabelDx, g2ToSvgY(Kt1(g2LabelK)) - g2LabelDy, 'K_{t+1}(K_t)', '#2B6CB0');
+    } else {
+        // 45° is above → place label below-right of curve (more to the right to avoid overlap)
+        addKatexLabel(g2ToSvgX(g2LabelK) + g2LabelDx * 3, g2ToSvgY(Kt1(g2LabelK)) + g2LabelDy, 'K_{t+1}(K_t)', '#2B6CB0');
+    }
+    const g2_45K = g2Min + (g2Max - g2Min) * 0.9;
+    addKatexLabel(g2ToSvgX(g2_45K) + 10, g2ToSvgY(g2_45K) - 14, '45^\\circ', '#a0aec0');
+
+    // G2 K* labels: K^\ast on the dashed line, numeric value on x-axis
+    const g2LabelOff = (g2Max - g2Min) * 0.06;
+    if (ks >= g2Min && ks <= g2Max) {
+        addKatexLabel(g2ToSvgX(ks + g2LabelOff), G2_MT + G2_PH / 2, 'K^\\ast', '#718096', '', 'left');
+        addKatexLabel(g2ToSvgX(ks), g2ToSvgY(g2Min) + 35, '\\small{' + formatVal(ks) + '}', '#718096');
+    }
+
+    // Production function display
+    const pfSpan = document.getElementById('prod-fn-display');
+    if (pfSpan && typeof katex !== 'undefined') {
+        katex.render('Y = (A \\cdot K \\cdot eL)^\\alpha', pfSpan, { throwOnError: false });
+    }
+
+    updateInfoPanel();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COBWEB PERSISTENCE
+// ═══════════════════════════════════════════════════════════════
+
+function redrawCobweb() {
+    const cobwebG = document.getElementById('g2-cobweb');
+    if (!cobwebG) return;
+    while (cobwebG.firstChild) cobwebG.removeChild(cobwebG.firstChild);
+
+    const dashStyle = { stroke: '#000', 'stroke-width': '1.5', 'stroke-dasharray': '5,4', 'vector-effect': 'non-scaling-stroke' };
+
+    animState.cobwebPoints.forEach((pt, i) => {
+        const opacity = Math.max(0.25, 1 - (animState.cobwebPoints.length - 1 - i) * 0.08);
+        // Up: from x-axis (Kt, g2Min) up to curve (Kt, Kt1)
+        cobwebG.appendChild(svgEl('line', {
+            x1: String(g2ToSvgX(pt.Kt)), y1: String(g2ToSvgY(g2Min)),
+            x2: String(g2ToSvgX(pt.Kt)), y2: String(g2ToSvgY(pt.Kt1)),
+            ...dashStyle, opacity: String(opacity)
+        }));
+        // Horizontal: from curve (Kt, Kt1) to 45° line (Kt1, Kt1)
+        cobwebG.appendChild(svgEl('line', {
+            x1: String(g2ToSvgX(pt.Kt)), y1: String(g2ToSvgY(pt.Kt1)),
+            x2: String(g2ToSvgX(pt.Kt1)), y2: String(g2ToSvgY(pt.Kt1)),
+            ...dashStyle, opacity: String(opacity)
+        }));
+        // Down: from 45° line (Kt1, Kt1) back to x-axis (Kt1, g2Min)
+        cobwebG.appendChild(svgEl('line', {
+            x1: String(g2ToSvgX(pt.Kt1)), y1: String(g2ToSvgY(pt.Kt1)),
+            x2: String(g2ToSvgX(pt.Kt1)), y2: String(g2ToSvgY(g2Min)),
+            ...dashStyle, opacity: String(opacity)
+        }));
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANIMATION HELPERS
+// ═══════════════════════════════════════════════════════════════
+
+function easeInOutCubic(t) {
+    return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+function wait(ms, myAnimId) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            if (animState.animId !== myAnimId) { resolve(false); return; }
+            resolve(true);
+        }, ms);
+    });
+}
+
+function getBaseDuration() {
+    return 600 / speed;
+}
+
+function fadeAndRemove(el, duration) {
+    if (!el || !el.parentNode) return;
+    const isSvg = el instanceof SVGElement;
+    const start = performance.now();
+    const startOpacity = isSvg
+        ? parseFloat(el.getAttribute('opacity') || '1')
+        : parseFloat(el.style.opacity || '1');
+    function tick(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const val = startOpacity * (1 - t);
+        if (isSvg) el.setAttribute('opacity', String(val));
+        else el.style.opacity = String(val);
+        if (t < 1) {
+            requestAnimationFrame(tick);
+        } else {
+            if (el.parentNode) el.parentNode.removeChild(el);
+        }
+    }
+    requestAnimationFrame(tick);
+}
+
+// Animate a value from 0 to 1, calling onFrame(t_eased) each frame
+function animateTween(duration, myAnimId, onFrame) {
+    return new Promise((resolve) => {
+        const start = performance.now();
+        function tick(now) {
+            if (animState.animId !== myAnimId) { resolve(false); return; }
+            const elapsed = now - start;
+            let t = Math.min(elapsed / duration, 1);
+            const te = easeInOutCubic(t);
+            onFrame(te);
+            if (t < 1) {
+                requestAnimationFrame(tick);
+            } else {
+                resolve(true);
+            }
+        }
+        requestAnimationFrame(tick);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE A — Colored Bars on Graph 1
+// ═══════════════════════════════════════════════════════════════
+
+async function phaseA_bars(myAnimId, Kt_val) {
+    const layer = document.getElementById('g1-anim-layer');
+    if (!layer) return false;
+
+    const Yt = Y(Kt_val);
+    const It = gammaY(Kt_val);
+    const Dt = deltaK(Kt_val);
+    const dK = It - Dt;
+    const dur = getBaseDuration();
+
+    const sx = g1ToSvgX(Kt_val);
+    const baseY = g1ToSvgY(0);
+    const lineW = 3;
+    const linesCreated = [];
+
+    // Helper: grow a line from bottom upward
+    async function growLine(color, targetModelY) {
+        const targetSvgY = g1ToSvgY(targetModelY);
+        const line = svgEl('line', {
+            x1: String(sx), y1: String(baseY),
+            x2: String(sx), y2: String(baseY),
+            stroke: color, 'stroke-width': String(lineW), 'stroke-linecap': 'butt'
+        });
+        layer.appendChild(line);
+        linesCreated.push(line);
+
+        const ok = await animateTween(dur * 0.5, myAnimId, (te) => {
+            const curY = baseY + (targetSvgY - baseY) * te;
+            line.setAttribute('y2', String(curY));
+        });
+        return ok;
+    }
+
+    // 1. Blue line — output Y (tallest, drawn first)
+    if (!(await growLine('#4B9CD3', Yt))) return { ok: false };
+    if (!(await wait(dur * 0.1, myAnimId))) return { ok: false };
+
+    // 2. Slow zoom into G1 while green + red bars grow simultaneously
+    const g1ZoomT = computeG1ZoomTransform(Kt_val);
+
+    // Green + red bars run sequentially, but the whole sequence runs
+    // concurrently with the slow G1 zoom
+    async function growBars() {
+        if (!(await growLine('#48bb78', It))) return false;
+        if (!(await wait(dur * 0.1, myAnimId))) return false;
+        if (!(await growLine('#f56565', Dt))) return false;
+        if (!(await wait(dur * 0.15, myAnimId))) return false;
+        return true;
+    }
+
+    const [barsOk, zoomOk] = await Promise.all([
+        growBars(),
+        zoomGraph1(myAnimId, g1ZoomT, dur * 1.5)  // slow dolly over the full bar sequence
+    ]);
+    if (!barsOk || !zoomOk) return { ok: false };
+
+    // Result: red (0→δK), green (δK→γY) = ΔK, blue (γY→Y)
+    const dkColor = dK >= 0 ? '#38a169' : '#e53e3e';
+
+    if (!(await wait(dur * 0.3, myAnimId))) return { ok: false };
+
+    return { ok: true, bars: linesCreated, dkColor, dK, g1ZoomScale: g1ZoomT ? g1ZoomT.scale : 1 };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE B — Flying Bar
+// ═══════════════════════════════════════════════════════════════
+
+async function phaseB_flyingBar(myAnimId, Kt_val, dK_val, dkColor) {
+    const flyLayer = document.getElementById('fly-layer');
+    if (!flyLayer) return false;
+
+    const dur = getBaseDuration();
+    const Kt1_val = Kt_val + dK_val;
+
+    // ── THE ONE TRUE SIZE ──
+    // G2 zoomed distance from Kt to Kt1. This is the segment's size forever.
+    // G1 zoom scale was computed to make the bar's visual height equal this.
+    const segSize = Math.abs(g2ToSvgX(Kt1_val) - g2ToSvgX(Kt_val)) * 3;
+    const segThick = 8;
+
+    // ── G1 screen position of the bar ──
+    // srcX is the G1 zoom focal x, stays put. Compute screen Y.
+    const srcX = g1ToSvgX(Kt_val);
+    const It = gammaY(Kt_val);
+    const Dt = deltaK(Kt_val);
+    const srcTopY = g1ToSvgY(Math.max(It, Dt));
+    const srcBotY = g1ToSvgY(Math.min(It, Dt));
+    const g1ZoomT = computeG1ZoomTransform(Kt_val);
+    const g1s = g1ZoomT ? g1ZoomT.scale : 1;
+    const g1ty = g1ZoomT ? g1ZoomT.ty : 0;
+    const screenCenterY = ((srcTopY + srcBotY) / 2) * g1s + g1ty;
+
+    // ── G2 landing position ──
+    const g2ZoomT = computeZoomTransform(Kt_val, Kt1_val);
+    const g2s = g2ZoomT ? g2ZoomT.scale : 1;
+    const g2tx = g2ZoomT ? g2ZoomT.tx : 0;
+    const screenKtX = g2ToSvgX(Kt_val) * g2s + g2tx;
+    const screenKt1X = g2ToSvgX(Kt1_val) * g2s + g2tx;
+    const landLeftX = Math.min(screenKtX, screenKt1X);
+    const landY = g2ToSvgY(g2Min);  // focal point, stays put
+    const tgtCenterX = (g2ToSvgX(Kt_val) + g2ToSvgX(Kt1_val)) / 2;
+
+    // ── Create the bar (vertical, at G1 screen position) ──
+    const flyBar = svgEl('rect', {
+        x: String(srcX - segThick/2),
+        y: String(screenCenterY - segSize/2),
+        width: String(segThick), height: String(segSize),
+        fill: dkColor, opacity: '0.85', rx: '2'
+    });
+    flyLayer.appendChild(flyBar);
+
+    // ── Phase 1: Horizontal move only. G1 stays zoomed. No G2 zoom yet. ──
+    const ok1 = await animateTween(dur * 0.9, myAnimId, (te) => {
+        const cx = srcX + (tgtCenterX - srcX) * te;
+        flyBar.setAttribute('x', String(cx - segThick/2));
+    });
+    if (!ok1) return { ok: false, flyBar };
+
+    // ── Phase 2: Rotate + unzoom G1 + zoom G2 (all concurrent, same duration) ──
+    const midX = tgtCenterX;
+    const midY = screenCenterY;
+    const transitionDur = dur * 0.6;
+    const [ok2] = await Promise.all([
+        animateTween(transitionDur, myAnimId, (te) => {
+            flyBar.setAttribute('transform', `rotate(${90 * te}, ${midX}, ${midY})`);
+        }),
+        unzoomGraph1(myAnimId, transitionDur),
+        zoomGraph2(myAnimId, g2ZoomT)
+    ]);
+    if (!ok2) return { ok: false, flyBar };
+
+    // After rotation: segSize is now width, segThick is now height
+    flyBar.setAttribute('x', String(midX - segSize/2));
+    flyBar.setAttribute('y', String(midY - segThick/2));
+    flyBar.setAttribute('width', String(segSize));
+    flyBar.setAttribute('height', String(segThick));
+    flyBar.setAttribute('transform', '');
+
+    // ── Phase 3: Drop to G2 x-axis. No resize, no zoom changes. ──
+    const startX = midX - segSize/2;
+    const startY = midY - segThick/2;
+    const endY = landY - segThick/2;
+
+    const ok3 = await animateTween(dur * 0.7, myAnimId, (te) => {
+        const x = startX + (landLeftX - startX) * te;
+        const y = startY + (endY - startY) * te;
+        flyBar.setAttribute('x', String(x));
+        flyBar.setAttribute('y', String(y));
+    });
+
+    return { ok: ok3, flyBar };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GRAPH 1 ZOOM — Camera for Solow Diagram
+// ═══════════════════════════════════════════════════════════════
+
+function computeG1ZoomTransform(Kt_val) {
+    // Compute G1 zoom scale so the bar's visual height matches the
+    // G2 zoomed Kt-to-Kt1 distance. This way the segment NEVER changes size.
+    const Kt1_val = Kt1(Kt_val);
+    const It = gammaY(Kt_val);
+    const Dt = deltaK(Kt_val);
+    const srcH = Math.abs(g1ToSvgY(It) - g1ToSvgY(Dt));
+    const g2SegW = Math.abs(g2ToSvgX(Kt1_val) - g2ToSvgX(Kt_val)) * 3; // G2 at 3x
+
+    const scale = srcH > 0 ? g2SegW / srcH : 3;
+    if (scale < 1.1) return null; // not worth zooming
+
+    const focalX = g1ToSvgX(Kt_val);
+    const focalY = g1ToSvgY(0);  // x-axis
+
+    // Fixed-point zoom: translate so (focalX, focalY) maps to itself
+    const tx = focalX * (1 - scale);
+    const ty = focalY * (1 - scale);
+
+    return { tx, ty, scale };
+}
+
+async function zoomGraph1(myAnimId, transform, duration) {
+    if (!transform) return true;
+    const g1Zoom = document.getElementById('g1-zoom');
+    if (!g1Zoom) return false;
+
+    const dur = duration || getBaseDuration() * 0.6;
+    const ok = await animateTween(dur, myAnimId, (te) => {
+        const s = 1 + (transform.scale - 1) * te;
+        const tx = transform.tx * te;
+        const ty = transform.ty * te;
+        g1Zoom.setAttribute('transform', `translate(${tx},${ty}) scale(${s})`);
+    });
+    return ok;
+}
+
+async function unzoomGraph1(myAnimId, duration) {
+    const g1Zoom = document.getElementById('g1-zoom');
+    if (!g1Zoom) return true;
+
+    const currentTransform = g1Zoom.getAttribute('transform');
+    if (!currentTransform || currentTransform === '') return true;
+
+    const match = currentTransform.match(/translate\(([-\d.]+),([-\d.]+)\)\s*scale\(([-\d.]+)\)/);
+    if (!match) { g1Zoom.setAttribute('transform', ''); return true; }
+
+    const curTx = parseFloat(match[1]);
+    const curTy = parseFloat(match[2]);
+    const curScale = parseFloat(match[3]);
+
+    const dur = duration || getBaseDuration() * 0.5;
+    const ok = await animateTween(dur, myAnimId, (te) => {
+        const s = curScale + (1 - curScale) * te;
+        const tx = curTx * (1 - te);
+        const ty = curTy * (1 - te);
+        if (Math.abs(s - 1) < 0.001) {
+            g1Zoom.setAttribute('transform', '');
+        } else {
+            g1Zoom.setAttribute('transform', `translate(${tx},${ty}) scale(${s})`);
+        }
+    });
+    if (ok) g1Zoom.setAttribute('transform', '');
+    return ok;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GRAPH 2 ZOOM — Camera for Phase Diagram
+// ═══════════════════════════════════════════════════════════════
+
+function computeZoomTransform(Kt_val, Kt1_val) {
+    // True zoom: focal point is where the bar lands — Kt on the G2 x-axis.
+    // The cobweb starts here, so zoom magnifies the cobweb action.
+    const focalX = g2ToSvgX(Kt_val);
+    const focalY = g2ToSvgY(g2Min); // on the x-axis, where the bar lands
+
+    const scale = 3;
+
+    // Fixed-point zoom: translate so (focalX, focalY) maps to itself
+    const tx = focalX * (1 - scale);
+    const ty = focalY * (1 - scale);
+
+    return { tx, ty, scale };
+}
+
+function computeCobwebZoomTransform(Kt_val, Kt1_val) {
+    // Focal point centered on the cobweb area (midpoint between x-axis and curve).
+    // This keeps the cobweb lines visible during the zoomed cobweb animation.
+    const focalX = g2ToSvgX((Kt_val + Kt1_val) / 2);
+    const focalY = g2ToSvgY((g2Min + Kt1_val) / 2);
+    const scale = 3;
+    const tx = focalX * (1 - scale);
+    const ty = focalY * (1 - scale);
+    return { tx, ty, scale };
+}
+
+async function zoomGraph2(myAnimId, transform) {
+    if (!transform) return true;
+    const g2Zoom = document.getElementById('g2-zoom');
+    if (!g2Zoom) return false;
+
+    const dur = getBaseDuration();
+    const ok = await animateTween(dur * 0.6, myAnimId, (te) => {
+        const s = 1 + (transform.scale - 1) * te;
+        const tx = transform.tx * te;
+        const ty = transform.ty * te;
+        g2Zoom.setAttribute('transform', `translate(${tx},${ty}) scale(${s})`);
+    });
+    return ok;
+}
+
+async function unzoomGraph2(myAnimId) {
+    const g2Zoom = document.getElementById('g2-zoom');
+    if (!g2Zoom) return true;
+
+    const currentTransform = g2Zoom.getAttribute('transform');
+    if (!currentTransform || currentTransform === '') return true;
+
+    // Parse current transform values
+    const match = currentTransform.match(/translate\(([-\d.]+),([-\d.]+)\)\s*scale\(([-\d.]+)\)/);
+    if (!match) { g2Zoom.setAttribute('transform', ''); return true; }
+
+    const curTx = parseFloat(match[1]);
+    const curTy = parseFloat(match[2]);
+    const curScale = parseFloat(match[3]);
+
+    const dur = getBaseDuration();
+    const ok = await animateTween(dur * 0.5, myAnimId, (te) => {
+        const s = curScale + (1 - curScale) * te;
+        const tx = curTx * (1 - te);
+        const ty = curTy * (1 - te);
+        if (Math.abs(s - 1) < 0.001) {
+            g2Zoom.setAttribute('transform', '');
+        } else {
+            g2Zoom.setAttribute('transform', `translate(${tx},${ty}) scale(${s})`);
+        }
+    });
+    if (ok) g2Zoom.setAttribute('transform', '');
+    return ok;
+}
+
+async function phaseC_cobwebZoom(myAnimId, Kt_val, flyBar) {
+    const g2Anim = document.getElementById('g2-anim');
+    if (!g2Anim) return false;
+
+    const Kt1_val = Kt1(Kt_val);
+    const dur = getBaseDuration();
+
+    // flyBar stays on fly-layer (unclipped, topmost layer).
+    // We track its x/width to match the graph content, and clamp y
+    // so it never drifts below the graph boundary during the pan.
+    const ktSvgX = g2ToSvgX(Kt_val);
+    const kt1SvgX = g2ToSvgX(Kt1_val);
+    const xAxisSvgY = g2ToSvgY(g2Min);
+    const barLeftSvgX = Math.min(ktSvgX, kt1SvgX);
+    const barSegW1x = Math.abs(kt1SvgX - ktSvgX);
+    const segThick = 8;
+    const maxBarTopY = xAxisSvgY - segThick / 2; // clamp: centered on x-axis
+
+    // ── Pan camera up to center on cobweb area ──
+    const g2Zoom = document.getElementById('g2-zoom');
+    const xAxisZoomT = computeZoomTransform(Kt_val, Kt1_val);
+    const cobwebZoomT = computeCobwebZoomTransform(Kt_val, Kt1_val);
+
+    const panOk = await animateTween(dur * 0.4, myAnimId, (te) => {
+        const tx = xAxisZoomT.tx + (cobwebZoomT.tx - xAxisZoomT.tx) * te;
+        const ty = xAxisZoomT.ty + (cobwebZoomT.ty - xAxisZoomT.ty) * te;
+        g2Zoom.setAttribute('transform', `translate(${tx},${ty}) scale(3)`);
+        // Track flyBar: x follows graph, y clamped to graph bottom
+        if (flyBar) {
+            flyBar.setAttribute('x', String(barLeftSvgX * 3 + tx));
+            const rawTopY = xAxisSvgY * 3 + ty - segThick / 2;
+            flyBar.setAttribute('y', String(Math.min(rawTopY, maxBarTopY)));
+        }
+    });
+    if (!panOk) return false;
+
+    if (!(await wait(dur * 0.15, myAnimId))) return false;
+
+    const dashStyle = { stroke: '#000', 'stroke-width': '1.5', 'stroke-dasharray': '5,4', 'vector-effect': 'non-scaling-stroke' };
+
+    // Step 1: Up from x-axis to curve: (Kt, g2Min) → (Kt, Kt1)
+    const upLine = svgEl('line', {
+        x1: String(g2ToSvgX(Kt_val)), y1: String(g2ToSvgY(g2Min)),
+        x2: String(g2ToSvgX(Kt_val)), y2: String(g2ToSvgY(g2Min)),
+        ...dashStyle, opacity: '0.9'
+    });
+    g2Anim.appendChild(upLine);
+
+    const upOk = await animateTween(dur * 0.5, myAnimId, (te) => {
+        const y = g2ToSvgY(g2Min + (Kt1_val - g2Min) * te);
+        upLine.setAttribute('y2', String(y));
+    });
+    if (!upOk) return false;
+
+    if (!(await wait(dur * 0.1, myAnimId))) return false;
+
+    // Step 2: Horizontal from curve to 45° line: (Kt, Kt1) → (Kt1, Kt1)
+    const hLine = svgEl('line', {
+        x1: String(g2ToSvgX(Kt_val)), y1: String(g2ToSvgY(Kt1_val)),
+        x2: String(g2ToSvgX(Kt_val)), y2: String(g2ToSvgY(Kt1_val)),
+        ...dashStyle, opacity: '0.9'
+    });
+    g2Anim.appendChild(hLine);
+
+    const hOk = await animateTween(dur * 0.5, myAnimId, (te) => {
+        const x = g2ToSvgX(Kt_val + (Kt1_val - Kt_val) * te);
+        hLine.setAttribute('x2', String(x));
+    });
+    if (!hOk) return false;
+
+    if (!(await wait(dur * 0.1, myAnimId))) return false;
+
+    // Step 3: Down from 45° line to x-axis: (Kt1, Kt1) → (Kt1, g2Min)
+    const downLine = svgEl('line', {
+        x1: String(g2ToSvgX(Kt1_val)), y1: String(g2ToSvgY(Kt1_val)),
+        x2: String(g2ToSvgX(Kt1_val)), y2: String(g2ToSvgY(Kt1_val)),
+        ...dashStyle, opacity: '0.9'
+    });
+    g2Anim.appendChild(downLine);
+
+    const downOk = await animateTween(dur * 0.5, myAnimId, (te) => {
+        const y = g2ToSvgY(Kt1_val + (g2Min - Kt1_val) * te);
+        downLine.setAttribute('y2', String(y));
+    });
+    if (!downOk) return false;
+
+    if (!(await wait(dur * 0.2, myAnimId))) return false;
+
+    // Add to persistent cobweb
+    animState.cobwebPoints.push({ Kt: Kt_val, Kt1: Kt1_val });
+
+    // Add tick mark on G1 x-axis for the new capital level
+    const g1DynTicks = document.getElementById('g1-dyn-ticks');
+    if (g1DynTicks) {
+        const tx = g1ToSvgX(Kt1_val);
+        if (tx > G1_X0 && tx < G1_X1) {
+            g1DynTicks.appendChild(svgEl('line', {
+                x1: String(tx), y1: String(G1_MT + G1_PH - 4),
+                x2: String(tx), y2: String(G1_MT + G1_PH + 4),
+                stroke: '#718096', 'stroke-width': '1'
+            }));
+        }
+    }
+
+    // Move animated lines to persistent group
+    const cobwebG = document.getElementById('g2-cobweb');
+    if (cobwebG) {
+        cobwebG.appendChild(upLine);
+        cobwebG.appendChild(hLine);
+        cobwebG.appendChild(downLine);
+    }
+
+    // ── Unzoom G2 + morph flyBar to match shrinking graph ──
+    const curTransform = g2Zoom.getAttribute('transform');
+    const curMatch = curTransform ? curTransform.match(/translate\(([-\d.]+),([-\d.]+)\)\s*scale\(([-\d.]+)\)/) : null;
+    if (curMatch) {
+        const curTx = parseFloat(curMatch[1]);
+        const curTy = parseFloat(curMatch[2]);
+        const curScale = parseFloat(curMatch[3]);
+
+        const unzOk = await animateTween(dur * 0.5, myAnimId, (te) => {
+            const s = curScale + (1 - curScale) * te;
+            const tx = curTx * (1 - te);
+            const ty = curTy * (1 - te);
+            if (Math.abs(s - 1) < 0.001) {
+                g2Zoom.setAttribute('transform', '');
+            } else {
+                g2Zoom.setAttribute('transform', `translate(${tx},${ty}) scale(${s})`);
+            }
+            // Morph flyBar: x and width track current zoom, y clamped
+            if (flyBar) {
+                flyBar.setAttribute('x', String(barLeftSvgX * s + tx));
+                flyBar.setAttribute('width', String(barSegW1x * s));
+                const rawTopY = xAxisSvgY * s + ty - segThick / 2;
+                flyBar.setAttribute('y', String(Math.min(rawTopY, maxBarTopY)));
+            }
+        });
+        if (unzOk) g2Zoom.setAttribute('transform', '');
+        if (!unzOk) return false;
+    } else {
+        if (!(await unzoomGraph2(myAnimId))) return false;
+    }
+
+    return true;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANIMATION SEQUENCE: ONE PERIOD
+// ═══════════════════════════════════════════════════════════════
+
+async function animateOnePeriod(myAnimId) {
+    const Kt_val = animState.Kt;
+    const Yt = Y(Kt_val);
+    const It = gammaY(Kt_val);
+    const Dt = deltaK(Kt_val);
+    const dK = It - Dt;
+    const Kt1_val = Kt_val + dK;
+    const ks = Kstar();
+
+    const dur = getBaseDuration();
+
+    // Update info at start
+    updateInfoWithValues(animState.period, Kt_val, Yt, It, Dt, dK, ks);
+
+    // ── Phase A: Colored bars on Graph 1 ──
+    const phaseAResult = await phaseA_bars(myAnimId, Kt_val);
+    if (!phaseAResult.ok) return false;
+
+    // ── Phase B: Flying bar ──
+    const phaseBResult = await phaseB_flyingBar(myAnimId, Kt_val, dK, phaseAResult.dkColor);
+    if (!phaseBResult.ok) return false;
+
+    // Fade G1 bars after flying bar leaves
+    if (phaseAResult.bars) {
+        phaseAResult.bars.forEach(b => fadeAndRemove(b, dur * 0.4));
+    }
+
+    // ── Phase C: Cobweb + Zoom ──
+    const phaseCOk = await phaseC_cobwebZoom(myAnimId, Kt_val, phaseBResult.flyBar);
+    if (!phaseCOk) return false;
+
+    // Fade flying bar
+    if (phaseBResult.flyBar) {
+        fadeAndRemove(phaseBResult.flyBar, dur * 0.4);
+    }
+
+    // Clean g2-anim
+    const g2Anim = document.getElementById('g2-anim');
+    if (g2Anim) {
+        while (g2Anim.firstChild) g2Anim.removeChild(g2Anim.firstChild);
+    }
+
+    // Update state
+    animState.Kt = Kt1_val;
+    animState.period++;
+    updateInfoWithValues(animState.period, Kt1_val, Y(Kt1_val), gammaY(Kt1_val), deltaK(Kt1_val), gammaY(Kt1_val) - deltaK(Kt1_val), ks);
+
+    // Check convergence
+    if (Math.abs(dK) < 0.001 * ks) {
+        animState.converged = true;
+        await showConvergence(myAnimId);
+        return 'converged';
+    }
+
+    return true;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONVERGENCE EFFECT
+// ═══════════════════════════════════════════════════════════════
+
+async function showConvergence(myAnimId) {
+    const ks = Kstar();
+
+    // Glow on Graph 1
+    const g1Layer = document.getElementById('g1-anim-layer');
+    if (g1Layer) {
+        const pt = { x: g1ToSvgX(ks), y: g1ToSvgY(0) };
+        const pulse = svgEl('circle', {
+            cx: String(pt.x), cy: String(pt.y),
+            r: '5', fill: 'none', stroke: '#4B9CD3', 'stroke-width': '2', opacity: '0.8'
+        });
+        pulse.appendChild(svgEl('animate', {
+            attributeName: 'r', values: '5;16;5', dur: '1.5s', repeatCount: 'indefinite'
+        }));
+        pulse.appendChild(svgEl('animate', {
+            attributeName: 'opacity', values: '0.8;0.15;0.8', dur: '1.5s', repeatCount: 'indefinite'
+        }));
+        g1Layer.appendChild(pulse);
+
+        const lbl = svgEl('text', {
+            x: String(pt.x), y: String(pt.y - 20),
+            'text-anchor': 'middle', fill: '#4B9CD3',
+            'font-family': "'DM Sans', sans-serif",
+            'font-size': '13', 'font-weight': '700',
+            opacity: '0'
+        });
+        lbl.textContent = 'Converged!';
+        g1Layer.appendChild(lbl);
+        const start = performance.now();
+        function fadeIn(now) {
+            const t = Math.min((now - start) / 500, 1);
+            lbl.setAttribute('opacity', String(t));
+            if (t < 1) requestAnimationFrame(fadeIn);
+        }
+        requestAnimationFrame(fadeIn);
+    }
+
+    // Glow on Graph 2
+    const g2Anim = document.getElementById('g2-anim');
+    if (g2Anim) {
+        const pt = { x: g2ToSvgX(ks), y: g2ToSvgY(ks) };
+        const pulse2 = svgEl('circle', {
+            cx: String(pt.x), cy: String(pt.y),
+            r: '5', fill: 'none', stroke: '#4B9CD3', 'stroke-width': '2', opacity: '0.8'
+        });
+        pulse2.appendChild(svgEl('animate', {
+            attributeName: 'r', values: '5;16;5', dur: '1.5s', repeatCount: 'indefinite'
+        }));
+        pulse2.appendChild(svgEl('animate', {
+            attributeName: 'opacity', values: '0.8;0.15;0.8', dur: '1.5s', repeatCount: 'indefinite'
+        }));
+        g2Anim.appendChild(pulse2);
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONTROLS
+// ═══════════════════════════════════════════════════════════════
+
+async function handlePlay() {
+    if (animState.converged) return;
+
+    if (animState.running && !animState.paused) {
+        // Pause
+        animState.paused = true;
+        animState.animId++;
+        animState.running = false;
+        document.getElementById('play-icon').textContent = '\u25B6';
+        document.getElementById('play-label').textContent = 'Play';
+        updateButtonStates();
+        return;
+    }
+
+    animState.paused = false;
+    animState.running = true;
+    const myAnimId = ++animState.animId;
+    document.getElementById('play-icon').textContent = '\u23F8';
+    document.getElementById('play-label').textContent = 'Pause';
+    updateButtonStates();
+
+    while (animState.animId === myAnimId && !animState.paused && !animState.converged) {
+        try {
+            const result = await animateOnePeriod(myAnimId);
+            if (result === false || result === 'converged') break;
+            if (animState.animId !== myAnimId) break;
+            if (!(await wait(getBaseDuration() * 0.3, myAnimId))) break;
+        } catch (err) {
+            console.error('Animation error:', err);
+            break;
+        }
+    }
+
+    if (animState.animId === myAnimId) {
+        animState.running = false;
+        document.getElementById('play-icon').textContent = '\u25B6';
+        document.getElementById('play-label').textContent = 'Play';
+        updateButtonStates();
+    }
+}
+
+async function handleStep() {
+    if (animState.converged) return;
+    if (animState.running && !animState.paused) {
+        animState.paused = true;
+        animState.animId++;
+        animState.running = false;
+        document.getElementById('play-icon').textContent = '\u25B6';
+        document.getElementById('play-label').textContent = 'Play';
+    }
+
+    animState.running = true;
+    const myAnimId = ++animState.animId;
+    updateButtonStates();
+
+    await animateOnePeriod(myAnimId);
+
+    if (animState.animId === myAnimId) {
+        animState.running = false;
+        updateButtonStates();
+    }
+}
+
+function resetAnimation() {
+    animState.animId++;
+    animState.running = false;
+    animState.paused = false;
+    animState.period = 0;
+    animState.Kt = params.K0;
+    animState.cobwebPoints = [];
+    animState.converged = false;
+
+    // Reset zoom on both graphs
+    const g1Zoom = document.getElementById('g1-zoom');
+    if (g1Zoom) g1Zoom.setAttribute('transform', '');
+    const g2Zoom = document.getElementById('g2-zoom');
+    if (g2Zoom) g2Zoom.setAttribute('transform', '');
+
+    document.getElementById('play-icon').textContent = '\u25B6';
+    document.getElementById('play-label').textContent = 'Play';
+
+    drawGraph();
+    updateButtonStates();
+}
+
+function resetApp() {
+    PARAMS_DEF.forEach(p => {
+        if (p.def !== 'auto') params[p.key] = p.def;
+    });
+    // K0 resets to K*/2 only on full app reset
+    params.K0 = Math.max(1, Math.round(Kstar() / 2));
+    xMax = null;
+    g1_yMax = null;
+    g2Min = null;
+    g2Max = null;
+    buildParamPanel();
+    resetAnimation();
+    reRenderKaTeX();
+}
+
+function updateButtonStates() {
+    document.getElementById('btn-play').disabled = animState.converged;
+    document.getElementById('btn-step').disabled = animState.converged || (animState.running && !animState.paused);
+}
+
+function updateSpeed() {
+    const slider = document.getElementById('speed-slider');
+    speed = parseFloat(slider.value);
+    document.getElementById('speed-val').textContent = speed + 'x';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INFO PANEL
+// ═══════════════════════════════════════════════════════════════
+
+function updateInfoPanel() {
+    const ks = Kstar();
+    const Kt_val = animState.Kt;
+    const Yt = Y(Kt_val);
+    const It = gammaY(Kt_val);
+    const Dt = deltaK(Kt_val);
+    const dK = It - Dt;
+    updateInfoWithValues(animState.period, Kt_val, Yt, It, Dt, dK, ks);
+}
+
+function updateInfoWithValues(t, Kt_val, Yt, It, Dt, dK, ks) {
+    document.getElementById('info-t').textContent = t;
+    document.getElementById('info-kt').textContent = formatVal(Kt_val);
+    document.getElementById('info-yt').textContent = formatVal(Yt);
+    document.getElementById('info-it').textContent = formatVal(It);
+    document.getElementById('info-dt').textContent = formatVal(Dt);
+
+    const dkEl = document.getElementById('info-dk');
+    dkEl.textContent = (dK >= 0 ? '+' : '') + formatVal(dK);
+    dkEl.className = 'info-cell-value ' + (dK >= 0 ? 'positive' : 'negative');
+
+    document.getElementById('info-kstar').textContent = formatVal(ks);
+}
+
+function formatVal(v) {
+    if (Math.abs(v) >= 1000) return v.toFixed(1);
+    if (Math.abs(v) >= 100) return v.toFixed(1);
+    if (Math.abs(v) >= 10) return v.toFixed(2);
+    if (Math.abs(v) >= 1) return v.toFixed(3);
+    if (Math.abs(v) >= 0.01) return v.toFixed(4);
+    return v.toExponential(2);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PARAMETER PANEL
+// ═══════════════════════════════════════════════════════════════
+
+function buildParamPanel() {
+    const container = document.getElementById('params-container');
+    container.innerHTML = '';
+    PARAMS_DEF.forEach(def => {
+        const row = document.createElement('div');
+        row.className = 'param-row';
+
+        const label = document.createElement('div');
+        label.className = 'param-label';
+        label.innerHTML = `<span>${def.label}</span>`;
+
+        const stepper = document.createElement('div');
+        stepper.className = 'stepper';
+
+        const btnDown = document.createElement('button');
+        btnDown.className = 'stepper-btn';
+        btnDown.textContent = '\u2212';
+        btnDown.onclick = () => adjustParam(def.key, -1);
+
+        const valSpan = document.createElement('span');
+        valSpan.className = 'stepper-value';
+        valSpan.id = 'pval-' + def.key;
+        valSpan.textContent = formatParamVal(params[def.key], def);
+
+        const btnUp = document.createElement('button');
+        btnUp.className = 'stepper-btn';
+        btnUp.textContent = '+';
+        btnUp.onclick = () => adjustParam(def.key, +1);
+
+        stepper.appendChild(btnDown);
+        stepper.appendChild(valSpan);
+        stepper.appendChild(btnUp);
+
+        row.appendChild(label);
+        row.appendChild(stepper);
+        container.appendChild(row);
+    });
+}
+
+function formatParamVal(v, def) {
+    const step = getStep(def);
+    if (step >= 1) return Math.round(v).toString();
+    if (step >= 0.1) return v.toFixed(1);
+    if (step >= 0.01) return v.toFixed(2);
+    return v.toFixed(3);
+}
+
+function getStep(def) {
+    if (def.step === 'dynamic') {
+        return Kstar() / 50;
+    }
+    return def.step;
+}
+
+function adjustParam(key, delta) {
+    const def = PARAMS_DEF.find(p => p.key === key);
+    const step = getStep(def);
+    const sign = delta > 0 ? 1 : -1;
+    let newVal = params[key] + sign * step;
+    const decimals = step < 0.01 ? 3 : (step < 0.1 ? 2 : (step < 1 ? 1 : 0));
+    newVal = parseFloat(newVal.toFixed(decimals));
+    newVal = Math.max(def.min, Math.min(def.max, newVal));
+    params[key] = newVal;
+
+    document.getElementById('pval-' + key).textContent = formatParamVal(newVal, def);
+    xMax = null;
+    g1_yMax = null;
+    g2Min = null;
+    g2Max = null;
+    resetAnimation();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// KaTeX RENDERING
+// ═══════════════════════════════════════════════════════════════
+
+function reRenderKaTeX(container) {
+    if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(container || document.body, {
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false }
+            ],
+            throwOnError: false
+        });
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+
+function init() {
+    PARAMS_DEF.forEach(p => {
+        if (p.def !== 'auto') params[p.key] = p.def;
+    });
+    // K0 defaults to K*/2 on initial load
+    params.K0 = Math.max(1, Math.round(Kstar() / 2));
+
+    animState.Kt = params.K0;
+    animState.period = 0;
+
+    buildParamPanel();
+    drawGraph();
+    updateButtonStates();
+}
+
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        init();
+        reRenderKaTeX();
+    }, 150);
+});
+</script>
+
+</body>
+</html>

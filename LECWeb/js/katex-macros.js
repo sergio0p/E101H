@@ -2,10 +2,10 @@
 
 const katexMacros = {
   // Calculus
-  "\\diff": "\\frac{\\partial #1}{\\partial #2}",
+  "\\diff": "\\dfrac{\\partial #1}{\\partial #2}",
   "\\sdiff": "\\tfrac{\\partial #1}{\\partial #2}",
-  "\\ddiff": "\\frac{d #1}{d #2}",
-  "\\sddiff": "\\tfrac{d #1}{d #2}",
+  "\\ddiff": "\\dfrac{\\mathrm{d} #1}{\\mathrm{d} #2}",
+  "\\sddiff": "\\tfrac{\\mathrm{d} #1}{\\mathrm{d} #2}",
 
   // Sets and brackets
   "\\set": "\\left\\{ #1 \\right\\}",
@@ -14,11 +14,11 @@ const katexMacros = {
   "\\paren": "\\left( #1 \\right)",
   "\\bracket": "\\left[ #1 \\right]",
 
-  // Optimization
-  "\\argmax": "\\mathop{\\mathrm{arg\\,max}}\\limits_{#1}",
-  "\\argmin": "\\mathop{\\mathrm{arg\\,min}}\\limits_{#1}",
-  "\\max": "\\mathop{\\mathrm{max}}\\limits_{#1}",
-  "\\min": "\\mathop{\\mathrm{min}}\\limits_{#1}",
+  // Optimization - use \operatorname* for proper \limits support
+  "\\argmax": "\\operatorname*{arg\\,max}_{#1}",
+  "\\argmin": "\\operatorname*{arg\\,min}_{#1}",
+  // NOTE: \max and \min are KaTeX built-ins. Do NOT redefine them.
+  // They already support \max_{x}, \max\limits_{x}, \substack, etc.
 
   // Economics notation
   "\\MU": "\\mathrm{MU}",
@@ -62,23 +62,6 @@ const katexMacros = {
 
 // Initialize KaTeX on page load
 function initKaTeX() {
-  // Render all elements with class "math" or "math-display"
-  document.querySelectorAll('.math').forEach(el => {
-    katex.render(el.textContent, el, {
-      throwOnError: false,
-      macros: katexMacros
-    });
-  });
-
-  document.querySelectorAll('.math-display').forEach(el => {
-    katex.render(el.textContent, el, {
-      throwOnError: false,
-      displayMode: true,
-      macros: katexMacros
-    });
-  });
-
-  // Auto-render for $...$ and $$...$$ syntax
   renderMathInElement(document.body, {
     delimiters: [
       {left: '$$', right: '$$', display: true},

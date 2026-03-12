@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solow Growth Model | ECON 101H</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <style>
+        /* ── CSS Variables ── */
+        :root {
+            --unc-navy: #13294B;
+            --carolina-blue: #4B9CD3;
+            --carolina-blue-light: #7AB8E0;
+            --carolina-blue-pale: #E8F4FA;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #13294B;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --success: #48bb78;
+            --error: #f56565;
+        }
+
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ── Container ── */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .app-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            box-shadow:
+                0 1px 3px rgba(19, 41, 75, 0.08),
+                0 8px 32px rgba(19, 41, 75, 0.12);
+            overflow: hidden;
+        }
+
+        /* ── Header ── */
+        .app-header {
+            background: var(--unc-navy);
+            color: white;
+            padding: 18px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .app-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .header-toolbar {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 6px;
+            padding: 6px 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.22);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .header-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* ── Instructor Info ── */
+        .instructor-info {
+            padding: 10px 28px;
+            background: var(--carolina-blue-pale);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .instructor-info strong {
+            color: var(--text-primary);
+        }
+
+        /* ── Parameters Panel ── */
+        .params-panel {
+            background: var(--carolina-blue-pale);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 16px;
+        }
+
+        .params-title {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--unc-navy);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-right: 8px;
+        }
+
+        .param-row { display: flex; align-items: center; gap: 6px; }
+        .param-label { font-size: 0.85rem; color: var(--text-primary); flex-shrink: 0; }
+        .param-label .katex { font-size: 0.92rem !important; }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .stepper-btn {
+            width: 28px; height: 28px; border: none; background: white;
+            color: var(--carolina-blue); font-size: 1rem; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.15s; user-select: none;
+        }
+        .stepper-btn:hover { background: var(--carolina-blue-pale); transform: scale(1.05); box-shadow: 0 1px 4px rgba(75,156,211,0.2); }
+        .stepper-btn:active { transform: scale(0.94); background: var(--carolina-blue-light); color: white; }
+
+        .stepper-value {
+            width: 52px; text-align: center;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 500;
+            color: var(--text-primary);
+            border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color);
+            padding: 2px 2px; height: 28px; line-height: 24px;
+        }
+
+        /* ── Graph Area ── */
+        .graph-area { display: flex; flex-direction: column; }
+
+        .svg-wrapper {
+            position: relative; background: var(--bg-secondary);
+            padding: 8px 12px 4px 12px; flex: 1; min-height: 300px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .katex-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none; overflow: visible;
+        }
+        .katex-overlay .graph-label {
+            position: absolute; white-space: nowrap;
+            transform: translate(-50%, -50%); font-size: 0.8rem; font-weight: 600;
+        }
+        .katex-overlay .graph-label.axis-title { font-size: 0.85rem; }
+        .katex-overlay .graph-label.y-axis-title { transform: translate(-50%, -50%) rotate(-90deg); }
+
+        #solow-canvas { width: 100%; aspect-ratio: 1850 / 550; }
+
+        /* ── Controls ── */
+        .controls-bar {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 12px 20px; border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color); background: white; flex-wrap: wrap;
+        }
+
+        .ctrl-btn {
+            background: var(--carolina-blue); color: white; border: none; border-radius: 8px;
+            padding: 8px 20px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .ctrl-btn:hover { background: var(--carolina-blue-light); box-shadow: 0 2px 8px rgba(75,156,211,0.3); transform: translateY(-1px); }
+        .ctrl-btn:active { transform: translateY(0) scale(0.97); }
+        .ctrl-btn.outline { background: transparent; color: var(--carolina-blue); border: 2px solid var(--carolina-blue); }
+        .ctrl-btn.outline:hover { background: var(--carolina-blue-pale); }
+        .ctrl-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+        .speed-group { display: flex; align-items: center; gap: 8px; margin-left: 8px; }
+        .speed-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
+
+        .speed-slider {
+            -webkit-appearance: none; appearance: none; width: 90px; height: 6px;
+            background: var(--border-color); border-radius: 3px; outline: none;
+        }
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 4px; height: 20px; margin-top: -7px;
+            background: var(--unc-navy); border-radius: 2px; cursor: pointer; border: none;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2); transition: transform 0.15s;
+        }
+        .speed-slider::-webkit-slider-thumb:hover { transform: scaleY(1.2); }
+        .speed-slider::-moz-range-thumb {
+            width: 4px; height: 20px; background: var(--unc-navy); border-radius: 2px;
+            cursor: pointer; border: none; box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        .speed-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, var(--carolina-blue), var(--carolina-blue-light));
+            height: 6px; border-radius: 3px;
+        }
+        .speed-slider::-moz-range-track {
+            background: linear-gradient(to right, var(--carolina-blue), var(--carolina-blue-light));
+            height: 6px; border-radius: 3px;
+        }
+
+        .speed-val { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-primary); min-width: 36px; font-weight: 500; }
+
+        /* ── Info Panel ── */
+        .info-panel { padding: 16px 24px; background: white; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+        .info-cell {
+            background: var(--bg-secondary); border-radius: 10px; padding: 10px 14px;
+            text-align: center; border: 1px solid var(--border-color); transition: all 0.3s;
+        }
+        .info-cell.highlight { border-color: var(--carolina-blue); box-shadow: 0 0 12px rgba(75,156,211,0.15); }
+        .info-cell-label {
+            font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;
+            letter-spacing: 0.8px; font-weight: 600; margin-bottom: 4px;
+        }
+        .info-cell-label .katex { text-transform: none; }
+        .info-cell-value { font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 500; color: var(--text-primary); }
+        .info-cell-value.positive { color: var(--success); }
+        .info-cell-value.negative { color: var(--error); }
+
+        /* ── Print ── */
+        @media print {
+            body { background: white; }
+            .app-card { box-shadow: none; }
+            .controls-bar { display: none; }
+            .header-toolbar { display: none; }
+            .stepper-btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="app-card" data-app="solow-model">
+        <div class="app-header">
+            <h1>Solow Growth Model</h1>
+            <div class="header-toolbar">
+                <button class="header-btn" onclick="resetApp()">Reset</button>
+                <button class="header-btn" onclick="window.print()">Print</button>
+            </div>
+        </div>
+
+        <div class="instructor-info">
+            <div>
+                <strong>Sérgio O. Parreiras</strong> | Economics Department, UNC at Chapel Hill<br>
+                ECON 101H: Introduction to Economics | Spring 2026
+            </div>
+            <span id="prod-fn-display" style="margin-right: 20%;"></span>
+        </div>
+
+        <div class="params-panel">
+            <div class="params-title">Parameters</div>
+            <div id="params-container" style="display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center;"></div>
+        </div>
+
+        <div class="graph-area">
+            <div class="svg-wrapper" id="svg-wrapper">
+                <canvas id="solow-canvas"></canvas>
+                <div class="katex-overlay" id="katex-overlay"></div>
+            </div>
+        </div>
+
+        <div class="controls-bar">
+            <button class="ctrl-btn" id="btn-play" onclick="handlePlay()">
+                <span id="play-icon">&#9654;</span> <span id="play-label">Play</span>
+            </button>
+            <button class="ctrl-btn outline" id="btn-step" onclick="handleStep()">Step</button>
+            <button class="ctrl-btn outline" id="btn-reset" onclick="resetAnimation()">Reset</button>
+            <div class="speed-group">
+                <span class="speed-label">Speed</span>
+                <input type="range" class="speed-slider" id="speed-slider"
+                       min="0.1" max="3" step="0.1" value="1" oninput="updateSpeed()">
+                <span class="speed-val" id="speed-val">1x</span>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <div class="info-grid">
+                <div class="info-cell">
+                    <div class="info-cell-label">Period</div>
+                    <div class="info-cell-value" id="info-t">0</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Capital $K_t$</div>
+                    <div class="info-cell-value" id="info-kt">--</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Output $Y_t$</div>
+                    <div class="info-cell-value" id="info-yt">--</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Investment $\gamma Y_t$</div>
+                    <div class="info-cell-value" id="info-it">--</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Depreciation $\delta K_t$</div>
+                    <div class="info-cell-value" id="info-dt">--</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">Net Inv. $\Delta K$</div>
+                    <div class="info-cell-value" id="info-dk">--</div>
+                </div>
+                <div class="info-cell highlight">
+                    <div class="info-cell-label">Steady State $K^*$</div>
+                    <div class="info-cell-value" id="info-kstar">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+
+const PARAMS_DEF = [
+    { key: 'K0',    label: '$K_0$',       labelDesc: 'Initial capital',  def: 'auto', min: 0.01, max: 500,  step: 'dynamic' },
+    { key: 'alpha', label: '$\\alpha$',   labelDesc: 'Exponent',         def: 0.5,  min: 0.1,  max: 0.9,  step: 0.05 },
+    { key: 'A',     label: '$A$',         labelDesc: 'Technology',       def: 1,    min: 0.1,  max: 10,   step: 0.1  },
+    { key: 'e',     label: '$e$',         labelDesc: 'Education',        def: 1,    min: 0.1,  max: 10,   step: 0.1  },
+    { key: 'L',     label: '$L$',         labelDesc: 'Labor',            def: 1,    min: 0.1,  max: 1000, step: 0.1  },
+    { key: 'gamma', label: '$\\gamma$',   labelDesc: 'Savings rate',     def: 0.25, min: 0.01, max: 0.99, step: 0.01 },
+    { key: 'delta', label: '$\\delta$',   labelDesc: 'Depreciation',     def: 0.10, min: 0.01, max: 0.99, step: 0.01 },
+];
+
+let params = {};
+let animState = {
+    running: false, paused: false, period: 0, Kt: 0,
+    cobwebPoints: [], animId: 0, converged: false,
+};
+let speed = 1;
+
+const scene = {
+    g1: { tx: 0, ty: 0, scale: 1 },
+    g2: { tx: 0, ty: 0, scale: 1 },
+    g1Bars: [], flyBar: null, animCobweb: [],
+    convergence: null, g1DynTicks: [], iris: null,
+};
+
+// ═══════════════════════════════════════════════════════════════
+// DIMENSIONAL CONSTANTS
+// ═══════════════════════════════════════════════════════════════
+
+const SVG_W = 1850, SVG_H = 550;
+const G1_ML = 80, G1_MR = 40, G1_MT = 25, G1_MB = 60;
+const G1_X0 = G1_ML, G1_PW = 740;
+const G1_PH = SVG_H - G1_MT - G1_MB;
+const G1_X1 = G1_X0 + G1_PW;
+const G2_ML_START = 950, G2_AXIS_ML = 70;
+const G2_X0 = G2_ML_START + G2_AXIS_ML, G2_PW = 740;
+const G2_PH = G1_PH, G2_MT = G1_MT, G2_MB = G1_MB, G2_MR = 40;
+const G2_X1 = G2_X0 + G2_PW;
+
+let xMax, g1_yMax, g2Min, g2Max;
+let pinnedXMax = null, pinnedG1YMax = null, pinnedG2Min = null, pinnedG2Max = null;
+
+// ═══════════════════════════════════════════════════════════════
+// MODEL FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+
+function Y(K) { const { A, e, L, alpha } = params; return Math.pow(A * e * L * K, alpha); }
+function gammaY(K) { return params.gamma * Y(K); }
+function deltaK(K) { return params.delta * K; }
+function Kt1(Kt) { return Kt + gammaY(Kt) - deltaK(Kt); }
+function Kstar() {
+    const { A, e, L, alpha, gamma, delta } = params;
+    return Math.pow(gamma * Math.pow(A * e * L, alpha) / delta, 1 / (1 - alpha));
+}
+function Ystar() { return Y(Kstar()); }
+
+// ═══════════════════════════════════════════════════════════════
+// COORDINATE TRANSFORMS
+// ═══════════════════════════════════════════════════════════════
+
+function g1ToSvgX(k) { return G1_X0 + (k / xMax) * G1_PW; }
+function g1ToSvgY(y) { return G1_MT + G1_PH - (y / g1_yMax) * G1_PH; }
+function g2ToSvgX(kt) { return G2_X0 + ((kt - g2Min) / (g2Max - g2Min)) * G2_PW; }
+function g2ToSvgY(kt1) { return G2_MT + G2_PH - ((kt1 - g2Min) / (g2Max - g2Min)) * G2_PH; }
+
+// ═══════════════════════════════════════════════════════════════
+// CANVAS SETUP
+// ═══════════════════════════════════════════════════════════════
+
+function setupCanvas() {
+    const canvas = document.getElementById('solow-canvas');
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = SVG_W * dpr;
+    canvas.height = SVG_H * dpr;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NICE TICKS & FORMAT
+// ═══════════════════════════════════════════════════════════════
+
+function niceTickInterval(range, targetTicks) {
+    const rough = range / targetTicks;
+    const mag = Math.pow(10, Math.floor(Math.log10(rough)));
+    const r = rough / mag;
+    let nice;
+    if (r <= 1.5) nice = 1; else if (r <= 3.5) nice = 2.5; else if (r <= 7.5) nice = 5; else nice = 10;
+    return nice * mag;
+}
+
+function generateTicks(maxVal, targetTicks) {
+    const interval = niceTickInterval(maxVal, targetTicks || 8);
+    const ticks = [];
+    for (let v = interval; v < maxVal; v += interval) ticks.push(v);
+    return ticks;
+}
+
+function formatTickVal(v) {
+    if (v >= 1000) return (v / 1000).toFixed(1) + 'k';
+    if (v >= 100) return Math.round(v).toString();
+    if (v >= 10) return Number(v.toPrecision(3)).toString();
+    if (v >= 1) return Number(v.toPrecision(3)).toString();
+    return Number(v.toPrecision(2)).toString();
+}
+
+function formatVal(v) {
+    if (Math.abs(v) >= 1000) return v.toFixed(1);
+    if (Math.abs(v) >= 100) return v.toFixed(1);
+    if (Math.abs(v) >= 10) return v.toFixed(2);
+    if (Math.abs(v) >= 1) return v.toFixed(3);
+    if (Math.abs(v) >= 0.01) return v.toFixed(4);
+    return v.toExponential(2);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// KATEX OVERLAY LABELS
+// ═══════════════════════════════════════════════════════════════
+
+function clearKatexLabels() {
+    document.getElementById('katex-overlay').querySelectorAll('.graph-label').forEach(el => el.remove());
+}
+
+function addKatexLabel(svgX, svgY, tex, color, extraClass, align) {
+    const overlay = document.getElementById('katex-overlay');
+    const span = document.createElement('span');
+    span.className = 'graph-label' + (extraClass ? ' ' + extraClass : '');
+    span.style.left = (svgX / SVG_W * 100) + '%';
+    span.style.top = (svgY / SVG_H * 100) + '%';
+    span.style.color = color || 'var(--text-primary)';
+    if (align === 'left') span.style.transform = 'translate(0, -50%)';
+    if (typeof katex !== 'undefined') {
+        katex.render(tex, span, { throwOnError: false });
+    } else { span.textContent = tex; }
+    overlay.appendChild(span);
+    return span;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CANVAS RENDERING
+// ═══════════════════════════════════════════════════════════════
+
+function renderScene() {
+    const canvas = document.getElementById('solow-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    ctx.save();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    ctx.fillStyle = '#f8f9fa';
+    ctx.fillRect(0, 0, SVG_W, SVG_H);
+    if (xMax == null) { ctx.restore(); return; }
+
+    drawG1Frame(ctx);
+
+    // G1 content (clipped + camera, with optional iris)
+    if (scene.iris && scene.iris.r > 0) {
+        // Normal G1 content clipped to plot area
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(G1_X0, G1_MT, G1_PW, G1_PH);
+        ctx.clip();
+        drawG1Content(ctx, 1);
+        ctx.restore();
+        // Iris: zoomed content inside circle — NO clip rect, free to go anywhere
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(scene.iris.cx, scene.iris.cy, scene.iris.r, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, SVG_W, SVG_H);
+        ctx.translate(scene.iris.tx, scene.iris.ty);
+        ctx.scale(scene.iris.scale, scene.iris.scale);
+        drawG1Content(ctx, scene.iris.scale);
+        ctx.restore();
+        // Iris border — also unconstrained
+        ctx.strokeStyle = 'rgba(75, 156, 211, 0.5)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(scene.iris.cx, scene.iris.cy, scene.iris.r, 0, Math.PI * 2);
+        ctx.stroke();
+    } else {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(G1_X0, G1_MT, G1_PW, G1_PH);
+        ctx.clip();
+        ctx.translate(scene.g1.tx, scene.g1.ty);
+        ctx.scale(scene.g1.scale, scene.g1.scale);
+        drawG1Content(ctx, scene.g1.scale);
+        ctx.restore();
+    }
+
+    drawG2Frame(ctx);
+
+    // G2 content (clipped + camera)
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(G2_X0, G2_MT, G2_PW, G2_PH);
+    ctx.clip();
+    ctx.translate(scene.g2.tx, scene.g2.ty);
+    ctx.scale(scene.g2.scale, scene.g2.scale);
+    drawG2Content(ctx, scene.g2.scale);
+    ctx.restore();
+
+    drawFlyBar(ctx);
+    drawConvergence(ctx);
+    ctx.restore();
+}
+
+function drawArrowRight(ctx, x, y) {
+    ctx.fillStyle = '#4a5568';
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 10, y - 3.5); ctx.lineTo(x - 10, y + 3.5); ctx.closePath(); ctx.fill();
+}
+function drawArrowUp(ctx, x, y) {
+    ctx.fillStyle = '#4a5568';
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 3.5, y + 10); ctx.lineTo(x + 3.5, y + 10); ctx.closePath(); ctx.fill();
+}
+
+function drawG1Frame(ctx) {
+    const g1xTicks = generateTicks(xMax, 7);
+    const g1yTicks = generateTicks(g1_yMax, 6);
+
+    ctx.strokeStyle = '#edf2f7'; ctx.lineWidth = 1;
+    g1xTicks.forEach(v => { const sx = g1ToSvgX(v); ctx.beginPath(); ctx.moveTo(sx, G1_MT); ctx.lineTo(sx, G1_MT + G1_PH); ctx.stroke(); });
+    g1yTicks.forEach(v => { const sy = g1ToSvgY(v); ctx.beginPath(); ctx.moveTo(G1_X0, sy); ctx.lineTo(G1_X1, sy); ctx.stroke(); });
+
+    ctx.strokeStyle = '#4a5568'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(G1_X0, G1_MT + G1_PH); ctx.lineTo(G1_X1 + 10, G1_MT + G1_PH); ctx.stroke();
+    drawArrowRight(ctx, G1_X1 + 10, G1_MT + G1_PH);
+    ctx.beginPath(); ctx.moveTo(G1_X0, G1_MT + G1_PH); ctx.lineTo(G1_X0, G1_MT - 10); ctx.stroke();
+    drawArrowUp(ctx, G1_X0, G1_MT - 10);
+
+    ctx.font = "11px 'JetBrains Mono', monospace"; ctx.fillStyle = '#718096';
+    g1xTicks.forEach(v => {
+        const sx = g1ToSvgX(v);
+        ctx.strokeStyle = '#718096'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(sx, G1_MT + G1_PH); ctx.lineTo(sx, G1_MT + G1_PH + 6); ctx.stroke();
+        ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+        ctx.fillText(formatTickVal(v), sx, G1_MT + G1_PH + 20);
+    });
+
+    const k0x = g1ToSvgX(params.K0);
+    ctx.strokeStyle = '#4B9CD3'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(k0x, G1_MT + G1_PH - 6); ctx.lineTo(k0x, G1_MT + G1_PH + 6); ctx.stroke();
+
+    g1yTicks.forEach(v => {
+        const sy = g1ToSvgY(v);
+        ctx.strokeStyle = '#718096'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(G1_X0 - 6, sy); ctx.lineTo(G1_X0, sy); ctx.stroke();
+        ctx.textAlign = 'right'; ctx.fillStyle = '#718096';
+        ctx.fillText(formatTickVal(v), G1_X0 - 10, sy + 4);
+    });
+
+    scene.g1DynTicks.forEach(tx => {
+        if (tx > G1_X0 && tx < G1_X1) {
+            ctx.strokeStyle = '#718096'; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(tx, G1_MT + G1_PH - 4); ctx.lineTo(tx, G1_MT + G1_PH + 4); ctx.stroke();
+        }
+    });
+}
+
+function drawG1Content(ctx, scale, skipBars) {
+    const nPts = 200, s = scale || 1;
+
+    // Depreciation (red)
+    ctx.strokeStyle = '#f56565'; ctx.lineWidth = 2.5 / s; ctx.setLineDash([]);
+    ctx.beginPath();
+    for (let i = 0; i <= nPts; i++) { const k = (i / nPts) * xMax; i === 0 ? ctx.moveTo(g1ToSvgX(k), g1ToSvgY(deltaK(k))) : ctx.lineTo(g1ToSvgX(k), g1ToSvgY(deltaK(k))); }
+    ctx.stroke();
+
+    // Investment (green)
+    ctx.strokeStyle = '#48bb78'; ctx.lineWidth = 2.5 / s;
+    ctx.beginPath();
+    for (let i = 0; i <= nPts; i++) { const k = (i / nPts) * xMax; i === 0 ? ctx.moveTo(g1ToSvgX(k), g1ToSvgY(gammaY(k))) : ctx.lineTo(g1ToSvgX(k), g1ToSvgY(gammaY(k))); }
+    ctx.stroke();
+
+    // Production (blue)
+    ctx.strokeStyle = '#4B9CD3'; ctx.lineWidth = 3 / s;
+    ctx.beginPath();
+    for (let i = 0; i <= nPts; i++) { const k = (i / nPts) * xMax; i === 0 ? ctx.moveTo(g1ToSvgX(k), g1ToSvgY(Y(k))) : ctx.lineTo(g1ToSvgX(k), g1ToSvgY(Y(k))); }
+    ctx.stroke();
+
+    // K* dashed
+    const ks = Kstar();
+    if (ks > 0 && ks < xMax) {
+        ctx.strokeStyle = '#718096'; ctx.lineWidth = 1.5 / s;
+        ctx.setLineDash([8 / s, 5 / s]);
+        ctx.beginPath(); ctx.moveTo(g1ToSvgX(ks), g1ToSvgY(0)); ctx.lineTo(g1ToSvgX(ks), G1_MT + 5); ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    // Animated bars (skipped in background when iris active)
+    if (skipBars) return;
+    scene.g1Bars.forEach(bar => {
+        if (bar.opacity <= 0) return;
+        ctx.save(); ctx.globalAlpha = bar.opacity;
+        ctx.strokeStyle = bar.color; ctx.lineWidth = bar.lineWidth; ctx.lineCap = 'butt';
+        ctx.beginPath(); ctx.moveTo(bar.x, bar.y1); ctx.lineTo(bar.x, bar.y2); ctx.stroke();
+        ctx.restore();
+    });
+}
+
+function drawG2Frame(ctx) {
+    const g2Range = g2Max - g2Min;
+    const g2TickInterval = niceTickInterval(g2Range, 7);
+    const g2Ticks = [];
+    for (let v = Math.ceil(g2Min / g2TickInterval) * g2TickInterval; v < g2Max; v += g2TickInterval) {
+        if (v > g2Min) g2Ticks.push(v);
+    }
+
+    ctx.strokeStyle = '#edf2f7'; ctx.lineWidth = 1;
+    g2Ticks.forEach(v => { const sx = g2ToSvgX(v); ctx.beginPath(); ctx.moveTo(sx, G2_MT); ctx.lineTo(sx, G2_MT + G2_PH); ctx.stroke(); });
+    g2Ticks.forEach(v => { const sy = g2ToSvgY(v); ctx.beginPath(); ctx.moveTo(G2_X0, sy); ctx.lineTo(G2_X1, sy); ctx.stroke(); });
+
+    ctx.strokeStyle = '#4a5568'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(G2_X0, G2_MT + G2_PH); ctx.lineTo(G2_X1 + 10, G2_MT + G2_PH); ctx.stroke();
+    drawArrowRight(ctx, G2_X1 + 10, G2_MT + G2_PH);
+    ctx.beginPath(); ctx.moveTo(G2_X0, G2_MT + G2_PH); ctx.lineTo(G2_X0, G2_MT - 10); ctx.stroke();
+    drawArrowUp(ctx, G2_X0, G2_MT - 10);
+
+    ctx.font = "11px 'JetBrains Mono', monospace"; ctx.fillStyle = '#718096';
+    g2Ticks.forEach(v => {
+        const sx = g2ToSvgX(v);
+        ctx.strokeStyle = '#718096'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(sx, G2_MT + G2_PH); ctx.lineTo(sx, G2_MT + G2_PH + 6); ctx.stroke();
+        ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+        ctx.fillText(formatTickVal(v), sx, G2_MT + G2_PH + 20);
+    });
+
+    if (params.K0 >= g2Min && params.K0 <= g2Max) {
+        const k0x2 = g2ToSvgX(params.K0);
+        ctx.strokeStyle = '#4B9CD3'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(k0x2, G2_MT + G2_PH - 6); ctx.lineTo(k0x2, G2_MT + G2_PH + 6); ctx.stroke();
+    }
+
+    g2Ticks.forEach(v => {
+        const sy = g2ToSvgY(v);
+        ctx.strokeStyle = '#718096'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(G2_X0 - 6, sy); ctx.lineTo(G2_X0, sy); ctx.stroke();
+        ctx.textAlign = 'right'; ctx.fillStyle = '#718096';
+        ctx.fillText(formatTickVal(v), G2_X0 - 10, sy + 4);
+    });
+}
+
+function drawG2Content(ctx, scale) {
+    const nPts = 200, s = scale || 1;
+
+    // 45-degree line
+    ctx.strokeStyle = '#a0aec0'; ctx.lineWidth = 1.5 / s;
+    ctx.setLineDash([8 / s, 5 / s]);
+    ctx.beginPath(); ctx.moveTo(g2ToSvgX(g2Min), g2ToSvgY(g2Min)); ctx.lineTo(g2ToSvgX(g2Max), g2ToSvgY(g2Max)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Transition curve
+    ctx.strokeStyle = '#2B6CB0'; ctx.lineWidth = 3 / s;
+    ctx.beginPath();
+    for (let i = 0; i <= nPts; i++) { const k = g2Min + (i / nPts) * (g2Max - g2Min); const k1 = Kt1(k); i === 0 ? ctx.moveTo(g2ToSvgX(k), g2ToSvgY(k1)) : ctx.lineTo(g2ToSvgX(k), g2ToSvgY(k1)); }
+    ctx.stroke();
+
+    // K* dashed
+    const ks = Kstar();
+    if (ks >= g2Min && ks <= g2Max) {
+        ctx.strokeStyle = '#718096'; ctx.lineWidth = 1.5 / s;
+        ctx.setLineDash([8 / s, 5 / s]);
+        ctx.beginPath(); ctx.moveTo(g2ToSvgX(ks), g2ToSvgY(g2Min)); ctx.lineTo(g2ToSvgX(ks), g2ToSvgY(g2Max)); ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    // Persistent cobweb
+    ctx.lineCap = 'butt';
+    animState.cobwebPoints.forEach((pt, i) => {
+        const op = Math.max(0.25, 1 - (animState.cobwebPoints.length - 1 - i) * 0.08);
+        ctx.strokeStyle = `rgba(0,0,0,${op})`; ctx.lineWidth = 1.5 / s;
+        ctx.setLineDash([5 / s, 4 / s]);
+        ctx.beginPath(); ctx.moveTo(g2ToSvgX(pt.Kt), g2ToSvgY(g2Min)); ctx.lineTo(g2ToSvgX(pt.Kt), g2ToSvgY(pt.Kt1)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(g2ToSvgX(pt.Kt), g2ToSvgY(pt.Kt1)); ctx.lineTo(g2ToSvgX(pt.Kt1), g2ToSvgY(pt.Kt1)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(g2ToSvgX(pt.Kt1), g2ToSvgY(pt.Kt1)); ctx.lineTo(g2ToSvgX(pt.Kt1), g2ToSvgY(g2Min)); ctx.stroke();
+    });
+    ctx.setLineDash([]);
+
+    // Animated cobweb
+    ctx.strokeStyle = 'rgba(0,0,0,0.9)'; ctx.lineWidth = 1.5 / s;
+    ctx.setLineDash([5 / s, 4 / s]);
+    scene.animCobweb.forEach(line => { ctx.beginPath(); ctx.moveTo(line.x1, line.y1); ctx.lineTo(line.x2, line.y2); ctx.stroke(); });
+    ctx.setLineDash([]);
+}
+
+function drawFlyBar(ctx) {
+    const fb = scene.flyBar;
+    if (!fb || fb.opacity <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = fb.opacity;
+    if (fb.rotation) {
+        ctx.translate(fb.rotCx, fb.rotCy);
+        ctx.rotate(fb.rotation * Math.PI / 180);
+        ctx.translate(-fb.rotCx, -fb.rotCy);
+    }
+    ctx.fillStyle = fb.color;
+    ctx.fillRect(fb.x, fb.y, fb.w, fb.h);
+    ctx.restore();
+}
+
+function drawConvergence(ctx) {
+    if (!scene.convergence) return;
+    const c = scene.convergence;
+    const elapsed = (performance.now() - c.startTime) / 1500;
+    const phase = elapsed % 1;
+    const r = 5 + 11 * (1 - Math.abs(2 * phase - 1));
+    const op = 0.8 - 0.65 * (1 - Math.abs(2 * phase - 1));
+
+    ctx.save(); ctx.globalAlpha = op; ctx.strokeStyle = '#4B9CD3'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(c.g1x, c.g1y, r, 0, Math.PI * 2); ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.globalAlpha = Math.min(1, (performance.now() - c.startTime) / 500);
+    ctx.fillStyle = '#4B9CD3'; ctx.font = "700 13px 'DM Sans', sans-serif";
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('Converged!', c.g1x, c.g1y - 20);
+    ctx.restore();
+
+    ctx.save(); ctx.globalAlpha = op; ctx.strokeStyle = '#4B9CD3'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(c.g2x, c.g2y, r, 0, Math.PI * 2); ctx.stroke();
+    ctx.restore();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DRAW GRAPH (Setup + Labels + Render)
+// ═══════════════════════════════════════════════════════════════
+
+function computeAxisRanges(forceRescale) {
+    const ks = Kstar();
+
+    if (!forceRescale && pinnedXMax != null) {
+        // Check if K* is still within comfort zone (15%–85% of xMax)
+        const ksFraction = ks / pinnedXMax;
+        if (ksFraction > 0.15 && ksFraction < 0.85) {
+            // Keep pinned axes, but ensure curves fit
+            xMax = pinnedXMax;
+            g1_yMax = Math.max(pinnedG1YMax, Y(Math.max(xMax, ks * 1.5)) * 1.1);
+            if (g1_yMax < 2) g1_yMax = 2;
+            // Expand G2 range to include both K0 and K*
+            const loK = Math.min(params.K0, ks);
+            const hiK = Math.max(params.K0, ks);
+            g2Min = Math.max(0, Math.min(loK - 2, pinnedG2Min));
+            g2Max = Math.max(hiK + 2, pinnedG2Max);
+            return;
+        }
+    }
+
+    // Rescale (initial or threshold exceeded)
+    xMax = 2 * ks;
+    g1_yMax = Y(xMax) * 1.1;
+    if (g1_yMax < 2) g1_yMax = 2;
+    g2Min = Math.max(0, Math.min(params.K0, ks) - 5);
+    g2Max = Math.min(xMax, Math.max(params.K0, ks) + 5);
+
+    pinnedXMax = xMax;
+    pinnedG1YMax = g1_yMax;
+    pinnedG2Min = g2Min;
+    pinnedG2Max = g2Max;
+}
+
+function drawGraph() {
+    computeAxisRanges();
+    scene.g1 = { tx: 0, ty: 0, scale: 1 };
+    scene.g2 = { tx: 0, ty: 0, scale: 1 };
+    scene.g1Bars = []; scene.flyBar = null; scene.animCobweb = [];
+    scene.convergence = null; scene.iris = null;
+
+    scene.g1DynTicks = [];
+    animState.cobwebPoints.forEach(pt => {
+        const tx = g1ToSvgX(pt.Kt1);
+        if (tx > G1_X0 && tx < G1_X1) scene.g1DynTicks.push(tx);
+    });
+
+    renderScene();
+    clearKatexLabels();
+    const ks = Kstar();
+
+    addKatexLabel(G1_X0 + G1_PW / 2, G1_MT - 22, '\\textbf{Solow Diagram}', '#13294B', 'axis-title');
+    addKatexLabel(G2_X0 + G2_PW / 2, G2_MT - 22, '\\textbf{Phase Diagram}', '#13294B', 'axis-title');
+    addKatexLabel(G1_X1 + 28, G1_MT + G1_PH, 'K', '#13294B', 'axis-title');
+    addKatexLabel(G1_X0, G1_MT - 22, 'Y', '#13294B', 'axis-title');
+
+    const labelK = xMax * 0.85;
+    const yLabelY = Math.max(g1ToSvgY(Y(labelK)) - 16, G1_MT + 10);
+    const gyLabelY = Math.max(g1ToSvgY(gammaY(labelK)) - 14, G1_MT + 10);
+    const dkLabelY = Math.max(g1ToSvgY(deltaK(labelK)) - 14, G1_MT + 10);
+    addKatexLabel(g1ToSvgX(labelK) + 10, yLabelY, 'Y(K)', '#4B9CD3');
+    addKatexLabel(g1ToSvgX(labelK) + 10, gyLabelY, '\\gamma Y', '#48bb78');
+    addKatexLabel(g1ToSvgX(labelK) + 10, dkLabelY, '\\delta K', '#f56565');
+
+    const kLabelOff = xMax * 0.06;
+    if (ks > 0 && ks < xMax) {
+        addKatexLabel(g1ToSvgX(ks + kLabelOff), G1_MT + G1_PH / 2, 'K^\\ast', '#718096', '', 'left');
+        addKatexLabel(g1ToSvgX(ks), g1ToSvgY(0) + 35, '\\small{' + formatVal(ks) + '}', '#718096');
+    }
+
+    addKatexLabel(G2_X1 + 28, G2_MT + G2_PH, 'K_t', '#13294B', 'axis-title');
+    addKatexLabel(G2_X0, G2_MT - 22, 'K_{t+1}', '#13294B', 'axis-title');
+
+    const g2LabelK = g2Min + (g2Max - g2Min) * 0.82;
+    const curveAbove45 = Kt1(g2LabelK) > g2LabelK;
+    const g2LabelDx = 20, g2LabelDy = 32;
+    if (curveAbove45) {
+        addKatexLabel(g2ToSvgX(g2LabelK) - g2LabelDx, g2ToSvgY(Kt1(g2LabelK)) - g2LabelDy, 'K_{t+1}(K_t)', '#2B6CB0');
+    } else {
+        addKatexLabel(g2ToSvgX(g2LabelK) + g2LabelDx * 3, g2ToSvgY(Kt1(g2LabelK)) + g2LabelDy, 'K_{t+1}(K_t)', '#2B6CB0');
+    }
+    const g2_45K = g2Min + (g2Max - g2Min) * 0.9;
+    addKatexLabel(g2ToSvgX(g2_45K) + 10, g2ToSvgY(g2_45K) - 14, '45^\\circ', '#a0aec0');
+
+    const g2LabelOff = (g2Max - g2Min) * 0.06;
+    if (ks >= g2Min && ks <= g2Max) {
+        addKatexLabel(g2ToSvgX(ks + g2LabelOff), G2_MT + G2_PH / 2, 'K^\\ast', '#718096', '', 'left');
+        addKatexLabel(g2ToSvgX(ks), g2ToSvgY(g2Min) + 35, '\\small{' + formatVal(ks) + '}', '#718096');
+    }
+
+    const pfSpan = document.getElementById('prod-fn-display');
+    if (pfSpan && typeof katex !== 'undefined') {
+        katex.render('Y = (A \\cdot K \\cdot eL)^\\alpha', pfSpan, { throwOnError: false });
+    }
+    updateInfoPanel();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANIMATION HELPERS
+// ═══════════════════════════════════════════════════════════════
+
+function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+
+function wait(ms, myAnimId) {
+    return new Promise(resolve => {
+        setTimeout(() => { resolve(animState.animId === myAnimId); }, ms);
+    });
+}
+
+function getBaseDuration() { return 600 / speed; }
+
+function animateTween(duration, myAnimId, onFrame) {
+    return new Promise(resolve => {
+        const start = performance.now();
+        function tick(now) {
+            if (animState.animId !== myAnimId) { resolve(false); return; }
+            const t = Math.min((now - start) / duration, 1);
+            onFrame(easeInOutCubic(t));
+            renderScene();
+            if (t < 1) requestAnimationFrame(tick); else resolve(true);
+        }
+        requestAnimationFrame(tick);
+    });
+}
+
+function fadeG1Bars(bars, duration) {
+    const startTime = performance.now();
+    function tick(now) {
+        const t = Math.min((now - startTime) / duration, 1);
+        bars.forEach(b => { b.opacity = 1 - t; });
+        renderScene();
+        if (t < 1) requestAnimationFrame(tick);
+        else bars.forEach(b => { const idx = scene.g1Bars.indexOf(b); if (idx >= 0) scene.g1Bars.splice(idx, 1); });
+    }
+    requestAnimationFrame(tick);
+}
+
+function fadeFlyBar(duration) {
+    if (!scene.flyBar) return;
+    const startTime = performance.now();
+    const startOp = scene.flyBar.opacity;
+    function tick(now) {
+        if (!scene.flyBar) return;
+        const t = Math.min((now - startTime) / duration, 1);
+        scene.flyBar.opacity = startOp * (1 - t);
+        renderScene();
+        if (t >= 1) scene.flyBar = null; else requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ZOOM FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+
+function computeG1ZoomTransform(Kt_val) {
+    const Kt1_val = Kt1(Kt_val);
+    const srcH = Math.abs(g1ToSvgY(gammaY(Kt_val)) - g1ToSvgY(deltaK(Kt_val)));
+    const g2SegW = Math.abs(g2ToSvgX(Kt1_val) - g2ToSvgX(Kt_val)) * 3;
+    const scale = srcH > 0 ? g2SegW / srcH : 3;
+    if (scale < 1.1) return null;
+    const focalX = g1ToSvgX(Kt_val), focalY = g1ToSvgY(0);
+    return { tx: focalX * (1 - scale), ty: focalY * (1 - scale), scale };
+}
+
+function computeZoomTransform(Kt_val, Kt1_val) {
+    const focalX = g2ToSvgX(Kt_val), focalY = g2ToSvgY(g2Min);
+    return { tx: focalX * (1 - 3), ty: focalY * (1 - 3), scale: 3 };
+}
+
+function g2CameraForRegion(kMin, kMax, yMin, yMax) {
+    const l = g2ToSvgX(kMin), r = g2ToSvgX(kMax);
+    const t = g2ToSvgY(yMax), b = g2ToSvgY(yMin);
+    const cx = (l + r) / 2, cy = (t + b) / 2;
+    const bw = Math.max(r - l, 30), bh = Math.max(b - t, 30);
+    const pad = 1.6;
+    const s = Math.max(1.2, Math.min(5, Math.min(G2_PW / (bw * pad), G2_PH / (bh * pad))));
+    return { tx: cx * (1 - s), ty: cy * (1 - s), scale: s };
+}
+
+async function zoomGraph1(myAnimId, transform, duration) {
+    if (!transform) return true;
+    return await animateTween(duration || getBaseDuration() * 0.6, myAnimId, te => {
+        scene.g1.scale = 1 + (transform.scale - 1) * te;
+        scene.g1.tx = transform.tx * te;
+        scene.g1.ty = transform.ty * te;
+    });
+}
+
+async function unzoomGraph1(myAnimId, duration) {
+    const cur = { ...scene.g1 };
+    if (Math.abs(cur.scale - 1) < 0.001) return true;
+    const ok = await animateTween(duration || getBaseDuration() * 0.5, myAnimId, te => {
+        scene.g1.scale = cur.scale + (1 - cur.scale) * te;
+        scene.g1.tx = cur.tx * (1 - te);
+        scene.g1.ty = cur.ty * (1 - te);
+    });
+    if (ok) scene.g1 = { tx: 0, ty: 0, scale: 1 };
+    return ok;
+}
+
+async function zoomGraph2(myAnimId, transform) {
+    if (!transform) return true;
+    return await animateTween(getBaseDuration() * 0.6, myAnimId, te => {
+        scene.g2.scale = 1 + (transform.scale - 1) * te;
+        scene.g2.tx = transform.tx * te;
+        scene.g2.ty = transform.ty * te;
+    });
+}
+
+async function unzoomGraph2(myAnimId) {
+    const cur = { ...scene.g2 };
+    if (Math.abs(cur.scale - 1) < 0.001) return true;
+    const ok = await animateTween(getBaseDuration() * 0.5, myAnimId, te => {
+        scene.g2.scale = cur.scale + (1 - cur.scale) * te;
+        scene.g2.tx = cur.tx * (1 - te);
+        scene.g2.ty = cur.ty * (1 - te);
+    });
+    if (ok) scene.g2 = { tx: 0, ty: 0, scale: 1 };
+    return ok;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// IRIS / MAGNIFYING GLASS
+// ═══════════════════════════════════════════════════════════════
+
+async function animateIrisExpand(myAnimId, Kt_val, duration) {
+    const g1ZoomT = computeG1ZoomTransform(Kt_val);
+    if (!g1ZoomT) return true;
+    const focalX = g1ToSvgX(Kt_val);
+    // At least 3x zoom for clearly visible magnification
+    const irisScale = Math.max(g1ZoomT.scale, 3);
+    // Center iris at UNZOOMED segment midpoint (so it covers the actual bars)
+    const invY = g1ToSvgY(gammaY(Kt_val));
+    const depY = g1ToSvgY(deltaK(Kt_val));
+    const irisCy = (invY + depY) / 2;
+    // Zoom around iris center so segment stays centered in the circle
+    const zoomTx = focalX * (1 - irisScale);
+    const zoomTy = irisCy * (1 - irisScale);
+    // Radius: show segment + surrounding context
+    const zoomedSegH = Math.abs(invY - depY) * irisScale;
+    const maxR = Math.max(zoomedSegH * 1.5 + 20, 80);
+    // Full zoom immediately, just expand the radius (like a real magnifying glass)
+    return await animateTween(duration, myAnimId, te => {
+        scene.iris = { cx: focalX, cy: irisCy, r: maxR * te, tx: zoomTx, ty: zoomTy, scale: irisScale };
+    });
+}
+
+async function animateIrisCollapse(myAnimId, duration) {
+    if (!scene.iris || scene.iris.r <= 0) { scene.iris = null; return true; }
+    const startR = scene.iris.r;
+    const ok = await animateTween(duration, myAnimId, te => {
+        scene.iris.r = startR * (1 - te);
+    });
+    scene.iris = null;
+    return ok;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE A — Colored Bars
+// ═══════════════════════════════════════════════════════════════
+
+async function phaseA_bars(myAnimId, Kt_val) {
+    const Yt = Y(Kt_val), It = gammaY(Kt_val), Dt = deltaK(Kt_val), dK = It - Dt;
+    const dur = getBaseDuration();
+    const sx = g1ToSvgX(Kt_val), baseY = g1ToSvgY(0), lineW = 3;
+    const barsCreated = [];
+
+    async function growLine(color, targetModelY) {
+        const targetSvgY = g1ToSvgY(targetModelY);
+        const bar = { x: sx, y1: baseY, y2: baseY, color, lineWidth: lineW, opacity: 1 };
+        scene.g1Bars.push(bar); barsCreated.push(bar);
+        return await animateTween(dur * 0.5, myAnimId, te => { bar.y2 = baseY + (targetSvgY - baseY) * te; });
+    }
+
+    if (!(await growLine('#4B9CD3', Yt))) return { ok: false };
+    if (!(await wait(dur * 0.1, myAnimId))) return { ok: false };
+
+    // Draw taller bar first, shorter on top (net segment stays visible)
+    if (It >= Dt) {
+        if (!(await growLine('#48bb78', It))) return { ok: false };
+        if (!(await wait(dur * 0.1, myAnimId))) return { ok: false };
+        if (!(await growLine('#f56565', Dt))) return { ok: false };
+    } else {
+        if (!(await growLine('#f56565', Dt))) return { ok: false };
+        if (!(await wait(dur * 0.1, myAnimId))) return { ok: false };
+        if (!(await growLine('#48bb78', It))) return { ok: false };
+    }
+    if (!(await wait(dur * 0.15, myAnimId))) return { ok: false };
+
+    // Iris starts AFTER bars are drawn
+    if (!(await animateIrisExpand(myAnimId, Kt_val, dur * 0.8))) return { ok: false };
+
+    if (!(await wait(dur * 0.3, myAnimId))) return { ok: false };
+    return { ok: true, bars: barsCreated, dkColor: dK >= 0 ? '#38a169' : '#e53e3e', dK };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE B — Flying Bar
+// ═══════════════════════════════════════════════════════════════
+
+async function phaseB_flyingBar(myAnimId, Kt_val, dK_val, dkColor) {
+    const dur = getBaseDuration();
+    // Collapse iris (fire-and-forget) as flying bar departs
+    if (scene.iris) animateIrisCollapse(myAnimId, dur * 0.4);
+    const Kt1_val = Kt_val + dK_val;
+    const segSize = Math.abs(g2ToSvgX(Kt1_val) - g2ToSvgX(Kt_val)) * 3;
+    const segThick = 8;
+
+    const srcX = g1ToSvgX(Kt_val);
+    const It = gammaY(Kt_val), Dt = deltaK(Kt_val);
+    const srcTopY = g1ToSvgY(Math.max(It, Dt));
+    const srcBotY = g1ToSvgY(Math.min(It, Dt));
+    const g1ZoomT = computeG1ZoomTransform(Kt_val);
+    const g1s = g1ZoomT ? g1ZoomT.scale : 1;
+    const g1ty = g1ZoomT ? g1ZoomT.ty : 0;
+    const screenCenterY = ((srcTopY + srcBotY) / 2) * g1s + g1ty;
+
+    const g2ZoomT = computeZoomTransform(Kt_val, Kt1_val);
+    const g2s = g2ZoomT.scale, g2tx = g2ZoomT.tx;
+    const screenKtX = g2ToSvgX(Kt_val) * g2s + g2tx;
+    const screenKt1X = g2ToSvgX(Kt1_val) * g2s + g2tx;
+    const landLeftX = Math.min(screenKtX, screenKt1X);
+    const landY = g2ToSvgY(g2Min);
+    const tgtCenterX = (g2ToSvgX(Kt_val) + g2ToSvgX(Kt1_val)) / 2;
+
+    scene.flyBar = {
+        x: srcX - segThick / 2, y: screenCenterY - segSize / 2,
+        w: segThick, h: segSize, rotation: 0, rotCx: 0, rotCy: 0,
+        color: dkColor, opacity: 0.85
+    };
+
+    // Phase 1: Horizontal move
+    const ok1 = await animateTween(dur * 0.9, myAnimId, te => {
+        scene.flyBar.x = srcX + (tgtCenterX - srcX) * te - segThick / 2;
+    });
+    if (!ok1) return { ok: false };
+
+    // Phase 2: Rotate + unzoom G1 + zoom G2
+    const midX = tgtCenterX, midY = screenCenterY;
+    const [ok2] = await Promise.all([
+        animateTween(dur * 0.6, myAnimId, te => {
+            scene.flyBar.rotation = 90 * te;
+            scene.flyBar.rotCx = midX; scene.flyBar.rotCy = midY;
+        }),
+        unzoomGraph1(myAnimId, dur * 0.6),
+        zoomGraph2(myAnimId, g2ZoomT)
+    ]);
+    if (!ok2) return { ok: false };
+
+    scene.flyBar.x = midX - segSize / 2;
+    scene.flyBar.y = midY - segThick / 2;
+    scene.flyBar.w = segSize;
+    scene.flyBar.h = segThick;
+    scene.flyBar.rotation = 0;
+
+    // Phase 3: Drop to G2 x-axis
+    const startX = scene.flyBar.x, startY = scene.flyBar.y;
+    const endY = landY - segThick / 2;
+    const ok3 = await animateTween(dur * 0.7, myAnimId, te => {
+        scene.flyBar.x = startX + (landLeftX - startX) * te;
+        scene.flyBar.y = startY + (endY - startY) * te;
+    });
+    return { ok: ok3 };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE C — Cobweb + Zoom
+// ═══════════════════════════════════════════════════════════════
+
+async function phaseC_cobwebZoom(myAnimId, Kt_val) {
+    const Kt1_val = Kt1(Kt_val), dur = getBaseDuration();
+    const ktSvgX = g2ToSvgX(Kt_val), kt1SvgX = g2ToSvgX(Kt1_val);
+    const xAxisSvgY = g2ToSvgY(g2Min);
+    const barLeftSvgX = Math.min(ktSvgX, kt1SvgX);
+    const barSegW1x = Math.abs(kt1SvgX - ktSvgX);
+    const segThick = 8, maxBarTopY = xAxisSvgY - segThick / 2;
+    const margin = Math.abs(Kt1_val - Kt_val) * 0.5;
+
+    function updateFlyBar() {
+        if (!scene.flyBar) return;
+        const { scale: s, tx, ty } = scene.g2;
+        scene.flyBar.x = barLeftSvgX * s + tx;
+        scene.flyBar.w = barSegW1x * s;
+        scene.flyBar.y = Math.min(xAxisSvgY * s + ty - segThick / 2, maxBarTopY);
+    }
+
+    function lerpCam(a, b, t) {
+        scene.g2 = {
+            tx: a.tx + (b.tx - a.tx) * t,
+            ty: a.ty + (b.ty - a.ty) * t,
+            scale: a.scale + (b.scale - a.scale) * t,
+        };
+    }
+
+    // Camera targets — dynamic zoom to fit each cobweb phase
+    const camUp = g2CameraForRegion(
+        Kt_val - margin, Kt1_val + margin, g2Min, Kt1_val + margin
+    );
+    const camH = g2CameraForRegion(
+        Kt_val - margin, Kt1_val + margin, g2Min, Kt1_val + margin
+    );
+    const camDown = g2CameraForRegion(
+        Kt_val - margin, Kt1_val + margin, g2Min, Kt1_val + margin
+    );
+
+    // Up line: camera transitions from Phase B zoom → cobweb view
+    const startCam = { ...scene.g2 };
+    const upLine = { x1: g2ToSvgX(Kt_val), y1: g2ToSvgY(g2Min), x2: g2ToSvgX(Kt_val), y2: g2ToSvgY(g2Min) };
+    scene.animCobweb.push(upLine);
+    if (!(await animateTween(dur * 0.6, myAnimId, te => {
+        upLine.y2 = g2ToSvgY(g2Min + (Kt1_val - g2Min) * te);
+        lerpCam(startCam, camUp, te);
+        updateFlyBar();
+    }))) return false;
+    if (!(await wait(dur * 0.1, myAnimId))) return false;
+
+    // Horizontal line: camera holds (or gently adjusts)
+    const hStartCam = { ...scene.g2 };
+    const hLine = { x1: g2ToSvgX(Kt_val), y1: g2ToSvgY(Kt1_val), x2: g2ToSvgX(Kt_val), y2: g2ToSvgY(Kt1_val) };
+    scene.animCobweb.push(hLine);
+    if (!(await animateTween(dur * 0.5, myAnimId, te => {
+        hLine.x2 = g2ToSvgX(Kt_val + (Kt1_val - Kt_val) * te);
+        lerpCam(hStartCam, camH, te);
+        updateFlyBar();
+    }))) return false;
+    if (!(await wait(dur * 0.1, myAnimId))) return false;
+
+    // Down line: camera holds
+    const dStartCam = { ...scene.g2 };
+    const downLine = { x1: g2ToSvgX(Kt1_val), y1: g2ToSvgY(Kt1_val), x2: g2ToSvgX(Kt1_val), y2: g2ToSvgY(Kt1_val) };
+    scene.animCobweb.push(downLine);
+    if (!(await animateTween(dur * 0.5, myAnimId, te => {
+        downLine.y2 = g2ToSvgY(Kt1_val + (g2Min - Kt1_val) * te);
+        lerpCam(dStartCam, camDown, te);
+        updateFlyBar();
+    }))) return false;
+    if (!(await wait(dur * 0.2, myAnimId))) return false;
+
+    animState.cobwebPoints.push({ Kt: Kt_val, Kt1: Kt1_val });
+    scene.animCobweb = [];
+
+    const newTick = g1ToSvgX(Kt1_val);
+    if (newTick > G1_X0 && newTick < G1_X1) scene.g1DynTicks.push(newTick);
+
+    // Unzoom G2
+    const curTx = scene.g2.tx, curTy = scene.g2.ty, curScale = scene.g2.scale;
+    const unzOk = await animateTween(dur * 0.5, myAnimId, te => {
+        const s = curScale + (1 - curScale) * te;
+        const tx = curTx * (1 - te), ty = curTy * (1 - te);
+        scene.g2 = { tx, ty, scale: s };
+        updateFlyBar();
+    });
+    if (unzOk) scene.g2 = { tx: 0, ty: 0, scale: 1 };
+    return unzOk;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANIMATE ONE PERIOD
+// ═══════════════════════════════════════════════════════════════
+
+async function animateOnePeriod(myAnimId) {
+    // Clear stale state from any interrupted animation
+    scene.g1Bars = []; scene.flyBar = null; scene.iris = null; scene.animCobweb = [];
+    const Kt_val = animState.Kt;
+    const Yt = Y(Kt_val), It = gammaY(Kt_val), Dt = deltaK(Kt_val);
+    const dK = It - Dt, Kt1_val = Kt_val + dK, ks = Kstar(), dur = getBaseDuration();
+    updateInfoWithValues(animState.period, Kt_val, Yt, It, Dt, dK, ks);
+
+    const phaseAResult = await phaseA_bars(myAnimId, Kt_val);
+    if (!phaseAResult.ok) return false;
+
+    const phaseBResult = await phaseB_flyingBar(myAnimId, Kt_val, dK, phaseAResult.dkColor);
+    if (!phaseBResult.ok) return false;
+
+    if (phaseAResult.bars) fadeG1Bars(phaseAResult.bars, dur * 0.4);
+
+    if (!(await phaseC_cobwebZoom(myAnimId, Kt_val))) return false;
+
+    fadeFlyBar(dur * 0.4);
+    scene.animCobweb = [];
+
+    animState.Kt = Kt1_val;
+    animState.period++;
+    updateInfoWithValues(animState.period, Kt1_val, Y(Kt1_val), gammaY(Kt1_val), deltaK(Kt1_val), gammaY(Kt1_val) - deltaK(Kt1_val), ks);
+
+    if (Math.abs(dK) < 0.001 * ks) {
+        animState.converged = true;
+        await showConvergence(myAnimId);
+        return 'converged';
+    }
+    return true;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONVERGENCE
+// ═══════════════════════════════════════════════════════════════
+
+async function showConvergence(myAnimId) {
+    const ks = Kstar();
+    scene.convergence = {
+        g1x: g1ToSvgX(ks), g1y: g1ToSvgY(0),
+        g2x: g2ToSvgX(ks), g2y: g2ToSvgY(ks),
+        startTime: performance.now()
+    };
+    function pulse() { if (!scene.convergence) return; renderScene(); requestAnimationFrame(pulse); }
+    requestAnimationFrame(pulse);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONTROLS
+// ═══════════════════════════════════════════════════════════════
+
+async function handlePlay() {
+    if (animState.converged) return;
+    if (animState.running && !animState.paused) {
+        animState.paused = true; animState.animId++; animState.running = false;
+        document.getElementById('play-icon').textContent = '\u25B6';
+        document.getElementById('play-label').textContent = 'Play';
+        updateButtonStates(); return;
+    }
+    animState.paused = false; animState.running = true;
+    const myAnimId = ++animState.animId;
+    document.getElementById('play-icon').textContent = '\u23F8';
+    document.getElementById('play-label').textContent = 'Pause';
+    updateButtonStates();
+
+    while (animState.animId === myAnimId && !animState.paused && !animState.converged) {
+        try {
+            const result = await animateOnePeriod(myAnimId);
+            if (result === false || result === 'converged') break;
+            if (animState.animId !== myAnimId) break;
+            if (!(await wait(getBaseDuration() * 0.3, myAnimId))) break;
+        } catch (err) { console.error('Animation error:', err); break; }
+    }
+    if (animState.animId === myAnimId) {
+        animState.running = false;
+        document.getElementById('play-icon').textContent = '\u25B6';
+        document.getElementById('play-label').textContent = 'Play';
+        updateButtonStates();
+    }
+}
+
+async function handleStep() {
+    if (animState.converged) return;
+    if (animState.running && !animState.paused) {
+        animState.paused = true; animState.animId++; animState.running = false;
+        document.getElementById('play-icon').textContent = '\u25B6';
+        document.getElementById('play-label').textContent = 'Play';
+    }
+    animState.running = true;
+    const myAnimId = ++animState.animId;
+    updateButtonStates();
+    await animateOnePeriod(myAnimId);
+    if (animState.animId === myAnimId) { animState.running = false; updateButtonStates(); }
+}
+
+function resetAnimation() {
+    animState.animId++; animState.running = false; animState.paused = false;
+    animState.period = 0; animState.Kt = params.K0;
+    animState.cobwebPoints = []; animState.converged = false;
+    document.getElementById('play-icon').textContent = '\u25B6';
+    document.getElementById('play-label').textContent = 'Play';
+    drawGraph(); updateButtonStates();
+}
+
+function resetApp() {
+    PARAMS_DEF.forEach(p => { if (p.def !== 'auto') params[p.key] = p.def; });
+    params.K0 = Math.max(1, Math.round(Kstar() / 2));
+    pinnedXMax = null; pinnedG1YMax = null; pinnedG2Min = null; pinnedG2Max = null;
+    buildParamPanel(); resetAnimation(); reRenderKaTeX();
+}
+
+function updateButtonStates() {
+    document.getElementById('btn-play').disabled = animState.converged;
+    document.getElementById('btn-step').disabled = animState.converged || (animState.running && !animState.paused);
+}
+
+function updateSpeed() {
+    speed = parseFloat(document.getElementById('speed-slider').value);
+    document.getElementById('speed-val').textContent = speed + 'x';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INFO PANEL
+// ═══════════════════════════════════════════════════════════════
+
+function updateInfoPanel() {
+    const ks = Kstar(), Kt_val = animState.Kt;
+    updateInfoWithValues(animState.period, Kt_val, Y(Kt_val), gammaY(Kt_val), deltaK(Kt_val), gammaY(Kt_val) - deltaK(Kt_val), ks);
+}
+
+function updateInfoWithValues(t, Kt_val, Yt, It, Dt, dK, ks) {
+    document.getElementById('info-t').textContent = t;
+    document.getElementById('info-kt').textContent = formatVal(Kt_val);
+    document.getElementById('info-yt').textContent = formatVal(Yt);
+    document.getElementById('info-it').textContent = formatVal(It);
+    document.getElementById('info-dt').textContent = formatVal(Dt);
+    const dkEl = document.getElementById('info-dk');
+    dkEl.textContent = (dK >= 0 ? '+' : '') + formatVal(dK);
+    dkEl.className = 'info-cell-value ' + (dK >= 0 ? 'positive' : 'negative');
+    document.getElementById('info-kstar').textContent = formatVal(ks);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PARAMETER PANEL
+// ═══════════════════════════════════════════════════════════════
+
+function buildParamPanel() {
+    const container = document.getElementById('params-container');
+    container.innerHTML = '';
+    PARAMS_DEF.forEach(def => {
+        const row = document.createElement('div'); row.className = 'param-row';
+        const label = document.createElement('div'); label.className = 'param-label';
+        label.innerHTML = `<span>${def.label}</span>`;
+        const stepper = document.createElement('div'); stepper.className = 'stepper';
+        const btnDown = document.createElement('button'); btnDown.className = 'stepper-btn';
+        btnDown.textContent = '\u2212'; btnDown.onclick = () => adjustParam(def.key, -1);
+        const valSpan = document.createElement('span'); valSpan.className = 'stepper-value';
+        valSpan.id = 'pval-' + def.key; valSpan.textContent = formatParamVal(params[def.key], def);
+        valSpan.style.cursor = 'pointer'; valSpan.onclick = () => startEditParam(def.key);
+        const btnUp = document.createElement('button'); btnUp.className = 'stepper-btn';
+        btnUp.textContent = '+'; btnUp.onclick = () => adjustParam(def.key, +1);
+        stepper.appendChild(btnDown); stepper.appendChild(valSpan); stepper.appendChild(btnUp);
+        row.appendChild(label); row.appendChild(stepper); container.appendChild(row);
+    });
+}
+
+function formatParamVal(v, def) {
+    const step = getStep(def);
+    if (step >= 1) return Math.round(v).toString();
+    if (step >= 0.1) return v.toFixed(1);
+    if (step >= 0.01) return v.toFixed(2);
+    return v.toFixed(3);
+}
+
+function getStep(def) { return def.step === 'dynamic' ? Kstar() / 50 : def.step; }
+
+function startEditParam(key) {
+    const def = PARAMS_DEF.find(p => p.key === key);
+    const span = document.getElementById('pval-' + key);
+    if (!span || span.tagName === 'INPUT') return;
+    const input = document.createElement('input'); input.type = 'text';
+    input.value = params[key]; input.className = 'stepper-value'; input.id = 'pval-' + key;
+    input.style.cssText = 'border:none; outline:none; background:rgba(75,156,211,0.08); text-align:center; width:52px; height:28px; font-family:inherit; font-size:inherit; font-weight:inherit; color:inherit; padding:2px 2px;';
+    function commit() {
+        const newVal = parseFloat(input.value);
+        if (!isNaN(newVal)) params[key] = Math.max(def.min, Math.min(def.max, newVal));
+        const ns = document.createElement('span'); ns.className = 'stepper-value';
+        ns.id = 'pval-' + key; ns.textContent = formatParamVal(params[key], def);
+        ns.style.cursor = 'pointer'; ns.onclick = () => startEditParam(key);
+        input.replaceWith(ns);
+        resetAnimation();
+    }
+    input.onblur = commit;
+    input.onkeydown = (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+        if (e.key === 'Escape') { e.preventDefault(); params[key] = params[key]; input.blur(); }
+    };
+    span.replaceWith(input); input.select();
+}
+
+function adjustParam(key, delta) {
+    const def = PARAMS_DEF.find(p => p.key === key);
+    const step = getStep(def), sign = delta > 0 ? 1 : -1;
+    let newVal = params[key] + sign * step;
+    const decimals = step < 0.01 ? 3 : (step < 0.1 ? 2 : (step < 1 ? 1 : 0));
+    newVal = Math.max(def.min, Math.min(def.max, parseFloat(newVal.toFixed(decimals))));
+    params[key] = newVal;
+    document.getElementById('pval-' + key).textContent = formatParamVal(newVal, def);
+    resetAnimation();
+}
+
+function reRenderKaTeX(container) {
+    if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(container || document.body, {
+            delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
+            throwOnError: false
+        });
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+
+function init() {
+    PARAMS_DEF.forEach(p => { if (p.def !== 'auto') params[p.key] = p.def; });
+    params.K0 = Math.max(1, Math.round(Kstar() / 2));
+    animState.Kt = params.K0; animState.period = 0;
+    setupCanvas(); buildParamPanel(); drawGraph(); updateButtonStates();
+}
+
+window.addEventListener('load', function() { setTimeout(function() { init(); reRenderKaTeX(); }, 150); });
+</script>
+
+</body>
+</html>

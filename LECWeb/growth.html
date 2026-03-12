@@ -44,7 +44,7 @@
         <li>$L$ is the amount of labor (stock variable),</li>
         <li>$K$ is capital (stock variable).</li>
         <li>$F$ has decreasing marginal returns wrt. each variable.</li>
-        <li>Capital depreciates at a linear rate, $0<\delta<1$. The depreciation period $t$ is then $\delta\cdot K_{t}$.</li>
+        <li>Capital depreciates at a linear rate, $0\lt\delta\lt 1$. The depreciation period $t$ is then $\delta\cdot K_{t}$.</li>
         <li>Capital and output measured with the same units.</li>
         <li>$\gamma$ savings rate (exogenous/given/a constant by assumption).</li>
         <li>$K_{t+1}=K_{t}+I_{t}-\delta\cdot K_{t}$.</li>
@@ -78,7 +78,7 @@
       <ul>
         <li>The output and capital stock converge to their steady-state values.</li>
         <li>At the steady-state, the growth rate, $\%\Delta \mathrm{GDP}=\dfrac{\mathrm{GDP}(t+1)-\mathrm{GDP}(t)}{\mathrm{GDP}(t)}$ is zero.</li>
-        <li>If population increases at a linear rate, $L_{t+1}=g\cdot L_{t}$ with $g>1$, the per-capita variables converge to their steady-state values.</li>
+        <li>If population increases at a linear rate, $L_{t+1}=g\cdot L_{t}$ with $g\gt 1$, the per-capita variables converge to their steady-state values.</li>
         <li>If $A$, the technology/knowledge increases continuously, convergence may not occur: growth rate will remain positive.</li>
         <li>Steady-state equations: $\overline K=\overline K+ \overline I-\delta\cdot \overline K$, $\overline Y=F(A, \overline K, eL)$, $\overline I=s\overline Y$.</li>
         <li>Please, see Mathematica File &gt; Module &gt; Week TBA.</li>
@@ -119,18 +119,7 @@
   <!-- Scripts -->
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false}
-        ],
-        throwOnError: false
-      });
-    });
-  </script>
+  <script src="js/katex-macros.js"></script>
 
 </body>
 </html>

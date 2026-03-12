@@ -131,7 +131,7 @@
     <div class="frame-content">
       <ul>
         <li>Perfectly inelastic curve: $|\eta_{f,x}| = 0$</li>
-        <li>Inelastic curve: $|\eta_{f,x}| < 1$</li>
+        <li>Inelastic curve: $|\eta_{f,x}| \lt 1$</li>
         <li>Unit elastic curve: $|\eta_{f,x}| = 1$</li>
         <li>Elastic curve: $|\eta_{f,x}| \geq 1$</li>
         <li>Perfectly elastic curve: $|\eta_{f,x}| = +\infty$</li>
@@ -209,19 +209,8 @@
     </div>
   </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-          {left: "\\[", right: "\\]", display: true},
-          {left: "\\(", right: "\\)", display: false}
-        ]
-      });
-    });
-  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="js/katex-macros.js"></script>
 </body>
 </html>

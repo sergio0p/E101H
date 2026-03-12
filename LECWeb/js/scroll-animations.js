@@ -13,6 +13,9 @@ function initAnimations() {
 
   // Step-by-step reveals within frames
   initStepReveals();
+
+  // Overlay frames (Beamer \pause equivalent)
+  initOverlayFrames();
 }
 
 // Reveal animations for .reveal elements
@@ -210,6 +213,43 @@ function pulseHighlight(selector) {
   });
 }
 
+// Overlay frames — pinned, progressive reveal (Beamer \pause equivalent)
+function initOverlayFrames() {
+  gsap.utils.toArray('.overlay-frame').forEach(frame => {
+    const overlays = frame.querySelectorAll('.overlay');
+    if (overlays.length === 0) return;
+
+    // Reveal first overlay immediately
+    overlays[0].classList.add('revealed');
+
+    // Only pin/animate if there are items to reveal beyond the first
+    if (overlays.length < 2) return;
+
+    const stepsToReveal = overlays.length - 1; // first is already shown
+
+    ScrollTrigger.create({
+      trigger: frame,
+      start: 'top top',
+      end: '+=' + (stepsToReveal * 80) + '%',
+      pin: true,
+      scrub: false,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: self => {
+        const progress = self.progress;
+        const step = Math.floor(progress * stepsToReveal) + 1;
+        overlays.forEach((el, i) => {
+          if (i <= step) {
+            el.classList.add('revealed');
+          } else {
+            el.classList.remove('revealed');
+          }
+        });
+      }
+    });
+  });
+}
+
 // Initialize on DOM ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initAnimations);
@@ -246,3 +286,47 @@ window.addEventListener('orientationchange', handleViewportChange);
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', handleViewportChange);
 }
+
+// Global navigation with Shift+Arrow keys
+// Navigate between lecture sections regardless of scroll position
+document.addEventListener('keydown', function(e) {
+  // Only respond to Shift+Arrow (not plain arrows, which may be used in interactive graphs)
+  if (!e.shiftKey) return;
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+
+  let targetUrl = null;
+
+  // Method 1: Check for meta tags (preferred)
+  if (e.key === 'ArrowLeft') {
+    const prevMeta = document.querySelector('meta[name="nav-prev"]');
+    if (prevMeta) targetUrl = prevMeta.getAttribute('content');
+  } else if (e.key === 'ArrowRight') {
+    const nextMeta = document.querySelector('meta[name="nav-next"]');
+    if (nextMeta) targetUrl = nextMeta.getAttribute('content');
+  }
+
+  // Method 2: Fallback to finding navigation links in the page
+  if (!targetUrl) {
+    const allLinks = document.querySelectorAll('a[href]');
+    const navLinks = Array.from(allLinks).filter(link => {
+      const href = link.getAttribute('href');
+      return href && href.match(/\.html$/);
+    });
+
+    let targetLink = null;
+    if (e.key === 'ArrowLeft') {
+      targetLink = navLinks.find(link => link.textContent.includes('←'));
+    } else if (e.key === 'ArrowRight') {
+      targetLink = navLinks.find(link => link.textContent.includes('→'));
+    }
+
+    if (targetLink) {
+      targetUrl = targetLink.getAttribute('href');
+    }
+  }
+
+  if (targetUrl) {
+    e.preventDefault();
+    window.location.href = targetUrl;
+  }
+});

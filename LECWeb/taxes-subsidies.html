@@ -1242,7 +1242,7 @@
           formulaPB.style.display = 'inline';
           // Re-render KaTeX for the newly visible formula
           if (typeof renderMathInElement !== 'undefined') {
-            renderMathInElement(formulaPB);
+            renderMathInElement(formulaPB, katexOptions);
           }
         }
       }
@@ -1280,6 +1280,7 @@
           {left: '$$', right: '$$', display: true},
           {left: '$', right: '$', display: false}
         ],
+        macros: katexMacros,
         throwOnError: false
       };
 

@@ -64,7 +64,7 @@
 
       <p>We also need the marginal cost to be increasing, so:</p>
       <div class="math-display">
-        $q^S=MC^{-1}(p) \text{ provided that } MC'(q)>0$
+        $q^S=MC^{-1}(p) \text{ provided that } MC'(q)\gt 0$
       </div>
 
       <p>is the supply decision of a firm with cost function $c(q)$.</p>
@@ -83,19 +83,19 @@
       <p>In order for a firm to leave the industry, the market price $p$ must be such that:</p>
 
       <div class="math-display">
-        $\pi(q) = p\cdot q - c(q) < 0 \text{ for all } q > 0$,
+        $\pi(q) = p\cdot q - c(q) \lt 0 \text{ for all } q \gt 0$,
       </div>
 
       <p>or equivalently,</p>
 
       <div class="math-display">
-        $\pi(q) = \left(p - \underbrace{c(q)/q}_{ATC(q)}\right)\cdot q < 0 \text{ for all } q$,
+        $\pi(q) = \left(p - \underbrace{c(q)/q}_{ATC(q)}\right)\cdot q \lt 0 \text{ for all } q$,
       </div>
 
       <p>or</p>
 
       <div class="math-display">
-        $\min_q ATC(q) > p$
+        $\min_q ATC(q) \gt p$
       </div>
     </div>
   </section>
@@ -108,8 +108,8 @@
     </div>
     <div class="frame-content">
       <ul>
-        <li>$p > \min_q ATC(q) \Rightarrow$ firms enter the industry $\Rightarrow$ industry supply curve shifts to the right (in $(p,q)$ coordinates).</li>
-        <li>$p < \min_q ATC(q) \Rightarrow$ firms leave the industry $\Rightarrow$ industry supply curve shifts to the left (in $(p,q)$ coordinates).</li>
+        <li>$p \gt \min_q ATC(q) \Rightarrow$ firms enter the industry $\Rightarrow$ industry supply curve shifts to the right (in $(p,q)$ coordinates).</li>
+        <li>$p \lt \min_q ATC(q) \Rightarrow$ firms leave the industry $\Rightarrow$ industry supply curve shifts to the left (in $(p,q)$ coordinates).</li>
       </ul>
 
       <p style="margin-top: 2rem;">Notice that the quantity that yields the minimum of the ATC, $ATC(\underline{q})=\min_q ATC(q)$, is the one where the MC and ATC are equal: $ATC(\underline{q})=MC(\underline{q})$.</p>
@@ -200,18 +200,7 @@
   <!-- Scripts -->
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false}
-        ],
-        throwOnError: false
-      });
-    });
-  </script>
+  <script src="js/katex-macros.js"></script>
 
 </body>
 </html>
