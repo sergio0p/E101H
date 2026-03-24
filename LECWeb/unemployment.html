@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="nav-prev" content="savings-investment.html">
+  <meta name="nav-next" content="index.html">
+  <title>Unemployment | ECON 101H</title>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Custom CSS & JS -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <script src="js/katex-macros.js"></script>
+  <script src="js/scroll-animations.js"></script>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Unemployment</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sergio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Unemployment Definitions -->
+  <section class="frame overlay-frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Unemployment</h2>
+    </div>
+    <div class="frame-content">
+      <div class="block-group">
+        <div class="block overlay" data-overlay="1">
+          <div class="block-title">Unemployed</div>
+          <div class="block-body">
+            An individual who is an adult, not institutionalized,<br>a civilian, and is <span class="alert-text">looking for work</span>.
+          </div>
+        </div>
+        <div class="block overlay" data-overlay="2">
+          <div class="block-title">Frictional Unemployment</div>
+          <div class="block-body">
+            Short-term unemployment caused by<br>delays in matching employee to employer.
+          </div>
+        </div>
+        <div class="block overlay" data-overlay="3">
+          <div class="block-title">Structural Unemployment</div>
+          <div class="block-body">
+            Persistent, long-term unemployment.
+          </div>
+        </div>
+        <div class="block overlay" data-overlay="4">
+          <div class="block-title">Cyclical Unemployment</div>
+          <div class="block-body">
+            Unemployment correlated with the<br>ups and downs of the business cycle.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Labor Market Graph -->
+  <section class="scroll-frame graph-frame" id="labor-market">
+    <div class="scroll-frame-inner" style="position: relative; background: #fdf6e3;">
+      <!-- KaTeX axis labels -->
+      <div id="w-label" style="position: absolute; font-size: 1.5rem; color: #586e75; font-style: italic;">$w$</div>
+      <div id="l-label" style="position: absolute; font-size: 1.1rem; color: #586e75; font-style: italic;">$L$</div>
+      <!-- KaTeX curve labels -->
+      <div id="demand-label" style="position: absolute; font-size: 1rem; color: #dc322f;">$D_L$</div>
+      <div id="supply-label" style="position: absolute; font-size: 1rem; color: #268bd2;">$S_L$</div>
+      <!-- Equilibrium labels -->
+      <div id="wstar-label" style="position: absolute; font-size: 1rem; color: #586e75; font-style: italic;">$w^*$</div>
+      <div id="lstar-label" style="position: absolute; font-size: 1rem; color: #586e75; font-style: italic;">$L^*$</div>
+
+      <!-- Annotation text, top-right -->
+      <div id="graph-annotation" style="position: absolute; font-size: 1.05rem; color: #586e75; line-height: 1.7;">
+        $\bar{L} \rightarrow$ hours available to worker<br>
+        $L \rightarrow$ labor hours<br>
+        $\ell \rightarrow$ leisure<br>
+        $L + \ell = \bar{L}$<br>
+        Utility maximization $\Rightarrow$<br>
+        <span style="color: #268bd2;">$S_L$: $w = U_\ell(\bar{L} - L)$</span>
+      </div>
+
+      <!-- Demand annotation -->
+      <div id="graph-annotation-2" style="position: absolute; font-size: 1.05rem; color: #586e75; line-height: 1.7;">
+        Firms maximize profits $\Rightarrow$<br>
+        <span style="color: #dc322f;">$D_L$: $w = p \cdot MP_L(K, L)$</span>
+      </div>
+
+      <svg id="labor-svg" viewBox="-45 -20 585 435" style="width: min(90vw, 700px);">
+        <defs>
+          <marker id="arrowhead" markerWidth="12" markerHeight="5" refX="11" refY="2.5" orient="auto">
+            <polygon points="0 0, 12 2.5, 0 5" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- Axes -->
+        <line x1="20" y1="385" x2="20" y2="6" stroke="#586e75" stroke-width="3" marker-end="url(#arrowhead)"/>
+        <line x1="20" y1="385" x2="495" y2="385" stroke="#586e75" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+        <!-- Demand for Labor: W = 120·(1 - L/150)² (red, convex to origin) -->
+        <path id="demand-curve"
+              d="M 20,55 L 51,93 L 83,129 L 114,161 L 145,192 L 177,219 L 208,244 L 239,266 L 271,286 L 302,303 L 333,317 L 365,329 L 396,338 L 427,345 L 459,349"
+              stroke="#dc322f" stroke-width="5" fill="none"/>
+
+        <!-- Supply of Labor: W = 25 + 0.005·L² (blue, convex, steeper) -->
+        <path id="supply-curve"
+              d="M 20,289 L 51,287 L 83,284 L 114,278 L 145,269 L 177,258 L 208,244 L 239,228 L 271,210 L 302,189 L 333,166 L 365,140 L 396,112 L 427,81 L 459,48"
+              stroke="#268bd2" stroke-width="5" fill="none"/>
+        <!-- Equilibrium dotted lines (L*≈60, W*≈43) -->
+        <line id="eq-line-h" x1="20" y1="244" x2="208" y2="244" stroke="#586e75" stroke-width="2" stroke-dasharray="4, 3" fill="none"/>
+        <line id="eq-line-v" x1="208" y1="244" x2="208" y2="385" stroke="#586e75" stroke-width="2" stroke-dasharray="4, 3" fill="none"/>
+        <!-- Tick marks on axes at equilibrium -->
+        <line id="tick-w" x1="16" y1="244" x2="24" y2="244" stroke="#586e75" stroke-width="2" opacity="0"/>
+        <line id="tick-l" x1="208" y1="381" x2="208" y2="389" stroke="#586e75" stroke-width="2" opacity="0"/>
+        <!-- Equilibrium dot -->
+        <circle cx="208" cy="244" r="5" fill="#586e75"/>
+      </svg>
+    </div>
+  </section>
+
+  <script>
+    // Position KaTeX labels
+    function positionLabels() {
+      const svg = document.getElementById('labor-svg');
+      if (!svg) return;
+      const svgRect = svg.getBoundingClientRect();
+      const container = svg.parentElement;
+      const containerRect = container.getBoundingClientRect();
+
+      const vbW = 585, vbH = 435, vbX = -45, vbY = -20;
+      const scaleX = svgRect.width / vbW;
+      const scaleY = svgRect.height / vbH;
+      const offsetX = svgRect.left - containerRect.left;
+      const offsetY = svgRect.top - containerRect.top;
+
+      function place(id, svgX, svgY, anchorX, anchorY) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const sx = offsetX + (svgX - vbX) * scaleX;
+        const sy = offsetY + (svgY - vbY) * scaleY;
+        el.style.left = (sx - anchorX) + 'px';
+        el.style.top = (sy - anchorY) + 'px';
+      }
+
+      function placeAlongPath(pathId, labelId, pos, offX, offY) {
+        const path = document.getElementById(pathId);
+        if (!path) return;
+        const pt = path.getPointAtLength(path.getTotalLength() * pos);
+        place(labelId, pt.x, pt.y, offX, offY);
+      }
+
+      place('w-label', 20, -8, 8, 28);
+      place('l-label', 505, 385, 0, 8);
+      placeAlongPath('demand-curve', 'demand-label', 0.8, -10, 27);
+      placeAlongPath('supply-curve', 'supply-label', 0.8, -7, 60);
+      place('wstar-label', 18, 244, 30, 17);
+      place('lstar-label', 208, 385, 8, -8);
+
+      const sx = offsetX + (505 - vbX) * scaleX;
+      const a1 = document.getElementById('graph-annotation');
+      if (a1) { a1.style.left = sx + 'px'; a1.style.top = 'calc(5% - 2rem)'; }
+      const a2 = document.getElementById('graph-annotation-2');
+      if (a2 && a1) { a2.style.left = sx + 'px'; a2.style.top = (a1.offsetTop + a1.offsetHeight + 16) + 'px'; }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        positionLabels();
+        window.addEventListener('resize', function() { positionLabels(); ScrollTrigger.refresh(); });
+        initGraphAnimation();
+      }, 400);
+    });
+
+    function initGraphAnimation() {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // --- Path lengths for draw animation ---
+      const supplyPath = document.getElementById('supply-curve');
+      const demandPath = document.getElementById('demand-curve');
+      const sLen = supplyPath.getTotalLength();
+      const dLen = demandPath.getTotalLength();
+
+      // --- Initial state: hide everything except axes + axis labels ---
+      gsap.set(supplyPath, { strokeDasharray: sLen, strokeDashoffset: sLen });
+      gsap.set(demandPath, { strokeDasharray: dLen, strokeDashoffset: dLen });
+      gsap.set('#supply-label', { opacity: 0 });
+      gsap.set('#demand-label', { opacity: 0 });
+      gsap.set('#graph-annotation', { opacity: 0 });
+      gsap.set('#graph-annotation-2', { opacity: 0 });
+      gsap.set('#eq-line-h', { attr: { x1: 208 } });  // zero length at intersection
+      gsap.set('#eq-line-v', { attr: { y2: 244 } });   // zero length at intersection
+      gsap.set('circle', { opacity: 0 });
+      gsap.set('#wstar-label', { opacity: 0 });
+      gsap.set('#lstar-label', { opacity: 0 });
+
+      // --- Timeline ---
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#labor-market',
+          start: 'top top',
+          end: '+=800%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      // Phase 1 (0–1): Supply curve draws + label + annotation fade in
+      tl.to(supplyPath, { strokeDashoffset: 0, duration: 1, ease: 'none' }, 0);
+      tl.to('#supply-label', { opacity: 1, duration: 0.3 }, 0.7);
+      tl.to('#graph-annotation', { opacity: 1, duration: 0.5 }, 0.5);
+
+      // Phase 2 (1–2): Pause to read
+
+      // Phase 3 (2–3): Supply + annotation fade out
+      tl.to(supplyPath, { strokeDashoffset: sLen, duration: 0.8, ease: 'none' }, 2);
+      tl.to('#supply-label', { opacity: 0, duration: 0.5 }, 2);
+      tl.to('#graph-annotation', { opacity: 0, duration: 0.5 }, 2);
+
+      // Phase 4 (3–4): Demand curve draws + label + annotation fade in
+      tl.to(demandPath, { strokeDashoffset: 0, duration: 1, ease: 'none' }, 3);
+      tl.to('#demand-label', { opacity: 1, duration: 0.3 }, 3.7);
+      tl.to('#graph-annotation-2', { opacity: 1, duration: 0.5 }, 3.5);
+
+      // Phase 5 (4–5): Pause to read
+
+      // Phase 6 (5–6): Demand + annotation fade out
+      tl.to(demandPath, { strokeDashoffset: dLen, duration: 0.8, ease: 'none' }, 5);
+      tl.to('#demand-label', { opacity: 0, duration: 0.5 }, 5);
+      tl.to('#graph-annotation-2', { opacity: 0, duration: 0.5 }, 5);
+
+      // Phase 7 (6–7): Both curves come back + labels + annotations + intersection dot
+      tl.to(supplyPath, { strokeDashoffset: 0, duration: 1, ease: 'none' }, 6);
+      tl.to(demandPath, { strokeDashoffset: 0, duration: 1, ease: 'none' }, 6);
+      tl.to('#supply-label', { opacity: 1, duration: 0.3 }, 6.7);
+      tl.to('#demand-label', { opacity: 1, duration: 0.3 }, 6.7);
+      tl.to('#graph-annotation', { opacity: 1, duration: 0.5 }, 6.5);
+      tl.to('#graph-annotation-2', { opacity: 1, duration: 0.5 }, 6.5);
+      tl.to('circle', { opacity: 1, duration: 0.3 }, 7);
+
+      // Phase 8 (7–8): Pause
+
+      // Phase 9 (8–9): Dotted lines animate from intersection to axes
+      tl.to('#eq-line-h', { attr: { x1: 20 }, duration: 1, ease: 'none' }, 8);
+      tl.to('#eq-line-v', { attr: { y2: 385 }, duration: 1, ease: 'none' }, 8);
+
+      // Phase 10 (9–9.3): W* and L* labels + tick marks appear
+      tl.to('#wstar-label', { opacity: 1, duration: 0.3 }, 9);
+      tl.to('#lstar-label', { opacity: 1, duration: 0.3 }, 9);
+      tl.to('#tick-w', { opacity: 1, duration: 0.3 }, 9);
+      tl.to('#tick-l', { opacity: 1, duration: 0.3 }, 9);
+
+      // Phase 11 (9.3–10): Hold final state
+    }
+  </script>
+
+</body>
+</html>

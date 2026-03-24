@@ -433,6 +433,29 @@ dl.beamer-description dt:first-of-type + dd {
   height: auto;
 }
 
+/* Graph frame — full viewport, no beamer styling */
+.scroll-frame {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scroll-frame.graph-frame {
+  padding: 0;
+  background: #fdf6e3;
+}
+
+.scroll-frame-inner {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 2vw;
+}
+
 /* ============================================
    OVERLAY SYSTEM
    For frames with Beamer overlays (\pause, \uncover, <1->)

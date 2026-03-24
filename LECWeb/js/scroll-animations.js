@@ -225,19 +225,18 @@ function initOverlayFrames() {
     // Only pin/animate if there are items to reveal beyond the first
     if (overlays.length < 2) return;
 
-    const stepsToReveal = overlays.length - 1; // first is already shown
+    const count = overlays.length;
 
     ScrollTrigger.create({
       trigger: frame,
       start: 'top top',
-      end: '+=' + (stepsToReveal * 80) + '%',
+      end: '+=' + (count * 50) + '%',
       pin: true,
       scrub: false,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate: self => {
-        const progress = self.progress;
-        const step = Math.floor(progress * stepsToReveal) + 1;
+        const step = Math.min(count - 1, Math.floor(self.progress * count));
         overlays.forEach((el, i) => {
           if (i <= step) {
             el.classList.add('revealed');
