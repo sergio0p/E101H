@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="nav-prev" content="unemployment.html">
+  <meta name="nav-next" content="index.html">
+  <title>Monetary Policy | ECON 101H</title>
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Data -->
+  <script src="monetary-data.js"></script>
+
+  <!-- Custom -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <script src="js/katex-macros.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="js/scroll-animations.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #fdf6e3;
+    }
+    .graph-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #chart-container {
+      position: relative;
+      width: 92%;
+      max-width: 960px;
+    }
+    #chart-svg {
+      width: 100%;
+      display: block;
+    }
+    .bar-label {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 1.2rem;
+      color: #333;
+      pointer-events: none;
+    }
+    .bracket-label {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 1.2rem;
+      color: #333;
+      pointer-events: none;
+      text-align: center;
+    }
+    .tick-label {
+      position: absolute;
+      font-size: 1.2rem;
+      color: #586e75;
+      pointer-events: none;
+    }
+    .axis-title-label {
+      position: absolute;
+      font-size: 1.2rem;
+      color: #586e75;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    #date-label {
+      position: absolute;
+      font-size: 1.2rem;
+      color: #586e75;
+      pointer-events: none;
+      font-family: 'Times New Roman', serif;
+      font-weight: bold;
+    }
+    .instructions {
+      margin-top: 1rem;
+      color: #93a1a1;
+      font-family: 'Times New Roman', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Monetary Policy</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sergio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- ===== SECTION 1: Money Supply Flipbook ===== -->
+  <div class="graph-section" id="section-supply">
+  <div id="chart-container">
+    <svg id="chart-svg" viewBox="0 0 800 440" xmlns="http://www.w3.org/2000/svg">
+      <!-- Y-axis -->
+      <line x1="170" y1="35" x2="170" y2="378" stroke="#586e75" stroke-width="2"/>
+      <!-- X-axis -->
+      <line x1="170" y1="378" x2="670" y2="378" stroke="#586e75" stroke-width="2"/>
+
+      <!-- X-axis ticks (0T–14T, spacing = 35.71) -->
+      <g stroke="#586e75" stroke-width="1.5" id="tick-marks"></g>
+
+      <!-- Bars -->
+      <rect id="bar-0" x="170" y="45"  width="0" height="42" fill="#b0b7d4" rx="2"/>
+      <rect id="bar-1" x="170" y="101" width="0" height="42" fill="#1a3a6b" rx="2"/>
+      <rect id="bar-2" x="170" y="157" width="0" height="42" fill="#5ba08a" rx="2"/>
+      <rect id="bar-3" x="170" y="213" width="0" height="42" fill="#e8a87c" rx="2"/>
+      <rect id="bar-4" x="170" y="269" width="0" height="42" fill="#f0e0a0" rx="2"/>
+      <rect id="bar-5" x="170" y="325" width="0" height="42" fill="#c0392b" rx="2"/>
+
+      <!-- Bracket braces -->
+      <path id="brace-mb" d="" stroke="#333" stroke-width="2" fill="none"/>
+      <path id="brace-m1" d="" stroke="#333" stroke-width="2" fill="none"/>
+      <path id="brace-m2" d="" stroke="#333" stroke-width="2" fill="none"/>
+    </svg>
+
+    <!-- Date label -->
+    <div id="date-label"></div>
+
+    <!-- Bar category labels -->
+    <div id="label-0" class="bar-label">$\text{Total reserves held at the Fed}$</div>
+    <div id="label-1" class="bar-label">$\text{Currency}$</div>
+    <div id="label-2" class="bar-label">$\text{Checkable deposits}$</div>
+    <div id="label-3" class="bar-label">$\text{Other Liquid Deposits}$</div>
+    <div id="label-4" class="bar-label">$\text{Money market mutual funds}$</div>
+    <div id="label-5" class="bar-label">$\text{Small-time deposits}$</div>
+
+    <!-- Bracket text labels -->
+    <div id="blabel-mb" class="bracket-label">$\text{Monetary}$<br>$\text{Base}$</div>
+    <div id="blabel-m1" class="bracket-label">$\text{M1}$</div>
+    <div id="blabel-m2" class="bracket-label">$\text{M2}$</div>
+
+    <!-- X-axis tick labels (generated by JS) -->
+    <div id="tick-labels"></div>
+
+    <!-- X-axis title -->
+    <div class="axis-title-label" id="axis-title">$\$\text{ in trillions}$</div>
+  </div>
+
+  <p class="instructions">Press ← → to navigate</p>
+  </div><!-- end section-supply -->
+
+  <hr style="border: none; border-top: 3px solid #586e75; width: 80%; margin: 3rem auto;">
+
+  <!-- ===== SECTION 2: Money Multiplier ===== -->
+  <div class="graph-section" id="section-multiplier">
+  <div id="mult-container" style="width: 92%; max-width: 960px;">
+
+    <!-- Controls -->
+    <div id="mult-controls" style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; padding: 0.8rem; background: #fff8e1; border-radius: 8px; font-family: 'Times New Roman', serif;">
+      <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 1.2rem; color: #586e75;">
+        $\text{Initial Deposit}$
+        <input type="range" id="mult-d0" min="10" max="100" step="5" value="50" style="width: 90px; accent-color: #c17900;">
+        <span id="mult-d0-val" style="font-weight: bold; color: #c17900; min-width: 2em;">$\$50$</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 1.2rem; color: #586e75;">
+        $\text{Reserve Ratio}$
+        <input type="range" id="mult-rr" min="1" max="100" step="1" value="10" style="width: 90px; accent-color: #c17900;">
+        <span id="mult-rr-val" style="font-weight: bold; color: #c17900; min-width: 3em;">$0.10$</span>
+      </label>
+      <span style="font-size: 1.2rem; color: #333;">$\text{Money Multiplier:}$ <span id="mult-mm-val" style="font-weight: bold; color: #c17900;">$10$</span></span>
+    </div>
+
+    <!-- Chart area -->
+    <div style="position: relative;">
+      <!-- Row labels (fixed left) -->
+      <div style="position: absolute; left: -15px; top: 0; width: 70px; z-index: 2;">
+        <div style="height: 170px; display: flex; align-items: center; font-family: 'Times New Roman', serif; font-size: 1.2rem; color: #586e75; font-style: italic;">Deposits</div>
+        <div style="height: 170px; display: flex; align-items: center; font-family: 'Times New Roman', serif; font-size: 1.2rem; color: #586e75; font-style: italic;">Reserves</div>
+      </div>
+      <!-- Scrollable chart — bars clip at left edge, labels sit outside -->
+      <div id="mult-viewport" style="margin-left: 75px; overflow: hidden; position: relative; height: 340px;">
+        <svg id="mult-svg" xmlns="http://www.w3.org/2000/svg" style="height: 340px; transition: transform 0.3s ease;">
+          <!-- Baselines -->
+          <line x1="0" y1="160" x2="5000" y2="160" stroke="#586e75" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="0" y1="330" x2="5000" y2="330" stroke="#586e75" stroke-width="1" stroke-dasharray="4,4"/>
+        </svg>
+      </div>
+      <!-- Totals (fixed right) -->
+      <div id="mult-totals" style="position: absolute; right: 0; top: 0; width: 90px; text-align: right; z-index: 2;">
+        <div style="height: 170px; display: flex; flex-direction: column; justify-content: center; font-family: 'Times New Roman', serif;">
+          <div style="font-size: 0.75rem; color: #586e75;">Total</div>
+          <div id="mult-total-dep" style="font-size: 1rem; font-weight: bold; color: #333;">$0</div>
+        </div>
+        <div style="height: 170px; display: flex; flex-direction: column; justify-content: center; font-family: 'Times New Roman', serif;">
+          <div style="font-size: 0.75rem; color: #586e75;">Total</div>
+          <div id="mult-total-res" style="font-size: 1rem; font-weight: bold; color: #333;">$0</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="instructions">Press ← → to add/remove steps</p>
+  </div>
+  </div><!-- end section-multiplier -->
+
+  <!-- ===== SECTION 3: Monetary Policy Rates ===== -->
+  <section class="frame overlay-frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Monetary Policy</h2>
+    </div>
+    <div class="frame-content">
+      <div class="block-group">
+        <div class="block overlay" data-overlay="1">
+          <div class="block-title">Federal Funds Effective Rate (FFR)</div>
+          <div class="block-body">The interest rate at which banks lend reserves to each other overnight. The FOMC sets a target<br>range for this rate, which serves as the benchmark for short-term interest rates in the economy.</div>
+        </div>
+        <div class="block overlay" data-overlay="2">
+          <div class="block-title">Open Market Operations</div>
+          <div class="block-body">The Fed's buying and selling of government bonds to increase or decrease the supply of reserves in the banking system.<br>Buying bonds injects reserves and pushes interest rates down; selling bonds drains reserves and pushes rates up.</div>
+        </div>
+        <div class="block overlay" data-overlay="3">
+          <div class="block-title">Interest on Reserve Balances (IORB)</div>
+          <div class="block-body">The interest rate the Fed pays banks on reserves held at the Fed. No bank would lend<br>reserves for less than this rate, making it the effective floor for the federal funds rate.</div>
+        </div>
+        <div class="block overlay" data-overlay="4">
+          <div class="block-title">Primary Credit Rate (Discount Rate)</div>
+          <div class="block-body">The interest rate the Fed charges banks that borrow directly from its discount window. No bank<br>would borrow from other banks at a rate above this, making it the ceiling for the federal funds rate.</div>
+        </div>
+        <div class="block overlay" data-overlay="5">
+          <div class="block-title">Overnight Reverse Repurchase Agreement Rate (ON RRP)</div>
+          <div class="block-body">The rate the Fed pays when it borrows cash overnight from money market funds and other non-bank<br>institutions. This extends the interest rate floor to institutions that cannot earn IORB.</div>
+        </div>
+        <div class="block overlay" data-overlay="6">
+          <div class="block-title">Standing Repo Facility Rate (SRF)</div>
+          <div class="block-body">The rate the Fed charges banks to borrow cash overnight against Treasury collateral.<br>It serves as a backup ceiling without the stigma associated with the discount window.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ===== CONSTANTS =====
+    var VB_W = 800, VB_H = 440;
+    var X_ORIGIN = 170, BAR_AREA_W = 500, MAX_T = 14;
+    var PX_PER_T = BAR_AREA_W / MAX_T;
+    var BAR_H = 42, BAR_GAP = 14, BAR_START_Y = 45;
+    var BAR_Y = [];
+    for (var i = 0; i < 6; i++) BAR_Y[i] = BAR_START_Y + i * (BAR_H + BAR_GAP);
+
+    // ===== BRACKETS =====
+    var brackets = [
+      { id: 'mb', topBar: 0, bottomBar: 1, tipX: 155, labelX: 50, midOffset: -10 },
+      { id: 'm1', topBar: 1, bottomBar: 3, tipX: 130, labelX: 88, topYOverride: 108 },
+      { id: 'm2', topBar: 1, bottomBar: 5, tipX: 65, labelX: 15, topYOverride: 178 }
+    ];
+
+    var currentIndex = -1; // -1 = no data shown yet
+
+    // ===== COORDINATE HELPER =====
+    function svgToPx(svgX, svgY) {
+      var r = document.getElementById('chart-svg').getBoundingClientRect();
+      return { x: (svgX / VB_W) * r.width, y: (svgY / VB_H) * r.height };
+    }
+
+    // ===== GENERATE TICKS =====
+    function generateTicks() {
+      var tickG = document.getElementById('tick-marks');
+      var tickLabelsDiv = document.getElementById('tick-labels');
+      tickG.innerHTML = '';
+      tickLabelsDiv.innerHTML = '';
+      for (var i = 0; i <= MAX_T; i++) {
+        var x = X_ORIGIN + i * PX_PER_T;
+        // SVG tick mark
+        var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x); line.setAttribute('y1', 378);
+        line.setAttribute('x2', x); line.setAttribute('y2', 386);
+        tickG.appendChild(line);
+        // HTML tick label
+        var div = document.createElement('div');
+        div.className = 'tick-label';
+        div.id = 'tick-' + i;
+        div.textContent = '$' + i + '$';
+        tickLabelsDiv.appendChild(div);
+      }
+    }
+
+    // ===== POSITION LABELS =====
+    function positionBarLabels(values) {
+      for (var i = 0; i < 6; i++) {
+        var el = document.getElementById('label-' + i);
+        var barW = values[i] * PX_PER_T;
+        var p = svgToPx(X_ORIGIN + barW + 10, BAR_Y[i] + BAR_H / 2);
+        el.style.left = p.x + 'px';
+        el.style.top = p.y + 'px';
+        el.style.transform = 'translateY(-50%)';
+      }
+    }
+
+    function positionFixedLabels() {
+      // Tick labels
+      for (var i = 0; i <= MAX_T; i++) {
+        var el = document.getElementById('tick-' + i);
+        if (!el) continue;
+        var p = svgToPx(X_ORIGIN + i * PX_PER_T, 393);
+        el.style.left = p.x + 'px';
+        el.style.top = p.y + 'px';
+        el.style.transform = 'translateX(-50%)';
+      }
+      // Axis title
+      var tp = svgToPx(670, 422);
+      var te = document.getElementById('axis-title');
+      te.style.left = tp.x + 'px';
+      te.style.top = tp.y + 'px';
+      te.style.transform = 'translateX(-100%)';
+      // Date label
+      var dp = svgToPx(10, 0);
+      var de = document.getElementById('date-label');
+      de.style.left = dp.x + 'px';
+      de.style.top = dp.y + 'px';
+      // Braces and bracket labels
+      initBraces();
+    }
+
+    // ===== BRACES =====
+    function bracePath(tipX, y1, y2, midOverride) {
+      var mid = midOverride != null ? midOverride : (y1 + y2) / 2;
+      var d = 10;
+      var r = Math.min(18, (y2 - y1) * 0.18);
+      var cx = tipX - d / 2;
+      var px = tipX - d;
+      return 'M ' + tipX + ' ' + y1 +
+        ' Q ' + cx + ' ' + y1 + ' ' + cx + ' ' + (y1 + r) +
+        ' L ' + cx + ' ' + (mid - r) +
+        ' Q ' + cx + ' ' + mid + ' ' + px + ' ' + mid +
+        ' Q ' + cx + ' ' + mid + ' ' + cx + ' ' + (mid + r) +
+        ' L ' + cx + ' ' + (y2 - r) +
+        ' Q ' + cx + ' ' + y2 + ' ' + tipX + ' ' + y2;
+    }
+
+    function initBraces() {
+      brackets.forEach(function(b) {
+        var braceEl = document.getElementById('brace-' + b.id);
+        var labelEl = document.getElementById('blabel-' + b.id);
+
+        var topY = b.topYOverride != null ? b.topYOverride : BAR_Y[b.topBar] - 3;
+        var bottomY = b.bottomYOverride != null ? b.bottomYOverride : BAR_Y[b.bottomBar] + BAR_H + 3;
+        var centerY = (topY + bottomY) / 2;
+
+        var customMid = b.midOffset ? (topY + bottomY) / 2 + b.midOffset : null;
+        braceEl.setAttribute('d', bracePath(b.tipX, topY, bottomY, customMid));
+
+        var lp = svgToPx(b.labelX, centerY);
+        labelEl.style.left = lp.x + 'px';
+        labelEl.style.top = lp.y + 'px';
+        labelEl.style.transform = 'translate(-50%, -50%)';
+      });
+    }
+
+    // ===== FLIPBOOK =====
+    function showDate(index) {
+      if (index < 0 || index >= moneySupplyData.length) return;
+      var entry = moneySupplyData[index];
+      var values = entry.values;
+
+      // Update date label
+      document.getElementById('date-label').textContent = entry.date;
+
+      // Animate bars to new widths
+      for (var i = 0; i < 6; i++) {
+        var targetW = values[i] * PX_PER_T;
+        gsap.to('#bar-' + i, { attr: { width: targetW }, duration: 0.4, ease: 'power2.out' });
+      }
+
+      // Reposition bar labels after animation
+      setTimeout(function() { positionBarLabels(values); }, 50);
+
+      currentIndex = index;
+    }
+
+    function nextDate() {
+      if (currentIndex < moneySupplyData.length - 1) showDate(currentIndex + 1);
+    }
+
+    function prevDate() {
+      if (currentIndex > 0) showDate(currentIndex - 1);
+    }
+
+    // ===== INIT (FLIPBOOK) =====
+    window.addEventListener('load', function() {
+      requestAnimationFrame(function() {
+        generateTicks();
+        if (typeof renderMathInElement !== 'undefined') {
+          renderMathInElement(document.getElementById('tick-labels'), {
+            delimiters: [{ left: '$', right: '$', display: false }],
+            throwOnError: false
+          });
+        }
+        positionFixedLabels();
+        showDate(0);
+        initMultiplier();
+      });
+    });
+
+    var _chartResizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(_chartResizeTimer);
+      _chartResizeTimer = setTimeout(function() {
+        positionFixedLabels();
+        if (currentIndex >= 0) positionBarLabels(moneySupplyData[currentIndex].values);
+      }, 100);
+    });
+
+    // ============================================================
+    // SECTION 2: MONEY MULTIPLIER
+    // ============================================================
+    var multStep = 0;
+    var multD0 = 50;
+    var multRR = 0.10;
+    var MCOL_W = 55;       // column width
+    var MBAR_W = 38;       // bar width
+    var MBAR_MAX_H = 140;  // max bar height (for D0)
+    var DEP_BASELINE = 160;
+    var RES_BASELINE = 330;
+
+    function multDeposit(n) { return multD0 * Math.pow(1 - multRR, n); }
+    function multReserve(n) { return multRR * multD0 * Math.pow(1 - multRR, n); }
+    function multTotalDep(n) { return multD0 * (1 - Math.pow(1 - multRR, n + 1)) / multRR; }
+    function multTotalRes(n) { return multD0 * (1 - Math.pow(1 - multRR, n + 1)); }
+
+    function multBarH(value) { return (value / multD0) * MBAR_MAX_H; }
+
+    function initMultiplier() {
+      var d0Slider = document.getElementById('mult-d0');
+      var rrSlider = document.getElementById('mult-rr');
+      d0Slider.addEventListener('input', function() {
+        multD0 = Number(this.value);
+        katex.render('\\$' + multD0, document.getElementById('mult-d0-val'), { throwOnError: false });
+        multRedraw();
+      });
+      rrSlider.addEventListener('input', function() {
+        multRR = Number(this.value) / 100;
+        katex.render(multRR.toFixed(2), document.getElementById('mult-rr-val'), { throwOnError: false });
+        katex.render((1 / multRR).toFixed(1), document.getElementById('mult-mm-val'), { throwOnError: false });
+        multRedraw();
+      });
+    }
+
+    function multRedraw() {
+      var svg = document.getElementById('mult-svg');
+      // Remove all bars and labels
+      svg.querySelectorAll('.mult-col').forEach(function(el) { el.remove(); });
+      // Re-add columns up to current step
+      for (var i = 0; i <= multStep; i++) {
+        multDrawCol(i, false);
+      }
+      multUpdateTotals();
+      multScroll();
+    }
+
+    function multDrawCol(n, animate) {
+      var svg = document.getElementById('mult-svg');
+      var x = n * MCOL_W + 5;
+      var depH = multBarH(multDeposit(n));
+      var resH = multBarH(multReserve(n));
+
+      var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      g.classList.add('mult-col');
+      g.setAttribute('data-col', n);
+
+      // Deposit bar
+      var depBar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      depBar.setAttribute('x', x);
+      depBar.setAttribute('width', MBAR_W);
+      depBar.setAttribute('rx', 2);
+      depBar.setAttribute('fill', '#268bd2');
+      depBar.setAttribute('opacity', 0.85);
+      if (animate) {
+        depBar.setAttribute('y', DEP_BASELINE);
+        depBar.setAttribute('height', 0);
+        gsap.to(depBar, { attr: { y: DEP_BASELINE - depH, height: depH }, duration: 0.4, ease: 'power2.out' });
+      } else {
+        depBar.setAttribute('y', DEP_BASELINE - depH);
+        depBar.setAttribute('height', depH);
+      }
+      g.appendChild(depBar);
+
+      // Reserve bar
+      var resBar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      resBar.setAttribute('x', x);
+      resBar.setAttribute('width', MBAR_W);
+      resBar.setAttribute('rx', 2);
+      resBar.setAttribute('fill', '#dc322f');
+      resBar.setAttribute('opacity', 0.85);
+      if (animate) {
+        resBar.setAttribute('y', RES_BASELINE);
+        resBar.setAttribute('height', 0);
+        gsap.to(resBar, { attr: { y: RES_BASELINE - resH, height: resH }, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+      } else {
+        resBar.setAttribute('y', RES_BASELINE - resH);
+        resBar.setAttribute('height', resH);
+      }
+      g.appendChild(resBar);
+
+      // Deposit value label
+      var depLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      depLabel.setAttribute('x', x + MBAR_W / 2);
+      depLabel.setAttribute('y', DEP_BASELINE - depH - 5);
+      depLabel.setAttribute('text-anchor', 'middle');
+      depLabel.setAttribute('font-size', '10');
+      depLabel.setAttribute('fill', '#586e75');
+      depLabel.setAttribute('font-family', "'Times New Roman', serif");
+      depLabel.textContent = multDeposit(n).toFixed(1);
+      if (animate) {
+        depLabel.setAttribute('opacity', 0);
+        gsap.to(depLabel, { opacity: 1, duration: 0.3, delay: 0.3 });
+      }
+      g.appendChild(depLabel);
+
+      // Reserve value label
+      var resLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      resLabel.setAttribute('x', x + MBAR_W / 2);
+      resLabel.setAttribute('y', RES_BASELINE - resH - 5);
+      resLabel.setAttribute('text-anchor', 'middle');
+      resLabel.setAttribute('font-size', '10');
+      resLabel.setAttribute('fill', '#586e75');
+      resLabel.setAttribute('font-family', "'Times New Roman', serif");
+      resLabel.textContent = multReserve(n).toFixed(1);
+      if (animate) {
+        resLabel.setAttribute('opacity', 0);
+        gsap.to(resLabel, { opacity: 1, duration: 0.3, delay: 0.4 });
+      }
+      g.appendChild(resLabel);
+
+      svg.appendChild(g);
+    }
+
+    function multUpdateTotals() {
+      if (multStep < 0) {
+        katex.render('\\$0', document.getElementById('mult-total-dep'), { throwOnError: false });
+        katex.render('\\$0', document.getElementById('mult-total-res'), { throwOnError: false });
+        return;
+      }
+      katex.render('\\$' + multTotalDep(multStep).toFixed(1), document.getElementById('mult-total-dep'), { throwOnError: false });
+      katex.render('\\$' + multTotalRes(multStep).toFixed(1), document.getElementById('mult-total-res'), { throwOnError: false });
+    }
+
+    function multScroll() {
+      var viewport = document.getElementById('mult-viewport');
+      var svg = document.getElementById('mult-svg');
+      var vpW = viewport.clientWidth;
+      var totalW = (multStep + 1) * MCOL_W + 20;
+      svg.setAttribute('width', Math.max(totalW, vpW));
+      if (totalW > vpW) {
+        svg.style.transform = 'translateX(' + (vpW - totalW) + 'px)';
+      } else {
+        svg.style.transform = 'translateX(0)';
+      }
+    }
+
+    function multAddStep() {
+      if (multDeposit(multStep + 1) < 0.01) return; // too small
+      multStep++;
+      multDrawCol(multStep, true);
+      multUpdateTotals();
+      multScroll();
+    }
+
+    function multRemoveStep() {
+      if (multStep < 0) return;
+      var svg = document.getElementById('mult-svg');
+      var col = svg.querySelector('[data-col="' + multStep + '"]');
+      if (col) {
+        gsap.to(col, { opacity: 0, duration: 0.3, onComplete: function() { col.remove(); } });
+      }
+      multStep--;
+      multUpdateTotals();
+      setTimeout(multScroll, 350);
+    }
+
+    // ===== KEYBOARD (both sections) =====
+    function isInView(el) {
+      var r = el.getBoundingClientRect();
+      return r.top < window.innerHeight * 0.7 && r.bottom > window.innerHeight * 0.3;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.shiftKey) return;
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+
+      var supplySection = document.getElementById('section-supply');
+      var multSection = document.getElementById('section-multiplier');
+
+      if (isInView(multSection)) {
+        if (e.key === 'ArrowRight') multAddStep();
+        else multRemoveStep();
+      } else {
+        if (e.key === 'ArrowRight') nextDate();
+        else prevDate();
+      }
+    });
+  </script>
+
+</body>
+</html>
