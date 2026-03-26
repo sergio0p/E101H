@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="nav-prev" content="savings-investment.html">
-  <meta name="nav-next" content="index.html">
+  <meta name="nav-next" content="monetary-policy.html">
   <title>Unemployment | ECON 101H</title>
 
   <!-- KaTeX CSS -->
@@ -18,6 +18,18 @@
 
   <!-- Custom CSS & JS -->
   <link rel="stylesheet" href="css/beamer-theme.css">
+
+  <style>
+    @font-face {
+      font-family: 'Augie';
+      src: url('css/augie.woff2') format('woff2'),
+           url('css/augie.woff') format('woff');
+    }
+    .augie {
+      font-family: 'Augie', cursive;
+      font-size: 1.1em;
+    }
+  </style>
   <script src="js/katex-macros.js"></script>
   <script src="js/scroll-animations.js"></script>
 </head>
@@ -98,6 +110,11 @@
         <span style="color: #dc322f;">$D_L$: $w = p \cdot MP_L(K, L)$</span>
       </div>
 
+      <!-- Augie handwritten note -->
+      <div id="augie-note" class="augie" style="position: absolute; font-size: 1rem; color: #586e75; line-height: 1.35; opacity: 0; max-width: 280px;">
+        In the supply &amp; demand framework, without minimum wage, there is no unemployment: Labor supply is not larger than $L^*$ because workers are not willing to supply more labor at the wage $w^*$.
+      </div>
+
       <svg id="labor-svg" viewBox="-45 -20 585 435" style="width: min(90vw, 700px);">
         <defs>
           <marker id="arrowhead" markerWidth="12" markerHeight="5" refX="11" refY="2.5" orient="auto">
@@ -125,7 +142,68 @@
         <line id="tick-w" x1="16" y1="244" x2="24" y2="244" stroke="#586e75" stroke-width="2" opacity="0"/>
         <line id="tick-l" x1="208" y1="381" x2="208" y2="389" stroke="#586e75" stroke-width="2" opacity="0"/>
         <!-- Equilibrium dot -->
-        <circle cx="208" cy="244" r="5" fill="#586e75"/>
+        <circle id="eq-dot" cx="208" cy="244" r="5" fill="#586e75"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Minimum Wage Graph -->
+  <section class="scroll-frame graph-frame" id="min-wage-graph">
+    <div class="scroll-frame-inner" style="position: relative; background: #fdf6e3; padding-left: calc(2vw + 10rem); transform: translateY(-3rem);">
+      <!-- KaTeX axis labels -->
+      <div id="mw-w-label" style="position: absolute; font-size: 1.5rem; color: #586e75; font-style: italic;">$w$</div>
+      <div id="mw-l-label" style="position: absolute; font-size: 1.1rem; color: #586e75; font-style: italic;">$L$</div>
+      <!-- Curve labels -->
+      <div id="mw-demand-label" style="position: absolute; font-size: 1rem; color: #dc322f;">$D_L$</div>
+      <div id="mw-supply-label" style="position: absolute; font-size: 1rem; color: #268bd2;">$S_L$</div>
+      <!-- Competitive equilibrium labels -->
+      <div id="mw-wstar-label" style="position: absolute; font-size: 1rem; color: #586e75; font-style: italic;">$w^*$</div>
+      <div id="mw-lstar-label" style="position: absolute; font-size: 1rem; color: #586e75; font-style: italic;">$L^*$</div>
+      <!-- Minimum wage labels -->
+      <div id="mw-wbar-text" style="position: absolute; font-size: 0.85rem; color: #cb4b16; opacity: 0; white-space: nowrap;">minimum wage</div>
+      <div id="mw-wbar-label" style="position: absolute; font-size: 1rem; color: #cb4b16; opacity: 0;"><span style="font-style: italic; border-bottom: 2px solid #cb4b16; display: inline-block; line-height: 0.9; padding-bottom: 1px;">w</span></div>
+      <div id="mw-ldstar-label" style="position: absolute; font-size: 1rem; color: #cb4b16; opacity: 0;">$L^{**}$</div>
+      <div id="mw-lhat-label" style="position: absolute; font-size: 1rem; color: #268bd2; opacity: 0;">$\hat{L}$</div>
+      <!-- Unemployment brace (KaTeX, dynamically sized) -->
+      <div id="mw-unemp-brace" style="position: absolute; font-size: 0.85rem; color: #586e75; opacity: 0;"></div>
+
+      <svg id="mw-svg" viewBox="-45 -20 585 435" style="width: min(90vw, 700px);">
+        <defs>
+          <marker id="mw-arrowhead" markerWidth="12" markerHeight="5" refX="11" refY="2.5" orient="auto">
+            <polygon points="0 0, 12 2.5, 0 5" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- Axes -->
+        <line x1="20" y1="385" x2="20" y2="6" stroke="#586e75" stroke-width="3" marker-end="url(#mw-arrowhead)"/>
+        <line x1="20" y1="385" x2="495" y2="385" stroke="#586e75" stroke-width="3" marker-end="url(#mw-arrowhead)"/>
+
+        <!-- Demand curve -->
+        <path id="mw-demand-curve"
+              d="M 20,55 L 51,93 L 83,129 L 114,161 L 145,192 L 177,219 L 208,244 L 239,266 L 271,286 L 302,303 L 333,317 L 365,329 L 396,338 L 427,345 L 459,349"
+              stroke="#dc322f" stroke-width="5" fill="none"/>
+
+        <!-- Supply curve -->
+        <path id="mw-supply-curve"
+              d="M 20,289 L 51,287 L 83,284 L 114,278 L 145,269 L 177,258 L 208,244 L 239,228 L 271,210 L 302,189 L 333,166 L 365,140 L 396,112 L 427,81 L 459,48"
+              stroke="#268bd2" stroke-width="5" fill="none"/>
+
+        <!-- Competitive equilibrium dashed lines -->
+        <line id="mw-eq-line-h" x1="20" y1="244" x2="208" y2="244" stroke="#586e75" stroke-width="2" stroke-dasharray="4, 3"/>
+        <line id="mw-eq-line-v" x1="208" y1="244" x2="208" y2="385" stroke="#586e75" stroke-width="2" stroke-dasharray="4, 3"/>
+        <line id="mw-tick-w"  x1="16" y1="244" x2="24" y2="244" stroke="#586e75" stroke-width="2"/>
+        <line id="mw-tick-l"  x1="208" y1="381" x2="208" y2="389" stroke="#586e75" stroke-width="2"/>
+
+        <!-- Minimum wage dashed lines (orange) -->
+        <line id="mw-wbar-line-h"   x1="20" y1="165" x2="334" y2="165" stroke="#586e75" stroke-width="2" stroke-dasharray="4, 3"/>
+        <line id="mw-ldstar-line-v" x1="118" y1="165" x2="118" y2="385" stroke="#cb4b16" stroke-width="2" stroke-dasharray="4, 3"/>
+        <line id="mw-tick-wbar"   x1="16" y1="165" x2="24" y2="165" stroke="#cb4b16" stroke-width="2" opacity="0"/>
+        <line id="mw-tick-ldstar" x1="118" y1="381" x2="118" y2="389" stroke="#cb4b16" stroke-width="2" opacity="0"/>
+        <!-- Dot at demand-curve / min-wage intersection -->
+        <circle id="mw-dot-ldstar" cx="118" cy="165" r="5" fill="#cb4b16" opacity="0"/>
+        <!-- Hat-L: blue vertical from supply intersection to x-axis -->
+        <line id="mw-lhat-line-v" x1="334" y1="165" x2="334" y2="385" stroke="#268bd2" stroke-width="2" stroke-dasharray="4, 3"/>
+        <line id="mw-tick-lhat"   x1="334" y1="381" x2="334" y2="389" stroke="#268bd2" stroke-width="2" opacity="0"/>
       </svg>
     </div>
   </section>
@@ -173,13 +251,82 @@
       if (a1) { a1.style.left = sx + 'px'; a1.style.top = 'calc(5% - 2rem)'; }
       const a2 = document.getElementById('graph-annotation-2');
       if (a2 && a1) { a2.style.left = sx + 'px'; a2.style.top = (a1.offsetTop + a1.offsetHeight + 16) + 'px'; }
+
+      const augie = document.getElementById('augie-note');
+      if (augie && a2) { augie.style.left = (sx + 72) + 'px'; augie.style.top = (a2.offsetTop + a2.offsetHeight + 20) + 'px'; }
+    }
+
+    function positionMinWageLabels() {
+      const svg = document.getElementById('mw-svg');
+      if (!svg) return;
+      const svgRect = svg.getBoundingClientRect();
+      const container = svg.parentElement;
+      const containerRect = container.getBoundingClientRect();
+
+      const vbW = 585, vbH = 435, vbX = -45, vbY = -20;
+      const scaleX = svgRect.width / vbW;
+      const scaleY = svgRect.height / vbH;
+      const offsetX = svgRect.left - containerRect.left;
+      const offsetY = svgRect.top - containerRect.top;
+
+      function place(id, svgX, svgY, anchorX, anchorY) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const sx = offsetX + (svgX - vbX) * scaleX;
+        const sy = offsetY + (svgY - vbY) * scaleY;
+        el.style.left = (sx - anchorX) + 'px';
+        el.style.top  = (sy - anchorY) + 'px';
+      }
+
+      function placeAlongPath(pathId, labelId, pos, offX, offY) {
+        const path = document.getElementById(pathId);
+        if (!path) return;
+        const pt = path.getPointAtLength(path.getTotalLength() * pos);
+        place(labelId, pt.x, pt.y, offX, offY);
+      }
+
+      place('mw-w-label', 20, -8, 8, 28);
+      place('mw-l-label', 505, 385, 0, 8);
+      placeAlongPath('mw-demand-curve', 'mw-demand-label', 0.8, -10, 27);
+      placeAlongPath('mw-supply-curve', 'mw-supply-label', 0.8, -7, 60);
+      place('mw-wstar-label', 18, 244, 30, 17);
+      place('mw-lstar-label', 208, 385, 8, -8);
+      place('mw-wbar-label',   18, 165, 35, 17);
+      // "minimum wage" text: positioned to the left of w-bar, right-aligned with 3-space gap
+      const wbarEl = document.getElementById('mw-wbar-label');
+      const wbarText = document.getElementById('mw-wbar-text');
+      if (wbarEl && wbarText) {
+        const gap = 3 * 5; // ~3 spaces
+        wbarText.style.left = (parseInt(wbarEl.style.left) - wbarText.offsetWidth - gap) + 'px';
+        wbarText.style.top  = wbarEl.style.top;
+      }
+      place('mw-ldstar-label', 118, 385, 12, -8);
+      place('mw-lhat-label',   334, 385, 8, -8);
+
+      // Unemployment brace: dynamically sized to span L** to L-hat
+      const braceEl = document.getElementById('mw-unemp-brace');
+      if (braceEl) {
+        const pxWidth = (280 - 164) * scaleX;
+        katex.render(
+          `\\underbrace{\\hspace{${pxWidth.toFixed(0)}px}}_{\\text{unemployment}}`,
+          braceEl, { throwOnError: false }
+        );
+        place('mw-unemp-brace', 226, 412, 0, 0);
+        braceEl.style.transform = 'translateX(-50%)';
+      }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
       setTimeout(function() {
         positionLabels();
-        window.addEventListener('resize', function() { positionLabels(); ScrollTrigger.refresh(); });
+        positionMinWageLabels();
+        window.addEventListener('resize', function() {
+          positionLabels();
+          positionMinWageLabels();
+          ScrollTrigger.refresh();
+        });
         initGraphAnimation();
+        initMinWageAnimation();
       }, 400);
     });
 
@@ -201,7 +348,7 @@
       gsap.set('#graph-annotation-2', { opacity: 0 });
       gsap.set('#eq-line-h', { attr: { x1: 208 } });  // zero length at intersection
       gsap.set('#eq-line-v', { attr: { y2: 244 } });   // zero length at intersection
-      gsap.set('circle', { opacity: 0 });
+      gsap.set('#eq-dot', { opacity: 0 });
       gsap.set('#wstar-label', { opacity: 0 });
       gsap.set('#lstar-label', { opacity: 0 });
 
@@ -210,7 +357,7 @@
         scrollTrigger: {
           trigger: '#labor-market',
           start: 'top top',
-          end: '+=800%',
+          end: '+=1100%',
           pin: true,
           scrub: 1,
           anticipatePin: 1
@@ -248,7 +395,7 @@
       tl.to('#demand-label', { opacity: 1, duration: 0.3 }, 6.7);
       tl.to('#graph-annotation', { opacity: 1, duration: 0.5 }, 6.5);
       tl.to('#graph-annotation-2', { opacity: 1, duration: 0.5 }, 6.5);
-      tl.to('circle', { opacity: 1, duration: 0.3 }, 7);
+      tl.to('#eq-dot', { opacity: 1, duration: 0.3 }, 7);
 
       // Phase 8 (7–8): Pause
 
@@ -262,7 +409,72 @@
       tl.to('#tick-w', { opacity: 1, duration: 0.3 }, 9);
       tl.to('#tick-l', { opacity: 1, duration: 0.3 }, 9);
 
-      // Phase 11 (9.3–10): Hold final state
+      // Phase 11 (9.3–10): Pause before Augie note
+
+      // Phase 12 (10–10.5): Augie handwritten note fades in
+      tl.to('#augie-note', { opacity: 1, duration: 0.5, ease: 'power2.out' }, 10);
+
+      // Phase 13 (10.5–12): Hold final state with Augie note
+    }
+
+    function initMinWageAnimation() {
+      const mwSupply = document.getElementById('mw-supply-curve');
+      const mwDemand = document.getElementById('mw-demand-curve');
+      const sLen = mwSupply.getTotalLength();
+      const dLen = mwDemand.getTotalLength();
+
+      // --- Initial state: only min wage elements hidden ---
+      gsap.set('#mw-wbar-line-h',   { attr: { x2: 20 } });   // zero length
+      gsap.set('#mw-ldstar-line-v', { attr: { y2: 165 } }); // zero length
+      gsap.set('#mw-dot-ldstar',    { opacity: 0 });
+      gsap.set('#mw-lhat-line-v',   { attr: { y2: 165 } }); // zero length
+      gsap.set('#mw-tick-wbar',     { opacity: 0 });
+      gsap.set('#mw-tick-ldstar',   { opacity: 0 });
+      gsap.set('#mw-tick-lhat',     { opacity: 0 });
+      gsap.set('#mw-wbar-label',    { opacity: 0 });
+      gsap.set('#mw-ldstar-label',  { opacity: 0 });
+      gsap.set('#mw-lhat-label',    { opacity: 0 });
+      gsap.set('#mw-unemp-brace',  { opacity: 0 });
+
+      // --- Timeline ---
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#min-wage-graph',
+          start: 'top top',
+          end: '+=500%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      // Phase 1 (0–1.5): Min wage horizontal line draws, dot + wbar label appear as line hits demand
+      tl.to('#mw-wbar-line-h', { attr: { x2: 334 }, duration: 1.5, ease: 'none' }, 0);
+      tl.to('#mw-dot-ldstar',  { opacity: 1, duration: 0.1 }, 0.47);
+      tl.to('#mw-wbar-label',  { opacity: 1, duration: 0.3 }, 0.3);
+      tl.to('#mw-wbar-text',   { opacity: 1, duration: 0.3 }, 0.3);
+      tl.to('#mw-tick-wbar',   { opacity: 1, duration: 0.3 }, 0.3);
+
+      // Phase 2 (1.5–2): Pause
+
+      // Phase 3 (2–2.5): Orange vertical at L** → x-axis
+      tl.to('#mw-ldstar-line-v', { attr: { y2: 385 }, duration: 0.5, ease: 'none' }, 2);
+      tl.to('#mw-ldstar-label',  { opacity: 1, duration: 0.3 }, 2.3);
+      tl.to('#mw-tick-ldstar',   { opacity: 1, duration: 0.3 }, 2.3);
+
+      // Phase 4 (2.5–3): Pause
+
+      // Phase 5 (3–3.5): Blue vertical at hat-L → x-axis
+      tl.to('#mw-lhat-line-v', { attr: { y2: 385 }, duration: 0.5, ease: 'none' }, 3);
+      tl.to('#mw-lhat-label',  { opacity: 1, duration: 0.3 }, 3.3);
+      tl.to('#mw-tick-lhat',   { opacity: 1, duration: 0.3 }, 3.3);
+
+      // Phase 6 (3.5–4): Pause
+
+      // Phase 7 (4–4.3): Unemployment brace fades in
+      tl.to('#mw-unemp-brace', { opacity: 1, duration: 0.3, ease: 'power2.out' }, 4);
+
+      // Phase 8 (4.3–5): Hold
     }
   </script>
 
