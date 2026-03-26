@@ -89,6 +89,27 @@
       font-size: 1.2rem;
       font-style: italic;
     }
+    /* AD-AS Section */
+    .adas-katex {
+      position: absolute;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    #romer-quote {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      max-width: 220px;
+      font-family: 'Times New Roman', serif;
+      font-size: 0.68rem;
+      color: #586e75;
+      line-height: 1.5;
+      text-align: justify;
+      padding: 0.8rem;
+      background: rgba(253, 246, 227, 0.92);
+      border-left: 3px solid #b58900;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -213,34 +234,119 @@
   <section class="frame overlay-frame">
     <div class="frame-title-bar">
       <h2 class="frame-title">Monetary Policy</h2>
+      <p class="frame-subtitle">The Tools</p>
     </div>
     <div class="frame-content">
       <div class="block-group">
         <div class="block overlay" data-overlay="1">
           <div class="block-title">Federal Funds Effective Rate (FFR)</div>
-          <div class="block-body">The interest rate at which banks lend reserves to each other overnight. The FOMC sets a target<br>range for this rate, which serves as the benchmark for short-term interest rates in the economy.</div>
+          <div class="block-body">The interest rate at which banks lend reserves to each other overnight. The Fed's Federal Open Market Committee (FOMC) sets a <span class="alert-text">target range</span> for this rate, which serves as the benchmark for short-term interest rates in the economy.</div>
         </div>
         <div class="block overlay" data-overlay="2">
           <div class="block-title">Open Market Operations</div>
-          <div class="block-body">The Fed's buying and selling of government bonds to increase or decrease the supply of reserves in the banking system.<br>Buying bonds injects reserves and pushes interest rates down; selling bonds drains reserves and pushes rates up.</div>
+          <div class="block-body">The Fed's buying and selling of government bonds to increase or decrease the supply of reserves in the banking system. Buying bonds injects reserves and pushes interest rates down; selling bonds drains reserves and pushes rates up.</div>
         </div>
         <div class="block overlay" data-overlay="3">
           <div class="block-title">Interest on Reserve Balances (IORB)</div>
-          <div class="block-body">The interest rate the Fed pays banks on reserves held at the Fed. No bank would lend<br>reserves for less than this rate, making it the effective floor for the federal funds rate.</div>
+          <div class="block-body">The interest rate the Fed pays banks on reserves held at the Fed. No bank would lend reserves for less than this rate, making it the effective floor for the federal funds rate.</div>
         </div>
         <div class="block overlay" data-overlay="4">
           <div class="block-title">Primary Credit Rate (Discount Rate)</div>
-          <div class="block-body">The interest rate the Fed charges banks that borrow directly from its discount window. No bank<br>would borrow from other banks at a rate above this, making it the ceiling for the federal funds rate.</div>
+          <div class="block-body">The interest rate the Fed charges banks that borrow directly from its discount window. No bank would borrow from other banks at a rate above this, making it the ceiling for the federal funds rate.</div>
         </div>
         <div class="block overlay" data-overlay="5">
           <div class="block-title">Overnight Reverse Repurchase Agreement Rate (ON RRP)</div>
-          <div class="block-body">The rate the Fed pays when it borrows cash overnight from money market funds and other non-bank<br>institutions. This extends the interest rate floor to institutions that cannot earn IORB.</div>
+          <div class="block-body">The rate the Fed pays when it borrows cash overnight from money market funds and other non-bank institutions, posting Treasury securities as collateral. This extends the interest rate floor to institutions that cannot earn IORB.</div>
         </div>
         <div class="block overlay" data-overlay="6">
           <div class="block-title">Standing Repo Facility Rate (SRF)</div>
-          <div class="block-body">The rate the Fed charges banks to borrow cash overnight against Treasury collateral.<br>It serves as a backup ceiling without the stigma associated with the discount window.</div>
+          <div class="block-body">The rate the Fed charges banks to borrow cash overnight against Treasury collateral. It serves as a backup ceiling without the stigma associated with the discount window.</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <hr style="border: none; border-top: 3px solid #586e75; width: 80%; margin: 3rem auto;">
+
+  <!-- ===== SECTION 4: AD-AS Model ===== -->
+  <section id="adas-frame" style="min-height: 100vh; overflow: hidden; background: #fdf6e3;">
+    <div id="adas-inner" style="display: flex; align-items: center; min-height: 100vh; padding: 1rem;">
+
+      <!-- Left: Graph container (flush left) -->
+      <div id="adas-graph-wrap" style="position: relative; flex: 0 0 auto; min-width: 300px; max-width: 520px; width: 50%;">
+
+        <!-- KaTeX axis labels -->
+        <div id="adas-pi-label" class="adas-katex" style="font-size: 1.3rem; color: #586e75; font-style: italic;">$\pi$</div>
+        <div id="adas-yr-label" class="adas-katex" style="font-size: 1.1rem; color: #586e75;">$\vec{Y}_R$</div>
+
+        <!-- AD 1927 intercept labels -->
+        <div id="adas-ad27-yint" class="adas-katex" style="font-size: 0.78rem; color: #dc322f;">$\vec{v}+\vec{M}_{1927}$</div>
+        <div id="adas-ad27-xint" class="adas-katex" style="font-size: 0.78rem; color: #dc322f;">$\vec{v}+\vec{M}_{1927}$</div>
+
+        <!-- AD 1928 intercept labels (hidden) -->
+        <div id="adas-ad28-yint" class="adas-katex" style="font-size: 0.78rem; color: #dc322f; opacity: 0;">$\vec{v}+\vec{M}_{1928}$</div>
+        <div id="adas-ad28-xint" class="adas-katex" style="font-size: 0.78rem; color: #dc322f; opacity: 0;">$\vec{v}+\vec{M}_{1928}$</div>
+
+        <!-- Curve labels -->
+        <div id="adas-ad-label" class="adas-katex" style="font-size: 1rem; color: #dc322f;">$AD_{1927}$</div>
+        <div id="adas-ad28-label" class="adas-katex" style="font-size: 1rem; color: #dc322f; opacity: 0;">$AD_{1928}$</div>
+        <div id="adas-sras-label" class="adas-katex" style="font-size: 1rem; color: #268bd2;">$SRAS$</div>
+
+        <svg id="adas-svg" viewBox="0 0 580 420" style="width: 100%;">
+        <defs>
+          <marker id="adas-arrow" markerWidth="12" markerHeight="5" refX="11" refY="2.5" orient="auto">
+            <polygon points="0 0, 12 2.5, 0 5" fill="#586e75"/>
+          </marker>
+        </defs>
+
+        <!-- Y-axis (π) -->
+        <line x1="90" y1="385" x2="90" y2="25" stroke="#586e75" stroke-width="3" marker-end="url(#adas-arrow)"/>
+        <!-- X-axis (Y_R) -->
+        <line x1="-5" y1="310" x2="455" y2="310" stroke="#586e75" stroke-width="3" marker-end="url(#adas-arrow)"/>
+
+        <!-- Origin label -->
+        <text x="78" y="328" font-family="'Times New Roman', serif" font-size="16" fill="#586e75" text-anchor="end" font-style="italic">0</text>
+
+        <!-- SRAS (blue, convex upward sloping: π = -2 + 0.5·Y_R + 0.03·Y_R²) -->
+        <path id="adas-sras"
+              d="M 0,385 L 30,377 L 60,368 L 90,357 L 120,344 L 150,331 L 180,315 L 210,299 L 240,281 L 270,262 L 300,241 L 330,219 L 360,195 L 390,170 L 420,144"
+              stroke="#268bd2" stroke-width="4" fill="none"/>
+
+        <!-- AD 1927 (red, π = 8 - Y_R) -->
+        <line id="adas-ad27" x1="30" y1="77" x2="390" y2="357" stroke="#dc322f" stroke-width="4" opacity="1"/>
+
+        <!-- AD 1928 (red, π = 5 - Y_R, shifted down, hidden) -->
+        <line id="adas-ad28" x1="30" y1="147" x2="390" y2="427" stroke="#dc322f" stroke-width="4" opacity="0"/>
+
+        <!-- AD 1927 intercept ticks -->
+        <line id="adas-tick27-y" x1="86" y1="123" x2="94" y2="123" stroke="#dc322f" stroke-width="2" opacity="1"/>
+        <line id="adas-tick27-x" x1="330" y1="306" x2="330" y2="314" stroke="#dc322f" stroke-width="2" opacity="1"/>
+
+        <!-- AD 1928 intercept ticks (hidden) -->
+        <line id="adas-tick28-y" x1="86" y1="193" x2="94" y2="193" stroke="#dc322f" stroke-width="2" opacity="0"/>
+        <line id="adas-tick28-x" x1="240" y1="306" x2="240" y2="314" stroke="#dc322f" stroke-width="2" opacity="0"/>
+
+        <!-- Equilibrium 1927: Y_R≈5.96, π≈2.04 -->
+        <line id="adas-eq27-h" x1="90" y1="262" x2="269" y2="262" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="1"/>
+        <line id="adas-eq27-v" x1="269" y1="262" x2="269" y2="310" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="1"/>
+        <circle id="adas-eq27-dot" cx="269" cy="262" r="5" fill="#586e75" opacity="1"/>
+
+        <!-- Equilibrium 1928: Y_R≈4.30, π≈0.70 (hidden) -->
+        <line id="adas-eq28-h" x1="90" y1="294" x2="219" y2="294" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="0"/>
+        <line id="adas-eq28-v" x1="219" y1="294" x2="219" y2="310" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="0"/>
+        <circle id="adas-eq28-dot" cx="219" cy="294" r="5" fill="#586e75" opacity="0"/>
+      </svg>
+      </div><!-- end adas-graph-wrap -->
+
+      <!-- Right: Text container (responsive flow) -->
+      <div id="adas-text" style="flex: 1 1 300px; padding: 1rem 1.5rem; font-family: 'Times New Roman', serif; font-size: 1.1rem; line-height: 1.6; color: #333;">
+        <!-- Romer quote -->
+        <div id="romer-quote" style="opacity: 0;">
+          <p style="margin: 0;">&ldquo;The U.S. economy was clearly cooling off in the summer of 1929, as shown by the monthly data on U.S. industrial production&hellip;The source of this slowdown is almost surely the tightening of Federal Reserve policy in 1928. Hamilton (1987) shows that the Federal Reserve began contractionary open market sales of securities in January 1928.&rdquo;</p>
+          <p style="margin: 0.5rem 0 0; font-size: 0.8rem; font-style: italic;">&mdash; Christina D. Romer, &ldquo;The Nation in Depression,&rdquo; <em>Journal of Economic Perspectives</em>, Vol.&nbsp;7, No.&nbsp;2, Spring 1993</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -404,6 +510,7 @@
         positionFixedLabels();
         showDate(0);
         initMultiplier();
+        initAdas();
       });
     });
 
@@ -413,6 +520,7 @@
       _chartResizeTimer = setTimeout(function() {
         positionFixedLabels();
         if (currentIndex >= 0) positionBarLabels(moneySupplyData[currentIndex].values);
+        positionAdasLabels();
       }, 100);
     });
 
@@ -605,6 +713,108 @@
         else prevDate();
       }
     });
+
+    // ============================================================
+    // SECTION 4: AD-AS MODEL
+    // ============================================================
+
+    function positionAdasLabels() {
+      var svg = document.getElementById('adas-svg');
+      if (!svg) return;
+      var svgRect = svg.getBoundingClientRect();
+      var container = document.getElementById('adas-graph-wrap');
+      var cRect = container.getBoundingClientRect();
+
+      var sx = svgRect.width / 580;
+      var sy = svgRect.height / 420;
+      var ox = svgRect.left - cRect.left;
+      var oy = svgRect.top - cRect.top;
+
+      function place(id, svgX, svgY, tx, ty) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.style.left = (ox + svgX * sx) + 'px';
+        el.style.top = (oy + svgY * sy) + 'px';
+        el.style.transform = 'translate(' + tx + ',' + ty + ')';
+      }
+
+      // Axis labels
+      place('adas-pi-label', 90, 15, '-50%', '-100%');
+      place('adas-yr-label', 465, 310, '0%', '-50%');
+
+      // AD 1927 intercept labels (left of Y-axis, below X-axis)
+      place('adas-ad27-yint', 75, 123, '-100%', '-50%');
+      place('adas-ad27-xint', 330, 325, '-50%', '0%');
+
+      // AD 1928 intercept labels
+      place('adas-ad28-yint', 75, 193, '-100%', '-50%');
+      place('adas-ad28-xint', 240, 325, '-50%', '0%');
+
+      // Curve labels — above left start of each AD line
+      place('adas-ad-label', 30, 65, '-50%', '-100%');
+      place('adas-ad28-label', 30, 135, '-50%', '-100%');
+      place('adas-sras-label', 425, 138, '0%', '-50%');
+    }
+
+    function initAdas() {
+      // Render KaTeX in ADAS labels
+      var katexOpts = {
+        delimiters: [{ left: '$', right: '$', display: false }],
+        throwOnError: false
+      };
+      document.querySelectorAll('.adas-katex').forEach(function(el) {
+        if (typeof renderMathInElement !== 'undefined') {
+          renderMathInElement(el, katexOpts);
+        }
+      });
+
+      // Position labels after KaTeX renders
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          positionAdasLabels();
+        });
+      });
+
+      // ScrollTrigger timeline
+      gsap.registerPlugin(ScrollTrigger);
+
+      var tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#adas-frame',
+          start: 'top top',
+          end: '+=400%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      // Phase 2 (timeline 0.5–1): Quote fades in
+      tl.to('#romer-quote', { opacity: 1, duration: 0.5, ease: 'none' }, 0.5);
+
+      // Phase 3 (timeline 2–3): AD shifts down
+      // Fade original AD + equilibrium + intercept labels
+      tl.to('#adas-ad27', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq27-h', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq27-v', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq27-dot', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-tick27-y', { attr: { opacity: 0 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-tick27-x', { attr: { opacity: 0 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-ad27-yint', { opacity: 0, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-ad27-xint', { opacity: 0, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-ad-label', { opacity: 0.25, duration: 1, ease: 'none' }, 2);
+
+      // Show new AD + equilibrium + intercept labels
+      tl.to('#adas-ad28', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq28-h', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq28-v', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq28-dot', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-tick28-y', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-tick28-x', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-ad28-yint', { opacity: 1, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-ad28-xint', { opacity: 1, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-ad28-label', { opacity: 1, duration: 1, ease: 'none' }, 2);
+    }
   </script>
 
 </body>
