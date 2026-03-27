@@ -273,7 +273,7 @@
     <div id="adas-inner" style="display: flex; align-items: center; min-height: 100vh; padding: 1rem;">
 
       <!-- Left: Graph container (flush left) -->
-      <div id="adas-graph-wrap" style="position: relative; flex: 0 0 auto; min-width: 300px; max-width: 520px; width: 50%;">
+      <div id="adas-graph-wrap" style="position: relative; width: 95%; max-width: 1100px;">
 
         <!-- KaTeX axis labels -->
         <div id="adas-pi-label" class="adas-katex" style="font-size: 1.3rem; color: #586e75; font-style: italic;">$\pi$</div>
@@ -336,17 +336,14 @@
         <line id="adas-eq28-v" x1="219" y1="294" x2="219" y2="310" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="0"/>
         <circle id="adas-eq28-dot" cx="219" cy="294" r="5" fill="#586e75" opacity="0"/>
       </svg>
+      <!-- Romer quote (inside graph, right of SRAS) -->
+      <div id="romer-q0" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">&ldquo;The U.S. economy was clearly cooling off in the</div>
+      <div id="romer-q1" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">summer of 1929, as shown by the monthly data on U.S.</div>
+      <div id="romer-q2" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">industrial production&hellip; The source of this slowdown is</div>
+      <div id="romer-q3" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">almost surely the tightening of Federal Reserve policy in 1928.&rdquo;</div>
+      <div id="romer-q4" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 0.8rem; line-height: 1.4; color: #586e75; font-style: italic;">&mdash; C. Romer, JEP 1993</div>
+
       </div><!-- end adas-graph-wrap -->
-
-      <!-- Right: Text container (responsive flow) -->
-      <div id="adas-text" style="flex: 1 1 300px; padding: 1rem 1.5rem; font-family: 'Times New Roman', serif; font-size: 1.1rem; line-height: 1.6; color: #333;">
-        <!-- Romer quote -->
-        <div id="romer-quote" style="opacity: 0;">
-          <p style="margin: 0;">&ldquo;The U.S. economy was clearly cooling off in the summer of 1929, as shown by the monthly data on U.S. industrial production&hellip;The source of this slowdown is almost surely the tightening of Federal Reserve policy in 1928. Hamilton (1987) shows that the Federal Reserve began contractionary open market sales of securities in January 1928.&rdquo;</p>
-          <p style="margin: 0.5rem 0 0; font-size: 0.8rem; font-style: italic;">&mdash; Christina D. Romer, &ldquo;The Nation in Depression,&rdquo; <em>Journal of Economic Perspectives</em>, Vol.&nbsp;7, No.&nbsp;2, Spring 1993</p>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -754,6 +751,11 @@
       place('adas-ad-label', 30, 65, '-50%', '-100%');
       place('adas-ad28-label', 30, 135, '-50%', '-100%');
       place('adas-sras-label', 425, 138, '0%', '-50%');
+
+      // Romer quote — 5 lines at (130, 18+18*t)
+      for (var t = 0; t <= 4; t++) {
+        place('romer-q' + t, 130, 18 + 18 * t, '0%', '0%');
+      }
     }
 
     function initAdas() {
@@ -790,7 +792,9 @@
       });
 
       // Phase 2 (timeline 0.5–1): Quote fades in
-      tl.to('#romer-quote', { opacity: 1, duration: 0.5, ease: 'none' }, 0.5);
+      for (var qi = 0; qi <= 4; qi++) {
+        tl.to('#romer-q' + qi, { opacity: 1, duration: 0.3, ease: 'none' }, 0.5 + qi * 0.2);
+      }
 
       // Phase 3 (timeline 2–3): AD shifts down
       // Fade original AD + equilibrium + intercept labels
