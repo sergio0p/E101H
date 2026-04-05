@@ -13,13 +13,6 @@
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <!-- tikz-svg: mathjs (required by evaluator import chain) -->
   <script src="https://cdn.jsdelivr.net/npm/mathjs@15.1.1/lib/browser/math.js"></script>
-  <script type="importmap">
-  {
-    "imports": {
-      "mathjs": "./tikz-svg/examples-v2/mathjs-shim.js"
-    }
-  }
-  </script>
 </head>
 <body>
 
@@ -47,7 +40,7 @@
   </section>
 
   <script type="module">
-    import { render } from './tikz-svg/src-v2/index.js';
+    import { render } from 'https://sergio0p.github.io/tikz-svg/src-v2/index.js';
 
     const config = {
       scale: 4,
