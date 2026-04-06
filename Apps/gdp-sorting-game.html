@@ -733,12 +733,10 @@
                 ...INCOME_TILES.map(t => ({ ...t, value: t.id === 'P' ? profit : data[t.id] }))
             ];
 
-            // Hide one tile from each side
+            // Hide one tile (from either side)
             const randomFrom = arr => arr[Math.floor(Math.random() * arr.length)];
-            const hiddenTiles = [
-                randomFrom(EXPENDITURE_TILES).id,
-                randomFrom(INCOME_TILES).id
-            ];
+            const allDefs = [...EXPENDITURE_TILES, ...INCOME_TILES];
+            const hiddenTiles = [randomFrom(allDefs).id];
 
             // Update game state
             gameState = {
