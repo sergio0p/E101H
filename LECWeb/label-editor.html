@@ -12,7 +12,7 @@
   <script type="importmap">
   {
     "imports": {
-      "mathjs": "./tikz-svg/examples-v2/mathjs-shim.js"
+      "mathjs": "https://sergio0p.github.io/tikz-svg/examples-v2/mathjs-shim.js"
     }
   }
   </script>
@@ -60,6 +60,7 @@
   <div class="toolbar">
     <button class="btn btn-sm btn-outline-light" id="btn-open">Open HTML</button>
     <button class="btn btn-sm btn-outline-success" id="btn-save" disabled>Save</button>
+    <select class="form-select form-select-sm" id="graph-picker" style="width:auto; display:none; background:#1e1e1e; color:#9cdcfe; border-color:#444; font-family:monospace; font-size:0.8rem;"></select>
     <span class="filename" id="filename">No file loaded</span>
     <span class="hint">Arrows: move &nbsp; Shift: 5x &nbsp; Tab: next row &nbsp; Enter: edit field</span>
   </div>
@@ -88,36 +89,68 @@
     let selectedIdx = -1; // index into nodes[]
     let highlightEl = null;
     let renderFn = null;  // captured render function
+    let allGraphs = [];   // { config, svgId } for each render() call
+    let activeGraphIdx = 0;
+    let fileName = '';
 
-    const svgPanel  = document.getElementById('svg-panel');
-    const tbody     = document.getElementById('node-tbody');
-    const statusBar = document.getElementById('status-bar');
-    const btnOpen   = document.getElementById('btn-open');
-    const btnSave   = document.getElementById('btn-save');
-    const fileLabel = document.getElementById('filename');
+    const svgPanel    = document.getElementById('svg-panel');
+    const tbody       = document.getElementById('node-tbody');
+    const statusBar   = document.getElementById('status-bar');
+    const btnOpen     = document.getElementById('btn-open');
+    const btnSave     = document.getElementById('btn-save');
+    const graphPicker = document.getElementById('graph-picker');
+    const fileLabel   = document.getElementById('filename');
 
     function setStatus(msg) { statusBar.textContent = msg; }
 
     // ── File Open ──
+    // Hidden file input for Firefox/Safari fallback
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.html';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
     btnOpen.addEventListener('click', async () => {
-      try {
-        [fileHandle] = await window.showOpenFilePicker({
-          types: [{ description: 'HTML', accept: { 'text/html': ['.html'] } }]
-        });
-        const file = await fileHandle.getFile();
-        sourceText = await file.text();
-        fileLabel.textContent = file.name;
-        setStatus(`Loaded ${file.name}`);
-        await loadGraph();
-      } catch (e) {
-        if (e.name !== 'AbortError') setStatus('Open failed: ' + e.message);
+      if (window.showOpenFilePicker) {
+        // Chrome/Edge: use File System Access API (supports save-in-place)
+        try {
+          [fileHandle] = await window.showOpenFilePicker({
+            types: [{ description: 'HTML', accept: { 'text/html': ['.html'] } }]
+          });
+          const file = await fileHandle.getFile();
+          sourceText = await file.text();
+          fileName = file.name;
+          fileLabel.textContent = file.name;
+          setStatus(`Loaded ${file.name}`);
+          await loadGraph();
+        } catch (e) {
+          if (e.name !== 'AbortError') setStatus('Open failed: ' + e.message);
+        }
+      } else {
+        // Firefox/Safari: use file input
+        fileInput.click();
       }
+    });
+
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      sourceText = await file.text();
+      fileName = file.name;
+      fileHandle = null;
+      fileLabel.textContent = file.name;
+      setStatus(`Loaded ${file.name}`);
+      await loadGraph();
+      fileInput.value = '';
     });
 
     // ── Config Extraction ──
     async function loadGraph() {
       config = null;
       renderFn = null;
+      allGraphs = [];
+      activeGraphIdx = 0;
 
       // Extract the module script block
       const scriptMatch = sourceText.match(/<script\s+type\s*=\s*["']module["'][^>]*>([\s\S]*?)<\/script>/);
@@ -125,70 +158,102 @@
 
       let scriptBody = scriptMatch[1];
 
+      // Extract SVG IDs from render(document.getElementById('...'), ...) calls
+      const svgIdMatches = [...scriptBody.matchAll(/render\s*\(\s*document\.getElementById\s*\(\s*['"]([^'"]*)['"]\s*\)/g)];
+      const svgIds = svgIdMatches.map(m => m[1]);
+
       // Create an SVG element for rendering
       svgPanel.innerHTML = '';
       svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-
-      // Copy width/height from source if present
-      const svgMatch = sourceText.match(/<svg[^>]*id\s*=\s*["'][^'"]*["'][^>]*/);
-      if (svgMatch) {
-        const wm = svgMatch[0].match(/width\s*=\s*["'](\d+)["']/);
-        const hm = svgMatch[0].match(/height\s*=\s*["'](\d+)["']/);
-        if (wm) svgEl.setAttribute('width', wm[1]);
-        if (hm) svgEl.setAttribute('height', hm[1]);
-      }
       svgEl.style.display = 'block';
       svgPanel.appendChild(svgEl);
 
-      // Intercept render() to capture config
-      let capturedConfig = null;
-      let capturedRefs = null;
+      // Intercept render() to capture ALL configs
+      let captureIdx = 0;
 
-      // Execute via dynamic module using blob URL
+      // Rewrite script: remove imports, replace getElementById with __svgTarget,
+      // replace only the original render() calls (not our intercepted ones)
+      let rewritten = scriptBody
+        .replace(/import\s*\{([^}]*)\}\s*from\s*['"][^'"]*index\.js['"]\s*;?/g, '')
+        .replace(/render\s*\(\s*document\.getElementById\s*\(\s*['"][^'"]*['"]\s*\)\s*,/g, '__interceptedRender(__svgTarget,');
+
       const blobCode = `
         export default async function(__svgTarget, __captureCallback, __realRenderModule) {
           const { render: __realRender } = __realRenderModule;
           function __interceptedRender(target, cfg) {
-            const refs = __realRender(target, cfg);
-            __captureCallback(cfg, refs);
-            return refs;
+            __realRender(target, cfg);
+            __captureCallback(cfg);
+            return {};
           }
-          ${scriptBody
-            .replace(/import\s*\{([^}]*)\}\s*from\s*['"][^'"]*index\.js['"]\s*;?/g, '')
-            .replace(/document\.getElementById\s*\(\s*['"][^'"]*['"]\s*\)/g, '__svgTarget')
-            .replace(/render\s*\(\s*document\.getElementById\s*\(\s*['"][^'"]*['"]\s*\)\s*,/g, '__interceptedRender(__svgTarget,')
-            .replace(/\brender\s*\(/g, '__interceptedRender(')
-          }
+          ${rewritten}
         }
       `;
 
       try {
-        const renderModule = await import('./tikz-svg/src-v2/index.js');
+        window._debugSourceText = sourceText;
+        console.log('[label-editor] loadGraph starting, found', svgIds.length, 'SVG IDs:', svgIds, 'sourceText length:', sourceText.length);
+        const renderModule = await import('https://sergio0p.github.io/tikz-svg/src-v2/index.js');
+        console.log('[label-editor] render module loaded');
+
         const blob = new Blob([blobCode], { type: 'text/javascript' });
         const url = URL.createObjectURL(blob);
         const mod = await import(url);
         URL.revokeObjectURL(url);
+        console.log('[label-editor] blob module imported');
 
-        await mod.default(svgEl, (cfg, refs) => {
-          capturedConfig = cfg;
-          capturedRefs = refs;
-        }, renderModule);
+        // Capture configs from all render() calls
+        await mod.default(svgEl, (cfg) => {
+          try {
+            allGraphs.push({ config: cfg, svgId: svgIds[allGraphs.length] || `graph-${allGraphs.length}` });
+            console.log('[label-editor] captured graph', allGraphs.length, svgIds[allGraphs.length - 1]);
+          } catch (err) {
+            console.error('[label-editor] capture error:', err);
+          }
+        }, renderModule).catch(err => console.error('[label-editor] blob error:', err));
+        console.log('[label-editor] blob executed, captured', allGraphs.length, 'graphs');
 
-        if (!capturedConfig) { setStatus('render() was not called'); return; }
+        if (allGraphs.length === 0) { setStatus('render() was not called'); return; }
 
-        config = capturedConfig;
         renderFn = renderModule.render;
 
-        // Discover nodes
-        discoverNodes();
-        buildTable();
+        // Show graph picker if multiple graphs
+        if (allGraphs.length > 1) {
+          graphPicker.innerHTML = '';
+          allGraphs.forEach((g, i) => {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = g.svgId;
+            graphPicker.appendChild(opt);
+          });
+          graphPicker.style.display = '';
+          graphPicker.value = 0;
+        } else {
+          graphPicker.style.display = 'none';
+        }
+
+        selectGraph(0);
         btnSave.disabled = false;
-        setStatus(`Found ${nodes.length} nodes`);
       } catch (e) {
         setStatus('Script error: ' + e.message);
         console.error(e);
       }
     }
+
+    function selectGraph(idx) {
+      activeGraphIdx = idx;
+      config = allGraphs[idx].config;
+      renderFn(svgEl, config);
+      discoverNodes();
+      buildTable();
+      selectedIdx = -1;
+      setStatus(`Graph "${allGraphs[idx].svgId}" — ${nodes.length} nodes`);
+      // Re-render after KaTeX fonts load to fix text measurement
+      document.fonts.ready.then(() => {
+        if (activeGraphIdx === idx) renderFn(svgEl, config);
+      });
+    }
+
+    graphPicker.addEventListener('change', () => selectGraph(+graphPicker.value));
 
     // ── Node Discovery ──
     function discoverNodes() {
@@ -337,7 +402,7 @@
 
     // ── Save ──
     btnSave.addEventListener('click', async () => {
-      if (!fileHandle || !sourceText) return;
+      if (!sourceText) { setStatus('No file loaded'); return; }
 
       let newText = sourceText;
       let changed = 0;
@@ -390,13 +455,23 @@
       }
 
       try {
-        const writable = await fileHandle.createWritable();
-        await writable.write(newText);
-        await writable.close();
+        if (fileHandle) {
+          // Chrome/Edge: save in place
+          const writable = await fileHandle.createWritable();
+          await writable.write(newText);
+          await writable.close();
+        } else {
+          // Firefox/Safari: download file
+          const blob = new Blob([newText], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = fileName || 'edited.html';
+          a.click();
+          URL.revokeObjectURL(a.href);
+        }
         sourceText = newText;
-        // Update originals
         for (const n of nodes) { n.origQ = n.Q; n.origP = n.P; }
-        setStatus(`Saved ${changed} change(s)`);
+        setStatus(`Saved ${changed} change(s)${fileHandle ? '' : ' (downloaded)'}`);
       } catch (e) {
         setStatus('Save failed: ' + e.message);
       }
