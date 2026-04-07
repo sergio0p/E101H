@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preference-Based Trade</title>
+
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Shared Educational Styles -->
+    <link rel="stylesheet" href="shared-bootstrap-edu.css">
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <style>
+        /* Trade app specific styles */
+        .trade-slider-container {
+            margin: 25px 0;
+        }
+
+        .slider-label-trade {
+            font-weight: 600;
+            color: var(--base01);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .form-range {
+            height: 8px;
+        }
+
+        .form-range::-webkit-slider-thumb {
+            background: var(--blue);
+            width: 20px;
+            height: 20px;
+        }
+
+        .form-range::-moz-range-thumb {
+            background: var(--blue);
+            width: 20px;
+            height: 20px;
+        }
+
+        .agent-info-box {
+            background: var(--base2);
+            border: 2px solid var(--base1);
+            border-radius: 6px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .agent-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--orange);
+            margin-bottom: 15px;
+        }
+
+        .trade-inequality {
+            background: var(--base2);
+            border-left: 5px solid var(--magenta);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+            text-align: center;
+        }
+
+        /* Larger font for solution math (50% increase) */
+        #warmup-solution .katex,
+        #warmup-solution .katex-display {
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4" data-app="crusoe-friday">
+        <!-- Header with utility buttons -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mb-0">Preference-Based Trade</h1>
+            <div class="btn-toolbar gap-1">
+                <button class="btn btn-sm btn-outline-secondary" onclick="expandAll()">Expand All</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="collapseAll()">Collapse All</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="resetApp()">Reset</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">Print</button>
+            </div>
+        </div>
+
+        <!-- Instructor Info -->
+        <div class="edu-instructor-info">
+            <p><strong>Instructor:</strong> Sérgio O. Parreiras</p>
+            <p><strong>Course:</strong> ECON 101 - Introduction to Economics</p>
+        </div>
+
+        <!-- Main accordion -->
+        <div class="accordion" id="mainAccordion">
+            <!-- Warm-up Question -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#warmupSection">
+                        Warm-up Question
+                    </button>
+                </h2>
+                <div id="warmupSection" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div id="warmup-question" class="edu-question"></div>
+
+                        <div class="card mt-3">
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <div class="d-flex align-items-center mb-2">
+                                    <label class="me-2" id="delta-u-label"></label>
+                                    <input type="number" step="1" class="form-control" style="width: 150px;" id="warmup-answer">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn btn-primary" onclick="checkWarmup()">Check Answer</button>
+                            <button class="btn btn-outline-secondary" onclick="generateNewProblem()">New Problem</button>
+                        </div>
+
+                        <div id="warmup-feedback" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution for Warm-up -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#warmupSolutionSection">
+                        Solution
+                    </button>
+                </h2>
+                <div id="warmupSolutionSection" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div id="warmup-solution" class="edu-code"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trading Problem -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#tradingSection">
+                        Trading Problem
+                    </button>
+                </h2>
+                <div id="tradingSection" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div id="trading-setup"></div>
+
+                        <div class="edu-question mt-4">
+                            <div id="trading-question"></div>
+                        </div>
+
+                        <!-- Trade Sliders -->
+                        <div class="trade-slider-container">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="slider-label-trade" id="fish-slider-label"></label>
+                                <input type="number" step="0.1" class="form-control" style="width: 100px;" id="fish-value-input"
+                                       oninput="updateFromInput('fish-value-input', 'fish-slider')">
+                            </div>
+                            <input type="range" class="form-range" id="fish-slider"
+                                   min="-20" max="20" value="0" step="0.5" oninput="updateTradeDisplay()">
+                            <div class="d-flex justify-content-between text-muted small">
+                                <span>-20 (gives)</span>
+                                <span>0</span>
+                                <span>+20 (receives)</span>
+                            </div>
+                        </div>
+
+                        <div class="trade-slider-container">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="slider-label-trade" id="coconut-slider-label"></label>
+                                <input type="number" step="0.1" class="form-control" style="width: 100px;" id="coconut-value-input"
+                                       oninput="updateFromInput('coconut-value-input', 'coconut-slider')">
+                            </div>
+                            <input type="range" class="form-range" id="coconut-slider"
+                                   min="-20" max="20" value="0" step="0.5" oninput="updateTradeDisplay()">
+                            <div class="d-flex justify-content-between text-muted small">
+                                <span>-20 (gives)</span>
+                                <span>0</span>
+                                <span>+20 (receives)</span>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary" onclick="checkTrade()">Check Trade</button>
+                        </div>
+
+                        <div id="trade-feedback" class="mt-3"></div>
+                        <div id="trade-analysis"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        // Global state
+        let currentProblem = {};
+
+        // --- Helpers ---
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function randomNonZero(min, max) {
+            let val = randomInt(min, max);
+            while (val === 0) val = randomInt(min, max);
+            return val;
+        }
+
+        // Shared KaTeX delimiters config
+        const MATH_DELIMITERS = [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+        ];
+
+        const INLINE_MATH_DELIMITERS = [
+            {left: '$', right: '$', display: false}
+        ];
+
+        function renderMath(elementId, inlineOnly) {
+            const el = document.getElementById(elementId);
+            renderMathInElement(el, {
+                delimiters: inlineOnly ? INLINE_MATH_DELIMITERS : MATH_DELIMITERS,
+                throwOnError: false
+            });
+        }
+
+        function renderMathIn(element) {
+            renderMathInElement(element, {
+                delimiters: MATH_DELIMITERS,
+                throwOnError: false
+            });
+        }
+
+        function showFeedback(elementId, message, type) {
+            const feedback = document.getElementById(elementId);
+            feedback.innerHTML = message;
+            const classMap = {
+                success: 'edu-success',
+                error: 'edu-error',
+                warning: 'edu-warning'
+            };
+            feedback.className = classMap[type] || 'edu-success';
+            renderMathIn(feedback);
+        }
+
+        function collapseSection(elementId, action) {
+            const el = document.getElementById(elementId);
+            new bootstrap.Collapse(el, {toggle: false})[action]();
+        }
+
+        function deltaText(value, noun) {
+            const verb = value > 0 ? 'increases' : 'decreases';
+            return `\\text{${verb} consumption of ${noun} by } ${Math.abs(value)}`;
+        }
+
+        // --- Problem Generation ---
+
+        function generateNewProblem() {
+            const MU_fish_C = randomInt(1, 10);
+            const MU_coconuts_C = randomInt(1, 10);
+            const MU_fish_F = randomInt(1, 10);
+            const MU_coconuts_F = randomInt(1, 10);
+
+            const fish_C = randomInt(5, 30);
+            const coconuts_C = randomInt(5, 30);
+            const fish_F = randomInt(5, 30);
+            const coconuts_F = randomInt(5, 30);
+
+            const deltaFish = randomNonZero(-10, 10);
+            const deltaCoconuts = randomNonZero(-10, 10);
+
+            currentProblem = {
+                MU_fish_C, MU_coconuts_C, MU_fish_F, MU_coconuts_F,
+                fish_C, coconuts_C, fish_F, coconuts_F,
+                deltaFish, deltaCoconuts,
+                correctAnswer: MU_fish_C * deltaFish + MU_coconuts_C * deltaCoconuts,
+                MRS_C: MU_fish_C / MU_coconuts_C,
+                MRS_F: MU_fish_F / MU_coconuts_F
+            };
+
+            displayWarmupQuestion();
+            displayWarmupSolution();
+            displayTradingProblem();
+            clearWarmupFeedback();
+
+            // Reset sliders and trade feedback
+            document.getElementById('fish-slider').value = 0;
+            document.getElementById('coconut-slider').value = 0;
+            updateTradeDisplay();
+
+            document.getElementById('trade-feedback').innerHTML = '';
+            document.getElementById('trade-feedback').className = '';
+            document.getElementById('trade-analysis').innerHTML = '';
+
+            collapseSection('tradingSection', 'hide');
+        }
+
+        // --- Warm-up Section ---
+
+        function displayWarmupQuestion() {
+            const p = currentProblem;
+
+            const fishText = deltaText(p.deltaFish, 'fish');
+            const coconutText = `\\text{and }` + deltaText(p.deltaCoconuts, 'coconuts');
+
+            document.getElementById('warmup-question').innerHTML = `
+                $$\\begin{align*}
+                &\\text{Crusoe has the following marginal utilities:} \\\\
+                &MU_{\\text{fish}} = ${p.MU_fish_C}, \\quad MU_{\\text{coconuts}} = ${p.MU_coconuts_C}
+                \\end{align*}$$
+                <div class="mt-3"></div>
+                $$\\begin{align*}
+                &\\text{If Crusoe } ${fishText} \\\\
+                &${coconutText}\\text{, the change in his utility is:}
+                \\end{align*}$$
+            `;
+
+            document.getElementById('delta-u-label').innerHTML = '$\\Delta U = $';
+            document.getElementById('warmup-answer').value = '';
+
+            renderMath('warmup-question');
+            renderMath('delta-u-label', true);
+        }
+
+        function checkWarmup() {
+            const userAnswer = parseInt(document.getElementById('warmup-answer').value);
+
+            if (isNaN(userAnswer)) {
+                showFeedback('warmup-feedback', 'Please enter a valid number!', 'error');
+                return;
+            }
+
+            if (userAnswer === currentProblem.correctAnswer) {
+                showFeedback('warmup-feedback', '$$\\text{Correct! Well done.}$$', 'success');
+            } else {
+                showFeedback('warmup-feedback', '$$\\text{Incorrect. Try again or check the solution.}$$', 'error');
+            }
+
+            collapseSection('warmupSolutionSection', 'show');
+        }
+
+        function displayWarmupSolution() {
+            const p = currentProblem;
+            const term1 = p.MU_fish_C * p.deltaFish;
+            const term2 = p.MU_coconuts_C * p.deltaCoconuts;
+
+            // Format to avoid "+-" notation: use "- |term2|" when term2 is negative
+            const sign = term2 < 0 ? '-' : '+';
+            const line3 = `&= ${term1} ${sign} ${Math.abs(term2)}`;
+
+            document.getElementById('warmup-solution').innerHTML = `
+                $$\\begin{align*}
+                \\Delta U &= MU_{\\text{fish}} \\times \\Delta \\text{Fish} + MU_{\\text{coconuts}} \\times \\Delta \\text{Coconuts} \\\\
+                &= ${p.MU_fish_C} \\times (${p.deltaFish}) + ${p.MU_coconuts_C} \\times (${p.deltaCoconuts}) \\\\
+                ${line3} \\\\
+                &= ${p.correctAnswer}
+                \\end{align*}$$
+            `;
+
+            renderMath('warmup-solution');
+        }
+
+        function clearWarmupFeedback() {
+            document.getElementById('warmup-feedback').innerHTML = '';
+            document.getElementById('warmup-feedback').className = '';
+            collapseSection('warmupSolutionSection', 'hide');
+        }
+
+        // --- Trading Section ---
+
+        function displayTradingProblem() {
+            const p = currentProblem;
+
+            document.getElementById('trading-setup').innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="agent-info-box">
+                            <div class="agent-name">$$\\text{Crusoe}$$</div>
+                            $$\\begin{align*}
+                            &\\text{Endowment: } (${p.fish_C} \\text{ fish}, ${p.coconuts_C} \\text{ coconuts}) \\\\
+                            &MU_{\\text{fish}} = ${p.MU_fish_C}, \\quad MU_{\\text{coconuts}} = ${p.MU_coconuts_C} \\\\
+                            &\\mathrm{MRS}_{\\mathrm{Crusoe}} = \\frac{${p.MU_fish_C}}{${p.MU_coconuts_C}} = ${p.MRS_C.toFixed(2)}
+                            \\end{align*}$$
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="agent-info-box">
+                            <div class="agent-name">$$\\text{Friday}$$</div>
+                            $$\\begin{align*}
+                            &\\text{Endowment: } (${p.fish_F} \\text{ fish}, ${p.coconuts_F} \\text{ coconuts}) \\\\
+                            &MU_{\\text{fish}} = ${p.MU_fish_F}, \\quad MU_{\\text{coconuts}} = ${p.MU_coconuts_F} \\\\
+                            &\\mathrm{MRS}_{\\mathrm{Friday}} = \\frac{${p.MU_fish_F}}{${p.MU_coconuts_F}} = ${p.MRS_F.toFixed(2)}
+                            \\end{align*}$$
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('trading-question').innerHTML = `
+                $$\\begin{align*}
+                &\\text{Find how many fish and how many coconuts Crusoe will receive from Friday} \\\\
+                &\\text{such that the utilities of both Crusoe and Friday increase.}
+                \\end{align*}$$
+            `;
+
+            document.getElementById('fish-slider-label').innerHTML = '$\\text{Fish to Crusoe}$';
+            document.getElementById('coconut-slider-label').innerHTML = '$\\text{Coconuts to Crusoe}$';
+
+            renderMath('trading-setup');
+            renderMath('trading-question');
+            renderMath('fish-slider-label', true);
+            renderMath('coconut-slider-label', true);
+        }
+
+        function updateTradeDisplay() {
+            document.getElementById('fish-value-input').value = parseFloat(document.getElementById('fish-slider').value);
+            document.getElementById('coconut-value-input').value = parseFloat(document.getElementById('coconut-slider').value);
+        }
+
+        function updateFromInput(inputId, sliderId) {
+            const val = parseFloat(document.getElementById(inputId).value);
+            if (!isNaN(val)) {
+                const clampedVal = Math.max(-20, Math.min(20, val));
+                document.getElementById(sliderId).value = clampedVal;
+                document.getElementById(inputId).value = clampedVal;
+            }
+        }
+
+        function checkTrade() {
+            const deltaFish_C = parseFloat(document.getElementById('fish-value-input').value);
+            const deltaCoconuts_C = parseFloat(document.getElementById('coconut-value-input').value);
+
+            if (isNaN(deltaFish_C) || isNaN(deltaCoconuts_C)) {
+                showFeedback('trade-feedback', '$$\\text{Please enter valid numbers for both fish and coconuts!}$$', 'error');
+                return;
+            }
+
+            if (deltaFish_C === 0 && deltaCoconuts_C === 0) {
+                showFeedback('trade-feedback', '$$\\text{Please propose a non-zero trade!}$$', 'error');
+                return;
+            }
+
+            const p = currentProblem;
+
+            // Check feasibility: agents can't trade more than they have
+            const errors = [];
+            if (deltaFish_C > 0 && deltaFish_C > p.fish_F) {
+                errors.push(`&\\text{Friday only has ${p.fish_F} fish but the trade requires him to give up ${deltaFish_C.toFixed(2)} fish.}`);
+            }
+            if (deltaFish_C < 0 && -deltaFish_C > p.fish_C) {
+                errors.push(`&\\text{Crusoe only has ${p.fish_C} fish but the trade requires him to give up ${(-deltaFish_C).toFixed(2)} fish.}`);
+            }
+            if (deltaCoconuts_C > 0 && deltaCoconuts_C > p.coconuts_F) {
+                errors.push(`&\\text{Friday only has ${p.coconuts_F} coconuts but the trade requires him to give up ${deltaCoconuts_C.toFixed(2)} coconuts.}`);
+            }
+            if (deltaCoconuts_C < 0 && -deltaCoconuts_C > p.coconuts_C) {
+                errors.push(`&\\text{Crusoe only has ${p.coconuts_C} coconuts but the trade requires him to give up ${(-deltaCoconuts_C).toFixed(2)} coconuts.}`);
+            }
+
+            if (errors.length > 0) {
+                showFeedback('trade-feedback', `$$\\begin{align*}
+                    &\\text{This trade is not feasible.} \\\\
+                    ${errors.join(' \\\\ ')}
+                    \\end{align*}$$`, 'error');
+                return;
+            }
+
+            // Calculate utility changes
+            const deltaU_C = p.MU_fish_C * deltaFish_C + p.MU_coconuts_C * deltaCoconuts_C;
+            const deltaU_F = p.MU_fish_F * (-deltaFish_C) + p.MU_coconuts_F * (-deltaCoconuts_C);
+
+            let feedbackHTML = '';
+            let feedbackType = 'error';
+
+            if (deltaU_C > 0 && deltaU_F > 0) {
+                feedbackHTML = `
+                    $$\\begin{align*}
+                    &\\text{Crusoe's utility went up by } ${deltaU_C.toFixed(2)} \\\\
+                    &\\text{and Friday's utility went up by } ${deltaU_F.toFixed(2)}
+                    \\end{align*}$$
+                `;
+                feedbackType = 'success';
+            } else if (deltaU_C <= 0 && deltaU_F <= 0) {
+                feedbackHTML = `
+                    $$\\begin{align*}
+                    &\\text{Both agents will reject this trade} \\\\
+                    &\\text{Crusoe's utility would decrease by } ${Math.abs(deltaU_C).toFixed(2)} \\\\
+                    &\\text{Friday's utility would decrease by } ${Math.abs(deltaU_F).toFixed(2)}
+                    \\end{align*}$$
+                `;
+            } else if (deltaU_F <= 0) {
+                feedbackHTML = `
+                    $$\\begin{align*}
+                    &\\text{Friday will not agree to this trade} \\\\
+                    &\\text{since it lowers his utility by } ${Math.abs(deltaU_F).toFixed(2)}
+                    \\end{align*}$$
+                `;
+            } else {
+                feedbackHTML = `
+                    $$\\begin{align*}
+                    &\\text{Crusoe will not agree to this trade} \\\\
+                    &\\text{since it lowers his utility by } ${Math.abs(deltaU_C).toFixed(2)}
+                    \\end{align*}$$
+                `;
+            }
+
+            showFeedback('trade-feedback', feedbackHTML, feedbackType);
+
+            const priceRatio = deltaFish_C !== 0 ? Math.abs(deltaCoconuts_C / deltaFish_C) : 0;
+            displayTradeAnalysis(priceRatio);
+        }
+
+        function displayTradeAnalysis(priceRatio) {
+            const p = currentProblem;
+
+            // Create array of three values with their labels, sorted ascending
+            const values = [
+                { val: priceRatio, label: '\\frac{p_F}{p_C}' },
+                { val: p.MRS_F, label: '\\mathrm{MRS}_{\\mathrm{Friday}}' },
+                { val: p.MRS_C, label: '\\mathrm{MRS}_{\\mathrm{Crusoe}}' }
+            ];
+            values.sort((a, b) => a.val - b.val);
+
+            // Build inequality string with appropriate comparison operators
+            let inequalityStr = '';
+            for (let i = 0; i < values.length; i++) {
+                inequalityStr += `${values[i].label} = ${values[i].val.toFixed(2)}`;
+                if (i < values.length - 1) {
+                    if (Math.abs(values[i].val - values[i + 1].val) < 0.01) {
+                        inequalityStr += ' = ';
+                    } else if (values[i].val < values[i + 1].val) {
+                        inequalityStr += ' < ';
+                    } else {
+                        inequalityStr += ' \\leq ';
+                    }
+                }
+            }
+
+            document.getElementById('trade-analysis').innerHTML = `
+                <div class="trade-inequality">
+                    $$${inequalityStr}$$
+                </div>
+            `;
+            renderMath('trade-analysis');
+        }
+
+        // --- Utility buttons ---
+
+        function expandAll() {
+            document.querySelectorAll('.accordion-collapse').forEach(function(el) {
+                new bootstrap.Collapse(el, {toggle: false}).show();
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.accordion-collapse').forEach(function(el) {
+                new bootstrap.Collapse(el, {toggle: false}).hide();
+            });
+        }
+
+        function resetApp() {
+            generateNewProblem();
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            setTimeout(generateNewProblem, 100);
+        });
+    </script>
+</body>
+</html>
