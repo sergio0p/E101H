@@ -289,6 +289,12 @@ if (window.visualViewport) {
 // Global navigation with Shift+Arrow keys
 // Navigate between lecture sections regardless of scroll position
 document.addEventListener('keydown', function(e) {
+  // Shift+ArrowUp: go to index
+  if (e.shiftKey && e.key === 'ArrowUp') {
+    e.preventDefault();
+    window.location.href = 'index.html';
+    return;
+  }
   // Only respond to Shift+Arrow (not plain arrows, which may be used in interactive graphs)
   if (!e.shiftKey) return;
   if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
