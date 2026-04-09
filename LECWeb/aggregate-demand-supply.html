@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="nav-prev" content="monetary-policy.html">
+  <meta name="nav-next" content="index.html">
+  <title>Aggregate Demand and Aggregate Supply | ECON 101H</title>
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Custom -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <script src="js/katex-macros.js"></script>
+  <script src="js/scroll-animations.js"></script>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Aggregate Demand and Aggregate Supply</h1>
+      <h2>ECON 101H: Introduction to Economics</h2>
+    </div>
+    <p class="author">Sergio O. Parreiras</p>
+    <p class="institute">Economics Department, UNC at Chapel Hill</p>
+    <p class="date">Spring 2026</p>
+  </section>
+
+  <!-- Frame 1: Aggregate Demand -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Aggregate Demand</h2>
+    </div>
+    <div class="frame-content">
+      <p>We will be deriving the aggregate demand from the money equation:</p>
+      $$\begin{aligned}
+        M \cdot V &= P \cdot Y \\
+        \%\Delta M + \%\Delta V &= \%\Delta P + \%\Delta Y
+      \end{aligned}$$
+    </div>
+  </section>
+
+  <!-- KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        macros: katexMacros,
+        throwOnError: false
+      });
+    });
+  </script>
+
+</body>
+</html>
