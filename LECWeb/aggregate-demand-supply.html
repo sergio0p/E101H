@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="nav-prev" content="unemployment.html">
+  <meta name="nav-next" content="monetary-policy.html">
+  <title>Aggregate Demand and Aggregate Supply | ECON 101H</title>
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- tikz-svg dependency -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjs@15.1.1/lib/browser/math.js"></script>
+
+  <!-- Custom -->
+  <link rel="stylesheet" href="css/beamer-theme.css">
+  <script src="js/katex-macros.js"></script>
+  <script src="js/scroll-animations.js"></script>
+</head>
+<body>
+
+  <!-- Title Slide -->
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Aggregate Demand and Aggregate Supply</h1>
+    </div>
+  </section>
+
+  <!-- Frame 1: Aggregate Demand -->
+  <section class="frame">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Aggregate Demand</h2>
+    </div>
+    <div class="frame-content">
+      <p>We will be deriving the aggregate demand from the money equation:</p>
+      $$\begin{aligned}
+        M \cdot V &= P \cdot Y_R \\
+        \%\Delta M + \%\Delta V &= \%\Delta P + \%\Delta Y_R \\
+        \vec{M} + \vec{V} &= \vec{P} + \vec{Y_R} \\
+        \vec{M} + \vec{V} &= \pi + \vec{Y_R}
+      \end{aligned}$$
+      <div class="key-equation">
+        <div>
+          $$\pi = (\vec{M} + \vec{V}) - \vec{Y_R}$$
+        </div>
+        <span class="key-equation-tag">(AD)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frame 2: AD Graph -->
+  <section class="scroll-frame graph-frame" id="ad-graph">
+    <div class="scroll-frame-inner" style="background: #fdf6e3;">
+      <svg id="ad-svg" style="display: block; width: 95%;"></svg>
+    </div>
+  </section>
+
+  <!-- tikz-svg renderer -->
+  <script type="module">
+    import { render } from 'https://sergio0p.github.io/tikz-svg/src-v2/index.js';
+
+    const adConfig = {
+      scale: 4,
+      originX: 55,
+      originY: 325,
+      padding: 10,
+      styles: {
+        label: {
+          shape: 'rectangle', fill: 'none', stroke: 'none',
+          fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+        },
+      },
+      draw: [
+        // ── Axes ──
+        { type: 'path', points: [{x:0,y:23}, {x:0,y:-90}],
+          arrow: '<->', stroke: '#586e75', strokeWidth: 2.5 },
+        { type: 'path', points: [{x:-5,y:0}, {x:130,y:0}],
+          arrow: '<->', stroke: '#586e75', strokeWidth: 2.5 },
+
+        // ── Axis labels ──
+        { type: 'node', id: 'axP', style: 'label', position: {x:3, y:-94}, label: '$\\pi$', anchor: 'east', fontSize: 18 },
+        { type: 'node', id: 'axQ', style: 'label', position: {x:132, y:0}, label: '$Y_R$', anchor: 'west', fontSize: 18 },
+
+        // ── AD curve: downward sloping ──
+        { type: 'plot', expr: Y => 80 - 0.7 * Y, domain: [5, 110], samples: 2,
+          handler: 'lineto', stroke: '#dc322f', strokeWidth: 3 },
+
+        // ── Curve label ──
+        { type: 'node', id: 'lblAD', style: 'label', position: {x:112, y:-5}, label: '$AD$', anchor: 'west', fontSize: 16, labelColor: '#dc322f' },
+      ],
+    };
+
+    render(document.getElementById('ad-svg'), adConfig);
+  </script>
+
+  <!-- KaTeX auto-render -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        macros: katexMacros,
+        throwOnError: false
+      });
+    });
+  </script>
+
+</body>
+</html>

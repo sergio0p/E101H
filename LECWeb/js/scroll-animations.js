@@ -1,7 +1,7 @@
 // GSAP + ScrollTrigger Animation Setup
 
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
+// Register ScrollTrigger plugin (guard for pages that don't load GSAP)
+if (typeof gsap !== 'undefined') gsap.registerPlugin(ScrollTrigger);
 
 // Initialize all animations
 function initAnimations() {
@@ -16,6 +16,9 @@ function initAnimations() {
 
   // Overlay frames (Beamer \pause equivalent)
   initOverlayFrames();
+
+  // Block body flip (Ctrl+click title to hide/reveal)
+  initBlockFlip();
 }
 
 // Reveal animations for .reveal elements
@@ -249,41 +252,93 @@ function initOverlayFrames() {
   });
 }
 
-// Initialize on DOM ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initAnimations);
-} else {
-  initAnimations();
+// Block body flip — Ctrl+click (or right-click) on block title to toggle
+function initBlockFlip() {
+  document.querySelectorAll('.block-body').forEach(body => {
+    const inner = document.createElement('div');
+    inner.className = 'block-body-inner';
+
+    const front = document.createElement('div');
+    front.className = 'block-body-front';
+    while (body.firstChild) front.appendChild(body.firstChild);
+
+    const back = document.createElement('div');
+    back.className = 'block-body-back';
+
+    const circle = document.createElement('div');
+    circle.className = 'flip-circle';
+    const q = document.createElement('span');
+    q.className = 'flip-q';
+    q.textContent = '?';
+    circle.appendChild(q);
+    back.appendChild(circle);
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    body.appendChild(inner);
+
+    // Size circle to block body height, ? to fit inside
+    const h = body.offsetHeight;
+    const w = body.offsetWidth;
+    const d = Math.min(h * 0.9, h - 12);
+    circle.style.width = d + 'px';
+    circle.style.height = d + 'px';
+    q.style.fontSize = (d * 0.65) + 'px';
+    // Let flexbox center vertically; offset horizontally to 1/3
+    circle.style.marginRight = (w / 3) + 'px';
+  });
+
+  document.querySelectorAll('.block-title').forEach(title => {
+    title.style.cursor = 'pointer';
+    title.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      const body = title.closest('.block').querySelector('.block-body');
+      if (body) body.classList.toggle('flipped');
+    });
+    title.addEventListener('click', e => {
+      if (!e.metaKey) return;
+      e.preventDefault();
+      const body = title.closest('.block').querySelector('.block-body');
+      if (body) body.classList.toggle('flipped');
+    });
+  });
 }
 
-// Refresh ScrollTrigger on window resize and zoom
-let lastWidth = window.innerWidth;
-let lastHeight = window.innerHeight;
-let resizeTimer;
-
-function handleViewportChange() {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    const currentWidth = window.innerWidth;
-    const currentHeight = window.innerHeight;
-
-    // Detect if viewport dimensions changed (including zoom)
-    if (currentWidth !== lastWidth || currentHeight !== lastHeight) {
-      lastWidth = currentWidth;
-      lastHeight = currentHeight;
-
-      // Kill and refresh all ScrollTriggers to recalculate positions
-      ScrollTrigger.refresh(true);
-    }
-  }, 250); // Debounce to avoid excessive recalculations
+// Initialize on DOM ready (only if GSAP is loaded)
+if (typeof gsap !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnimations);
+  } else {
+    initAnimations();
+  }
 }
 
-window.addEventListener('resize', handleViewportChange);
-window.addEventListener('orientationchange', handleViewportChange);
+// Refresh ScrollTrigger on window resize and zoom (only if GSAP is loaded)
+if (typeof ScrollTrigger !== 'undefined') {
+  let lastWidth = window.innerWidth;
+  let lastHeight = window.innerHeight;
+  let resizeTimer;
 
-// Also detect zoom via visualViewport API if available
-if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', handleViewportChange);
+  function handleViewportChange() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const currentWidth = window.innerWidth;
+      const currentHeight = window.innerHeight;
+
+      if (currentWidth !== lastWidth || currentHeight !== lastHeight) {
+        lastWidth = currentWidth;
+        lastHeight = currentHeight;
+        ScrollTrigger.refresh(true);
+      }
+    }, 250);
+  }
+
+  window.addEventListener('resize', handleViewportChange);
+  window.addEventListener('orientationchange', handleViewportChange);
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', handleViewportChange);
+  }
 }
 
 // Global navigation with Shift+Arrow keys
@@ -298,6 +353,8 @@ document.addEventListener('keydown', function(e) {
   // Only respond to Shift+Arrow (not plain arrows, which may be used in interactive graphs)
   if (!e.shiftKey) return;
   if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+
+  e.preventDefault();
 
   let targetUrl = null;
 
@@ -331,7 +388,6 @@ document.addEventListener('keydown', function(e) {
   }
 
   if (targetUrl) {
-    e.preventDefault();
     window.location.href = targetUrl;
   }
 });

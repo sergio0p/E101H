@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="nav-prev" content="perfect-competition.html">
+  <meta name="nav-next" content="monopoly.html">
   <title>Taxes and Subsidies | ECON 101H</title>
 
   <!-- KaTeX CSS -->
@@ -190,11 +192,7 @@
   <section class="title-slide">
     <div class="title-box">
       <h1>Taxes and Subsidies</h1>
-      <h2>ECON 101H: Introduction to Economics</h2>
     </div>
-    <p class="author">Sérgio O. Parreiras</p>
-    <p class="institute">Economics Department, UNC at Chapel Hill</p>
-    <p class="date">Spring 2026</p>
 
     <!-- DEBUG: Table of Contents -->
     <nav style="margin-top: 2rem; text-align: left; background: #eee; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
@@ -1515,9 +1513,9 @@
           return { qStar: eqQ, pB: eqP + t, pS: eqP };
         }
 
-        // Handle perfectly inelastic supply (vertical) - producers bear zero burden
+        // Handle perfectly inelastic supply (vertical) - producers bear all burden
         if (slopeS === Infinity) {
-          return { qStar: eqQ, pB: eqP + t, pS: eqP };
+          return { qStar: eqQ, pB: eqP, pS: eqP - t };
         }
 
         // Safeguard against division by zero if both slopes are 0

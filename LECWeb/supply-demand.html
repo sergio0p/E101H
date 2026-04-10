@@ -3,42 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="nav-prev" content="trade-advantage.html">
+  <meta name="nav-next" content="quiz-01.html">
   <title>Supply and Demand | ECON 101H</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <link rel="stylesheet" href="css/beamer-theme.css">
-  <style>
-    .scroll-frame { min-height: 100vh; position: relative; overflow: hidden; }
-    .scroll-frame-inner { min-height: 100vh; display: flex; flex-direction: column;
-      justify-content: center; align-items: center; padding: 2rem; background: #fff; }
-    .graph-frame .scroll-frame-inner { background: #fdf6e3; position: relative; }
-    .placeholder {
-      background: #f5f5f5;
-      border: 2px dashed #999;
-      border-radius: 4px;
-      padding: 2rem;
-      text-align: center;
-      color: #666;
-      margin: 1rem 0;
-      font-style: italic;
-    }
-  </style>
+  <script src="js/katex-macros.js"></script>
+  <!-- tikz-svg dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjs@15.1.1/lib/browser/math.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="js/scroll-animations.js"></script>
 </head>
 <body>
   <!-- Title Slide -->
   <section class="title-slide">
     <div class="title-box">
       <h1>Supply and Demand</h1>
-      <h2>ECON 101H: Introduction to Economics</h2>
     </div>
-    <p class="author">Sérgio O. Parreiras</p>
-    <p class="institute">Economics Department, UNC at Chapel Hill</p>
-    <p class="date">Spring 2026</p>
   </section>
 
   <!-- Frame 1: Individual Demands - Emma -->
-  <section class="frame">
+  <section class="frame overlay-frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Individual Demands</h1>
+      <h2 class="frame-title">Individual Demands</h2>
       <p class="frame-subtitle">Emma's Weekly Demand For Cups Of Coffee</p>
     </div>
     <div class="frame-content">
@@ -46,24 +37,24 @@
         <div class="column">
           <p>Emma's weekly demand for cups of coffee depends on its price:</p>
           <ul>
-            <li>When the price is above $9, Emma buys zero cups.</li>
-            <li>When the price is above $6 and at most $9, Emma buys 1 cup.</li>
-            <li>When the price is above $3 and at most $6, Emma buys 2 cups.</li>
-            <li>When the price is above $0 and at most $3, Emma buys 3 cups.</li>
-            <li>When the price is $0, Emma buys 4 cups.</li>
+            <li class="overlay">When the price is above $\$9$, Emma buys zero cups.</li>
+            <li class="overlay">When the price is above $\$6$ and at most $\$9$, Emma buys 1 cup.</li>
+            <li class="overlay">When the price is above $\$3$ and at most $\$6$, Emma buys 2 cups.</li>
+            <li class="overlay">When the price is above $\$0$ and at most $\$3$, Emma buys 3 cups.</li>
+            <li class="overlay">When the price is $\$0$, Emma buys 4 cups.</li>
           </ul>
         </div>
         <div class="column">
-          <div class="placeholder">[TikZ placeholder: Emma's step demand curve showing price on y-axis (0-14) and quantity on x-axis (0-4), with blue stepped demand curve]</div>
+          <svg id="svg-emma" style="display: block; width: 100%; max-height: 400px; margin: 0 auto;"></svg>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Frame 2: Individual Demands - Harriet -->
-  <section class="frame">
+  <section class="frame overlay-frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Individual Demands</h1>
+      <h2 class="frame-title">Individual Demands</h2>
       <p class="frame-subtitle">Harriet's Weekly Demand For Cups Of Coffee</p>
     </div>
     <div class="frame-content">
@@ -71,15 +62,15 @@
         <div class="column">
           <p>Harriet's weekly demand for cups of coffee depends on its price:</p>
           <ul>
-            <li>When the price is above $4, Harriet buys zero cups.</li>
-            <li>When the price is above $3 and at most $4, Harriet buys 2 cups.</li>
-            <li>When the price is above $2 and at most $3, Harriet buys 4 cups.</li>
-            <li>When the price is above $1 and at most $2, Harriet buys 6 cups.</li>
-            <li>When the price is at most $1, Harriet buys 8 cups.</li>
+            <li class="overlay">When the price is above $\$4$, Harriet buys zero cups.</li>
+            <li class="overlay">When the price is above $\$3$ and at most $\$4$, Harriet buys 2 cups.</li>
+            <li class="overlay">When the price is above $\$2$ and at most $\$3$, Harriet buys 4 cups.</li>
+            <li class="overlay">When the price is above $\$1$ and at most $\$2$, Harriet buys 6 cups.</li>
+            <li class="overlay">When the price is at most $\$1$, Harriet buys 8 cups.</li>
           </ul>
         </div>
         <div class="column">
-          <div class="placeholder">[TikZ placeholder: Harriet's step demand curve showing price on y-axis (0-10) and quantity on x-axis (0-9), with red stepped demand curve]</div>
+          <svg id="svg-harriet" style="display: block; width: 100%;"></svg>
         </div>
       </div>
     </div>
@@ -88,29 +79,29 @@
   <!-- Frame 3: Market Demand -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Market Demand</h1>
+      <h2 class="frame-title">Market Demand</h2>
       <p class="frame-subtitle">Emma and Harriet's Combined (i.e. "Market") Demand</p>
     </div>
     <div class="frame-content">
-      <div class="placeholder">[TikZ placeholder: Aggregated demand curve showing combined demand from both Emma and Harriet, price on y-axis (0-10) and quantity on x-axis (0-12), with stepped blue and red demand curve representing both consumers]</div>
+      <svg id="svg-market" style="display: block; width: 80%; max-width: 600px; margin: 0 auto;"></svg>
     </div>
   </section>
 
   <!-- Frame 4: Demand Curve Definition -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Demand Curve</h1>
+      <h2 class="frame-title">Demand Curve</h2>
       <p class="frame-subtitle">Determinants of (Market) Demand</p>
     </div>
     <div class="frame-content">
-      <div class="placeholder">[TikZ placeholder: Flow diagram showing "individual income levels and prices" leading to "individual demands for all goods", then aggregating to "market demand for the good/service", with box showing determinants: income, population, price of substitutes, price of complements, expectations, tastes]</div>
+      <svg id="svg-demand-flow" style="display: block; width: 90%; max-width: 650px; margin: 0 auto;"></svg>
     </div>
   </section>
 
   <!-- Frame 5: Consumer Surplus - Definition -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Consumer Surplus</h1>
+      <h2 class="frame-title">Consumer Surplus</h2>
       <p class="frame-subtitle">Emma's Surplus</p>
     </div>
     <div class="frame-content">
@@ -119,7 +110,7 @@
         <li>The <span class="structure">willingness to pay</span> (WTP) is the maximum amount Emma would pay for $Q(P)$ cups. For a step demand, this is the sum of the values she places on each cup.</li>
         <li>The <span class="structure">expenditure</span> is what Emma actually pays: $P \times Q(P)$.</li>
         <li>The <span class="structure">consumer surplus</span> (CS) is the difference: $CS = WTP - Expenditure$.</li>
-        <li>Example: At $P = 4$, Emma buys 2 cups. She values the 1st cup at $9 and the 2nd at $6, so $WTP = 15$. Her expenditure is $4 \times 2 = 8$. Her consumer surplus is $15 - 8 = 7$.</li>
+        <li>Example: At $P = 4$, Emma buys 2 cups. She values the 1st cup at $\$9$ and the 2nd at $\$6$, so $WTP = 15$. Her expenditure is $4 \times 2 = 8$. Her consumer surplus is $15 - 8 = 7$.</li>
       </ul>
     </div>
   </section>
@@ -127,8 +118,8 @@
   <!-- Frame 6: Consumer Surplus - Dynamic -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Consumer Surplus</h1>
-      <p class="frame-subtitle">Emma's Surplus as Price Falls</p>
+      <h2 class="frame-title">Consumer Surplus</h2>
+      <p class="frame-subtitle">Emma's Surplus at $P=4$</p>
     </div>
     <div class="frame-content">
       <div class="columns">
@@ -142,7 +133,7 @@
           </ul>
         </div>
         <div class="column">
-          <div class="placeholder">[TikZ placeholder: Emma's demand curve with animated shading showing WTP, expenditure, and consumer surplus at different price levels]</div>
+          <svg id="svg-emma-cs" style="display: block; width: 100%; max-height: 400px; margin: 0 auto;"></svg>
         </div>
       </div>
     </div>
@@ -151,7 +142,7 @@
   <!-- Frame 7: Consumer Surplus - Continuous Case -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Consumer Surplus</h1>
+      <h2 class="frame-title">Consumer Surplus</h2>
       <p class="frame-subtitle">Formal Definition</p>
     </div>
     <div class="frame-content">
@@ -168,18 +159,18 @@
   <!-- Frame 8: Consumer Surplus - Graphic -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Consumer Surplus</h1>
+      <h2 class="frame-title">Consumer Surplus</h2>
       <p class="frame-subtitle">Graphical Representation</p>
     </div>
     <div class="frame-content">
-      <div class="placeholder">[TikZ placeholder: Demand curve with shaded regions showing WTP (area under demand curve), Revenue/Expenditure (rectangle), and Consumer Surplus (difference). Regions labeled with colors: green for WTP, orange for expenditure, blue for consumer surplus]</div>
+      <svg id="svg-cs-cont" style="display: block; width: 70%; max-width: 550px; margin: 0 auto;"></svg>
     </div>
   </section>
 
   <!-- Frame 9: Cost Decomposition -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Decomposing Total Cost</h1>
+      <h2 class="frame-title">Decomposing Total Cost</h2>
       <p class="frame-subtitle">Fixed Cost and Marginal Costs</p>
     </div>
     <div class="frame-content">
@@ -192,7 +183,7 @@
           </ul>
         </div>
         <div class="column">
-          <div class="placeholder">[TikZ placeholder: Marginal cost step function (0-10 on Q-axis, 0-95 on MC-axis) with yellow shaded area under MC curve representing variable cost]</div>
+          <svg id="svg-mc" style="display: block; width: 100%;"></svg>
         </div>
       </div>
     </div>
@@ -201,29 +192,29 @@
   <!-- Frame 10: Producer Surplus -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Producer Surplus</h1>
+      <h2 class="frame-title">Producer Surplus</h2>
       <p class="frame-subtitle">Profit and Variable Costs</p>
     </div>
     <div class="frame-content">
-      <div class="placeholder">[TikZ placeholder: Marginal cost curve with price line, shaded areas showing variable cost (red) below price line and producer surplus (orange) above MC curve but below price line. Info box showing P, Q, Revenue, VC, and PS values]</div>
+      <svg id="svg-ps" style="display: block; width: 70%; max-width: 550px; margin: 0 auto;"></svg>
     </div>
   </section>
 
   <!-- Frame 11: Supply Curve Definition -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Supply Curve</h1>
+      <h2 class="frame-title">Supply Curve</h2>
       <p class="frame-subtitle">Determinants of (Market) Supply</p>
     </div>
     <div class="frame-content">
-      <div class="placeholder">[TikZ placeholder: Flow diagram showing "price, available technology, prices of inputs" leading to "individual producer supply", then aggregating to "market supply for the good/service", with box showing determinants: available technology, prices of inputs, opportunity costs, taxes/subsidies, expectations, entry/exit of producers]</div>
+      <svg id="svg-supply-flow" style="display: block; width: 90%; max-width: 720px; margin: 0 auto;"></svg>
     </div>
   </section>
 
   <!-- Frame 12: Producer Surplus Definition -->
   <section class="frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Producer Surplus</h1>
+      <h2 class="frame-title">Producer Surplus</h2>
       <p class="frame-subtitle">Definition and Interpretation</p>
     </div>
     <div class="frame-content">
@@ -234,8 +225,377 @@
     </div>
   </section>
 
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-  <script src="js/katex-macros.js"></script>
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- tikz-svg render calls                              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <script type="module">
+    import { render } from 'https://sergio0p.github.io/tikz-svg/src-v2/index.js';
+
+    // Shared label style
+    const L = {
+      shape: 'rectangle', fill: 'none', stroke: 'none',
+      fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+    };
+
+    // ── 1. Emma's Demand ──────────────────────────────
+    render(document.getElementById('svg-emma'), {
+      scaleX: 20, scaleY: 12.5, originX: 40, originY: 195, padding: 10,
+      styles: { L },
+      draw: [
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-14}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+        { type: 'path', points: [{x:0,y:0},{x:5.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+        { type: 'path', points: [
+          {x:0,y:-13},{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},
+          {x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:0},{x:4,y:0}
+        ], stroke: '#268bd2', strokeWidth: 3 },
+        { type: 'node', id:'eP', style:'L', position:{x:0,y:-14.5}, label:'$P$', fontSize:16 },
+        { type: 'node', id:'eQ', style:'L', position:{x:5.7,y:0}, label:'$Q$', fontSize:16 },
+        { type: 'node', id:'eq1', style:'L', position:{x:1,y:0.8}, label:'$1$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'eq2', style:'L', position:{x:2,y:0.8}, label:'$2$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'eq3', style:'L', position:{x:3,y:0.8}, label:'$3$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'eq4', style:'L', position:{x:4,y:0.8}, label:'$4$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'ep3', style:'L', position:{x:-0.6,y:-3}, label:'$3$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'ep6', style:'L', position:{x:-0.6,y:-6}, label:'$6$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'ep9', style:'L', position:{x:-0.6,y:-9}, label:'$9$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'ep12', style:'L', position:{x:-0.6,y:-12}, label:'$12$', anchor:'east', fontSize:10 },
+      ],
+    });
+
+    // ── 2. Harriet's Demand ───────────────────────────
+    render(document.getElementById('svg-harriet'), {
+      scale: 22, originX: 40, originY: 145, padding: 10,
+      styles: { L },
+      draw: [
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+        { type: 'path', points: [{x:0,y:0},{x:9.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+        { type: 'path', points: [
+          {x:0,y:-5.5},{x:0,y:-4},{x:2,y:-4},{x:2,y:-3},
+          {x:4,y:-3},{x:4,y:-2},{x:6,y:-2},{x:6,y:-1},{x:8,y:-1},{x:8,y:0}
+        ], stroke: '#dc322f', strokeWidth: 3 },
+        { type: 'node', id:'hP', style:'L', position:{x:0,y:-6.3}, label:'$P$', fontSize:16 },
+        { type: 'node', id:'hQ', style:'L', position:{x:9.7,y:0}, label:'$Q$', fontSize:16 },
+        { type: 'node', id:'hq2', style:'L', position:{x:2,y:0.5}, label:'$2$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'hq4', style:'L', position:{x:4,y:0.5}, label:'$4$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'hq6', style:'L', position:{x:6,y:0.5}, label:'$6$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'hq8', style:'L', position:{x:8,y:0.5}, label:'$8$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'hp1', style:'L', position:{x:-0.5,y:-1}, label:'$1$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'hp2', style:'L', position:{x:-0.5,y:-2}, label:'$2$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'hp3', style:'L', position:{x:-0.5,y:-3}, label:'$3$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'hp4', style:'L', position:{x:-0.5,y:-4}, label:'$4$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'hp5', style:'L', position:{x:-0.5,y:-5}, label:'$5$', anchor:'east', fontSize:10 },
+      ],
+    });
+
+    // ── 3. Market Demand ──────────────────────────────
+    render(document.getElementById('svg-market'), {
+      scale: 18, originX: 40, originY: 200, padding: 10,
+      styles: { L },
+      draw: [
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-10}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+        { type: 'path', points: [{x:0,y:0},{x:13.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+        // Blue: P=9 to P=4 (Emma only)
+        { type: 'path', points: [{x:0,y:-9.5},{x:0,y:-9},{x:1,y:-9},{x:1,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+        { type: 'path', points: [{x:1,y:-6},{x:2,y:-6},{x:2,y:-4}], stroke: '#268bd2', strokeWidth: 3 },
+        // Red: P=4 (Harriet enters)
+        { type: 'path', points: [{x:2,y:-4},{x:4,y:-4},{x:4,y:-3}], stroke: '#dc322f', strokeWidth: 3 },
+        // Blue: P=3 (Emma +1)
+        { type: 'path', points: [{x:4,y:-3},{x:5,y:-3}], stroke: '#268bd2', strokeWidth: 3 },
+        // Red: P=3 to P=0 (Harriet continues)
+        { type: 'path', points: [{x:5,y:-3},{x:7,y:-3},{x:7,y:-2}], stroke: '#dc322f', strokeWidth: 3 },
+        { type: 'path', points: [{x:7,y:-2},{x:9,y:-2},{x:9,y:-1}], stroke: '#dc322f', strokeWidth: 3 },
+        { type: 'path', points: [{x:9,y:-1},{x:11,y:-1},{x:11,y:0}], stroke: '#dc322f', strokeWidth: 3 },
+        // Blue: P=0 (Emma +1)
+        { type: 'path', points: [{x:11,y:0},{x:12,y:0}], stroke: '#268bd2', strokeWidth: 3 },
+        // Labels
+        { type: 'node', id:'mP', style:'L', position:{x:0,y:-10.5}, label:'$P$', fontSize:16 },
+        { type: 'node', id:'mQ', style:'L', position:{x:13.7,y:0}, label:'$Q$', fontSize:16 },
+        // Q ticks
+        { type: 'node', id:'mq1', style:'L', position:{x:1,y:0.6}, label:'$1$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq2', style:'L', position:{x:2,y:0.6}, label:'$2$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq3', style:'L', position:{x:3,y:0.6}, label:'$3$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq4', style:'L', position:{x:4,y:0.6}, label:'$4$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq5', style:'L', position:{x:5,y:0.6}, label:'$5$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq6', style:'L', position:{x:6,y:0.6}, label:'$6$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq7', style:'L', position:{x:7,y:0.6}, label:'$7$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq8', style:'L', position:{x:8,y:0.6}, label:'$8$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq9', style:'L', position:{x:9,y:0.6}, label:'$9$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq10', style:'L', position:{x:10,y:0.6}, label:'$10$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq11', style:'L', position:{x:11,y:0.6}, label:'$11$', anchor:'north', fontSize:8 },
+        { type: 'node', id:'mq12', style:'L', position:{x:12,y:0.6}, label:'$12$', anchor:'north', fontSize:8 },
+        // P ticks
+        { type: 'node', id:'mp1', style:'L', position:{x:-0.5,y:-1}, label:'$1$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'mp2', style:'L', position:{x:-0.5,y:-2}, label:'$2$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'mp3', style:'L', position:{x:-0.5,y:-3}, label:'$3$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'mp4', style:'L', position:{x:-0.5,y:-4}, label:'$4$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'mp5', style:'L', position:{x:-0.5,y:-5}, label:'$5$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'mp6', style:'L', position:{x:-0.5,y:-6}, label:'$6$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'mp7', style:'L', position:{x:-0.5,y:-7}, label:'$7$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'mp8', style:'L', position:{x:-0.5,y:-8}, label:'$8$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'mp9', style:'L', position:{x:-0.5,y:-9}, label:'$9$', anchor:'east', fontSize:9 },
+      ],
+    });
+
+    // ── 4. Demand Flow Diagram ────────────────────────
+    render(document.getElementById('svg-demand-flow'), {
+      nodeDistance: 370,
+      stateStyle: {
+        shape: 'rectangle', fill: '#dc322f', stroke: 'none',
+        labelColor: '#ffffff', fontSize: 14,
+        fontFamily: 'sans-serif',
+        shadow: { dx: 2, dy: 2, blur: 3, color: 'rgba(0,0,0,0.3)' },
+        innerSep: 10,
+      },
+      edgeStyle: { stroke: '#586e75', strokeWidth: 1.5, arrow: 'stealth' },
+      states: {
+        A: { label: 'income & prices' },
+        B: { position: { right: 'A' }, label: 'individual demands' },
+        C: { position: { below: 'A' }, yshift: -100, label: 'market demand' },
+        D: { position: { right: 'C' }, label: [
+          'income,', 'population,', 'price of substitutes,',
+          'price of complements,', 'expectations,', 'tastes.'
+        ], shape: 'rectangle split', parts: 6,
+          fill: '#ffffff', stroke: '#586e75', strokeWidth: 1,
+          labelColor: '#333', fontSize: 10, innerSep: 6 },
+      },
+      edges: [
+        { from: 'A', to: 'B', label: 'choose baskets' },
+        { from: 'B', to: 'C', label: 'aggregate' },
+        { from: 'D', to: 'C' },
+      ],
+    });
+
+    // ── 5. Emma's CS (static at P=4, Q=2) ────────────
+    render(document.getElementById('svg-emma-cs'), {
+      scaleX: 22, scaleY: 13.75, originX: 40, originY: 170, padding: 10,
+      styles: { L },
+      draw: [
+        // CS fill (blue): area above P=4, below demand
+        { type: 'path', points: [
+          {x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-4},{x:0,y:-4}
+        ], cycle: true, fill: 'rgba(38,139,210,0.5)', stroke: 'none' },
+        // Expenditure fill (orange): P*Q rectangle
+        { type: 'path', points: [
+          {x:0,y:-4},{x:2,y:-4},{x:2,y:0},{x:0,y:0}
+        ], cycle: true, fill: 'rgba(203,75,22,0.5)', stroke: 'none' },
+        // Axes
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-11}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+        { type: 'path', points: [{x:0,y:0},{x:5.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+        // Demand step curve (blue)
+        { type: 'path', points: [
+          {x:0,y:-10},{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},
+          {x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:0},{x:4,y:0}
+        ], stroke: '#268bd2', strokeWidth: 3 },
+        // Dashed price line at P=4
+        { type: 'path', points: [{x:0,y:-4},{x:2,y:-4}], dashed: true, stroke: '#586e75', strokeWidth: 1.5 },
+        // Labels
+        { type: 'node', id:'csP', style:'L', position:{x:0,y:-11.3}, label:'$P$', fontSize:16 },
+        { type: 'node', id:'csQ', style:'L', position:{x:5.7,y:0}, label:'$Q$', fontSize:16 },
+        { type: 'node', id:'csLbl', style:'L', position:{x:0.5,y:-7}, label:'CS', fontSize:13, labelColor:'#ffffff' },
+        { type: 'node', id:'expLbl', style:'L', position:{x:0.7,y:-2}, label:'Exp', fontSize:13, labelColor:'#ffffff' },
+        // Ticks
+        { type: 'node', id:'cs1', style:'L', position:{x:1,y:0.6}, label:'$1$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'cs2', style:'L', position:{x:2,y:0.6}, label:'$2$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'cs3', style:'L', position:{x:3,y:0.6}, label:'$3$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'cs4', style:'L', position:{x:4,y:0.6}, label:'$4$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'csp4', style:'L', position:{x:-0.5,y:-4}, label:'$4$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'csp6', style:'L', position:{x:-0.5,y:-6}, label:'$6$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'csp9', style:'L', position:{x:-0.5,y:-9}, label:'$9$', anchor:'east', fontSize:10 },
+      ],
+    });
+
+    // ── 6. CS Continuous (Graphic) ────────────────────
+    {
+      const f = x => 4.3 - 2 * ((Math.pow(x, 1.3) - 2) / 3);
+      // Pre-compute curve points from x=0 to x=2 for fills
+      const pts = [];
+      for (let i = 0; i <= 30; i++) {
+        const x = 2 * i / 30;
+        pts.push({x, y: -f(x)});
+      }
+
+      render(document.getElementById('svg-cs-cont'), {
+        scale: 35, originX: 45, originY: 230, padding: 10,
+        styles: { L },
+        draw: [
+          // CS fill (blue): under demand, above price
+          { type: 'path', points: [...pts, {x:2,y:-4}, {x:0,y:-4}],
+            cycle: true, fill: 'rgba(38,139,210,0.5)', stroke: 'none' },
+          // Expenditure fill (orange): rectangle
+          { type: 'path', points: [{x:0,y:-4},{x:2,y:-4},{x:2,y:0},{x:0,y:0}],
+            cycle: true, fill: 'rgba(203,75,22,0.5)', stroke: 'none' },
+          // Axes
+          { type: 'path', points: [{x:0,y:0.2},{x:0,y:-6.5}], arrow: '->', stroke: '#888', strokeWidth: 2 },
+          { type: 'path', points: [{x:-0.2,y:0},{x:7,y:0}], arrow: '->', stroke: '#888', strokeWidth: 2 },
+          // Demand curve (red)
+          { type: 'plot', expr: f, domain: [0, 5.2], samples: 100,
+            stroke: '#dc322f', strokeWidth: 3 },
+          // Dashed equilibrium lines
+          { type: 'path', points: [{x:0,y:-4},{x:2,y:-4}], dashed: true, stroke: '#586e75', strokeWidth: 1.5 },
+          { type: 'path', points: [{x:2,y:0},{x:2,y:-4}], dashed: true, stroke: '#586e75', strokeWidth: 1.5 },
+          // Labels
+          { type: 'node', id:'cscP', style:'L', position:{x:0,y:-6.8}, label:'$p_X$', fontSize:14 },
+          { type: 'node', id:'cscX', style:'L', position:{x:7.2,y:0}, label:'$X$', fontSize:14 },
+          { type: 'node', id:'cscPval', style:'L', position:{x:-0.5,y:-4}, label:'$p_X^0$', anchor:'east', fontSize:11 },
+          { type: 'node', id:'cscXval', style:'L', position:{x:2,y:0.6}, label:'$x(p_X^0)$', anchor:'north', fontSize:10 },
+          { type: 'node', id:'cscDlbl', style:'L', position:{x:5.3,y:-0.3}, label:'$p_X(x)$', fontSize:12, labelColor:'#dc322f' },
+          // Legend boxes
+          { type: 'node', id:'legCS', position:{x:5.5,y:-5.5},
+            label:'CS', shape:'rectangle', fill:'rgba(38,139,210,0.7)',
+            stroke:'#333', strokeWidth:1, labelColor:'#fff', fontSize:11, innerSep:4,
+            fontFamily:"'Times New Roman', serif" },
+          { type: 'node', id:'legR', position:{x:5.5,y:-4.5},
+            label:'Revenue (R)', shape:'rectangle', fill:'rgba(203,75,22,0.7)',
+            stroke:'#333', strokeWidth:1, labelColor:'#fff', fontSize:11, innerSep:4,
+            fontFamily:"'Times New Roman', serif" },
+          { type: 'node', id:'cscForm', style:'L', position:{x:5.5,y:-3.7},
+            label:'CS = WTP - R', fontSize:11 },
+        ],
+      });
+    }
+
+    // ── 7. MC Step Function with VC ───────────────────
+    // MC values: 8,4,4,8,14,22,34,50,68,88 (normalized /10)
+    {
+      const vcFill = [
+        {x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},
+        {x:2,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},
+        {x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},
+        {x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},
+        {x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8},{x:10,y:0}
+      ];
+
+      render(document.getElementById('svg-mc'), {
+        scale: 20, originX: 45, originY: 195, padding: 10,
+        styles: { L },
+        draw: [
+          { type: 'path', points: vcFill, cycle: true, fill: 'rgba(255,255,0,0.5)', stroke: 'none' },
+          { type: 'path', points: [{x:0,y:0.3},{x:0,y:-9.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+          { type: 'path', points: [{x:0,y:0},{x:11,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+          // MC step curve (magenta)
+          { type: 'path', points: [
+            {x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:2,y:-0.4},{x:3,y:-0.4},
+            {x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},
+            {x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},
+            {x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8}
+          ], stroke: '#d33682', strokeWidth: 3 },
+          { type: 'node', id:'mcP', style:'L', position:{x:0,y:-9.8}, label:'$MC$', fontSize:14 },
+          { type: 'node', id:'mcQ', style:'L', position:{x:11.2,y:0}, label:'$Q$', fontSize:14 },
+          // Q ticks
+          { type: 'node', id:'mcq1', style:'L', position:{x:1,y:0.5}, label:'$1$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq2', style:'L', position:{x:2,y:0.5}, label:'$2$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq3', style:'L', position:{x:3,y:0.5}, label:'$3$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq4', style:'L', position:{x:4,y:0.5}, label:'$4$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq5', style:'L', position:{x:5,y:0.5}, label:'$5$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq6', style:'L', position:{x:6,y:0.5}, label:'$6$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq7', style:'L', position:{x:7,y:0.5}, label:'$7$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq8', style:'L', position:{x:8,y:0.5}, label:'$8$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq9', style:'L', position:{x:9,y:0.5}, label:'$9$', anchor:'north', fontSize:9 },
+          { type: 'node', id:'mcq10', style:'L', position:{x:10,y:0.5}, label:'$10$', anchor:'north', fontSize:9 },
+          // P ticks (actual MC values)
+          { type: 'node', id:'mcp10', style:'L', position:{x:-0.5,y:-1}, label:'$10$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'mcp20', style:'L', position:{x:-0.5,y:-2}, label:'$20$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'mcp30', style:'L', position:{x:-0.5,y:-3}, label:'$30$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'mcp40', style:'L', position:{x:-0.5,y:-4}, label:'$40$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'mcp50', style:'L', position:{x:-0.5,y:-5}, label:'$50$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'mcp60', style:'L', position:{x:-0.5,y:-6}, label:'$60$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'mcp70', style:'L', position:{x:-0.5,y:-7}, label:'$70$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'mcp80', style:'L', position:{x:-0.5,y:-8}, label:'$80$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'mcp90', style:'L', position:{x:-0.5,y:-9}, label:'$90$', anchor:'east', fontSize:9 },
+        ],
+      });
+    }
+
+    // ── 8. Producer Surplus (static at P=50, Q=8) ─────
+    {
+      // Red VC fill (area under MC from 0 to 8)
+      const vcPS = [
+        {x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},
+        {x:2,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},
+        {x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},
+        {x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},{x:8,y:0}
+      ];
+      // Orange PS fill (above MC, below P=50)
+      const psFill = [
+        {x:0,y:-5.0},{x:8,y:-5.0},
+        {x:7,y:-5.0},{x:7,y:-3.4},{x:6,y:-3.4},
+        {x:6,y:-2.2},{x:5,y:-2.2},{x:5,y:-1.4},{x:4,y:-1.4},
+        {x:4,y:-0.8},{x:3,y:-0.8},{x:3,y:-0.4},{x:2,y:-0.4},
+        {x:1,y:-0.4},{x:1,y:-0.8},{x:0,y:-0.8}
+      ];
+
+      render(document.getElementById('svg-ps'), {
+        scale: 18, originX: 45, originY: 185, padding: 10,
+        styles: { L },
+        draw: [
+          { type: 'path', points: vcPS, cycle: true, fill: 'rgba(220,50,47,0.3)', stroke: 'none' },
+          { type: 'path', points: psFill, cycle: true, fill: 'rgba(203,75,22,0.5)', stroke: 'none' },
+          // Axes
+          { type: 'path', points: [{x:0,y:0.3},{x:0,y:-9.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+          { type: 'path', points: [{x:0,y:0},{x:11,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+          // MC step curve (magenta)
+          { type: 'path', points: [
+            {x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:2,y:-0.4},{x:3,y:-0.4},
+            {x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},
+            {x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},
+            {x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8}
+          ], stroke: '#d33682', strokeWidth: 3 },
+          // Price line P=50 (dotted)
+          { type: 'path', points: [{x:0,y:-5.0},{x:8,y:-5.0}], dotted: true, stroke: '#586e75', strokeWidth: 2 },
+          // Dotted Q=8 line
+          { type: 'path', points: [{x:8,y:0},{x:8,y:-5.0}], dotted: true, stroke: '#586e75', strokeWidth: 1.5 },
+          // Labels
+          { type: 'node', id:'psP', style:'L', position:{x:0,y:-9.8}, label:'$P$', fontSize:14 },
+          { type: 'node', id:'psQ', style:'L', position:{x:11.2,y:0}, label:'$Q$', fontSize:14 },
+          { type: 'node', id:'vcLbl', style:'L', position:{x:3,y:-0.5}, label:'VC', fontSize:12, labelColor:'rgba(220,50,47,0.8)' },
+          { type: 'node', id:'psLbl', style:'L', position:{x:2,y:-3.5}, label:'PS', fontSize:12, labelColor:'rgba(203,75,22,1)' },
+          { type: 'node', id:'psPval', style:'L', position:{x:-0.5,y:-5.0}, label:'$50$', anchor:'east', fontSize:10 },
+          { type: 'node', id:'psQval', style:'L', position:{x:8,y:0.5}, label:'$8$', anchor:'north', fontSize:10 },
+          // Info box
+          { type: 'node', id:'psInfo', position:{x:7,y:-8},
+            label: [
+              '$P=50,\\; Q=8$',
+              '$\\text{Rev}=400$',
+              '$VC=144,\\; PS=256$',
+            ],
+            shape: 'rectangle split', parts: 3,
+            fill: '#ffffff', stroke: '#586e75', strokeWidth: 1.5,
+            labelColor: '#333', fontSize: 10,
+            fontFamily: "'Times New Roman', serif",
+            innerSep: 6, shadow: true, cornerRadius: 4,
+          },
+        ],
+      });
+    }
+
+    // ── 9. Supply Flow Diagram ────────────────────────
+    render(document.getElementById('svg-supply-flow'), {
+      nodeDistance: 420,
+      stateStyle: {
+        shape: 'rectangle', fill: '#268bd2', stroke: 'none',
+        labelColor: '#ffffff', fontSize: 14,
+        fontFamily: 'sans-serif',
+        shadow: { dx: 2, dy: 2, blur: 3, color: 'rgba(0,0,0,0.3)' },
+        innerSep: 10,
+      },
+      edgeStyle: { stroke: '#586e75', strokeWidth: 1.5, arrow: 'stealth' },
+      states: {
+        A: { label: 'prices, technology, inputs' },
+        B: { position: { right: 'A' }, label: 'individual supply' },
+        C: { position: { below: 'A' }, yshift: -100, label: 'market supply' },
+        D: { position: { right: 'C' }, label: [
+          'available technology,', 'prices of inputs,', 'opportunity costs,',
+          'taxes or subsidies,', 'expectations,', 'entry or exit of producers.'
+        ], shape: 'rectangle split', parts: 6,
+          fill: '#ffffff', stroke: '#586e75', strokeWidth: 1,
+          labelColor: '#333', fontSize: 10, innerSep: 6 },
+      },
+      edges: [
+        { from: 'A', to: 'B', label: 'firms choose output' },
+        { from: 'B', to: 'C', label: 'aggregate' },
+        { from: 'D', to: 'C' },
+      ],
+    });
+  </script>
+
 </body>
 </html>

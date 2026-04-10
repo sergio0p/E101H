@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="nav-prev" content="big-ideas.html">
+  <meta name="nav-next" content="supply-demand.html">
   <title>Trade and Comparative Advantage | ECON 101H</title>
 
   <!-- KaTeX CSS -->
@@ -10,6 +12,10 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/beamer-theme.css">
+  <script src="js/scroll-animations.js"></script>
+  <!-- tikz-svg dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjs@15.1.1/lib/browser/math.js"></script>
 
   <style>
     /* Only styles NOT in beamer-theme.css */
@@ -49,11 +55,7 @@
   <section class="title-slide">
     <div class="title-box">
       <h1>Trade and Comparative Advantage</h1>
-      <h2>ECON 101H: Introduction to Economics</h2>
     </div>
-    <p class="author">Sérgio O. Parreiras</p>
-    <p class="institute">Economics Department, UNC at Chapel Hill</p>
-    <p class="date">Spring 2026</p>
   </section>
 
   <!-- Frame 1: Trade Benefits -->
@@ -239,9 +241,10 @@
 
       <img src="images/PPF.png" alt="Production Possibility Frontier" style="max-width: 100%;">
 
-      <div class="placeholder" style="margin-top: 1rem;">
-        [TikZ placeholder: The slope of the PPF is the marginal rate of transformation: by how many units production of coconuts must fall in order to produce one additional fish.]
-      </div>
+      <svg viewBox="0 0 300 60" style="display: block; width: 60%; max-width: 350px; margin: 1rem auto;">
+        <ellipse cx="150" cy="30" rx="140" ry="25" fill="none" stroke="#2e8b34" stroke-width="3"/>
+        <text x="150" y="35" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#000">MRT = slope of the PPF</text>
+      </svg>
     </div>
   </section>
 
@@ -259,6 +262,8 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <script src="js/katex-macros.js"></script>
+
+  <!-- MRT annotation is inline SVG, no script needed -->
 
 </body>
 </html>
