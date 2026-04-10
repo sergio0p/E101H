@@ -7,22 +7,33 @@ description: Web lecture notes composition using GSAP scroll animations, SVG gra
 
 This skill provides patterns for composing scroll-based, animated lecture notes for ECON courses.
 
+**Content role:** Focus on implementing the user's content into HTML using the patterns below. Offer content suggestions (wording, topic coverage, structure) only when the user explicitly requests them.
+
 ## Startup Steps
 
-This repo is **E101H** (ECON 101H GitHub Pages). Lecture notes live in `LECWeb/`.
+### Step 1: Identify target course
+Ask the user which course they are working on: **101** or **510**. This determines file paths and the index page URL.
 
-### Step 1: Identify working directory
+| Course | Working dir | GitHub Pages repo | Local index URL |
+|--------|-------------|-------------------|-----------------|
+| 101 | `101/` | `Projects/E101H/LECWeb/` | `file:///Users/sergiop/Dropbox/Teaching/Projects/LECWeb/101/index.html` |
+| 510 | `510/` | `Projects/E510/LECWeb/` | `file:///Users/sergiop/Dropbox/Teaching/Projects/LECWeb/510/index.html` |
 
-Lecture files are in `LECWeb/` at the repo root:
+**Important:** The working dir (`Projects/LECWeb/101/` etc.) has **no git remote**. The GitHub Pages repos (`Projects/E101H/LECWeb/`, `Projects/E510/LECWeb/`) are the ones with remotes that get pushed. To deploy changes, use the **sync-deploy** agent which copies files from the working dir to the GitHub Pages repo, commits, and pushes.
+
+### Step 2: Start local server and open preview
+Lectures that use tikz-svg `render()` or `renderAutomaton()` (ES module imports) **require an HTTP server** — ES modules are blocked over `file://` URLs. Start a server and preview via `localhost`:
+
+```bash
+python3 -m http.server 8080 --directory /Users/sergiop/Dropbox/Teaching/Projects/LECWeb &>/dev/null &
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --incognito --window-size=500,1080 "http://localhost:8080/[course]/index.html" &>/dev/null &
 ```
-LECWeb/
-├── index.html
-├── big-ideas.html, supply-demand.html, market-equilibrium.html, ...
-├── css/beamer-theme.css
-├── js/katex-macros.js, scroll-animations.js
-├── images/
-└── svg/
-```
+
+Replace `[course]` with `101` or `510` based on Step 1. The narrow width (500px) minimizes screen footprint so the user can keep their editor alongside.
+
+For lectures without ES module imports, `file://` URLs still work, but `localhost` is always safe.
+
+**Note:** The Chrome extension (`mcp__claude-in-chrome__navigate`) cannot handle `file://` URLs — it prepends `https://`. Always use the Chrome binary directly for local file preview.
 
 ## Design Philosophy
 
@@ -76,15 +87,13 @@ Alternate between animation and scrolling to maintain student attention:
 ## Page Sections
 
 ### Title Slide
+Chapter title slides have only the title and an optional subtitle. **Do not** include author name, affiliation, or date — those appear only on the index page.
 ```html
 <section class="title-slide">
   <div class="title-box">
     <h1>Topic Title</h1>
-    <h2>ECON 101H: Introduction to Economics</h2>
+    <h2>Optional subtitle</h2>  <!-- omit if not needed -->
   </div>
-  <p class="author">Sergio O. Parreiras</p>
-  <p class="institute">Economics Department, UNC at Chapel Hill</p>
-  <p class="date">Spring 2026</p>
 </section>
 ```
 
@@ -126,6 +135,34 @@ Use `data-overlay-only` instead of `data-overlay` for Beamer `\only<N>` (visible
   <div class="block-body">Content with $math$...</div>
 </div>
 ```
+
+### Block Group (Left-Aligned with 1:3 Margin)
+When multiple blocks appear together, wrap in `.block-group` for left-aligned layout with balanced margins:
+```html
+<div class="block-group">
+  <div class="block">
+    <div class="block-title">Term 1</div>
+    <div class="block-body">Definition text...</div>
+  </div>
+  <div class="block">
+    <div class="block-title">Term 2</div>
+    <div class="block-body">Another definition...</div>
+  </div>
+</div>
+```
+CSS grid `1fr auto 3fr` sizes the `auto` column to the widest block. All blocks left-align, with left:right space in a 1:3 ratio. Blocks use `width: fit-content` to shrink to content.
+
+### Block Text Balancing (balance_blocks.py)
+After composing blocks, run the script to balance text across lines:
+```bash
+python3 balance_blocks.py 101/unemployment.html
+```
+The script:
+1. Splits block body text into 2 balanced lines by inserting `<br>` at the character-count midpoint (skips blocks with ≤4 words)
+2. Preserves inline HTML (e.g., `<span class="alert-text">`)
+3. Re-balances on each run (removes prior `<br>` tags first)
+
+Combined with `width: fit-content` on `.block`, this gives tight blocks with no runtime JS.
 
 ### Description List (Beamer-style, inline dt/dd)
 ```html
@@ -172,7 +209,7 @@ Em dashes must have **no space** between the dash and the surrounding text: `wor
 ```html
 <section class="section-header">
   <div class="section-title-box"><h1>Section Name</h1></div>
-  <h2>Optional description</h2>
+  <h2>Optional subtitle</h2>  <!-- omit if not needed -->
 </section>
 ```
 
@@ -348,12 +385,17 @@ const katexMacros = {
 ## File Structure
 
 ```
-LECWeb/
-├── index.html
-├── big-ideas.html, supply-demand.html, market-equilibrium.html, ...
+101/
+├── index.html, perfect-competition.html, taxes-subsidies.html
 ├── css/beamer-theme.css
 ├── js/katex-macros.js, scroll-animations.js
-├── images/
+├── svg/                        # External SVGs if needed
+└── GRAPH-SPECS.md              # Detailed reference
+
+510-sandbox/
+├── index.html, methodology.html, choice-under-uncertainty.html
+├── css/ -> ../101/css           # Symlink or copy
+├── js/katex-macros.js (510-specific), scroll-animations.js -> ../../101/js/
 └── svg/
 ```
 
