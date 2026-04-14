@@ -27,7 +27,7 @@
   </section>
 
   <!-- Frame 1: Individual Demands - Emma -->
-  <section class="frame overlay-frame">
+  <section id="emma-frame" class="frame overlay-frame">
     <div class="frame-title-bar">
       <h2 class="frame-title">Individual Demands</h2>
       <p class="frame-subtitle">Emma's Weekly Demand For Cups Of Coffee</p>
@@ -52,7 +52,7 @@
   </section>
 
   <!-- Frame 2: Individual Demands - Harriet -->
-  <section class="frame overlay-frame">
+  <section id="harriet-frame" class="frame overlay-frame">
     <div class="frame-title-bar">
       <h2 class="frame-title">Individual Demands</h2>
       <p class="frame-subtitle">Harriet's Weekly Demand For Cups Of Coffee</p>
@@ -77,12 +77,21 @@
   </section>
 
   <!-- Frame 3: Market Demand -->
-  <section class="frame">
+  <section id="market-frame" class="frame overlay-frame">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Market Demand</h2>
+      <h2 class="frame-title">"Market" Demand</h2>
       <p class="frame-subtitle">Emma and Harriet's Combined (i.e. "Market") Demand</p>
     </div>
     <div class="frame-content">
+      <div style="height: 0; overflow: hidden;">
+        <span class="overlay"></span>
+        <span class="overlay"></span>
+        <span class="overlay"></span>
+        <span class="overlay"></span>
+        <span class="overlay"></span>
+        <span class="overlay"></span>
+        <span class="overlay"></span>
+      </div>
       <svg id="svg-market" style="display: block; width: 80%; max-width: 600px; margin: 0 auto;"></svg>
     </div>
   </section>
@@ -115,11 +124,11 @@
     </div>
   </section>
 
-  <!-- Frame 6: Consumer Surplus - Dynamic -->
-  <section class="frame">
+  <!-- Frame 6: Consumer Surplus - Dynamic (20 overlay steps) -->
+  <section id="cs-frame" class="frame overlay-frame">
     <div class="frame-title-bar">
       <h2 class="frame-title">Consumer Surplus</h2>
-      <p class="frame-subtitle">Emma's Surplus at $P=4$</p>
+      <p class="frame-subtitle">Emma's Surplus</p>
     </div>
     <div class="frame-content">
       <div class="columns">
@@ -130,7 +139,56 @@
             <li>Willingness to pay increases (weakly).</li>
             <li>Expenditure may increase or decrease.</li>
             <li>Consumer surplus increases.</li>
+            <li><!-- dynamic P,Q line -->
+              <span data-frame="1-2">$P=9$, $Q=1$</span>
+              <span data-frame="3-4">$P=8$, $Q=1$</span>
+              <span data-frame="5-6">$P=7$, $Q=1$</span>
+              <span data-frame="7-8">$P=6$, $Q=2$</span>
+              <span data-frame="9-10">$P=5$, $Q=2$</span>
+              <span data-frame="11-12">$P=4$, $Q=2$</span>
+              <span data-frame="13-14">$P=3$, $Q=3$</span>
+              <span data-frame="15-16">$P=2$, $Q=3$</span>
+              <span data-frame="17-18">$P=1$, $Q=3$</span>
+              <span data-frame="19-20">$P=0$, $Q=4$</span>
+            </li>
+            <li><!-- dynamic WTP, Expenditure line -->
+              <span data-frame="1-2">$WTP=9$, $Expenditure=9$</span>
+              <span data-frame="3-4">$WTP=9$, $Expenditure=8$</span>
+              <span data-frame="5-6">$WTP=9$, $Expenditure=7$</span>
+              <span data-frame="7-8">$WTP=15$, $Expenditure=12$</span>
+              <span data-frame="9-10">$WTP=15$, $Expenditure=10$</span>
+              <span data-frame="11-12">$WTP=15$, $Expenditure=8$</span>
+              <span data-frame="13-14">$WTP=21$, $Expenditure=9$</span>
+              <span data-frame="15-16">$WTP=21$, $Expenditure=6$</span>
+              <span data-frame="17-18">$WTP=21$, $Expenditure=3$</span>
+              <span data-frame="19-20">$WTP=27$, $Expenditure=0$</span>
+            </li>
+            <li><!-- dynamic CS line -->
+              <span data-frame="1-2">$CS=0$</span>
+              <span data-frame="3-4">$CS=1$</span>
+              <span data-frame="5-6">$CS=2$</span>
+              <span data-frame="7-8">$CS=3$</span>
+              <span data-frame="9-10">$CS=5$</span>
+              <span data-frame="11-12">$CS=7$</span>
+              <span data-frame="13-14">$CS=12$</span>
+              <span data-frame="15-16">$CS=15$</span>
+              <span data-frame="17-18">$CS=18$</span>
+              <span data-frame="19-20">$CS=27$</span>
+            </li>
           </ul>
+          <!-- hidden overlay spacers to drive the 20 scroll steps -->
+          <div style="height: 0; overflow: hidden;">
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+          </div>
         </div>
         <div class="column">
           <svg id="svg-emma-cs" style="display: block; width: 100%; max-height: 400px; margin: 0 auto;"></svg>
@@ -156,19 +214,24 @@
     </div>
   </section>
 
-  <!-- Frame 8: Consumer Surplus - Graphic -->
-  <section class="frame">
+  <!-- Frame 8: Consumer Surplus - Graphic (3 overlays) -->
+  <section id="cs-cont-frame" class="frame overlay-frame">
     <div class="frame-title-bar">
       <h2 class="frame-title">Consumer Surplus</h2>
       <p class="frame-subtitle">Graphical Representation</p>
     </div>
     <div class="frame-content">
+      <div style="height: 0; overflow: hidden;">
+        <span class="overlay"></span>
+        <span class="overlay"></span>
+        <span class="overlay"></span>
+      </div>
       <svg id="svg-cs-cont" style="display: block; width: 70%; max-width: 550px; margin: 0 auto;"></svg>
     </div>
   </section>
 
-  <!-- Frame 9: Cost Decomposition -->
-  <section class="frame">
+  <!-- Frame 9: Cost Decomposition (10 overlays) -->
+  <section id="mc-frame" class="frame overlay-frame">
     <div class="frame-title-bar">
       <h2 class="frame-title">Decomposing Total Cost</h2>
       <p class="frame-subtitle">Fixed Cost and Marginal Costs</p>
@@ -176,11 +239,65 @@
     <div class="frame-content">
       <div class="columns">
         <div class="column">
-          <ul style="font-size: 0.9rem;">
+          <ul style="font-size: 0.85rem;">
             <li>$TC(0)=20$ (fixed cost)</li>
-            <li>$MC(0)=8$, $MC(1)=4$, etc. (marginal cost)</li>
-            <li>$VC(0)=0$, $VC(1)=8$, etc. (variable cost)</li>
+            <li><!-- dynamic Q -->
+              <span data-frame="1">$Q=0$</span>
+              <span data-frame="2">$Q=1$</span>
+              <span data-frame="3">$Q=2$</span>
+              <span data-frame="4">$Q=3$</span>
+              <span data-frame="5">$Q=4$</span>
+              <span data-frame="6">$Q=5$</span>
+              <span data-frame="7">$Q=6$</span>
+              <span data-frame="8">$Q=7$</span>
+              <span data-frame="9">$Q=8$</span>
+              <span data-frame="10">$Q=9$</span>
+            </li>
+            <li><!-- dynamic TC -->
+              <span data-frame="1">$TC(0)=20$</span>
+              <span data-frame="2">$TC(1)=28$</span>
+              <span data-frame="3">$TC(2)=32$</span>
+              <span data-frame="4">$TC(3)=36$</span>
+              <span data-frame="5">$TC(4)=44$</span>
+              <span data-frame="6">$TC(5)=58$</span>
+              <span data-frame="7">$TC(6)=80$</span>
+              <span data-frame="8">$TC(7)=114$</span>
+              <span data-frame="9">$TC(8)=164$</span>
+              <span data-frame="10">$TC(9)=232$</span>
+            </li>
+            <li style="background: rgba(200,100,200,0.3); padding: 2px 4px;"><!-- dynamic MC -->
+              <span data-frame="1">$MC(0)=8$</span>
+              <span data-frame="2">$MC(1)=4$</span>
+              <span data-frame="3">$MC(2)=4$</span>
+              <span data-frame="4">$MC(3)=8$</span>
+              <span data-frame="5">$MC(4)=14$</span>
+              <span data-frame="6">$MC(5)=22$</span>
+              <span data-frame="7">$MC(6)=34$</span>
+              <span data-frame="8">$MC(7)=50$</span>
+              <span data-frame="9">$MC(8)=68$</span>
+              <span data-frame="10">$MC(9)=88$</span>
+            </li>
+            <li style="background: rgba(255,255,0,0.4); padding: 2px 4px;"><!-- dynamic VC -->
+              <span data-frame="1">$VC(0)=0$</span>
+              <span data-frame="2">$VC(1)=8$</span>
+              <span data-frame="3">$VC(2)=12$</span>
+              <span data-frame="4">$VC(3)=16$</span>
+              <span data-frame="5">$VC(4)=24$</span>
+              <span data-frame="6">$VC(5)=38$</span>
+              <span data-frame="7">$VC(6)=60$</span>
+              <span data-frame="8">$VC(7)=94$</span>
+              <span data-frame="9">$VC(8)=144$</span>
+              <span data-frame="10">$VC(9)=212$</span>
+            </li>
           </ul>
+          <!-- hidden overlay spacers for 10 scroll steps -->
+          <div style="height: 0; overflow: hidden;">
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+            <span class="overlay"></span><span class="overlay"></span>
+          </div>
         </div>
         <div class="column">
           <svg id="svg-mc" style="display: block; width: 100%;"></svg>
@@ -189,14 +306,34 @@
     </div>
   </section>
 
-  <!-- Frame 10: Producer Surplus -->
-  <section class="frame">
+  <!-- Frame 10: Producer Surplus (10 key price levels) -->
+  <section id="ps-frame" class="frame overlay-frame">
     <div class="frame-title-bar">
       <h2 class="frame-title">Producer Surplus</h2>
       <p class="frame-subtitle">Profit and Variable Costs</p>
     </div>
     <div class="frame-content">
+      <div style="height: 0; overflow: hidden;">
+        <span class="overlay"></span><span class="overlay"></span>
+        <span class="overlay"></span><span class="overlay"></span>
+        <span class="overlay"></span><span class="overlay"></span>
+        <span class="overlay"></span><span class="overlay"></span>
+        <span class="overlay"></span><span class="overlay"></span>
+      </div>
       <svg id="svg-ps" style="display: block; width: 70%; max-width: 550px; margin: 0 auto;"></svg>
+      <!-- Info box synced to frames -->
+      <div style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem; min-height: 3.5em;">
+        <span data-frame="1">$P=0,\; Q=0$. Revenue$=0$, $VC=0$, $PS=0$</span>
+        <span data-frame="2">$P=4,\; Q=0$. Revenue$=0$, $VC=0$, $PS=0$</span>
+        <span data-frame="3">$P=8,\; Q=4$. Revenue$=32$, $VC=24$, $PS=8$</span>
+        <span data-frame="4">$P=14,\; Q=5$. Revenue$=70$, $VC=38$, $PS=32$</span>
+        <span data-frame="5">$P=22,\; Q=6$. Revenue$=132$, $VC=60$, $PS=72$</span>
+        <span data-frame="6">$P=34,\; Q=7$. Revenue$=238$, $VC=94$, $PS=144$</span>
+        <span data-frame="7">$P=50,\; Q=8$. Revenue$=400$, $VC=144$, $PS=256$</span>
+        <span data-frame="8">$P=68,\; Q=9$. Revenue$=612$, $VC=212$, $PS=400$</span>
+        <span data-frame="9">$P=88,\; Q=10$. Revenue$=880$, $VC=300$, $PS=580$</span>
+        <span data-frame="10">$P=90,\; Q=10$. Revenue$=900$, $VC=300$, $PS=600$</span>
+      </div>
     </div>
   </section>
 
@@ -229,7 +366,7 @@
   <!-- tikz-svg render calls                              -->
   <!-- ═══════════════════════════════════════════════════ -->
   <script type="module">
-    import { render } from 'https://sergio0p.github.io/tikz-svg/src-v2/index.js';
+    import { render } from './tikz-svg/src-v3/index.js';
 
     // Shared label style
     const L = {
@@ -244,10 +381,12 @@
       draw: [
         { type: 'path', points: [{x:0,y:0.3},{x:0,y:-14}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
         { type: 'path', points: [{x:0,y:0},{x:5.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
-        { type: 'path', points: [
-          {x:0,y:-13},{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},
-          {x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:0},{x:4,y:0}
-        ], stroke: '#268bd2', strokeWidth: 3 },
+        // Demand steps — progressive reveal matching TikZ <N-> overlays
+        { type: 'path', id: 'emma-s1', frame: '1-', points: [{x:0,y:-13},{x:0,y:-9}], stroke: '#268bd2', strokeWidth: 3 },
+        { type: 'path', id: 'emma-s2', frame: '2-', points: [{x:0,y:-9},{x:1,y:-9},{x:1,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+        { type: 'path', id: 'emma-s3', frame: '3-', points: [{x:1,y:-6},{x:2,y:-6},{x:2,y:-3}], stroke: '#268bd2', strokeWidth: 3 },
+        { type: 'path', id: 'emma-s4', frame: '4-', points: [{x:2,y:-3},{x:3,y:-3},{x:3,y:0}], stroke: '#268bd2', strokeWidth: 3 },
+        { type: 'path', id: 'emma-s5', frame: '5-', points: [{x:3,y:0},{x:4,y:0}], stroke: '#268bd2', strokeWidth: 3 },
         { type: 'node', id:'eP', style:'L', position:{x:0,y:-14.5}, label:'$P$', fontSize:16 },
         { type: 'node', id:'eQ', style:'L', position:{x:5.7,y:0}, label:'$Q$', fontSize:16 },
         { type: 'node', id:'eq1', style:'L', position:{x:1,y:0.8}, label:'$1$', anchor:'north', fontSize:10 },
@@ -268,10 +407,12 @@
       draw: [
         { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
         { type: 'path', points: [{x:0,y:0},{x:9.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
-        { type: 'path', points: [
-          {x:0,y:-5.5},{x:0,y:-4},{x:2,y:-4},{x:2,y:-3},
-          {x:4,y:-3},{x:4,y:-2},{x:6,y:-2},{x:6,y:-1},{x:8,y:-1},{x:8,y:0}
-        ], stroke: '#dc322f', strokeWidth: 3 },
+        // Demand steps — progressive reveal matching TikZ <N-> overlays
+        { type: 'path', id: 'harriet-s1', frame: '1-', points: [{x:0,y:-5.5},{x:0,y:-4}], stroke: '#dc322f', strokeWidth: 3 },
+        { type: 'path', id: 'harriet-s2', frame: '2-', points: [{x:0,y:-4},{x:2,y:-4},{x:2,y:-3}], stroke: '#dc322f', strokeWidth: 3 },
+        { type: 'path', id: 'harriet-s3', frame: '3-', points: [{x:2,y:-3},{x:4,y:-3},{x:4,y:-2}], stroke: '#dc322f', strokeWidth: 3 },
+        { type: 'path', id: 'harriet-s4', frame: '4-', points: [{x:4,y:-2},{x:6,y:-2},{x:6,y:-1}], stroke: '#dc322f', strokeWidth: 3 },
+        { type: 'path', id: 'harriet-s5', frame: '5-', points: [{x:6,y:-1},{x:8,y:-1},{x:8,y:0}], stroke: '#dc322f', strokeWidth: 3 },
         { type: 'node', id:'hP', style:'L', position:{x:0,y:-6.3}, label:'$P$', fontSize:16 },
         { type: 'node', id:'hQ', style:'L', position:{x:9.7,y:0}, label:'$Q$', fontSize:16 },
         { type: 'node', id:'hq2', style:'L', position:{x:2,y:0.5}, label:'$2$', anchor:'north', fontSize:10 },
@@ -293,19 +434,22 @@
       draw: [
         { type: 'path', points: [{x:0,y:0.3},{x:0,y:-10}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
         { type: 'path', points: [{x:0,y:0},{x:13.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
-        // Blue: P=9 to P=4 (Emma only)
-        { type: 'path', points: [{x:0,y:-9.5},{x:0,y:-9},{x:1,y:-9},{x:1,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
-        { type: 'path', points: [{x:1,y:-6},{x:2,y:-6},{x:2,y:-4}], stroke: '#268bd2', strokeWidth: 3 },
-        // Red: P=4 (Harriet enters)
-        { type: 'path', points: [{x:2,y:-4},{x:4,y:-4},{x:4,y:-3}], stroke: '#dc322f', strokeWidth: 3 },
-        // Blue: P=3 (Emma +1)
-        { type: 'path', points: [{x:4,y:-3},{x:5,y:-3}], stroke: '#268bd2', strokeWidth: 3 },
-        // Red: P=3 to P=0 (Harriet continues)
-        { type: 'path', points: [{x:5,y:-3},{x:7,y:-3},{x:7,y:-2}], stroke: '#dc322f', strokeWidth: 3 },
-        { type: 'path', points: [{x:7,y:-2},{x:9,y:-2},{x:9,y:-1}], stroke: '#dc322f', strokeWidth: 3 },
-        { type: 'path', points: [{x:9,y:-1},{x:11,y:-1},{x:11,y:0}], stroke: '#dc322f', strokeWidth: 3 },
-        // Blue: P=0 (Emma +1)
-        { type: 'path', points: [{x:11,y:0},{x:12,y:0}], stroke: '#268bd2', strokeWidth: 3 },
+        // Market demand steps — progressive reveal matching TikZ <N-> overlays
+        // Frame 1: Blue P=9 (Emma only, Q=0→1)
+        { type: 'path', id: 'mkt-s1', frame: '1-', points: [{x:0,y:-9.5},{x:0,y:-9},{x:1,y:-9},{x:1,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+        // Frame 2: Blue P=6 (Emma, Q=1→2)
+        { type: 'path', id: 'mkt-s2', frame: '2-', points: [{x:1,y:-6},{x:2,y:-6},{x:2,y:-4}], stroke: '#268bd2', strokeWidth: 3 },
+        // Frame 3: Red P=4 (Harriet enters, Q=2→4)
+        { type: 'path', id: 'mkt-s3', frame: '3-', points: [{x:2,y:-4},{x:4,y:-4},{x:4,y:-3}], stroke: '#dc322f', strokeWidth: 3 },
+        // Frame 4: Blue P=3 (Emma +1) + Red (Harriet +2)
+        { type: 'path', id: 'mkt-s4a', frame: '4-', points: [{x:4,y:-3},{x:5,y:-3}], stroke: '#268bd2', strokeWidth: 3 },
+        { type: 'path', id: 'mkt-s4b', frame: '4-', points: [{x:5,y:-3},{x:7,y:-3},{x:7,y:-2}], stroke: '#dc322f', strokeWidth: 3 },
+        // Frame 5: Red P=2 (Harriet, Q=7→9)
+        { type: 'path', id: 'mkt-s5', frame: '5-', points: [{x:7,y:-2},{x:9,y:-2},{x:9,y:-1}], stroke: '#dc322f', strokeWidth: 3 },
+        // Frame 6: Red P=1 (Harriet, Q=9→11)
+        { type: 'path', id: 'mkt-s6', frame: '6-', points: [{x:9,y:-1},{x:11,y:-1},{x:11,y:0}], stroke: '#dc322f', strokeWidth: 3 },
+        // Frame 7: Blue P=0 (Emma, Q=11→12)
+        { type: 'path', id: 'mkt-s7', frame: '7-', points: [{x:11,y:0},{x:12,y:0}], stroke: '#268bd2', strokeWidth: 3 },
         // Labels
         { type: 'node', id:'mP', style:'L', position:{x:0,y:-10.5}, label:'$P$', fontSize:16 },
         { type: 'node', id:'mQ', style:'L', position:{x:13.7,y:0}, label:'$Q$', fontSize:16 },
@@ -364,42 +508,108 @@
       ],
     });
 
-    // ── 5. Emma's CS (static at P=4, Q=2) ────────────
+    // ── 5. Emma's CS (animated, 20 frames) ─────────────
+    // WTP fill polygons for each price step (green, single-frame)
+    // Expenditure fill polygons (orange, single-frame)
+    // CS fill polygons (blue, single-frame)
+    // Dashed price lines (frame ranges)
+    const wtp1 = [{x:0,y:-9},{x:1,y:-9},{x:1,y:0},{x:0,y:0}];
+    const wtp2 = [{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:0},{x:0,y:0}];
+    const wtp3 = [{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:0},{x:0,y:0}];
+    const wtp4 = [{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:0},{x:4,y:0},{x:4,y:0},{x:0,y:0}];
+    const green = 'rgba(34,139,34,0.5)';
+    const orange = 'rgba(203,75,22,0.5)';
+    const csBlue = 'rgba(38,139,210,0.5)';
+
     render(document.getElementById('svg-emma-cs'), {
       scaleX: 22, scaleY: 13.75, originX: 40, originY: 170, padding: 10,
       styles: { L },
       draw: [
-        // CS fill (blue): area above P=4, below demand
-        { type: 'path', points: [
-          {x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-4},{x:0,y:-4}
-        ], cycle: true, fill: 'rgba(38,139,210,0.5)', stroke: 'none' },
-        // Expenditure fill (orange): P*Q rectangle
-        { type: 'path', points: [
-          {x:0,y:-4},{x:2,y:-4},{x:2,y:0},{x:0,y:0}
-        ], cycle: true, fill: 'rgba(203,75,22,0.5)', stroke: 'none' },
-        // Axes
+        // Axes (always visible)
         { type: 'path', points: [{x:0,y:0.3},{x:0,y:-11}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
         { type: 'path', points: [{x:0,y:0},{x:5.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
-        // Demand step curve (blue)
+        // Demand step curve (always visible, blue)
         { type: 'path', points: [
           {x:0,y:-10},{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},
           {x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:0},{x:4,y:0}
         ], stroke: '#268bd2', strokeWidth: 3 },
-        // Dashed price line at P=4
-        { type: 'path', points: [{x:0,y:-4},{x:2,y:-4}], dashed: true, stroke: '#586e75', strokeWidth: 1.5 },
-        // Labels
+
+        // ── P=9 (frames 1-2): Q=1, WTP=9, Exp=9, CS=0 ──
+        { type: 'path', id:'wtp1', frame:'1', points: wtp1, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh1', frame:'1-2', points:[{x:0,y:-9},{x:1,y:-9}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp2', frame:'2', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+
+        // ── P=8 (frames 3-4): Q=1, WTP=9, Exp=8, CS=1 ──
+        { type: 'path', id:'wtp3', frame:'3', points: wtp1, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh3', frame:'3-4', points:[{x:0,y:-8},{x:1,y:-8}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp4', frame:'4', points:[{x:0,y:-8},{x:1,y:-8},{x:1,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+        { type: 'path', id:'cs4', frame:'4', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-8},{x:0,y:-8}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // ── P=7 (frames 5-6): Q=1, WTP=9, Exp=7, CS=2 ──
+        { type: 'path', id:'wtp5', frame:'5', points: wtp1, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh5', frame:'5-6', points:[{x:0,y:-7},{x:1,y:-7}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp6', frame:'6', points:[{x:0,y:-7},{x:1,y:-7},{x:1,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+        { type: 'path', id:'cs6', frame:'6', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-7},{x:0,y:-7}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // ── P=6 (frames 7-8): Q=2, WTP=15, Exp=12, CS=3 ──
+        { type: 'path', id:'wtp7', frame:'7', points: wtp2, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh7', frame:'7-8', points:[{x:0,y:-6},{x:2,y:-6}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp8', frame:'8', points:[{x:0,y:-6},{x:2,y:-6},{x:2,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+        { type: 'path', id:'cs8', frame:'8', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:0,y:-6}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // ── P=5 (frames 9-10): Q=2, WTP=15, Exp=10, CS=5 ──
+        { type: 'path', id:'wtp9', frame:'9', points: wtp2, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh9', frame:'9-10', points:[{x:0,y:-5},{x:2,y:-5}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp10', frame:'10', points:[{x:0,y:-5},{x:2,y:-5},{x:2,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+        { type: 'path', id:'cs10', frame:'10', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-5},{x:0,y:-5}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // ── P=4 (frames 11-12): Q=2, WTP=15, Exp=8, CS=7 ──
+        { type: 'path', id:'wtp11', frame:'11', points: wtp2, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh11', frame:'11-12', points:[{x:0,y:-4},{x:2,y:-4}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp12', frame:'12', points:[{x:0,y:-4},{x:2,y:-4},{x:2,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+        { type: 'path', id:'cs12', frame:'12', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-4},{x:0,y:-4}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // ── P=3 (frames 13-14): Q=3, WTP=21, Exp=9, CS=12 ──
+        { type: 'path', id:'wtp13', frame:'13', points: wtp3, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh13', frame:'13-14', points:[{x:0,y:-3},{x:3,y:-3}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp14', frame:'14', points:[{x:0,y:-3},{x:3,y:-3},{x:3,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+        { type: 'path', id:'cs14', frame:'14', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-3},{x:0,y:-3}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // ── P=2 (frames 15-16): Q=3, WTP=21, Exp=6, CS=15 ──
+        { type: 'path', id:'wtp15', frame:'15', points: wtp3, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh15', frame:'15-16', points:[{x:0,y:-2},{x:3,y:-2}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp16', frame:'16', points:[{x:0,y:-2},{x:3,y:-2},{x:3,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+        { type: 'path', id:'cs16', frame:'16', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:-2},{x:0,y:-2}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // ── P=1 (frames 17-18): Q=3, WTP=21, Exp=3, CS=18 ──
+        { type: 'path', id:'wtp17', frame:'17', points: wtp3, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh17', frame:'17-18', points:[{x:0,y:-1},{x:3,y:-1}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'exp18', frame:'18', points:[{x:0,y:-1},{x:3,y:-1},{x:3,y:0},{x:0,y:0}], cycle:true, fill:orange, stroke:'none' },
+        { type: 'path', id:'cs18', frame:'18', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:-1},{x:0,y:-1}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // ── P=0 (frames 19-20): Q=4, WTP=27, Exp=0, CS=27 ──
+        { type: 'path', id:'wtp19', frame:'19', points: wtp4, cycle:true, fill:green, stroke:'none' },
+        { type: 'path', id:'dsh19', frame:'19-20', points:[{x:0,y:0},{x:4,y:0}], dashed:true, stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', id:'cs20', frame:'20', points:[{x:0,y:-9},{x:1,y:-9},{x:1,y:-6},{x:2,y:-6},{x:2,y:-3},{x:3,y:-3},{x:3,y:0},{x:4,y:0},{x:4,y:0},{x:0,y:0}], cycle:true, fill:csBlue, stroke:'none' },
+
+        // Labels (always visible)
         { type: 'node', id:'csP', style:'L', position:{x:0,y:-11.3}, label:'$P$', fontSize:16 },
         { type: 'node', id:'csQ', style:'L', position:{x:5.7,y:0}, label:'$Q$', fontSize:16 },
-        { type: 'node', id:'csLbl', style:'L', position:{x:0.5,y:-7}, label:'CS', fontSize:13, labelColor:'#ffffff' },
-        { type: 'node', id:'expLbl', style:'L', position:{x:0.7,y:-2}, label:'Exp', fontSize:13, labelColor:'#ffffff' },
         // Ticks
         { type: 'node', id:'cs1', style:'L', position:{x:1,y:0.6}, label:'$1$', anchor:'north', fontSize:10 },
         { type: 'node', id:'cs2', style:'L', position:{x:2,y:0.6}, label:'$2$', anchor:'north', fontSize:10 },
         { type: 'node', id:'cs3', style:'L', position:{x:3,y:0.6}, label:'$3$', anchor:'north', fontSize:10 },
-        { type: 'node', id:'cs4', style:'L', position:{x:4,y:0.6}, label:'$4$', anchor:'north', fontSize:10 },
-        { type: 'node', id:'csp4', style:'L', position:{x:-0.5,y:-4}, label:'$4$', anchor:'east', fontSize:10 },
-        { type: 'node', id:'csp6', style:'L', position:{x:-0.5,y:-6}, label:'$6$', anchor:'east', fontSize:10 },
-        { type: 'node', id:'csp9', style:'L', position:{x:-0.5,y:-9}, label:'$9$', anchor:'east', fontSize:10 },
+        { type: 'node', id:'cs4t', style:'L', position:{x:4,y:0.6}, label:'$4$', anchor:'north', fontSize:10 },
+        { type: 'node', id:'csp1', style:'L', position:{x:-0.5,y:-1}, label:'$1$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp2', style:'L', position:{x:-0.5,y:-2}, label:'$2$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp3', style:'L', position:{x:-0.5,y:-3}, label:'$3$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp4', style:'L', position:{x:-0.5,y:-4}, label:'$4$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp5', style:'L', position:{x:-0.5,y:-5}, label:'$5$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp6', style:'L', position:{x:-0.5,y:-6}, label:'$6$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp7', style:'L', position:{x:-0.5,y:-7}, label:'$7$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp8', style:'L', position:{x:-0.5,y:-8}, label:'$8$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp9', style:'L', position:{x:-0.5,y:-9}, label:'$9$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'csp10', style:'L', position:{x:-0.5,y:-10}, label:'$10$', anchor:'east', fontSize:9 },
       ],
     });
 
@@ -417,11 +627,14 @@
         scale: 35, originX: 45, originY: 230, padding: 10,
         styles: { L },
         draw: [
-          // CS fill (blue): under demand, above price
-          { type: 'path', points: [...pts, {x:2,y:-4}, {x:0,y:-4}],
+          // WTP fill (green): entire area under demand curve (frame 2 only)
+          { type: 'path', id:'csWtp', frame:'2', points: [...pts, {x:2,y:0}, {x:0,y:0}],
+            cycle: true, fill: 'rgba(34,139,34,0.5)', stroke: 'none' },
+          // CS fill (blue): under demand, above price (frame 3)
+          { type: 'path', id:'csFill', frame:'3', points: [...pts, {x:2,y:-4}, {x:0,y:-4}],
             cycle: true, fill: 'rgba(38,139,210,0.5)', stroke: 'none' },
-          // Expenditure fill (orange): rectangle
-          { type: 'path', points: [{x:0,y:-4},{x:2,y:-4},{x:2,y:0},{x:0,y:0}],
+          // Expenditure fill (orange): rectangle (frame 3)
+          { type: 'path', id:'csExp', frame:'3', points: [{x:0,y:-4},{x:2,y:-4},{x:2,y:0},{x:0,y:0}],
             cycle: true, fill: 'rgba(203,75,22,0.5)', stroke: 'none' },
           // Axes
           { type: 'path', points: [{x:0,y:0.2},{x:0,y:-6.5}], arrow: '->', stroke: '#888', strokeWidth: 2 },
@@ -439,45 +652,69 @@
           { type: 'node', id:'cscXval', style:'L', position:{x:2,y:0.6}, label:'$x(p_X^0)$', anchor:'north', fontSize:10 },
           { type: 'node', id:'cscDlbl', style:'L', position:{x:5.3,y:-0.3}, label:'$p_X(x)$', fontSize:12, labelColor:'#dc322f' },
           // Legend boxes
-          { type: 'node', id:'legCS', position:{x:5.5,y:-5.5},
+          { type: 'node', id:'legWTP', frame:'2', position:{x:5.5,y:-5.5},
+            label:'WTP', shape:'rectangle', fill:'rgba(34,139,34,0.7)',
+            stroke:'#333', strokeWidth:1, labelColor:'#fff', fontSize:11, innerSep:4,
+            fontFamily:"'Times New Roman', serif" },
+          { type: 'node', id:'legCS', frame:'3', position:{x:5.5,y:-5.5},
             label:'CS', shape:'rectangle', fill:'rgba(38,139,210,0.7)',
             stroke:'#333', strokeWidth:1, labelColor:'#fff', fontSize:11, innerSep:4,
             fontFamily:"'Times New Roman', serif" },
-          { type: 'node', id:'legR', position:{x:5.5,y:-4.5},
+          { type: 'node', id:'legR', frame:'3', position:{x:5.5,y:-4.5},
             label:'Revenue (R)', shape:'rectangle', fill:'rgba(203,75,22,0.7)',
             stroke:'#333', strokeWidth:1, labelColor:'#fff', fontSize:11, innerSep:4,
             fontFamily:"'Times New Roman', serif" },
-          { type: 'node', id:'cscForm', style:'L', position:{x:5.5,y:-3.7},
+          { type: 'node', id:'cscForm', frame:'3', style:'L', position:{x:5.5,y:-3.7},
             label:'CS = WTP - R', fontSize:11 },
         ],
       });
     }
 
-    // ── 7. MC Step Function with VC ───────────────────
+    // ── 7. MC Step Function with VC (animated, 10 frames) ──
     // MC values: 8,4,4,8,14,22,34,50,68,88 (normalized /10)
     {
-      const vcFill = [
-        {x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},
-        {x:2,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},
-        {x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},
-        {x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},
-        {x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8},{x:10,y:0}
-      ];
+      // VC fill polygons for each step (cumulative area under MC, single-frame)
+      const vc1 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:0}];
+      const vc2 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:2,y:-0.4},{x:2,y:0}];
+      const vc3 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:2,y:-0.4},{x:3,y:-0.4},{x:3,y:0}];
+      const vc4 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:0}];
+      const vc5 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:0}];
+      const vc6 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},{x:6,y:0}];
+      const vc7 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:0}];
+      const vc8 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},{x:8,y:0}];
+      const vc9 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},{x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:0}];
+      const vc10 = [{x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},{x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8},{x:10,y:0}];
+      const yel = 'rgba(255,255,0,0.5)';
 
       render(document.getElementById('svg-mc'), {
         scale: 20, originX: 45, originY: 195, padding: 10,
         styles: { L },
         draw: [
-          { type: 'path', points: vcFill, cycle: true, fill: 'rgba(255,255,0,0.5)', stroke: 'none' },
+          // VC fills (yellow, single-frame each)
+          { type:'path', id:'vc1', frame:'1', points:vc1, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc2', frame:'2', points:vc2, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc3', frame:'3', points:vc3, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc4', frame:'4', points:vc4, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc5', frame:'5', points:vc5, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc6', frame:'6', points:vc6, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc7', frame:'7', points:vc7, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc8', frame:'8', points:vc8, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc9', frame:'9', points:vc9, cycle:true, fill:yel, stroke:'none' },
+          { type:'path', id:'vc10', frame:'10', points:vc10, cycle:true, fill:yel, stroke:'none' },
+          // Axes
           { type: 'path', points: [{x:0,y:0.3},{x:0,y:-9.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
           { type: 'path', points: [{x:0,y:0},{x:11,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
-          // MC step curve (magenta)
-          { type: 'path', points: [
-            {x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:2,y:-0.4},{x:3,y:-0.4},
-            {x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},
-            {x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},
-            {x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8}
-          ], stroke: '#d33682', strokeWidth: 3 },
+          // MC step segments (magenta, cumulative reveal)
+          { type:'path', id:'mc1', frame:'1-', points:[{x:0,y:-0.8},{x:1,y:-0.8}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc2', frame:'2-', points:[{x:1,y:-0.8},{x:1,y:-0.4},{x:2,y:-0.4}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc3', frame:'3-', points:[{x:2,y:-0.4},{x:3,y:-0.4}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc4', frame:'4-', points:[{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc5', frame:'5-', points:[{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc6', frame:'6-', points:[{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc7', frame:'7-', points:[{x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc8', frame:'8-', points:[{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc9', frame:'9-', points:[{x:8,y:-5.0},{x:8,y:-6.8},{x:9,y:-6.8}], stroke:'#d33682', strokeWidth:3 },
+          { type:'path', id:'mc10', frame:'10-', points:[{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8}], stroke:'#d33682', strokeWidth:3 },
           { type: 'node', id:'mcP', style:'L', position:{x:0,y:-9.8}, label:'$MC$', fontSize:14 },
           { type: 'node', id:'mcQ', style:'L', position:{x:11.2,y:0}, label:'$Q$', fontSize:14 },
           // Q ticks
@@ -505,64 +742,105 @@
       });
     }
 
-    // ── 8. Producer Surplus (static at P=50, Q=8) ─────
+    // ── 8. Producer Surplus (animated, 10 key price levels) ──
+    // P: 0, 4, 8, 14, 22, 34, 50, 68, 88, 90
+    // Q: 0, 0, 4,  5,  6,  7,  8,  9, 10, 10
     {
-      // Red VC fill (area under MC from 0 to 8)
-      const vcPS = [
-        {x:0,y:0},{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},
-        {x:2,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},
-        {x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},
-        {x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},{x:8,y:0}
-      ];
-      // Orange PS fill (above MC, below P=50)
-      const psFill = [
-        {x:0,y:-5.0},{x:8,y:-5.0},
-        {x:7,y:-5.0},{x:7,y:-3.4},{x:6,y:-3.4},
-        {x:6,y:-2.2},{x:5,y:-2.2},{x:5,y:-1.4},{x:4,y:-1.4},
-        {x:4,y:-0.8},{x:3,y:-0.8},{x:3,y:-0.4},{x:2,y:-0.4},
-        {x:1,y:-0.4},{x:1,y:-0.8},{x:0,y:-0.8}
-      ];
+      const red = 'rgba(220,50,47,0.3)';
+      const ora = 'rgba(203,75,22,0.5)';
+      // MC step boundary points for VC fills
+      const mc = [{x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:3,y:-0.4},{x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},{x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},{x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8}];
+      // VC fill up to Q units: trace MC from 0 to Q, close at bottom
+      function vcPts(q) {
+        const p = [{x:0,y:0}];
+        for (const pt of mc) { p.push(pt); if (pt.x >= q) break; }
+        p.push({x:q,y:0});
+        return p;
+      }
+      // PS fill: rectangle from P down to MC top, bounded by Q
+      // PS = area between price line and MC curve from 0 to Q
+      function psPts(p, q) {
+        // Top: horizontal line at -p/10 from x=0 to x=q
+        // Bottom: trace MC backwards from q to 0
+        const top = [{x:0,y:-p/10},{x:q,y:-p/10}];
+        // MC from q back to 0
+        const bot = [];
+        for (let i = mc.length - 1; i >= 0; i--) {
+          if (mc[i].x <= q) bot.push(mc[i]);
+        }
+        return [...top, ...bot];
+      }
 
       render(document.getElementById('svg-ps'), {
         scale: 18, originX: 45, originY: 185, padding: 10,
         styles: { L },
         draw: [
-          { type: 'path', points: vcPS, cycle: true, fill: 'rgba(220,50,47,0.3)', stroke: 'none' },
-          { type: 'path', points: psFill, cycle: true, fill: 'rgba(203,75,22,0.5)', stroke: 'none' },
+          // ── VC fills (red, single-frame) ──
+          // Frames 1-2: Q=0, no VC
+          { type:'path', id:'psVC3', frame:'3', points:vcPts(4), cycle:true, fill:red, stroke:'none' },
+          { type:'path', id:'psVC4', frame:'4', points:vcPts(5), cycle:true, fill:red, stroke:'none' },
+          { type:'path', id:'psVC5', frame:'5', points:vcPts(6), cycle:true, fill:red, stroke:'none' },
+          { type:'path', id:'psVC6', frame:'6', points:vcPts(7), cycle:true, fill:red, stroke:'none' },
+          { type:'path', id:'psVC7', frame:'7', points:vcPts(8), cycle:true, fill:red, stroke:'none' },
+          { type:'path', id:'psVC8', frame:'8', points:vcPts(9), cycle:true, fill:red, stroke:'none' },
+          { type:'path', id:'psVC9', frame:'9', points:vcPts(10), cycle:true, fill:red, stroke:'none' },
+          { type:'path', id:'psVC10', frame:'10', points:vcPts(10), cycle:true, fill:red, stroke:'none' },
+          // ── PS fills (orange, single-frame) ──
+          { type:'path', id:'psPS3', frame:'3', points:psPts(8,4), cycle:true, fill:ora, stroke:'none' },
+          { type:'path', id:'psPS4', frame:'4', points:psPts(14,5), cycle:true, fill:ora, stroke:'none' },
+          { type:'path', id:'psPS5', frame:'5', points:psPts(22,6), cycle:true, fill:ora, stroke:'none' },
+          { type:'path', id:'psPS6', frame:'6', points:psPts(34,7), cycle:true, fill:ora, stroke:'none' },
+          { type:'path', id:'psPS7', frame:'7', points:psPts(50,8), cycle:true, fill:ora, stroke:'none' },
+          { type:'path', id:'psPS8', frame:'8', points:psPts(68,9), cycle:true, fill:ora, stroke:'none' },
+          { type:'path', id:'psPS9', frame:'9', points:psPts(88,10), cycle:true, fill:ora, stroke:'none' },
+          { type:'path', id:'psPS10', frame:'10', points:psPts(90,10), cycle:true, fill:ora, stroke:'none' },
+          // ── Dotted price + quantity lines (single-frame) ──
+          { type:'path', id:'psDsh2', frame:'2', points:[{x:0,y:-0.4},{x:0,y:-0.4}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshH3', frame:'3', points:[{x:0,y:-0.8},{x:4,y:-0.8}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshV3', frame:'3', points:[{x:4,y:0},{x:4,y:-0.8}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshH4', frame:'4', points:[{x:0,y:-1.4},{x:5,y:-1.4}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshV4', frame:'4', points:[{x:5,y:0},{x:5,y:-1.4}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshH5', frame:'5', points:[{x:0,y:-2.2},{x:6,y:-2.2}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshV5', frame:'5', points:[{x:6,y:0},{x:6,y:-2.2}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshH6', frame:'6', points:[{x:0,y:-3.4},{x:7,y:-3.4}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshV6', frame:'6', points:[{x:7,y:0},{x:7,y:-3.4}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshH7', frame:'7', points:[{x:0,y:-5.0},{x:8,y:-5.0}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshV7', frame:'7', points:[{x:8,y:0},{x:8,y:-5.0}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshH8', frame:'8', points:[{x:0,y:-6.8},{x:9,y:-6.8}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshV8', frame:'8', points:[{x:9,y:0},{x:9,y:-6.8}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshH9', frame:'9', points:[{x:0,y:-8.8},{x:10,y:-8.8}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshV9', frame:'9', points:[{x:10,y:0},{x:10,y:-8.8}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshH10', frame:'10', points:[{x:0,y:-9.0},{x:10,y:-9.0}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
+          { type:'path', id:'psDshV10', frame:'10', points:[{x:10,y:0},{x:10,y:-9.0}], dotted:true, stroke:'#586e75', strokeWidth:1.5 },
           // Axes
           { type: 'path', points: [{x:0,y:0.3},{x:0,y:-9.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
           { type: 'path', points: [{x:0,y:0},{x:11,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
-          // MC step curve (magenta)
-          { type: 'path', points: [
-            {x:0,y:-0.8},{x:1,y:-0.8},{x:1,y:-0.4},{x:2,y:-0.4},{x:3,y:-0.4},
-            {x:3,y:-0.8},{x:4,y:-0.8},{x:4,y:-1.4},{x:5,y:-1.4},{x:5,y:-2.2},
-            {x:6,y:-2.2},{x:6,y:-3.4},{x:7,y:-3.4},{x:7,y:-5.0},{x:8,y:-5.0},
-            {x:8,y:-6.8},{x:9,y:-6.8},{x:9,y:-8.8},{x:10,y:-8.8}
-          ], stroke: '#d33682', strokeWidth: 3 },
-          // Price line P=50 (dotted)
-          { type: 'path', points: [{x:0,y:-5.0},{x:8,y:-5.0}], dotted: true, stroke: '#586e75', strokeWidth: 2 },
-          // Dotted Q=8 line
-          { type: 'path', points: [{x:8,y:0},{x:8,y:-5.0}], dotted: true, stroke: '#586e75', strokeWidth: 1.5 },
+          // MC step curve (magenta, always visible)
+          { type: 'path', points: mc, stroke: '#d33682', strokeWidth: 3 },
           // Labels
           { type: 'node', id:'psP', style:'L', position:{x:0,y:-9.8}, label:'$P$', fontSize:14 },
           { type: 'node', id:'psQ', style:'L', position:{x:11.2,y:0}, label:'$Q$', fontSize:14 },
-          { type: 'node', id:'vcLbl', style:'L', position:{x:3,y:-0.5}, label:'VC', fontSize:12, labelColor:'rgba(220,50,47,0.8)' },
-          { type: 'node', id:'psLbl', style:'L', position:{x:2,y:-3.5}, label:'PS', fontSize:12, labelColor:'rgba(203,75,22,1)' },
-          { type: 'node', id:'psPval', style:'L', position:{x:-0.5,y:-5.0}, label:'$50$', anchor:'east', fontSize:10 },
-          { type: 'node', id:'psQval', style:'L', position:{x:8,y:0.5}, label:'$8$', anchor:'north', fontSize:10 },
-          // Info box
-          { type: 'node', id:'psInfo', position:{x:7,y:-8},
-            label: [
-              '$P=50,\\; Q=8$',
-              '$\\text{Rev}=400$',
-              '$VC=144,\\; PS=256$',
-            ],
-            shape: 'rectangle split', parts: 3,
-            fill: '#ffffff', stroke: '#586e75', strokeWidth: 1.5,
-            labelColor: '#333', fontSize: 10,
-            fontFamily: "'Times New Roman', serif",
-            innerSep: 6, shadow: true, cornerRadius: 4,
-          },
+          // Q ticks
+          { type: 'node', id:'psq1', style:'L', position:{x:1,y:0.5}, label:'$1$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq2', style:'L', position:{x:2,y:0.5}, label:'$2$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq3', style:'L', position:{x:3,y:0.5}, label:'$3$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq4', style:'L', position:{x:4,y:0.5}, label:'$4$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq5', style:'L', position:{x:5,y:0.5}, label:'$5$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq6', style:'L', position:{x:6,y:0.5}, label:'$6$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq7', style:'L', position:{x:7,y:0.5}, label:'$7$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq8', style:'L', position:{x:8,y:0.5}, label:'$8$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq9', style:'L', position:{x:9,y:0.5}, label:'$9$', anchor:'north', fontSize:8 },
+          { type: 'node', id:'psq10', style:'L', position:{x:10,y:0.5}, label:'$10$', anchor:'north', fontSize:8 },
+          // P ticks
+          { type: 'node', id:'psp10', style:'L', position:{x:-0.5,y:-1}, label:'$10$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'psp20', style:'L', position:{x:-0.5,y:-2}, label:'$20$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'psp30', style:'L', position:{x:-0.5,y:-3}, label:'$30$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'psp40', style:'L', position:{x:-0.5,y:-4}, label:'$40$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'psp50', style:'L', position:{x:-0.5,y:-5}, label:'$50$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'psp60', style:'L', position:{x:-0.5,y:-6}, label:'$60$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'psp70', style:'L', position:{x:-0.5,y:-7}, label:'$70$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'psp80', style:'L', position:{x:-0.5,y:-8}, label:'$80$', anchor:'east', fontSize:9 },
+          { type: 'node', id:'psp90', style:'L', position:{x:-0.5,y:-9}, label:'$90$', anchor:'east', fontSize:9 },
         ],
       });
     }
@@ -594,6 +872,56 @@
         { from: 'B', to: 'C', label: 'aggregate' },
         { from: 'D', to: 'C' },
       ],
+    });
+  </script>
+
+  <!-- Sync overlay text reveals with chart frame visibility -->
+  <script>
+    function parseFrameSpec(spec, step) {
+      for (const part of spec.split(',')) {
+        const trimmed = part.trim();
+        const range = trimmed.match(/^(\d+)\s*-\s*(\d*)$/);
+        if (range) {
+          const start = parseInt(range[1], 10);
+          const end = range[2] ? parseInt(range[2], 10) : Infinity;
+          if (step >= start && step <= end) return true;
+        } else {
+          if (parseInt(trimmed, 10) === step) return true;
+        }
+      }
+      return false;
+    }
+
+    function syncOverlayFrames() {
+      document.querySelectorAll('.overlay-frame').forEach(frame => {
+        const overlays = frame.querySelectorAll('.overlay');
+        const frameEls = frame.querySelectorAll('[data-frame]');
+        if (frameEls.length === 0) return;
+
+        function sync() {
+          let step = 0;
+          overlays.forEach((el, i) => {
+            if (el.classList.contains('revealed')) step = i + 1;
+          });
+          frameEls.forEach(el => {
+            const spec = el.getAttribute('data-frame');
+            const vis = parseFrameSpec(spec, step);
+            if (el.closest('svg')) {
+              el.setAttribute('visibility', vis ? 'visible' : 'hidden');
+            } else {
+              el.style.display = vis ? '' : 'none';
+            }
+          });
+        }
+
+        const observer = new MutationObserver(sync);
+        overlays.forEach(ol => observer.observe(ol, { attributes: true, attributeFilter: ['class'] }));
+        sync();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(syncOverlayFrames, 500);
     });
   </script>
 
