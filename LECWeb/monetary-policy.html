@@ -266,7 +266,7 @@
 
   <!-- ===== SECTION 4: AD-AS Model ===== -->
   <section id="adas-frame" style="min-height: 100vh; overflow: hidden; background: #fdf6e3;">
-    <div id="adas-inner" style="display: flex; align-items: center; min-height: 100vh; padding: 1rem;">
+    <div id="adas-inner" style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem;">
 
       <!-- Left: Graph container (flush left) -->
       <div id="adas-graph-wrap" style="position: relative; width: 95%; max-width: 1100px;">
@@ -287,6 +287,8 @@
         <div id="adas-ad-label" class="adas-katex" style="font-size: 1rem; color: #dc322f;">$AD_{1927}$</div>
         <div id="adas-ad28-label" class="adas-katex" style="font-size: 1rem; color: #dc322f; opacity: 0;">$AD_{1928}$</div>
         <div id="adas-sras-label" class="adas-katex" style="font-size: 1rem; color: #268bd2;">$SRAS$</div>
+        <div id="adas-ad29-label" class="adas-katex" style="font-size: 1rem; color: #dc322f; opacity: 0;">$AD_{1929}$</div>
+        <div id="adas-ad30-label" class="adas-katex" style="font-size: 1rem; color: #dc322f; opacity: 0;">$AD_{1930}$</div>
 
         <svg id="adas-svg" viewBox="0 0 580 420" style="width: 100%;">
         <defs>
@@ -296,12 +298,9 @@
         </defs>
 
         <!-- Y-axis (π) -->
-        <line x1="90" y1="385" x2="90" y2="25" stroke="#586e75" stroke-width="3" marker-end="url(#adas-arrow)"/>
+        <line x1="200" y1="385" x2="200" y2="25" stroke="#586e75" stroke-width="3" marker-end="url(#adas-arrow)"/>
         <!-- X-axis (Y_R) -->
         <line x1="-5" y1="310" x2="455" y2="310" stroke="#586e75" stroke-width="3" marker-end="url(#adas-arrow)"/>
-
-        <!-- Origin label -->
-        <text x="78" y="328" font-family="'Times New Roman', serif" font-size="16" fill="#586e75" text-anchor="end" font-style="italic">0</text>
 
         <!-- SRAS (blue, convex upward sloping: π = -2 + 0.5·Y_R + 0.03·Y_R²) -->
         <path id="adas-sras"
@@ -315,22 +314,38 @@
         <line id="adas-ad28" x1="30" y1="147" x2="390" y2="427" stroke="#dc322f" stroke-width="4" opacity="0"/>
 
         <!-- AD 1927 intercept ticks -->
-        <line id="adas-tick27-y" x1="86" y1="123" x2="94" y2="123" stroke="#dc322f" stroke-width="2" opacity="1"/>
+        <line id="adas-tick27-y" x1="196" y1="209" x2="204" y2="209" stroke="#dc322f" stroke-width="2" opacity="1"/>
         <line id="adas-tick27-x" x1="330" y1="306" x2="330" y2="314" stroke="#dc322f" stroke-width="2" opacity="1"/>
 
         <!-- AD 1928 intercept ticks (hidden) -->
-        <line id="adas-tick28-y" x1="86" y1="193" x2="94" y2="193" stroke="#dc322f" stroke-width="2" opacity="0"/>
+        <line id="adas-tick28-y" x1="196" y1="279" x2="204" y2="279" stroke="#dc322f" stroke-width="2" opacity="0"/>
         <line id="adas-tick28-x" x1="240" y1="306" x2="240" y2="314" stroke="#dc322f" stroke-width="2" opacity="0"/>
 
         <!-- Equilibrium 1927: Y_R≈5.96, π≈2.04 -->
-        <line id="adas-eq27-h" x1="90" y1="262" x2="269" y2="262" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="1"/>
-        <line id="adas-eq27-v" x1="269" y1="262" x2="269" y2="310" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="1"/>
+        <line id="adas-eq27-h" x1="200" y1="262" x2="269" y2="262" stroke="#586e75" stroke-width="1" stroke-dasharray="6,4" opacity="1"/>
+        <line id="adas-eq27-v" x1="269" y1="262" x2="269" y2="310" stroke="#586e75" stroke-width="1" stroke-dasharray="6,4" opacity="1"/>
         <circle id="adas-eq27-dot" cx="269" cy="262" r="5" fill="#586e75" opacity="1"/>
 
         <!-- Equilibrium 1928: Y_R≈4.30, π≈0.70 (hidden) -->
-        <line id="adas-eq28-h" x1="90" y1="294" x2="219" y2="294" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="0"/>
-        <line id="adas-eq28-v" x1="219" y1="294" x2="219" y2="310" stroke="#586e75" stroke-width="2" stroke-dasharray="6,4" opacity="0"/>
+        <line id="adas-eq28-h" x1="200" y1="294" x2="219" y2="294" stroke="#586e75" stroke-width="1" stroke-dasharray="6,4" opacity="0"/>
+        <line id="adas-eq28-v" x1="219" y1="294" x2="219" y2="310" stroke="#586e75" stroke-width="1" stroke-dasharray="6,4" opacity="0"/>
         <circle id="adas-eq28-dot" cx="219" cy="294" r="5" fill="#586e75" opacity="0"/>
+
+        <!-- AD 1929 (red, π = 2 - Y_R, stock crash, hidden) -->
+        <line id="adas-ad29" x1="30" y1="217" x2="390" y2="497" stroke="#dc322f" stroke-width="4" opacity="0"/>
+
+        <!-- Equilibrium 1929: Y_R≈2.54, π≈-0.54 (hidden) -->
+        <line id="adas-eq29-h" x1="200" y1="323" x2="166" y2="323" stroke="#586e75" stroke-width="1" stroke-dasharray="6,4" opacity="0"/>
+        <line id="adas-eq29-v" x1="166" y1="310" x2="166" y2="323" stroke="#586e75" stroke-width="1" stroke-dasharray="6,4" opacity="0"/>
+        <circle id="adas-eq29-dot" cx="166" cy="323" r="5" fill="#586e75" opacity="0"/>
+
+        <!-- AD 1930 (red, π = 0 - Y_R, bank panics, hidden) -->
+        <line id="adas-ad30" x1="30" y1="263" x2="390" y2="543" stroke="#dc322f" stroke-width="4" opacity="0"/>
+
+        <!-- Equilibrium 1930: Y_R≈1.30, π≈-1.30 (hidden) -->
+        <line id="adas-eq30-h" x1="200" y1="340" x2="129" y2="340" stroke="#586e75" stroke-width="1" stroke-dasharray="6,4" opacity="0"/>
+        <line id="adas-eq30-v" x1="129" y1="310" x2="129" y2="340" stroke="#586e75" stroke-width="1" stroke-dasharray="6,4" opacity="0"/>
+        <circle id="adas-eq30-dot" cx="129" cy="340" r="5" fill="#586e75" opacity="0"/>
       </svg>
       <!-- Romer quote (inside graph, right of SRAS) -->
       <div id="romer-q0" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">&ldquo;The U.S. economy was clearly cooling off in the</div>
@@ -338,6 +353,18 @@
       <div id="romer-q2" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">industrial production&hellip; The source of this slowdown is</div>
       <div id="romer-q3" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">almost surely the tightening of Federal Reserve policy in 1928.&rdquo;</div>
       <div id="romer-q4" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 0.8rem; line-height: 1.4; color: #586e75; font-style: italic;">&mdash; C. Romer, JEP 1993</div>
+
+      <!-- Stock crash quote -->
+      <div id="crash-q0" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">&ldquo;The stock market crash is the prime source for the</div>
+      <div id="crash-q1" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">collapse in durable goods purchases starting</div>
+      <div id="crash-q2" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">in November 1929.&rdquo;</div>
+      <div id="crash-q3" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 0.8rem; line-height: 1.4; color: #586e75; font-style: italic;">&mdash; C. Romer, JEP 1993</div>
+
+      <!-- Bank panics quote -->
+      <div id="panic-q0" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">&ldquo;The source of the continued decline in production</div>
+      <div id="panic-q1" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">in the United States was almost surely</div>
+      <div id="panic-q2" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 1rem; line-height: 1.45; color: #333;">a series of banking panics.&rdquo;</div>
+      <div id="panic-q3" class="adas-katex" style="position: absolute; opacity: 0; border-left: 4px solid #f9a825; padding: 0.2rem 0.8rem; max-width: 280px; font-family: 'Times New Roman', serif; font-size: 0.8rem; line-height: 1.4; color: #586e75; font-style: italic;">&mdash; C. Romer, JEP 1993</div>
 
       </div><!-- end adas-graph-wrap -->
     </div>
@@ -732,25 +759,35 @@
       }
 
       // Axis labels
-      place('adas-pi-label', 90, 15, '-50%', '-100%');
+      place('adas-pi-label', 200, 15, '-50%', '-100%');
       place('adas-yr-label', 465, 310, '0%', '-50%');
 
       // AD 1927 intercept labels (left of Y-axis, below X-axis)
-      place('adas-ad27-yint', 75, 123, '-100%', '-50%');
+      place('adas-ad27-yint', 185, 209, '-100%', '-50%');
       place('adas-ad27-xint', 330, 325, '-50%', '0%');
 
       // AD 1928 intercept labels
-      place('adas-ad28-yint', 75, 193, '-100%', '-50%');
+      place('adas-ad28-yint', 185, 279, '-100%', '-50%');
       place('adas-ad28-xint', 240, 325, '-50%', '0%');
 
       // Curve labels — above left start of each AD line
       place('adas-ad-label', 30, 65, '-50%', '-100%');
       place('adas-ad28-label', 30, 135, '-50%', '-100%');
       place('adas-sras-label', 425, 138, '0%', '-50%');
+      place('adas-ad29-label', 30, 205, '-50%', '-100%');
+      place('adas-ad30-label', 15, 251, '-50%', '-100%');
 
-      // Romer quote — 5 lines at (130, 18+18*t)
+      // Romer quote — 5 lines at (240, 18+18*t)
       for (var t = 0; t <= 4; t++) {
-        place('romer-q' + t, 130, 18 + 18 * t, '0%', '0%');
+        place('romer-q' + t, 240, 18 + 18 * t, '0%', '0%');
+      }
+      // Stock crash quote — 4 lines at same position
+      for (var t = 0; t <= 3; t++) {
+        place('crash-q' + t, 240, 18 + 18 * t, '0%', '0%');
+      }
+      // Bank panic quote — 4 lines at same position
+      for (var t = 0; t <= 3; t++) {
+        place('panic-q' + t, 240, 18 + 18 * t, '0%', '0%');
       }
     }
 
@@ -780,7 +817,7 @@
         scrollTrigger: {
           trigger: '#adas-frame',
           start: 'top top',
-          end: '+=400%',
+          end: '+=1200%',
           pin: true,
           scrub: 1,
           anticipatePin: 1
@@ -795,9 +832,9 @@
       // Phase 3 (timeline 2–3): AD shifts down
       // Fade original AD + equilibrium + intercept labels
       tl.to('#adas-ad27', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 2);
-      tl.to('#adas-eq27-h', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 2);
-      tl.to('#adas-eq27-v', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 2);
-      tl.to('#adas-eq27-dot', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq27-h', { opacity: 0.25, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq27-v', { opacity: 0.25, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq27-dot', { opacity: 0.25, duration: 1, ease: 'none' }, 2);
       tl.to('#adas-tick27-y', { attr: { opacity: 0 }, duration: 1, ease: 'none' }, 2);
       tl.to('#adas-tick27-x', { attr: { opacity: 0 }, duration: 1, ease: 'none' }, 2);
       tl.to('#adas-ad27-yint', { opacity: 0, duration: 1, ease: 'none' }, 2);
@@ -806,14 +843,74 @@
 
       // Show new AD + equilibrium + intercept labels
       tl.to('#adas-ad28', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
-      tl.to('#adas-eq28-h', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
-      tl.to('#adas-eq28-v', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
-      tl.to('#adas-eq28-dot', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq28-h', { opacity: 1, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq28-v', { opacity: 1, duration: 1, ease: 'none' }, 2);
+      tl.to('#adas-eq28-dot', { opacity: 1, duration: 1, ease: 'none' }, 2);
       tl.to('#adas-tick28-y', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
       tl.to('#adas-tick28-x', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 2);
       tl.to('#adas-ad28-yint', { opacity: 1, duration: 1, ease: 'none' }, 2);
       tl.to('#adas-ad28-xint', { opacity: 1, duration: 1, ease: 'none' }, 2);
       tl.to('#adas-ad28-label', { opacity: 1, duration: 1, ease: 'none' }, 2);
+
+      // ===== Phase 4 (timeline 4–5): Romer quote out, stock crash quote in =====
+      for (var qi = 0; qi <= 4; qi++) {
+        tl.to('#romer-q' + qi, { opacity: 0, duration: 0.5, ease: 'none' }, 4);
+      }
+      for (var qi = 0; qi <= 3; qi++) {
+        tl.to('#crash-q' + qi, { opacity: 1, duration: 0.3, ease: 'none' }, 4.5 + qi * 0.2);
+      }
+
+      // ===== Phase 5 (timeline 6–7): AD₁₉₂₈ → AD₁₉₂₉ =====
+      // Fade AD₁₉₂₇ remnants to 0
+      tl.to('#adas-ad27', { attr: { opacity: 0 }, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-ad-label', { opacity: 0, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq27-h', { opacity: 0, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq27-v', { opacity: 0, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq27-dot', { opacity: 0, duration: 1, ease: 'none' }, 6);
+      // Fade AD₁₉₂₈ + eq to ghost
+      tl.to('#adas-ad28', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq28-h', { opacity: 0.25, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq28-v', { opacity: 0.25, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq28-dot', { opacity: 0.25, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-tick28-y', { attr: { opacity: 0 }, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-tick28-x', { attr: { opacity: 0 }, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-ad28-yint', { opacity: 0, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-ad28-xint', { opacity: 0, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-ad28-label', { opacity: 0.25, duration: 1, ease: 'none' }, 6);
+      // Show AD₁₉₂₉ + eq
+      tl.to('#adas-ad29', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq29-h', { opacity: 1, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq29-v', { opacity: 1, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-eq29-dot', { opacity: 1, duration: 1, ease: 'none' }, 6);
+      tl.to('#adas-ad29-label', { opacity: 1, duration: 1, ease: 'none' }, 6);
+
+      // ===== Phase 6 (timeline 8–9): Stock crash quote out, bank panic quote in =====
+      for (var qi = 0; qi <= 3; qi++) {
+        tl.to('#crash-q' + qi, { opacity: 0, duration: 0.5, ease: 'none' }, 8);
+      }
+      for (var qi = 0; qi <= 3; qi++) {
+        tl.to('#panic-q' + qi, { opacity: 1, duration: 0.3, ease: 'none' }, 8.5 + qi * 0.2);
+      }
+
+      // ===== Phase 7 (timeline 10–11): AD₁₉₂₉ → AD₁₉₃₀ =====
+      // Fade AD₁₉₂₈ remnants to 0
+      tl.to('#adas-ad28', { attr: { opacity: 0 }, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-ad28-label', { opacity: 0, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq28-h', { opacity: 0, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq28-v', { opacity: 0, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq28-dot', { opacity: 0, duration: 1, ease: 'none' }, 10);
+      // Fade AD₁₉₂₉ + eq to ghost
+      tl.to('#adas-ad29', { attr: { opacity: 0.25 }, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq29-h', { opacity: 0.25, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq29-v', { opacity: 0.25, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq29-dot', { opacity: 0.25, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-ad29-label', { opacity: 0.25, duration: 1, ease: 'none' }, 10);
+      // Show AD₁₉₃₀ + eq
+      tl.to('#adas-ad30', { attr: { opacity: 1 }, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq30-h', { opacity: 1, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq30-v', { opacity: 1, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-eq30-dot', { opacity: 1, duration: 1, ease: 'none' }, 10);
+      tl.to('#adas-ad30-label', { opacity: 1, duration: 1, ease: 'none' }, 10);
     }
   </script>
 

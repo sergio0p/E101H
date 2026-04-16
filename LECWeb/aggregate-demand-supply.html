@@ -55,49 +55,206 @@
     </div>
   </section>
 
-  <!-- Frame 2: AD Graph -->
+  <!-- AD-AS Graph -->
   <section class="scroll-frame graph-frame" id="ad-graph">
     <div class="scroll-frame-inner" style="background: #fdf6e3;">
-      <svg id="ad-svg" style="display: block; width: 95%;"></svg>
+      <svg id="ad-svg" style="display: block; max-width: 900px; width: 100%; margin: 0 auto;"></svg>
     </div>
   </section>
 
-  <!-- tikz-svg renderer -->
+  <!-- tikz-svg interactive renderer -->
   <script type="module">
     import { render } from 'https://sergio0p.github.io/tikz-svg/src-v2/index.js';
 
-    const adConfig = {
-      scale: 4,
-      originX: 55,
-      originY: 325,
-      padding: 10,
-      styles: {
-        label: {
-          shape: 'rectangle', fill: 'none', stroke: 'none',
-          fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+    // ── State (units = percentage points) ──
+    const AD_SLOPE = 0.7;
+    const FS = 23;  // base font size — tweak this to resize all text
+    let ystar = 4;        // Y* = 4% real growth
+    let adIntercept = 6.8; // gives π = 4% at Y* = 4
+    let epi = 4;           // E[π] = 4%
+
+    // SRAS: exponential — flat left, steep right
+    const SRAS_A = 3, SRAS_B = 0.2;
+    const srasAt = Y => epi + SRAS_A * (Math.exp(SRAS_B * (Y - ystar)) - 1);
+
+    // Find Y where AD(Y) = SRAS(Y) — Newton's method (5 iterations)
+    function findSREquilibrium() {
+      let Y = ystar;
+      for (let i = 0; i < 5; i++) {
+        const f = (adIntercept - AD_SLOPE * Y) - srasAt(Y);
+        const fp = -AD_SLOPE - SRAS_A * SRAS_B * Math.exp(SRAS_B * (Y - ystar));
+        Y -= f / fp;
+      }
+      return Y;
+    }
+
+    function buildConfig() {
+      // Long-run equilibrium: LRAS ∩ AD
+      const Yeq = ystar;
+      const piEq = adIntercept - AD_SLOPE * ystar;
+
+      // Short-run equilibrium: AD ∩ SRAS
+      const Ysr = findSREquilibrium();
+      const piSr = adIntercept - AD_SLOPE * Ysr;
+
+      const srasRightPi = srasAt(7.5);
+      const piCap = 11;
+      const srasLabelPi = Math.min(piCap, srasRightPi);
+      const srasLabelX = ystar + (1/SRAS_B) * Math.log((srasLabelPi - epi) / SRAS_A + 1) + 0.5;
+      const srasLabel = `$\\text{SRAS}\\;(\\mathbb{E}[\\pi]=${epi.toFixed(1)}\\%)$`;
+
+      return {
+        scale: 55,
+        originX: 230,
+        originY: 325,
+        padding: 10,
+        styles: {
+          label: {
+            shape: 'rectangle', fill: 'none', stroke: 'none',
+            fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+          },
         },
-      },
-      draw: [
-        // ── Axes ──
-        { type: 'path', points: [{x:0,y:23}, {x:0,y:-90}],
-          arrow: '<->', stroke: '#586e75', strokeWidth: 2.5 },
-        { type: 'path', points: [{x:-5,y:0}, {x:130,y:0}],
-          arrow: '<->', stroke: '#586e75', strokeWidth: 2.5 },
+        draw: [
+          // ── Axes ──
+          { type: 'path', points: [{x:0,y:3.5}, {x:0,y:-7.5}],
+            arrow: '<->', stroke: '#586e75', strokeWidth: 2.5 },
+          { type: 'path', points: [{x:-3.5,y:0}, {x:9,y:0}],
+            arrow: '<->', stroke: '#586e75', strokeWidth: 2.5 },
 
-        // ── Axis labels ──
-        { type: 'node', id: 'axP', style: 'label', position: {x:3, y:-94}, label: '$\\pi$', anchor: 'east', fontSize: 18 },
-        { type: 'node', id: 'axQ', style: 'label', position: {x:132, y:0}, label: '$Y_R$', anchor: 'west', fontSize: 18 },
+          // ── Axis labels ──
+          { type: 'node', id: 'axP', style: 'label', position: {x:0.2, y:-7.8},
+            label: '$\\pi$', anchor: 'east', fontSize: FS + 5 },
+          { type: 'node', id: 'axQ', style: 'label', position: {x:9.2, y:0},
+            label: '$\\vec{Y_R}$', anchor: 'west', fontSize: FS + 5 },
 
-        // ── AD curve: downward sloping ──
-        { type: 'plot', expr: Y => 80 - 0.7 * Y, domain: [5, 110], samples: 2,
-          handler: 'lineto', stroke: '#dc322f', strokeWidth: 3 },
+          // ── Dotted guide lines (long-run: LRAS ∩ AD) ──
+          { type: 'path', points: [{x:0, y:-piEq}, {x:Yeq, y:-piEq}],
+            dotted: true, stroke: '#93a1a1', strokeWidth: 1 },
+          { type: 'path', points: [{x:Yeq, y:0}, {x:Yeq, y:-piEq}],
+            dotted: true, stroke: '#93a1a1', strokeWidth: 1 },
 
-        // ── Curve label ──
-        { type: 'node', id: 'lblAD', style: 'label', position: {x:112, y:-5}, label: '$AD$', anchor: 'west', fontSize: 16, labelColor: '#dc322f' },
-      ],
-    };
+          // ── Dotted guide lines (short-run: AD ∩ SRAS) ──
+          { type: 'path', points: [{x:0, y:-piSr}, {x:Ysr, y:-piSr}],
+            dotted: true, stroke: '#d33682', strokeWidth: 1 },
+          { type: 'path', points: [{x:Ysr, y:0}, {x:Ysr, y:-piSr}],
+            dotted: true, stroke: '#d33682', strokeWidth: 1 },
 
-    render(document.getElementById('ad-svg'), adConfig);
+          // ── LRAS ──
+          { type: 'path', points: [{x:ystar, y:1}, {x:ystar, y:-12}],
+            stroke: '#859900', strokeWidth: 3 },
+
+          // ── AD curve ──
+          { type: 'plot', expr: Y => adIntercept - AD_SLOPE * Y,
+            domain: [-4.5, 9.5], samples: 2, handler: 'lineto',
+            stroke: '#dc322f', strokeWidth: 3 },
+
+          // ── SRAS curve ──
+          { type: 'plot', expr: Y => srasAt(Y),
+            domain: [-4.5, 9.5], samples: 80, handler: 'lineto',
+            stroke: '#268bd2', strokeWidth: 3 },
+
+          // ── Equilibrium dot (long-run) ──
+          { type: 'node', id: 'eqDot', position: {x: Yeq, y: -piEq},
+            shape: 'circle', fill: '#586e75', stroke: 'none',
+            minimumSize: 10, label: '' },
+
+          // ── Short-run equilibrium dot (AD ∩ SRAS) ──
+          { type: 'node', id: 'srDot', position: {x: Ysr, y: -piSr},
+            shape: 'circle', fill: '#d33682', stroke: 'none',
+            minimumSize: 10, label: '' },
+
+          // ── Curve labels ──
+          { type: 'node', id: 'lblLRAS', style: 'label',
+            position: {x: ystar + 0.15, y: -7},
+            label: '$\\text{LRAS}$', anchor: 'west', fontSize: FS + 1,
+            labelColor: '#859900' },
+
+          { type: 'node', id: 'lblAD', style: 'label',
+            position: {x: 8.7, y: -(adIntercept - AD_SLOPE * 8.5) - 0.2},
+            label: '$AD$', anchor: 'west', fontSize: FS + 3,
+            labelColor: '#dc322f' },
+
+          { type: 'node', id: 'lblSRAS', style: 'label',
+            position: {x: srasLabelX, y: -srasLabelPi},
+            label: srasLabel, anchor: 'west', fontSize: FS,
+            labelColor: '#268bd2' },
+
+          // ── Axis value labels (long-run) ──
+          { type: 'node', id: 'lblPiEq', style: 'label',
+            position: {x: -0.15, y: -piEq},
+            label: `$${piEq.toFixed(1)}$`, anchor: 'east', fontSize: FS },
+          { type: 'node', id: 'lblYEq', style: 'label',
+            position: {x: Yeq, y: 1.3},
+            label: `$${Yeq.toFixed(1)}$`, anchor: 'north', fontSize: FS },
+
+          // ── Axis value labels (short-run) ──
+          { type: 'node', id: 'lblPiSr', style: 'label',
+            position: {x: -0.15, y: -piSr},
+            label: `$${piSr.toFixed(1)}$`, anchor: 'east', fontSize: FS,
+            labelColor: '#d33682' },
+          { type: 'node', id: 'lblYSr', style: 'label',
+            position: {x: Ysr, y: 1.3},
+            label: `$${Ysr.toFixed(1)}$`, anchor: 'north', fontSize: FS,
+            labelColor: '#d33682' },
+
+          // ── Navigation instructions ──
+          { type: 'node', id: 'navHelp',
+            position: {x: 20, y: -5},
+            shape: 'rectangle split', parts: 3,
+            label: [
+              '← / →  shift LRAS (SRAS follows)',
+              '⌥← / ⌥→  shift AD',
+              'Q / A  raise / lower E[π] (shifts SRAS)'
+            ],
+            partAlign: 'left', drawSplits: false,
+            fill: 'none', stroke: 'none',
+            fontFamily: "'Times New Roman', serif",
+            fontSize: FS + 1, labelColor: '#586e75' },
+        ],
+      };
+    }
+
+    // ── Initial render ──
+    const svg = document.getElementById('ad-svg');
+    render(svg, buildConfig());
+    const savedViewBox = svg.getAttribute('viewBox');
+
+    function redraw() {
+      svg.innerHTML = '';
+      render(svg, buildConfig());
+      svg.setAttribute('viewBox', savedViewBox);
+    }
+
+    // ── Keyboard controls ──
+    document.addEventListener('keydown', e => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.shiftKey) return;
+
+      let changed = false;
+
+      if (e.altKey && e.key === 'ArrowLeft') {
+        e.preventDefault(); adIntercept -= 0.5; changed = true;
+      } else if (e.altKey && e.key === 'ArrowRight') {
+        e.preventDefault(); adIntercept += 0.5; changed = true;
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault(); ystar -= 0.5;
+        epi = adIntercept - AD_SLOPE * ystar; changed = true;
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault(); ystar += 0.5;
+        epi = adIntercept - AD_SLOPE * ystar; changed = true;
+      } else if (e.key === 'q' || e.key === 'Q') {
+        e.preventDefault(); epi += 0.5; changed = true;
+      } else if (e.key === 'a' || e.key === 'A') {
+        e.preventDefault(); epi -= 0.5; changed = true;
+      }
+
+      if (changed) {
+        ystar = Math.max(-3, Math.min(8, ystar));
+        adIntercept = Math.max(2, Math.min(12, adIntercept));
+        epi = Math.max(-3, Math.min(10, epi));
+        redraw();
+      }
+    });
   </script>
 
   <!-- KaTeX auto-render -->
