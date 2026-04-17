@@ -45,19 +45,35 @@
 <body>
 
   <!-- Title Slide -->
-  <section class="title-slide">
+  <section class="title-slide" id="externalities-and-public-goods">
     <div class="title-box">
       <h1>Externalities and Public Goods</h1>
     </div>
+
+    <!-- Table of Contents -->
+    <nav style="margin-top: 2rem; text-align: left; background: #eee; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+      <a href="#externalities" style="margin-left: 1rem;">1. Externalities</a>
+      <a href="#externalities-example" style="margin-left: 1rem;">2. Example</a>
+      <a href="#the-market-equilibrium" style="margin-left: 1rem;">3. Equilibrium</a>
+      <a href="#example-cont" style="margin-left: 1rem;">4. Example Cont</a>
+      <a href="#the-efficient-outcome" style="margin-left: 1rem;">5. Efficient</a>
+      <br>
+      <a href="#coase-theorem-statement" style="margin-left: 1rem;">6. Coase</a>
+      <a href="#coase-theorem-in-action" style="margin-left: 1rem;">7. Coase 1</a>
+      <a href="#public-goods" style="margin-left: 1rem;">8. Public Goods</a>
+    </nav>
   </section>
 
   <!-- Frame 1: Externalities -->
-  <section class="frame">
+  <section class="frame" id="externalities">
     <div class="frame-title-bar">
       <h2 class="frame-title">Externalities</h2>
     </div>
     <div class="frame-content">
-      <p>Externality is when an action of an agent (firm, consumer, government) affects the actions of another agent. If the impact is beneficial, we call it a positive externality. If the impact is negative, we call it a negative externality.</p>
+      <div class="block">
+        <div class="block-title">Externality (arising from a given good/service)</div>
+        <div class="block-body">A benefit (positive externality) or cost (negative externality) imposed on third-party agent(s) (not the seller or buyer of the good) by the production/consumption, who did not choose to incur the benefit or cost. Thus, externalities arise when the actions of one agent directly affect the welfare or production possibilities of another agent, and <em>this effect is not transmitted through market prices</em>.</div>
+      </div>
 
       <p><strong>So far, we assumed that there were no externalities:</strong></p>
 
@@ -70,7 +86,7 @@
   </section>
 
   <!-- Frame 2: Externalities Example -->
-  <section class="frame fs-10pt">
+  <section class="frame fs-10pt" id="externalities-example">
     <div class="frame-title-bar">
       <h2 class="frame-title">Externalities</h2>
       <p class="frame-subtitle">Example</p>
@@ -83,11 +99,91 @@
 
       <p><strong>Thus, the supply curves are:</strong></p>
       <div class="math-display">$q_{A}^{S}=P_{A}/2 \quad \text{and} \quad q_{B}^{S}=(P_{B}-q_{A})/2$</div>
+      <div class="columns">
+        <div class="column">
+          <svg id="svg-supply-a" style="display: block; width: 100%;"></svg>
+        </div>
+        <div class="column">
+          <svg id="svg-supply-b" style="display: block; width: 100%;"></svg>
+        </div>
+      </div>
+      <script type="module">
+        import { render } from './tikz-svg/src-v2/index.js';
+        const L = {
+          shape: 'rectangle', fill: 'none', stroke: 'none',
+          fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+        };
+        // Supply A: P_A = 2q_A
+        render(document.getElementById('svg-supply-a'), {
+          scale: 22, originX: 40, originY: 155, padding: 10,
+          styles: { L },
+          draw: [
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            // S_A: P = 2q, coords: 1 unit x = 10 qty, 1 unit y = 20 price
+            { type: 'path', points: [{x:0,y:0},{x:6,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+            // Axis labels
+            { type: 'node', id:'aP', style:'L', position:{x:0,y:-7.1}, label:'$P_A$', fontSize:14 },
+            { type: 'node', id:'aQ', style:'L', position:{x:7.2,y:0}, label:'$q_A$', fontSize:14 },
+            // Supply label
+            { type: 'node', id:'aSA', style:'L', position:{x:5.5,y:-4.2}, label:'$S_A$', fontSize:13, labelColor:'#268bd2' },
+            // Tick marks
+            { type: 'path', points: [{x:2,y:0.1},{x:2,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:4,y:0.1},{x:4,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:6,y:0.1},{x:6,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-2},{x:-0.1,y:-2}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-4},{x:-0.1,y:-4}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-6},{x:-0.1,y:-6}], stroke: '#586e75', strokeWidth: 1 },
+            // Q ticks
+            { type: 'node', id:'aq20', style:'L', position:{x:2,y:0.5}, label:'$20$', anchor:'north', fontSize:9 },
+            { type: 'node', id:'aq40', style:'L', position:{x:4,y:0.5}, label:'$40$', anchor:'north', fontSize:9 },
+            { type: 'node', id:'aq60', style:'L', position:{x:6,y:0.5}, label:'$60$', anchor:'north', fontSize:9 },
+            // P ticks
+            { type: 'node', id:'ap40', style:'L', position:{x:-0.5,y:-2}, label:'$40$', anchor:'east', fontSize:9 },
+            { type: 'node', id:'ap80', style:'L', position:{x:-0.5,y:-4}, label:'$80$', anchor:'east', fontSize:9 },
+            { type: 'node', id:'ap120', style:'L', position:{x:-0.5,y:-6}, label:'$120$', anchor:'east', fontSize:9 },
+          ],
+        });
+        // Supply B: P_B = 2q_B + q_A (same coord scale)
+        render(document.getElementById('svg-supply-b'), {
+          scale: 22, originX: 40, originY: 155, padding: 10,
+          styles: { L },
+          draw: [
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            // S_B(q_A=0): P = 2q_B
+            { type: 'path', points: [{x:0,y:0},{x:6,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+            // S_B(q_A=40): P = 2q_B + 40, intercept at P=40 (y=-2)
+            { type: 'path', points: [{x:0,y:-2},{x:4,y:-6}], stroke: '#dc322f', strokeWidth: 3 },
+            // Axis labels
+            { type: 'node', id:'bP', style:'L', position:{x:0,y:-7.1}, label:'$P_B$', fontSize:14 },
+            { type: 'node', id:'bQ', style:'L', position:{x:7.199999999999998,y:0}, label:'$q_B$', fontSize:14 },
+            // Supply labels
+            { type: 'node', id:'bS0', style:'L', position:{x:6.999999999999994,y:-6.300000000000001}, label:'$S_B^{(q_A=0)}$', fontSize:11, labelColor:'#268bd2' },
+            { type: 'node', id:'bS40', style:'L', position:{x:4.900000000000001,y:-6.4}, label:'$S_B^{(q_A=40)}$', fontSize:11, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:2,y:0.1},{x:2,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:4,y:0.1},{x:4,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:6,y:0.1},{x:6,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-2},{x:-0.1,y:-2}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-4},{x:-0.1,y:-4}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-6},{x:-0.1,y:-6}], stroke: '#586e75', strokeWidth: 1 },
+            // Q ticks
+            { type: 'node', id:'bq20', style:'L', position:{x:2,y:0.5}, label:'$20$', anchor:'north', fontSize:9 },
+            { type: 'node', id:'bq40', style:'L', position:{x:4,y:0.5}, label:'$40$', anchor:'north', fontSize:9 },
+            { type: 'node', id:'bq60', style:'L', position:{x:6,y:0.5}, label:'$60$', anchor:'north', fontSize:9 },
+            // P ticks
+            { type: 'node', id:'bp40', style:'L', position:{x:-0.5,y:-2}, label:'$40$', anchor:'east', fontSize:9 },
+            { type: 'node', id:'bp80', style:'L', position:{x:-0.5,y:-4}, label:'$80$', anchor:'east', fontSize:9 },
+            { type: 'node', id:'bp120', style:'L', position:{x:-0.5,y:-6}, label:'$120$', anchor:'east', fontSize:9 },
+          ],
+        });
+      </script>
     </div>
   </section>
 
   <!-- Frame 3: Externalities Example - Market Equilibrium -->
-  <section class="frame fs-10pt">
+  <section class="frame fs-10pt" id="the-market-equilibrium">
     <div class="frame-title-bar">
       <h2 class="frame-title">Externalities Example (cont.)</h2>
       <p class="frame-subtitle">The Market Equilibrium</p>
@@ -104,11 +200,100 @@
 
       <p>Using this information, $q_{B}^{S}=(P_{B}-40)/2$ and so equilibrium in the market for good B yields:</p>
       <div class="math-display">$q_{B}=24 \quad \text{and} \quad P_{B}=88$</div>
+      <div class="columns">
+        <div class="column">
+          <svg id="svg-eq-a" style="display: block; width: 100%;"></svg>
+        </div>
+        <div class="column">
+          <svg id="svg-eq-b" style="display: block; width: 100%;"></svg>
+        </div>
+      </div>
+      <script type="module">
+        import { render } from './tikz-svg/src-v2/index.js';
+        const L = {
+          shape: 'rectangle', fill: 'none', stroke: 'none',
+          fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+        };
+        // Market A: S: P=2Q, D: P=120-Q, Eq: Q=40, P=80
+        // Coords: 1 unit = 20 qty/price
+        render(document.getElementById('svg-eq-a'), {
+          scale: 22, originX: 40, originY: 155, padding: 10,
+          styles: { L },
+          draw: [
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            // Supply: P=2Q → y=-2x
+            { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+            // Demand: P=120-Q → y=x-6
+            { type: 'path', points: [{x:0,y:-6},{x:6,y:0}], stroke: '#dc322f', strokeWidth: 3 },
+            // Equilibrium dotted lines
+            { type: 'path', points: [{x:0,y:-4},{x:2,y:-4}], dashed: '3 2', stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:2,y:0},{x:2,y:-4}], dashed: '3 2', stroke: '#586e75', strokeWidth: 1 },
+            // Axis labels
+            { type: 'node', id:'eaP', style:'L', position:{x:0,y:-7.1}, label:'$P_A$', fontSize:14 },
+            { type: 'node', id:'eaQ', style:'L', position:{x:7.199999999999998,y:0}, label:'$q_A$', fontSize:14 },
+            // Curve labels
+            { type: 'node', id:'eaSA', style:'L', position:{x:2.4999999999999996,y:-6.399999999999997}, label:'$S_A$', fontSize:12, labelColor:'#268bd2' },
+            { type: 'node', id:'eaDA', style:'L', position:{x:5.899999999999999,y:-1}, label:'$D_A$', fontSize:12, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:2,y:0.1},{x:2,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:4,y:0.1},{x:4,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:6,y:0.1},{x:6,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-2},{x:-0.1,y:-2}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-4},{x:-0.1,y:-4}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-6},{x:-0.1,y:-6}], stroke: '#586e75', strokeWidth: 1 },
+            // Q ticks
+            { type: 'node', id:'eaq40', style:'L', position:{x:2,y:0.5}, label:'$40$', anchor:'north', fontSize:9 },
+            { type: 'node', id:'eaq80', style:'L', position:{x:4,y:0.5}, label:'$80$', anchor:'north', fontSize:9 },
+            { type: 'node', id:'eaq120', style:'L', position:{x:6,y:0.5}, label:'$120$', anchor:'north', fontSize:9 },
+            // P ticks
+            { type: 'node', id:'eap40', style:'L', position:{x:-0.5,y:-2}, label:'$40$', anchor:'east', fontSize:9 },
+            { type: 'node', id:'eap80', style:'L', position:{x:-0.5,y:-4}, label:'$80$', anchor:'east', fontSize:9 },
+            { type: 'node', id:'eap120', style:'L', position:{x:-0.5,y:-6}, label:'$120$', anchor:'east', fontSize:9 },
+          ],
+        });
+        // Market B: S: P=2qB+40, D: P=100-qB/2, Eq: qB=24, PB=88
+        // Coords: 1 unit x = 20 qty, 1 unit y = 20 price
+        render(document.getElementById('svg-eq-b'), {
+          scale: 22, originX: 40, originY: 155, padding: 10,
+          styles: { L },
+          draw: [
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            // Supply: P=2qB+40 → y=-2x-2
+            { type: 'path', points: [{x:0,y:-2},{x:2,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+            // Demand: P=100-qB/2 → y=x/2-5
+            { type: 'path', points: [{x:0,y:-5},{x:6,y:-2}], stroke: '#dc322f', strokeWidth: 3 },
+            // Equilibrium dotted lines: qB=24→x=1.2, PB=88→y=-4.4
+            { type: 'path', points: [{x:0,y:-4.4},{x:1.2,y:-4.4}], dashed: '3 2', stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:1.2,y:0},{x:1.2,y:-4.4}], dashed: '3 2', stroke: '#586e75', strokeWidth: 1 },
+            // Axis labels
+            { type: 'node', id:'ebP', style:'L', position:{x:0,y:-7.199999999999999}, label:'$P_B$', fontSize:14 },
+            { type: 'node', id:'ebQ', style:'L', position:{x:7.199999999999998,y:0}, label:'$q_B$', fontSize:14 },
+            // Curve labels
+            { type: 'node', id:'ebSB', style:'L', position:{x:1.6999999999999997,y:-6.399999999999997}, label:'$S_B$', fontSize:12, labelColor:'#268bd2' },
+            { type: 'node', id:'ebDB', style:'L', position:{x:5.699999999999999,y:-2.7}, label:'$D_B$', fontSize:12, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:1.2,y:0.1},{x:1.2,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:2,y:0.1},{x:2,y:-0.1}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-2},{x:-0.1,y:-2}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-4.4},{x:-0.1,y:-4.4}], stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:0.1,y:-5},{x:-0.1,y:-5}], stroke: '#586e75', strokeWidth: 1 },
+            // Q ticks
+            { type: 'node', id:'ebq24', style:'L', position:{x:1.2,y:0.5}, label:'$24$', anchor:'north', fontSize:9 },
+            { type: 'node', id:'ebq40', style:'L', position:{x:2,y:0.5}, label:'$40$', anchor:'north', fontSize:9 },
+            // P ticks
+            { type: 'node', id:'ebp40', style:'L', position:{x:-0.5,y:-2}, label:'$40$', anchor:'east', fontSize:9 },
+            { type: 'node', id:'ebp88', style:'L', position:{x:-0.5,y:-4.4}, label:'$88$', anchor:'east', fontSize:9 },
+            { type: 'node', id:'ebp100', style:'L', position:{x:-0.5,y:-5}, label:'$100$', anchor:'east', fontSize:9 },
+          ],
+        });
+      </script>
     </div>
   </section>
 
   <!-- Frame 4: Externalities Example (cont.) -->
-  <section class="frame fs-10pt">
+  <section class="frame fs-10pt" id="example-cont">
     <div class="frame-title-bar">
       <h2 class="frame-title">Externalities</h2>
       <p class="frame-subtitle">Example cont.</p>
@@ -118,31 +303,545 @@
 
       <p><strong>Using the market equilibrium, compute the total surplus:</strong> consumer and producer surplus. In this case, however, due to the externalities the total surplus is not maximized at the market equilibrium because firm A ignores the cost imposed on firm B by A's production (the externality).</p>
 
+      <div class="columns">
+        <div class="column">
+          <svg id="svg-welfare-a" style="display: block; width: 100%;"></svg>
+        </div>
+        <div class="column">
+          <svg id="svg-welfare-b" style="display: block; width: 100%;"></svg>
+        </div>
+        <div class="column">
+          <table style="font-size: 0.75rem; margin: 0.5rem auto;">
+            <tr>
+              <th></th>
+              <th>Market A</th>
+              <th>Market B</th>
+              <th>Total</th>
+            </tr>
+            <tr>
+              <td style="color: #dc322f;"><strong>CS</strong></td>
+              <td style="background: rgba(220,50,47,0.3);">800</td>
+              <td style="background: rgba(220,50,47,0.3);">144</td>
+              <td style="background: rgba(220,50,47,0.3);">944</td>
+            </tr>
+            <tr>
+              <td style="color: #268bd2;"><strong>PS</strong></td>
+              <td style="background: rgba(38,139,210,0.3);">1600</td>
+              <td style="background: rgba(38,139,210,0.3);">576</td>
+              <td style="background: rgba(38,139,210,0.3);">2176</td>
+            </tr>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td><strong>2400</strong></td>
+              <td><strong>720</strong></td>
+              <td><strong>3120</strong></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <script type="module">
+        import { render } from './tikz-svg/src-v2/index.js';
+        const L = {
+          shape: 'rectangle', fill: 'none', stroke: 'none',
+          fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+        };
+        const csRed = 'rgba(220,50,47,0.3)';
+        const psBlue = 'rgba(38,139,210,0.3)';
+        // Market A welfare: S: P=2Q, D: P=120-Q, Eq: Q=40, P=80
+        // Coords: 1 unit = 20 qty/price
+        render(document.getElementById('svg-welfare-a'), {
+          scale: 15, originX: 30, originY: 110, padding: 8,
+          styles: { L },
+          draw: [
+            // CS fill: triangle (0,-6)→(2,-4)→(0,-4)
+            { type: 'path', points: [{x:0,y:-6},{x:2,y:-4},{x:0,y:-4}], cycle: true, fill: csRed, stroke: 'none' },
+            // PS fill: triangle (0,0)→(2,-4)→(0,-4)
+            { type: 'path', points: [{x:0,y:0},{x:2,y:-4},{x:0,y:-4}], cycle: true, fill: psBlue, stroke: 'none' },
+            // Axes
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            // Supply: y=-2x
+            { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: '#268bd2', strokeWidth: 2.5 },
+            // Demand: y=x-6
+            { type: 'path', points: [{x:0,y:-6},{x:6,y:0}], stroke: '#dc322f', strokeWidth: 2.5 },
+            // Equilibrium dotted lines
+            { type: 'path', points: [{x:0,y:-4},{x:2,y:-4}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:2,y:0},{x:2,y:-4}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            // Axis labels
+            { type: 'node', id:'waP', style:'L', position:{x:0,y:-7.299999999999999}, label:'$P_A$', fontSize:11 },
+            { type: 'node', id:'waQ', style:'L', position:{x:7.3,y:0}, label:'$q_A$', fontSize:11 },
+            // Curve labels
+            { type: 'node', id:'waSA', style:'L', position:{x:3.4000000000000004,y:-5.5}, label:'$S_A$', fontSize:10, labelColor:'#268bd2' },
+            { type: 'node', id:'waDA', style:'L', position:{x:5.999999999999998,y:-1}, label:'$D_A$', fontSize:10, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:2,y:0.15},{x:2,y:-0.15}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-4},{x:-0.15,y:-4}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-6},{x:-0.15,y:-6}], stroke: '#586e75', strokeWidth: 0.75 },
+            // Ticks
+            { type: 'node', id:'waq40', style:'L', position:{x:2,y:0.5}, label:'$40$', anchor:'north', fontSize:8 },
+            { type: 'node', id:'wap80', style:'L', position:{x:-0.5,y:-4}, label:'$80$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'wap120', style:'L', position:{x:-0.5,y:-6}, label:'$120$', anchor:'east', fontSize:8 },
+          ],
+        });
+        // Market B welfare: S: P=2qB+40, D: P=100-qB/2, Eq: qB=24, PB=88
+        // Coords: 1 unit x=20 qty, 1 unit y=20 price
+        render(document.getElementById('svg-welfare-b'), {
+          scale: 15, originX: 30, originY: 110, padding: 8,
+          styles: { L },
+          draw: [
+            // CS fill: triangle (0,-5)→(1.2,-4.4)→(0,-4.4)
+            { type: 'path', points: [{x:0,y:-5},{x:1.2,y:-4.4},{x:0,y:-4.4}], cycle: true, fill: csRed, stroke: 'none' },
+            // PS fill: triangle (0,-2)→(1.2,-4.4)→(0,-4.4)
+            { type: 'path', points: [{x:0,y:-2},{x:1.2,y:-4.4},{x:0,y:-4.4}], cycle: true, fill: psBlue, stroke: 'none' },
+            // Axes
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            // Supply: y=-2x-2
+            { type: 'path', points: [{x:0,y:-2},{x:2,y:-6}], stroke: '#268bd2', strokeWidth: 2.5 },
+            // Demand: y=x/2-5
+            { type: 'path', points: [{x:0,y:-5},{x:6,y:-2}], stroke: '#dc322f', strokeWidth: 2.5 },
+            // Equilibrium dotted lines
+            { type: 'path', points: [{x:0,y:-4.4},{x:1.2,y:-4.4}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:1.2,y:0},{x:1.2,y:-4.4}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            // Axis labels
+            { type: 'node', id:'wbP', style:'L', position:{x:0,y:-7.3}, label:'$P_B$', fontSize:11 },
+            { type: 'node', id:'wbQ', style:'L', position:{x:7.3,y:0}, label:'$q_B$', fontSize:11 },
+            // Curve labels
+            { type: 'node', id:'wbSB', style:'L', position:{x:1.7,y:-6.4}, label:'$S_B$', fontSize:10, labelColor:'#268bd2' },
+            { type: 'node', id:'wbDB', style:'L', position:{x:5.7,y:-2.7}, label:'$D_B$', fontSize:10, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:1.2,y:0.15},{x:1.2,y:-0.15}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-2},{x:-0.15,y:-2}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-4.4},{x:-0.15,y:-4.4}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-5},{x:-0.15,y:-5}], stroke: '#586e75', strokeWidth: 0.75 },
+            // Ticks
+            { type: 'node', id:'wbq24', style:'L', position:{x:1.2,y:0.5}, label:'$24$', anchor:'north', fontSize:8 },
+            { type: 'node', id:'wbp40', style:'L', position:{x:-0.5,y:-2}, label:'$40$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'wbp88', style:'L', position:{x:-0.5,y:-4.4}, label:'$88$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'wbp100', style:'L', position:{x:-0.5,y:-5}, label:'$100$', anchor:'east', fontSize:8 },
+          ],
+        });
+      </script>
+
       <p><strong>Check the following:</strong> If firm A were to decrease its production by a "little", the total surplus would increase.</p>
+
+      <div class="columns">
+        <div class="column">
+          <svg id="svg-welfare-a2" style="display: block; width: 100%;"></svg>
+        </div>
+        <div class="column">
+          <svg id="svg-welfare-b2" style="display: block; width: 100%;"></svg>
+        </div>
+        <div class="column">
+          <table style="font-size: 0.75rem; margin: 0.5rem auto;">
+            <tr>
+              <th></th>
+              <th>Market A</th>
+              <th>Market B</th>
+              <th>Total</th>
+            </tr>
+            <tr>
+              <td style="color: #dc322f;"><strong>CS</strong></td>
+              <td style="background: rgba(220,50,47,0.3);">612.5</td>
+              <td style="background: rgba(220,50,47,0.3);">169</td>
+              <td style="background: rgba(220,50,47,0.3);">781.5</td>
+            </tr>
+            <tr>
+              <td style="color: #268bd2;"><strong>PS</strong></td>
+              <td style="background: rgba(38,139,210,0.3);">1750</td>
+              <td style="background: rgba(38,139,210,0.3);">676</td>
+              <td style="background: rgba(38,139,210,0.3);">2426</td>
+            </tr>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td><strong>2362.5</strong></td>
+              <td><strong>845</strong></td>
+              <td><strong>3207.5</strong></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <script type="module">
+        import { render } from './tikz-svg/src-v2/index.js';
+        const L = {
+          shape: 'rectangle', fill: 'none', stroke: 'none',
+          fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+        };
+        const csRed = 'rgba(220,50,47,0.3)';
+        const psBlue = 'rgba(38,139,210,0.3)';
+        const dwlPurple = 'rgba(108,113,196,0.4)';
+        // Market A at qA=35: PA=85, CS=612.5, PS=1750
+        // Coords: 1 unit = 20. qA=35→x=1.75, PA=85→y=-4.25, MC(35)=70→y=-3.5
+        render(document.getElementById('svg-welfare-a2'), {
+          scale: 15, originX: 30, originY: 110, padding: 8,
+          styles: { L },
+          draw: [
+            // CS fill: triangle demand intercept → eq point → price on axis
+            { type: 'path', points: [{x:0,y:-6},{x:1.75,y:-4.25},{x:0,y:-4.25}], cycle: true, fill: csRed, stroke: 'none' },
+            // PS fill: trapezoid origin → supply at Q=35 → price at Q=35 → price on axis
+            { type: 'path', points: [{x:0,y:0},{x:1.75,y:-3.5},{x:1.75,y:-4.25},{x:0,y:-4.25}], cycle: true, fill: psBlue, stroke: 'none' },
+            // DWL fill: triangle between S and D from Q=35 to Q=40
+            { type: 'path', points: [{x:1.75,y:-4.25},{x:2,y:-4},{x:1.75,y:-3.5}], cycle: true, fill: dwlPurple, stroke: 'none' },
+            // Axes
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            // Supply: y=-2x
+            { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: '#268bd2', strokeWidth: 2.5 },
+            // Demand: y=x-6
+            { type: 'path', points: [{x:0,y:-6},{x:6,y:0}], stroke: '#dc322f', strokeWidth: 2.5 },
+            // Dotted lines at qA=35, PA=85
+            { type: 'path', points: [{x:0,y:-4.25},{x:1.75,y:-4.25}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:1.75,y:0},{x:1.75,y:-4.25}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            // Axis labels
+            { type: 'node', id:'wa2P', style:'L', position:{x:0,y:-7.3}, label:'$P_A$', fontSize:11 },
+            { type: 'node', id:'wa2Q', style:'L', position:{x:7.3,y:0}, label:'$q_A$', fontSize:11 },
+            // Curve labels
+            { type: 'node', id:'wa2SA', style:'L', position:{x:3.4,y:-5.5}, label:'$S_A$', fontSize:10, labelColor:'#268bd2' },
+            { type: 'node', id:'wa2DA', style:'L', position:{x:6.0,y:-1}, label:'$D_A$', fontSize:10, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:1.75,y:0.15},{x:1.75,y:-0.15}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-4.25},{x:-0.15,y:-4.25}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-6},{x:-0.15,y:-6}], stroke: '#586e75', strokeWidth: 0.75 },
+            // Ticks
+            { type: 'node', id:'wa2q35', style:'L', position:{x:1.75,y:0.5}, label:'$35$', anchor:'north', fontSize:8 },
+            { type: 'node', id:'wa2p85', style:'L', position:{x:-0.5,y:-4.25}, label:'$85$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'wa2p120', style:'L', position:{x:-0.5,y:-6}, label:'$120$', anchor:'east', fontSize:8 },
+          ],
+        });
+        // Market B at qA=35: S: P=2qB+35, D: P=100-qB/2, Eq: qB=26, PB=87
+        // Coords: 1 unit = 20. qB=26→x=1.3, PB=87→y=-4.35, supply intercept P=35→y=-1.75
+        render(document.getElementById('svg-welfare-b2'), {
+          scale: 15, originX: 30, originY: 110, padding: 8,
+          styles: { L },
+          draw: [
+            // CS fill: triangle (0,-5)→(1.3,-4.35)→(0,-4.35)
+            { type: 'path', points: [{x:0,y:-5},{x:1.3,y:-4.35},{x:0,y:-4.35}], cycle: true, fill: csRed, stroke: 'none' },
+            // PS fill: triangle (0,-1.75)→(1.3,-4.35)→(0,-4.35)
+            { type: 'path', points: [{x:0,y:-1.75},{x:1.3,y:-4.35},{x:0,y:-4.35}], cycle: true, fill: psBlue, stroke: 'none' },
+            // Axes
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            // Supply: y=-2x-1.75
+            { type: 'path', points: [{x:0,y:-1.75},{x:2,y:-5.75}], stroke: '#268bd2', strokeWidth: 2.5 },
+            // Demand: y=x/2-5
+            { type: 'path', points: [{x:0,y:-5},{x:6,y:-2}], stroke: '#dc322f', strokeWidth: 2.5 },
+            // Dotted lines at qB=26, PB=87
+            { type: 'path', points: [{x:0,y:-4.35},{x:1.3,y:-4.35}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:1.3,y:0},{x:1.3,y:-4.35}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            // Axis labels
+            { type: 'node', id:'wb2P', style:'L', position:{x:0,y:-7.3}, label:'$P_B$', fontSize:11 },
+            { type: 'node', id:'wb2Q', style:'L', position:{x:7.3,y:0}, label:'$q_B$', fontSize:11 },
+            // Curve labels
+            { type: 'node', id:'wb2SB', style:'L', position:{x:1.7,y:-6.15}, label:'$S_B$', fontSize:10, labelColor:'#268bd2' },
+            { type: 'node', id:'wb2DB', style:'L', position:{x:5.7,y:-2.7}, label:'$D_B$', fontSize:10, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:1.3,y:0.15},{x:1.3,y:-0.15}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-1.75},{x:-0.15,y:-1.75}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-4.35},{x:-0.15,y:-4.35}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-5},{x:-0.15,y:-5}], stroke: '#586e75', strokeWidth: 0.75 },
+            // Ticks
+            { type: 'node', id:'wb2q26', style:'L', position:{x:1.3,y:0.5}, label:'$26$', anchor:'north', fontSize:8 },
+            { type: 'node', id:'wb2p35', style:'L', position:{x:-0.5,y:-1.75}, label:'$35$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'wb2p87', style:'L', position:{x:-0.5,y:-4.35}, label:'$87$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'wb2p100', style:'L', position:{x:-0.5,y:-5}, label:'$100$', anchor:'east', fontSize:8 },
+          ],
+        });
+      </script>
+      <script>
+        // TikZ spy-style zoom for DWL triangle
+        (function() {
+          function init() {
+            const svg = document.getElementById('svg-welfare-a2');
+            if (!svg || !svg.viewBox || !svg.viewBox.baseVal || !svg.viewBox.baseVal.width) {
+              setTimeout(init, 300);
+              return;
+            }
+            const dwlPath = [...svg.querySelectorAll('path')].find(p =>
+              (p.getAttribute('fill') || '').includes('108,113,196')
+            );
+            if (!dwlPath) return;
+            dwlPath.style.cursor = 'pointer';
+
+            dwlPath.addEventListener('click', function() {
+              const ns = 'http://www.w3.org/2000/svg';
+              const old = svg.querySelector('#dwl-spy');
+              if (old) { old.remove(); const oc = svg.querySelector('#spy-clip'); if (oc) oc.remove(); return; }
+
+              const vb = svg.viewBox.baseVal;
+              const bb = dwlPath.getBBox();
+              const sx = bb.x + bb.width / 2;
+              const sy = bb.y + bb.height / 2;
+              const srcR = 6;
+              const magR = 32, zoom = 5;
+              const magX = vb.x + vb.width - magR - 8;
+              const magY = vb.y + magR + 8;
+
+              const g = document.createElementNS(ns, 'g');
+              g.id = 'dwl-spy';
+              g.style.cursor = 'pointer';
+
+              // Clip path
+              let defs = svg.querySelector('defs');
+              if (!defs) { defs = document.createElementNS(ns, 'defs'); svg.insertBefore(defs, svg.firstChild); }
+              const clip = document.createElementNS(ns, 'clipPath');
+              clip.id = 'spy-clip';
+              const cc = document.createElementNS(ns, 'circle');
+              cc.setAttribute('cx', magX); cc.setAttribute('cy', magY); cc.setAttribute('r', magR);
+              clip.appendChild(cc);
+              defs.appendChild(clip);
+
+              // White background for magnified circle
+              const bg = document.createElementNS(ns, 'circle');
+              bg.setAttribute('cx', magX); bg.setAttribute('cy', magY); bg.setAttribute('r', magR);
+              bg.setAttribute('fill', '#fff');
+              g.appendChild(bg);
+
+              // Zoomed cloned content
+              const contentG = document.createElementNS(ns, 'g');
+              contentG.setAttribute('clip-path', 'url(#spy-clip)');
+              const innerG = document.createElementNS(ns, 'g');
+              innerG.setAttribute('transform', `translate(${magX - sx * zoom},${magY - sy * zoom}) scale(${zoom})`);
+              for (const child of svg.children) {
+                if (child.tagName === 'defs' || child === g) continue;
+                const cl = child.cloneNode(true);
+                cl.removeAttribute('id');
+                cl.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+                innerG.appendChild(cl);
+              }
+              contentG.appendChild(innerG);
+              g.appendChild(contentG);
+
+              // Magnified circle border
+              const magBorder = document.createElementNS(ns, 'circle');
+              magBorder.setAttribute('cx', magX); magBorder.setAttribute('cy', magY); magBorder.setAttribute('r', magR);
+              magBorder.setAttribute('fill', 'none');
+              magBorder.setAttribute('stroke', '#000'); magBorder.setAttribute('stroke-width', '1.5');
+              g.appendChild(magBorder);
+
+              // Source circle outline
+              const srcCircle = document.createElementNS(ns, 'circle');
+              srcCircle.setAttribute('cx', sx); srcCircle.setAttribute('cy', sy); srcCircle.setAttribute('r', srcR);
+              srcCircle.setAttribute('fill', 'none');
+              srcCircle.setAttribute('stroke', '#000'); srcCircle.setAttribute('stroke-width', '1');
+              g.appendChild(srcCircle);
+
+              // Single connecting line between circle edges
+              const dx = magX - sx, dy = magY - sy;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              const ux = dx / dist, uy = dy / dist;
+              const line = document.createElementNS(ns, 'line');
+              line.setAttribute('x1', sx + ux * srcR);
+              line.setAttribute('y1', sy + uy * srcR);
+              line.setAttribute('x2', magX - ux * magR);
+              line.setAttribute('y2', magY - uy * magR);
+              line.setAttribute('stroke', '#000');
+              line.setAttribute('stroke-width', '0.75');
+              g.appendChild(line);
+
+              svg.appendChild(g);
+              g.addEventListener('click', (e) => { e.stopPropagation(); g.remove(); clip.remove(); });
+            });
+          }
+          setTimeout(init, 800);
+        })();
+      </script>
     </div>
   </section>
 
   <!-- Frame 5: Externalities Example - Efficient Outcome -->
-  <section class="frame fs-10pt">
+  <section class="frame fs-10pt" id="the-efficient-outcome">
     <div class="frame-title-bar">
-      <h2 class="frame-title">Externalities Example (cont.)</h2>
-      <p class="frame-subtitle">The Efficient Outcome</p>
+      <h2 class="frame-title">The Efficient Outcome Under Externalities</h2>
+      <p class="frame-subtitle">Maximizing The Social Surplus</p>
     </div>
     <div class="frame-content">
-      <p>To find the efficient outcome (quantities that maximize the social surplus), we need to equate the prices (given by the demand function) to the social marginal cost. In our case, the social cost of producing good A is the cost of producing A plus the externalities created by the production of A:</p>
+      <p>Before finding the efficient quantities, let's quantify the externality imposed on firm B by firm A. The externality raises the unit cost of production of good B by $q_A$ and thus, the total cost of firm B is increased by $q_A\times q_B$. That amount is the externality imposed on firm B by firm A.</p>
 
-      <div class="math-display">$SMC_A=\underbrace{2q_{A}}_{MC_{A}}+\underbrace{q_{A}}_{\text{externality}}$</div>
+      <p><strong>Internalizing the externality.</strong><br>
+      Say we impose a tax, $t=q_B$ on good A. The tax revenue will be $q_B\times q_A$, which matches the externality imposed on firm B by firm A. However, now firm A has to pay for it. We <span class="alert">internalized</span> the externality.</p>
 
-      <p>Setting $SMC_{A}=P_{A}=120-q_{A}$:</p>
-      <div class="math-display">$q_{A}=30 \quad \text{and} \quad P_{A}=90$</div>
+      <p>The social marginal cost of producing A is:</p>
+      <div class="math-display">$SMC_A=\underbrace{2q_{A}}_{\text{A's private MC}}+\underbrace{q_{B}}_{\text{marginal external cost}}$</div>
 
-      <p>Now, the efficient quantity of B is:</p>
-      <div class="math-display">$SMC_{B}=2q_{B}=P_{B}=400-2q_{B} \Rightarrow q_{B}=100 \quad \text{and} \quad P_{B}=200$</div>
+      <p>The social marginal cost of producing B is:</p>
+      <div class="math-display">$SMC_B= q_A+2q_B$</div>
+      <p>Notice that the $SMC_B$ coincides with the private marginal cost of producing B, $MC_B$, since the production of B does not generate any externalities.</p>
+
+      <p>To find the efficient quantities we need to solve the following system of equations:</p>
+      <div class="math-display">$$P_A=SMC_A \quad \text{and}\quad P_B=SMC_B.$$</div>
+
+      <svg id="svg-efficient" style="width: 80%; display: block; margin: 0.75rem 2rem 0.75rem 2rem;"></svg>
+      <script type="module">
+        import { render } from './tikz-svg/src-v2/index.js';
+        const L = {
+          shape: 'rectangle', fill: 'none', stroke: 'none',
+          fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+        };
+        // qA on x-axis, qB on y-axis. 1 unit = 10 qty.
+        // Curve 1 (P_A=SMC_A): qB = 120-3qA → y = 12-3x (blue)
+        // Curve 2 (P_B=SMC_B): qB = 40-0.4qA → y = 4-0.4x (red)
+        // Intersection: qA=400/13≈30.77→x=3.077, qB=360/13≈27.69→y=2.769
+        const xI = 400/130, yI = 360/130;
+        render(document.getElementById('svg-efficient'), {
+          scale: 35, originX: 60, originY: 310, padding: 15,
+          styles: { L },
+          draw: [
+            // Axes
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-5.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            { type: 'path', points: [{x:0,y:0},{x:5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
+            // Curve 1 (P_A=SMC_A): qB=120-3qA, blue
+            { type: 'path', points: [{x:2.33,y:-5},{x:4,y:0}], stroke: '#268bd2', strokeWidth: 3 },
+            // Curve 2 (P_B=SMC_B): qB=40-0.4qA, red
+            { type: 'path', points: [{x:0,y:-4},{x:4.8,y:-2.08}], stroke: '#dc322f', strokeWidth: 3 },
+            // Intersection dot
+            { type: 'node', id:'eDot', position:{x:xI,y:-yI}, shape:'circle', radius:4, fill:'#000', stroke:'none', label:'' },
+            // Dotted lines from intersection to axes
+            { type: 'path', points: [{x:0,y:-yI},{x:xI,y:-yI}], dashed: '3 2', stroke: '#586e75', strokeWidth: 1 },
+            { type: 'path', points: [{x:xI,y:0},{x:xI,y:-yI}], dashed: '3 2', stroke: '#586e75', strokeWidth: 1 },
+            // Axis labels
+            { type: 'node', id:'eyL', style:'L', position:{x:0,y:-6.0}, label:'$q_B$', fontSize:15 },
+            { type: 'node', id:'exL', style:'L', position:{x:5.4,y:0}, label:'$q_A$', fontSize:15 },
+            // Tick marks and labels on axes
+            { type: 'path', points: [{x:xI,y:0.1},{x:xI,y:-0.1}], stroke: '#586e75', strokeWidth: 1.5 },
+            { type: 'path', points: [{x:0.1,y:-yI},{x:-0.1,y:-yI}], stroke: '#586e75', strokeWidth: 1.5 },
+            { type: 'node', id:'exTick', style:'L', position:{x:xI,y:0.4}, label:'$\\frac{400}{13}$', anchor:'north', fontSize:11 },
+            { type: 'node', id:'eyTick', style:'L', position:{x:-0.3,y:-yI}, label:'$\\frac{360}{13}$', anchor:'east', fontSize:11 },
+            // Equations at top-right (outside axes area)
+            { type: 'node', id:'eEq1', style:'L', position:{x:6.2,y:-5}, label:'$\\underbrace{120-q_A}_{P_A}=\\underbrace{2q_A+q_B}_{SMC_A}$', fontSize:12, labelColor:'#268bd2' },
+            { type: 'node', id:'eEq2', style:'L', position:{x:6.2,y:-3.3}, label:'$\\underbrace{100-\\frac{1}{2}q_B}_{P_B}=\\underbrace{q_A+2q_B}_{SMC_B}$', fontSize:12, labelColor:'#dc322f' },
+            // Equilibrium values below equations
+            { type: 'node', id:'eEqV', style:'L', position:{x:6.2,y:-1.8}, label:'$q_A^*=\\frac{400}{13}\\approx 30.8$', fontSize:11 },
+            { type: 'node', id:'eEqV2', style:'L', position:{x:6.2,y:-1.1}, label:'$q_B^*=\\frac{360}{13}\\approx 27.7$', fontSize:11 },
+          ],
+        });
+      </script>
+
+      <div class="columns">
+        <div class="column">
+          <svg id="svg-eff-a" style="display: block; width: 100%;"></svg>
+        </div>
+        <div class="column">
+          <svg id="svg-eff-b" style="display: block; width: 100%;"></svg>
+        </div>
+        <div class="column">
+          <table style="font-size: 0.75rem; margin: 0.5rem auto;">
+            <tr>
+              <th></th>
+              <th>Market A</th>
+              <th>Market B</th>
+              <th>Total</th>
+            </tr>
+            <tr>
+              <td style="color: #dc322f;"><strong>CS</strong></td>
+              <td style="background: rgba(220,50,47,0.3);">473.4</td>
+              <td style="background: rgba(220,50,47,0.3);">191.7</td>
+              <td style="background: rgba(220,50,47,0.3);">665.1</td>
+            </tr>
+            <tr>
+              <td style="color: #268bd2;"><strong>PS</strong></td>
+              <td style="background: rgba(38,139,210,0.3);">1798.8</td>
+              <td style="background: rgba(38,139,210,0.3);">766.9</td>
+              <td style="background: rgba(38,139,210,0.3);">2565.7</td>
+            </tr>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td><strong>2272.2</strong></td>
+              <td><strong>958.6</strong></td>
+              <td><strong>3230.8</strong></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <script type="module">
+        import { render } from './tikz-svg/src-v2/index.js';
+        const L = {
+          shape: 'rectangle', fill: 'none', stroke: 'none',
+          fontFamily: "'Times New Roman', serif", innerSep: 1, labelColor: '#586e75',
+        };
+        const csRed = 'rgba(220,50,47,0.3)';
+        const psBlue = 'rgba(38,139,210,0.3)';
+        // Market A at efficient: qA*=400/13, PA*=1160/13
+        // Coords: 1 unit = 20. qA*→x=20/13, PA*→y=-58/13, MC→y=-40/13
+        const xA = 20/13, yPA = -58/13, yMCA = -40/13;
+        render(document.getElementById('svg-eff-a'), {
+          scale: 15, originX: 30, originY: 110, padding: 8,
+          styles: { L },
+          draw: [
+            // CS fill
+            { type: 'path', points: [{x:0,y:-6},{x:xA,y:yPA},{x:0,y:yPA}], cycle: true, fill: csRed, stroke: 'none' },
+            // PS fill (trapezoid: origin → MC at qA* → PA* at qA* → PA* on axis)
+            { type: 'path', points: [{x:0,y:0},{x:xA,y:yMCA},{x:xA,y:yPA},{x:0,y:yPA}], cycle: true, fill: psBlue, stroke: 'none' },
+            // Axes
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            // Supply: y=-2x
+            { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: '#268bd2', strokeWidth: 2.5 },
+            // Demand: y=x-6
+            { type: 'path', points: [{x:0,y:-6},{x:6,y:0}], stroke: '#dc322f', strokeWidth: 2.5 },
+            // Dotted lines
+            { type: 'path', points: [{x:0,y:yPA},{x:xA,y:yPA}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:xA,y:0},{x:xA,y:yPA}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            // Axis labels
+            { type: 'node', id:'eaP', style:'L', position:{x:0,y:-7.3}, label:'$P_A$', fontSize:11 },
+            { type: 'node', id:'eaQ', style:'L', position:{x:7.3,y:0}, label:'$q_A$', fontSize:11 },
+            // Curve labels
+            { type: 'node', id:'eaSA', style:'L', position:{x:3.4,y:-5.5}, label:'$S_A$', fontSize:10, labelColor:'#268bd2' },
+            { type: 'node', id:'eaDA', style:'L', position:{x:6.0,y:-1}, label:'$D_A$', fontSize:10, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:xA,y:0.15},{x:xA,y:-0.15}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:yPA},{x:-0.15,y:yPA}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-6},{x:-0.15,y:-6}], stroke: '#586e75', strokeWidth: 0.75 },
+            // Ticks
+            { type: 'node', id:'eaq', style:'L', position:{x:xA,y:0.5}, label:'$30.8$', anchor:'north', fontSize:8 },
+            { type: 'node', id:'eap', style:'L', position:{x:-0.5,y:yPA}, label:'$89.2$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'eap120', style:'L', position:{x:-0.5,y:-6}, label:'$120$', anchor:'east', fontSize:8 },
+          ],
+        });
+        // Market B at efficient: qA*=400/13, qB*=360/13, PB*=1120/13
+        // Supply intercept=400/13→y=-20/13. qB*→x=18/13, PB*→y=-56/13
+        const xB = 18/13, yPB = -56/13, ySI = -20/13;
+        render(document.getElementById('svg-eff-b'), {
+          scale: 15, originX: 30, originY: 110, padding: 8,
+          styles: { L },
+          draw: [
+            // CS fill
+            { type: 'path', points: [{x:0,y:-5},{x:xB,y:yPB},{x:0,y:yPB}], cycle: true, fill: csRed, stroke: 'none' },
+            // PS fill
+            { type: 'path', points: [{x:0,y:ySI},{x:xB,y:yPB},{x:0,y:yPB}], cycle: true, fill: psBlue, stroke: 'none' },
+            // Axes
+            { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 1.5 },
+            // Supply: MC_B = 400/13 + 2qB
+            { type: 'path', points: [{x:0,y:ySI},{x:2,y:-72/13}], stroke: '#268bd2', strokeWidth: 2.5 },
+            // Demand: PB = 100-qB/2
+            { type: 'path', points: [{x:0,y:-5},{x:6,y:-2}], stroke: '#dc322f', strokeWidth: 2.5 },
+            // Dotted lines
+            { type: 'path', points: [{x:0,y:yPB},{x:xB,y:yPB}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:xB,y:0},{x:xB,y:yPB}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
+            // Axis labels
+            { type: 'node', id:'ebP', style:'L', position:{x:0,y:-7.3}, label:'$P_B$', fontSize:11 },
+            { type: 'node', id:'ebQ', style:'L', position:{x:7.3,y:0}, label:'$q_B$', fontSize:11 },
+            // Curve labels
+            { type: 'node', id:'ebSB', style:'L', position:{x:1.7,y:-5.9}, label:'$S_B$', fontSize:10, labelColor:'#268bd2' },
+            { type: 'node', id:'ebDB', style:'L', position:{x:5.7,y:-2.7}, label:'$D_B$', fontSize:10, labelColor:'#dc322f' },
+            // Tick marks
+            { type: 'path', points: [{x:xB,y:0.15},{x:xB,y:-0.15}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:ySI},{x:-0.15,y:ySI}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:yPB},{x:-0.15,y:yPB}], stroke: '#586e75', strokeWidth: 0.75 },
+            { type: 'path', points: [{x:0.15,y:-5},{x:-0.15,y:-5}], stroke: '#586e75', strokeWidth: 0.75 },
+            // Ticks
+            { type: 'node', id:'ebq', style:'L', position:{x:xB,y:0.5}, label:'$27.7$', anchor:'north', fontSize:8 },
+            { type: 'node', id:'ebpSI', style:'L', position:{x:-0.5,y:ySI}, label:'$30.8$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'ebpB', style:'L', position:{x:-0.5,y:yPB}, label:'$86.2$', anchor:'east', fontSize:8 },
+            { type: 'node', id:'ebp100', style:'L', position:{x:-0.5,y:-5}, label:'$100$', anchor:'east', fontSize:8 },
+          ],
+        });
+      </script>
     </div>
   </section>
 
   <!-- Frame 6: Coase's Theorem (statement) -->
-  <section class="frame">
+  <section class="frame" id="coase-theorem-statement">
     <div class="frame-title-bar">
       <h2 class="frame-title">Coase's Theorem</h2>
       <p class="frame-subtitle">statement</p>
@@ -157,7 +856,7 @@
   </section>
 
   <!-- Frame 7: Coase's Theorem in action (1) -->
-  <section class="frame">
+  <section class="frame" id="coase-theorem-in-action">
     <div class="frame-title-bar">
       <h2 class="frame-title">Coase's Theorem in action</h2>
     </div>
@@ -173,7 +872,7 @@
   </section>
 
   <!-- Frame 8: Coase's Theorem in action (2) -->
-  <section class="frame">
+  <section class="frame" id="coase-theorem-in-action-2">
     <div class="frame-title-bar">
       <h2 class="frame-title">Coase's Theorem in action</h2>
     </div>
@@ -189,7 +888,7 @@
   </section>
 
   <!-- Frame 9: Coase's Theorem in action (3) -->
-  <section class="frame">
+  <section class="frame" id="coase-theorem-in-action-3">
     <div class="frame-title-bar">
       <h2 class="frame-title">Coase's Theorem in action</h2>
     </div>
@@ -199,7 +898,7 @@
   </section>
 
   <!-- Frame 10: Public Goods -->
-  <section class="frame fs-10pt">
+  <section class="frame fs-10pt" id="public-goods">
     <div class="frame-title-bar">
       <h2 class="frame-title">Public Goods</h2>
     </div>
