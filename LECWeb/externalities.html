@@ -121,7 +121,7 @@
             { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
             { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
             // S_A: P = 2q, coords: 1 unit x = 10 qty, 1 unit y = 20 price
-            { type: 'path', points: [{x:0,y:0},{x:6,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+            { type: 'path', id:'aSAline', points: [{x:0,y:0},{x:6,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
             // Axis labels
             { type: 'node', id:'aP', style:'L', position:{x:0,y:-7.1}, label:'$P_A$', fontSize:14 },
             { type: 'node', id:'aQ', style:'L', position:{x:7.2,y:0}, label:'$q_A$', fontSize:14 },
@@ -152,9 +152,9 @@
             { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
             { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow: '->', stroke: '#586e75', strokeWidth: 2 },
             // S_B(q_A=0): P = 2q_B
-            { type: 'path', points: [{x:0,y:0},{x:6,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
+            { type: 'path', id:'bS0line', points: [{x:0,y:0},{x:6,y:-6}], stroke: '#268bd2', strokeWidth: 3 },
             // S_B(q_A=40): P = 2q_B + 40, intercept at P=40 (y=-2)
-            { type: 'path', points: [{x:0,y:-2},{x:4,y:-6}], stroke: '#dc322f', strokeWidth: 3 },
+            { type: 'path', id:'bS40line', points: [{x:0,y:-2},{x:4,y:-6}], stroke: '#dc322f', strokeWidth: 3 },
             // Axis labels
             { type: 'node', id:'bP', style:'L', position:{x:0,y:-7.1}, label:'$P_B$', fontSize:14 },
             { type: 'node', id:'bQ', style:'L', position:{x:7.199999999999998,y:0}, label:'$q_B$', fontSize:14 },
@@ -905,11 +905,39 @@
     <div class="frame-content">
       <p>Public goods are a particular case of positive (consumption) externality. A public good is:</p>
 
-      <ul>
-        <li><strong>Non-rival:</strong> if one person consumes the good, the amount that others can consume of the good remains the same.</li>
-        <li><strong>Non-excludable:</strong> it is too costly to exclude one person from consuming the good.</li>
-      </ul>
+      <div class="block-group">
+        <div class="block">
+          <div class="block-title">Non-rival</div>
+          <div class="block-body">If one person consumes the good, the amount that others can consume of the good remains the same.</div>
+        </div>
+        <div class="block">
+          <div class="block-title">Non-excludable</div>
+          <div class="block-body">It is too costly to exclude one person from consuming the good.</div>
+        </div>
+      </div>
 
+      <style>
+        #public-goods table { border-collapse: separate; border-spacing: 6px; margin-top: 2mm; }
+        #public-goods th, #public-goods td { padding: 0.35em 0.6em; text-align: center; }
+        #public-goods .flip-cell {
+          padding: 0; width: 10em; height: 2.6em;
+          perspective: 700px; cursor: pointer;
+        }
+        #public-goods .flip-inner {
+          position: relative; width: 100%; height: 100%;
+          transform-style: preserve-3d;
+          transition: transform 0.55s cubic-bezier(.2,.8,.2,1);
+        }
+        #public-goods .flip-cell.flipped .flip-inner { transform: rotateY(180deg); }
+        #public-goods .flip-front, #public-goods .flip-back {
+          position: absolute; inset: 0;
+          display: flex; align-items: center; justify-content: center;
+          backface-visibility: hidden; -webkit-backface-visibility: hidden;
+          border: 1px solid #000; background: #fff;
+        }
+        #public-goods .flip-front { color: #888; font-size: 1.3em; }
+        #public-goods .flip-back { transform: rotateY(180deg); font-weight: 600; }
+      </style>
       <table>
         <tr>
           <th></th>
@@ -918,13 +946,33 @@
         </tr>
         <tr>
           <td><strong>Excludable</strong></td>
-          <td>Private Good</td>
-          <td>Club Good</td>
+          <td class="flip-cell" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front">?</div>
+              <div class="flip-back">Private Good</div>
+            </div>
+          </td>
+          <td class="flip-cell" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front">?</div>
+              <div class="flip-back">Club Good</div>
+            </div>
+          </td>
         </tr>
         <tr>
           <td><strong>Non-Excludable</strong></td>
-          <td>Common Resource</td>
-          <td>Public Good</td>
+          <td class="flip-cell" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front">?</div>
+              <div class="flip-back">Common Resource</div>
+            </div>
+          </td>
+          <td class="flip-cell" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front">?</div>
+              <div class="flip-back">Public Good</div>
+            </div>
+          </td>
         </tr>
       </table>
 
