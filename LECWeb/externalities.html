@@ -40,6 +40,56 @@
       text-align: center;
       margin: 1.5rem 0;
     }
+
+    /* Left-flushed display math (for align* blocks in coase frames) */
+    .math-left {
+      margin: 0.6rem 0;
+      text-align: left;
+    }
+    .math-left .katex-display {
+      text-align: left;
+      margin: 0.4rem 0;
+    }
+    .math-left .katex-display > .katex {
+      text-align: left;
+      display: inline-block;
+    }
+
+    /* Arrow-key-driven horizontal slideshow — continuous, no snap */
+    .slideshow {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .slideshow__track {
+      display: flex;
+      gap: 12px;
+      transition: transform 0.25s ease-out;
+      will-change: transform;
+    }
+    .slideshow__slide {
+      flex: 0 0 360px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding-top: 4em;
+    }
+    .slideshow__slide.is-center {
+      flex: 0 0 100%;
+      padding-top: 0;
+    }
+    .slideshow__hint {
+      position: absolute;
+      top: 0.25rem;
+      right: 0.5rem;
+      font-size: 0.75em;
+      color: #aaa;
+      pointer-events: none;
+      user-select: none;
+      z-index: 2;
+    }
   </style>
 </head>
 <body>
@@ -59,7 +109,7 @@
       <a href="#the-efficient-outcome" style="margin-left: 1rem;">5. Efficient</a>
       <br>
       <a href="#coase-theorem-statement" style="margin-left: 1rem;">6. Coase</a>
-      <a href="#coase-theorem-in-action" style="margin-left: 1rem;">7. Coase 1</a>
+      <a href="#coase-theorem-in-action-1" style="margin-left: 1rem;">7. Coase Example</a>
       <a href="#public-goods" style="margin-left: 1rem;">8. Public Goods</a>
     </nav>
   </section>
@@ -845,24 +895,25 @@
   </section>
 
   <!-- Frame 6: Coase's Theorem (statement) -->
-  <section class="frame" id="coase-theorem-statement">
+  <section class="frame overlay-frame" id="coase-theorem-statement">
     <div class="frame-title-bar">
       <h2 class="frame-title">Coase's Theorem</h2>
       <p class="frame-subtitle">statement</p>
     </div>
     <div class="frame-content">
-      <p>The socially efficient quantities can be reached if:</p>
-      <ul>
-        <li>Property rights are clearly assigned and</li>
-        <li>Bargaining costs are low</li>
-      </ul>
-      <div style="margin-top: 3em;"></div>
-      <p>The Coase theorem implicitly assumes that firms are price takers, so in the examples below, you should assume $P_A=80$ and $P_B=88$ regardless of the quantity produced by firm A and B.</p>
+      <div class="overlay" data-overlay="1">
+        <p>The socially efficient quantities can be reached if:</p>
+        <ul>
+          <li>Property rights are clearly assigned and</li>
+          <li>Bargaining costs are low</li>
+        </ul>
+      </div>
+      <p class="overlay" data-overlay="2" style="margin-top: 3em;">The Coase theorem implicitly assumes that firms are price takers, so in the examples below, you should assume $P_A=80$ and $P_B=88$ regardless of the quantity produced by firm A and B.</p>
     </div>
   </section>
 
   <!-- Frame 7: Coase's Theorem in action (1) -->
-  <section class="frame" id="coase-theorem-in-action">
+  <section class="frame" id="coase-theorem-in-action-1">
     <div class="frame-title-bar">
       <h2 class="frame-title">Coase's Theorem in action</h2>
     </div>
@@ -893,13 +944,409 @@
     </div>
   </section>
 
-  <!-- Frame 9: Coase's Theorem in action (3) -->
+  <!-- Frame 8a: Coase's Theorem in action (firm B has the right) — solution slideshow -->
   <section class="frame" id="coase-theorem-in-action-3">
     <div class="frame-title-bar">
       <h2 class="frame-title">Coase's Theorem in action</h2>
     </div>
     <div class="frame-content">
-      <p>As you saw above, it does not matter if B has the right of avoiding the negative externality or if A has the right to impose the negative externality. One party is always able to find a mutually agreeable compensation scheme so that both firms would produce at the socially efficient level.</p>
+      <div class="slideshow" data-slideshow>
+        <div class="slideshow__track">
+          <div class="slideshow__slide">
+            <div style="text-align: center;">
+              <p style="margin: 0 0 0.25rem 0; font-size: 0.95em;"><strong>State $q_A=0$ — Firm B</strong>: $\pi_B=1936$</p>
+              <svg id="cs1-b-0" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;"></svg>
+            </div>
+            <div style="text-align: center;">
+              <p style="margin: 0 0 0.25rem 0; font-size: 0.95em;"><strong>State $q_A=30$ — Firm B</strong>: $\pi_B=841$</p>
+              <svg id="cs1-b-30" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;"></svg>
+            </div>
+          </div>
+          <div class="slideshow__slide is-center">
+            <div style="width: 100%;">
+              <p>Assume that legal rights are such that firm B has the right to avoid the negative externalities. In this case, firm B will require that firm A cease production so $q_A=0$.</p>
+
+              <p><strong>Assuming firm B has the right to avoid externalities, find:</strong></p>
+              <div class="columns">
+                <div class="column">
+                  <div class="block">
+                    <div class="block-title">Firm B's profit at $q_A=0$</div>
+                    <div class="block-body">At $P_B=88$ (price taker) and without externality, $MC_B=2q_B=88 \Rightarrow q_B=44$. Total cost $C_B$ is the triangle under $MC_B$:
+                      <div class="math-left">$$\begin{align*}
+                        & C_B = \tfrac{1}{2}\cdot 44\cdot 88 = 1936 \\
+                        & \pi_B = 88(44) - 1936 = 1936
+                      \end{align*}$$</div>
+                    </div>
+                  </div>
+                  <div class="block">
+                    <div class="block-title">Min. comp. B requires to allow $q_A=30$</div>
+                    <div class="block-body">At $q_A=30$, $MC_B=30+2q_B=88 \Rightarrow q_B=29$. Total cost $C_B$ = rectangle + triangle:
+                      <div class="math-left">$$\begin{align*}
+                        & C_B = \underbrace{30\cdot 29}_{\text{rect}} + \underbrace{\tfrac{1}{2}\cdot 29\cdot 58}_{\text{tri}} = 1711 \\
+                        & \pi_B = 88(29) - 1711 = 841 \\
+                        & \text{Min. comp.} = 1936 - 841 = 1095
+                      \end{align*}$$</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="block">
+                    <div class="block-title">Firm A's profit at $q_A=0$</div>
+                    <div class="block-body">A produces nothing:
+                      <div class="math-left">$$\begin{align*}
+                        & \pi_A = 0
+                      \end{align*}$$</div>
+                    </div>
+                  </div>
+                  <div class="block">
+                    <div class="block-title">Max. A offers to produce $q_A=30$</div>
+                    <div class="block-body">At $P_A=80$ (price taker), total cost $C_A$ is the triangle under $MC_A=2q_A$:
+                      <div class="math-left">$$\begin{align*}
+                        & C_A = \tfrac{1}{2}\cdot 30\cdot 60 = 900 \\
+                        & \pi_A = 80(30) - 900 = 1500 \\
+                        & \text{Max. offer} = 1500 - 0 = 1500
+                      \end{align*}$$</div>
+                    </div>
+                  </div>
+                  <p style="text-align: left; font-size: 1em; color: #aaa; margin: 0.5rem 0 0 0;">← / → to slide</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slideshow__slide">
+            <div style="text-align: center;">
+              <p style="margin: 0 0 0.25rem 0; font-size: 0.95em;"><strong>State $q_A=0$ — Firm A</strong>: $\pi_A=0$</p>
+              <svg id="cs1-a-0" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;"></svg>
+            </div>
+            <div style="text-align: center;">
+              <p style="margin: 0 0 0.25rem 0; font-size: 0.95em;"><strong>State $q_A=30$ — Firm A</strong>: $\pi_A=1500$</p>
+              <svg id="cs1-a-30" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module">
+    import { render } from 'https://sergio0p.github.io/tikz-svg/src-v2/index.js';
+    const L = { shape:'rectangle', fill:'none', stroke:'none', fontFamily:"'Times New Roman', serif", innerSep:1, labelColor:'#586e75' };
+    const psGreen = 'rgba(46,125,50,0.6)';
+    const sBlue = '#268bd2', dRed = '#dc322f';
+
+    render(document.getElementById('cs1-a-0'), {
+      scale: 22, originX: 40, originY: 155, padding: 8,
+      styles: { L },
+      draw: [
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        // MC_A = 2 q_A
+        { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: sBlue, strokeWidth:2.5 },
+        // Price line P_A = 80 (y = -4)
+        { type: 'path', points: [{x:0,y:-4},{x:5,y:-4}], stroke: dRed, strokeWidth:2.5 },
+        // Dot at q_A = 0
+        { type: 'node', id:'d00', position:{x:0,y:0}, shape:'circle', radius:3, fill:'#000', stroke:'none', label:'' },
+        { type: 'node', id:'pL', style:'L', position:{x:0,y:-7.2}, label:'$P_A$', fontSize:11 },
+        { type: 'node', id:'qL', style:'L', position:{x:7.0,y:0}, label:'$q_A$', fontSize:11 },
+        { type: 'node', id:'sL', style:'L', position:{x:3.4,y:-5.6}, label:'$MC_A$', fontSize:10, labelColor: sBlue },
+        { type: 'node', id:'dL', style:'L', position:{x:5.3,y:-3.7}, label:'$P_A=80$', fontSize:10, labelColor: dRed },
+        { type: 'node', id:'q0', style:'L', position:{x:-0.2,y:0.2}, label:'$0$', anchor:'north east', fontSize:9 },
+        // Tick and label at P=80
+        { type: 'path', points:[{x:0.15,y:-4},{x:-0.15,y:-4}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'p80', style:'L', position:{x:-0.4,y:-4}, label:'$80$', anchor:'east', fontSize:9 },
+      ],
+    });
+
+    render(document.getElementById('cs1-b-0'), {
+      scale: 22, originX: 40, originY: 155, padding: 8,
+      styles: { L },
+      draw: [
+        // PS triangle: (0,0)-(0,-4.4)-(2.2,-4.4) — between price line and MC_B
+        { type: 'path', points:[{x:0,y:0},{x:0,y:-4.4},{x:2.2,y:-4.4}], cycle:true, fill: psGreen, stroke:'none' },
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        // MC_B = 2 q_B
+        { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: sBlue, strokeWidth:2.5 },
+        // Price line P_B = 88 (y = -4.4)
+        { type: 'path', points: [{x:0,y:-4.4},{x:5,y:-4.4}], stroke: dRed, strokeWidth:2.5 },
+        // Equilibrium dot at (q_B=44, P_B=88): (2.2, -4.4)
+        { type: 'node', id:'eq', position:{x:2.2,y:-4.4}, shape:'circle', radius:3, fill:'#000', stroke:'none', label:'' },
+        { type: 'path', points:[{x:0,y:-4.4},{x:2.2,y:-4.4}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:2.2,y:0},{x:2.2,y:-4.4}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'pL', style:'L', position:{x:0,y:-7.2}, label:'$P_B$', fontSize:11 },
+        { type: 'node', id:'qL', style:'L', position:{x:7.0,y:0}, label:'$q_B$', fontSize:11 },
+        { type: 'node', id:'sL', style:'L', position:{x:3.4,y:-5.6}, label:'$MC_B$', fontSize:10, labelColor: sBlue },
+        { type: 'node', id:'dL', style:'L', position:{x:5.3,y:-4.1}, label:'$P_B=88$', fontSize:10, labelColor: dRed },
+        { type: 'path', points:[{x:2.2,y:0.15},{x:2.2,y:-0.15}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-4.4},{x:-0.15,y:-4.4}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'q44', style:'L', position:{x:2.2,y:0.5}, label:'$44$', anchor:'north', fontSize:9 },
+        { type: 'node', id:'p88', style:'L', position:{x:-0.4,y:-4.4}, label:'$88$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'psL', style:'L', position:{x:0.7,y:-2.9}, label:'$PS=1936$', fontSize:9, labelColor:'#1b5e20' },
+      ],
+    });
+
+    render(document.getElementById('cs1-a-30'), {
+      scale: 22, originX: 40, originY: 155, padding: 8,
+      styles: { L },
+      draw: [
+        { type: 'path', points:[{x:0,y:0},{x:0,y:-4},{x:1.5,y:-4},{x:1.5,y:-3}], cycle:true, fill: psGreen, stroke:'none' },
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: sBlue, strokeWidth:2.5 },
+        { type: 'path', points: [{x:0,y:-4},{x:6,y:-4}], stroke: dRed, strokeWidth:2.5 },
+        { type: 'node', id:'pt', position:{x:1.5,y:-3}, shape:'circle', radius:3, fill:'#000', stroke:'none', label:'' },
+        { type: 'path', points:[{x:0,y:-3},{x:1.5,y:-3}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:1.5,y:0},{x:1.5,y:-4}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'pL', style:'L', position:{x:0,y:-7.2}, label:'$P_A$', fontSize:11 },
+        { type: 'node', id:'qL', style:'L', position:{x:7.0,y:0}, label:'$q_A$', fontSize:11 },
+        { type: 'node', id:'sL', style:'L', position:{x:3.4,y:-5.6}, label:'$MC_A$', fontSize:10, labelColor: sBlue },
+        { type: 'node', id:'dL', style:'L', position:{x:5.3,y:-3.7}, label:'$P_A=80$', fontSize:10, labelColor: dRed },
+        { type: 'path', points:[{x:1.5,y:0.15},{x:1.5,y:-0.15}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-3},{x:-0.15,y:-3}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-4},{x:-0.15,y:-4}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'q30', style:'L', position:{x:1.5,y:0.5}, label:'$30$', anchor:'north', fontSize:9 },
+        { type: 'node', id:'p60', style:'L', position:{x:-0.4,y:-3}, label:'$60$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'p80', style:'L', position:{x:-0.4,y:-4}, label:'$80$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'psL', style:'L', position:{x:0.55,y:-3.55}, label:'$PS=1500$', fontSize:9, labelColor:'#1b5e20' },
+      ],
+    });
+
+    render(document.getElementById('cs1-b-30'), {
+      scale: 22, originX: 40, originY: 155, padding: 8,
+      styles: { L },
+      draw: [
+        { type: 'path', points:[{x:0,y:-1.5},{x:0,y:-4.4},{x:1.45,y:-4.4}], cycle:true, fill: psGreen, stroke:'none' },
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points:[{x:0,y:-1.5},{x:2.25,y:-6}], stroke: sBlue, strokeWidth:2.5 },
+        { type: 'path', points: [{x:0,y:-4.4},{x:6,y:-4.4}], stroke: dRed, strokeWidth:2.5 },
+        { type: 'node', id:'pt', position:{x:1.45,y:-4.4}, shape:'circle', radius:3, fill:'#000', stroke:'none', label:'' },
+        { type: 'path', points:[{x:1.45,y:0},{x:1.45,y:-4.4}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'pL', style:'L', position:{x:0,y:-7.2}, label:'$P_B$', fontSize:11 },
+        { type: 'node', id:'qL', style:'L', position:{x:7.0,y:0}, label:'$q_B$', fontSize:11 },
+        { type: 'node', id:'sL', style:'L', position:{x:2.6,y:-5.6}, label:'$MC_B$', fontSize:10, labelColor: sBlue },
+        { type: 'node', id:'dL', style:'L', position:{x:5.3,y:-4.1}, label:'$P_B=88$', fontSize:10, labelColor: dRed },
+        { type: 'path', points:[{x:1.45,y:0.15},{x:1.45,y:-0.15}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-4.4},{x:-0.15,y:-4.4}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-1.5},{x:-0.15,y:-1.5}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'q29', style:'L', position:{x:1.45,y:0.5}, label:'$29$', anchor:'north', fontSize:9 },
+        { type: 'node', id:'p88', style:'L', position:{x:-0.4,y:-4.4}, label:'$88$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'p30', style:'L', position:{x:-0.4,y:-1.5}, label:'$30$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'psL', style:'L', position:{x:0.55,y:-3.2}, label:'$PS=841$', fontSize:9, labelColor:'#1b5e20' },
+      ],
+    });
+  </script>
+
+  <!-- Frame 8b: Coase's Theorem in action (firm A has the right) — solution slideshow -->
+  <section class="frame" id="coase-theorem-in-action-4">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Coase's Theorem in action</h2>
+    </div>
+    <div class="frame-content">
+      <div class="slideshow" data-slideshow>
+        <div class="slideshow__track">
+          <div class="slideshow__slide">
+            <div style="text-align: center;">
+              <p style="margin: 0 0 0.25rem 0; font-size: 0.95em;"><strong>State $q_A=40$ — Firm A</strong>: $\pi_A=1600$</p>
+              <svg id="cs2-a-40" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;"></svg>
+            </div>
+            <div style="text-align: center;">
+              <p style="margin: 0 0 0.25rem 0; font-size: 0.95em;"><strong>State $q_A=30$ — Firm A</strong>: $\pi_A=1500$</p>
+              <svg id="cs2-a-30" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;"></svg>
+            </div>
+          </div>
+          <div class="slideshow__slide is-center">
+            <div style="width: 100%;">
+              <p>Consider now the alternative case in which firm A has the right to produce as much as it wants. You already saw the equilibrium in this case: $q_A=40$ and $q_B=24$.</p>
+
+              <p><strong>Assuming firm A has the right of imposing externalities, find:</strong></p>
+              <div class="columns">
+                <div class="column">
+                  <div class="block">
+                    <div class="block-title">Firm A's profit at $q_A=40$</div>
+                    <div class="block-body">At $P_A=80$ (price taker), $MC_A=2q_A=80 \Rightarrow q_A=40$. Total cost $C_A$ is the triangle under $MC_A$:
+                      <div class="math-left">$$\begin{align*}
+                        & C_A = \tfrac{1}{2}\cdot 40\cdot 80 = 1600 \\
+                        & \pi_A = 80(40) - 1600 = 1600
+                      \end{align*}$$</div>
+                    </div>
+                  </div>
+                  <div class="block">
+                    <div class="block-title">Min. amount A demands to $\searrow q_A=30$</div>
+                    <div class="block-body">At $q_A=30$, still $P_A=80$:
+                      <div class="math-left">$$\begin{align*}
+                        & C_A = \tfrac{1}{2}\cdot 30\cdot 60 = 900 \\
+                        & \pi_A = 80(30) - 900 = 1500 \\
+                        & \text{Min. demand} = 1600 - 1500 = 100
+                      \end{align*}$$</div>
+                    </div>
+                  </div>
+                  <p style="text-align: right; font-size: 1em; color: #aaa; margin: 0.5rem 0 0 0;">← / → to slide</p>
+                </div>
+                <div class="column">
+                  <div class="block">
+                    <div class="block-title">Firm B's profit at $q_A=40$</div>
+                    <div class="block-body">At $P_B=88$, $MC_B=40+2q_B=88 \Rightarrow q_B=24$. Total cost $C_B$ = rectangle + triangle:
+                      <div class="math-left">$$\begin{align*}
+                        & C_B = \underbrace{40\cdot 24}_{\text{rect}} + \underbrace{\tfrac{1}{2}\cdot 24\cdot 48}_{\text{tri}} = 1536 \\
+                        & \pi_B = 88(24) - 1536 = 576
+                      \end{align*}$$</div>
+                    </div>
+                  </div>
+                  <div class="block">
+                    <div class="block-title">Max. payment B offers for $q_A=30$</div>
+                    <div class="block-body">At $q_A=30$, $MC_B=30+2q_B=88 \Rightarrow q_B=29$:
+                      <div class="math-left">$$\begin{align*}
+                        & C_B = \underbrace{30\cdot 29}_{\text{rect}} + \underbrace{\tfrac{1}{2}\cdot 29\cdot 58}_{\text{tri}} = 1711 \\
+                        & \pi_B = 88(29) - 1711 = 841 \\
+                        & \text{Max. payment} = 841 - 576 = 265
+                      \end{align*}$$</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slideshow__slide">
+            <div style="text-align: center;">
+              <p style="margin: 0 0 0.25rem 0; font-size: 0.95em;"><strong>State $q_A=40$ — Firm B</strong>: $\pi_B=576$</p>
+              <svg id="cs2-b-40" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;"></svg>
+            </div>
+            <div style="text-align: center;">
+              <p style="margin: 0 0 0.25rem 0; font-size: 0.95em;"><strong>State $q_A=30$ — Firm B</strong>: $\pi_B=841$</p>
+              <svg id="cs2-b-30" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module">
+    import { render } from 'https://sergio0p.github.io/tikz-svg/src-v2/index.js';
+    const L = { shape:'rectangle', fill:'none', stroke:'none', fontFamily:"'Times New Roman', serif", innerSep:1, labelColor:'#586e75' };
+    const psGreen = 'rgba(46,125,50,0.6)';
+    const sBlue = '#268bd2', dRed = '#dc322f';
+
+    render(document.getElementById('cs2-a-40'), {
+      scale: 22, originX: 40, originY: 155, padding: 8,
+      styles: { L },
+      draw: [
+        { type: 'path', points:[{x:0,y:0},{x:0,y:-4},{x:2,y:-4}], cycle:true, fill: psGreen, stroke:'none' },
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: sBlue, strokeWidth:2.5 },
+        { type: 'path', points: [{x:0,y:-4},{x:6,y:-4}], stroke: dRed, strokeWidth:2.5 },
+        { type: 'node', id:'eq', position:{x:2,y:-4}, shape:'circle', radius:3, fill:'#000', stroke:'none', label:'' },
+        { type: 'path', points:[{x:2,y:0},{x:2,y:-4}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'pL', style:'L', position:{x:0,y:-7.2}, label:'$P_A$', fontSize:11 },
+        { type: 'node', id:'qL', style:'L', position:{x:7.0,y:0}, label:'$q_A$', fontSize:11 },
+        { type: 'node', id:'sL', style:'L', position:{x:3.4,y:-5.6}, label:'$MC_A$', fontSize:10, labelColor: sBlue },
+        { type: 'node', id:'dL', style:'L', position:{x:5.3,y:-3.7}, label:'$P_A=80$', fontSize:10, labelColor: dRed },
+        { type: 'path', points:[{x:2,y:0.15},{x:2,y:-0.15}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-4},{x:-0.15,y:-4}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'q40', style:'L', position:{x:2,y:0.5}, label:'$40$', anchor:'north', fontSize:9 },
+        { type: 'node', id:'p80', style:'L', position:{x:-0.4,y:-4}, label:'$80$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'psL', style:'L', position:{x:0.65,y:-2.6}, label:'$PS=1600$', fontSize:9, labelColor:'#1b5e20' },
+      ],
+    });
+
+    render(document.getElementById('cs2-b-40'), {
+      scale: 22, originX: 40, originY: 155, padding: 8,
+      styles: { L },
+      draw: [
+        { type: 'path', points:[{x:0,y:-2},{x:0,y:-4.4},{x:1.2,y:-4.4}], cycle:true, fill: psGreen, stroke:'none' },
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points:[{x:0,y:-2},{x:2,y:-6}], stroke: sBlue, strokeWidth:2.5 },
+        { type: 'path', points: [{x:0,y:-4.4},{x:6,y:-4.4}], stroke: dRed, strokeWidth:2.5 },
+        { type: 'node', id:'eq', position:{x:1.2,y:-4.4}, shape:'circle', radius:3, fill:'#000', stroke:'none', label:'' },
+        { type: 'path', points:[{x:1.2,y:0},{x:1.2,y:-4.4}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'pL', style:'L', position:{x:0,y:-7.2}, label:'$P_B$', fontSize:11 },
+        { type: 'node', id:'qL', style:'L', position:{x:7.0,y:0}, label:'$q_B$', fontSize:11 },
+        { type: 'node', id:'sL', style:'L', position:{x:2.4,y:-5.6}, label:'$MC_B$', fontSize:10, labelColor: sBlue },
+        { type: 'node', id:'dL', style:'L', position:{x:5.3,y:-4.1}, label:'$P_B=88$', fontSize:10, labelColor: dRed },
+        { type: 'path', points:[{x:1.2,y:0.15},{x:1.2,y:-0.15}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-4.4},{x:-0.15,y:-4.4}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-2},{x:-0.15,y:-2}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'q24', style:'L', position:{x:1.2,y:0.5}, label:'$24$', anchor:'north', fontSize:9 },
+        { type: 'node', id:'p88', style:'L', position:{x:-0.4,y:-4.4}, label:'$88$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'p40', style:'L', position:{x:-0.4,y:-2}, label:'$40$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'psL', style:'L', position:{x:0.42,y:-3.3}, label:'$PS=576$', fontSize:9, labelColor:'#1b5e20' },
+      ],
+    });
+
+    render(document.getElementById('cs2-a-30'), {
+      scale: 22, originX: 40, originY: 155, padding: 8,
+      styles: { L },
+      draw: [
+        { type: 'path', points:[{x:0,y:0},{x:0,y:-4},{x:1.5,y:-4},{x:1.5,y:-3}], cycle:true, fill: psGreen, stroke:'none' },
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: sBlue, strokeWidth:2.5 },
+        { type: 'path', points: [{x:0,y:-4},{x:6,y:-4}], stroke: dRed, strokeWidth:2.5 },
+        { type: 'node', id:'pt', position:{x:1.5,y:-3}, shape:'circle', radius:3, fill:'#000', stroke:'none', label:'' },
+        { type: 'path', points:[{x:0,y:-3},{x:1.5,y:-3}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:1.5,y:0},{x:1.5,y:-4}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'pL', style:'L', position:{x:0,y:-7.2}, label:'$P_A$', fontSize:11 },
+        { type: 'node', id:'qL', style:'L', position:{x:7.0,y:0}, label:'$q_A$', fontSize:11 },
+        { type: 'node', id:'sL', style:'L', position:{x:3.4,y:-5.6}, label:'$MC_A$', fontSize:10, labelColor: sBlue },
+        { type: 'node', id:'dL', style:'L', position:{x:5.3,y:-3.7}, label:'$P_A=80$', fontSize:10, labelColor: dRed },
+        { type: 'path', points:[{x:1.5,y:0.15},{x:1.5,y:-0.15}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-3},{x:-0.15,y:-3}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-4},{x:-0.15,y:-4}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'q30', style:'L', position:{x:1.5,y:0.5}, label:'$30$', anchor:'north', fontSize:9 },
+        { type: 'node', id:'p60', style:'L', position:{x:-0.4,y:-3}, label:'$60$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'p80', style:'L', position:{x:-0.4,y:-4}, label:'$80$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'psL', style:'L', position:{x:0.55,y:-3.55}, label:'$PS=1500$', fontSize:9, labelColor:'#1b5e20' },
+      ],
+    });
+
+    render(document.getElementById('cs2-b-30'), {
+      scale: 22, originX: 40, originY: 155, padding: 8,
+      styles: { L },
+      draw: [
+        { type: 'path', points:[{x:0,y:-1.5},{x:0,y:-4.4},{x:1.45,y:-4.4}], cycle:true, fill: psGreen, stroke:'none' },
+        { type: 'path', points: [{x:0,y:0.3},{x:0,y:-6.5}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points: [{x:0,y:0},{x:6.5,y:0}], arrow:'->', stroke:'#586e75', strokeWidth:1.5 },
+        { type: 'path', points:[{x:0,y:-1.5},{x:2.25,y:-6}], stroke: sBlue, strokeWidth:2.5 },
+        { type: 'path', points: [{x:0,y:-4.4},{x:6,y:-4.4}], stroke: dRed, strokeWidth:2.5 },
+        { type: 'node', id:'pt', position:{x:1.45,y:-4.4}, shape:'circle', radius:3, fill:'#000', stroke:'none', label:'' },
+        { type: 'path', points:[{x:1.45,y:0},{x:1.45,y:-4.4}], dashed:'3 2', stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'pL', style:'L', position:{x:0,y:-7.2}, label:'$P_B$', fontSize:11 },
+        { type: 'node', id:'qL', style:'L', position:{x:7.0,y:0}, label:'$q_B$', fontSize:11 },
+        { type: 'node', id:'sL', style:'L', position:{x:2.6,y:-5.6}, label:'$MC_B$', fontSize:10, labelColor: sBlue },
+        { type: 'node', id:'dL', style:'L', position:{x:5.3,y:-4.1}, label:'$P_B=88$', fontSize:10, labelColor: dRed },
+        { type: 'path', points:[{x:1.45,y:0.15},{x:1.45,y:-0.15}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-4.4},{x:-0.15,y:-4.4}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'path', points:[{x:0.15,y:-1.5},{x:-0.15,y:-1.5}], stroke:'#586e75', strokeWidth:0.75 },
+        { type: 'node', id:'q29', style:'L', position:{x:1.45,y:0.5}, label:'$29$', anchor:'north', fontSize:9 },
+        { type: 'node', id:'p88', style:'L', position:{x:-0.4,y:-4.4}, label:'$88$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'p30', style:'L', position:{x:-0.4,y:-1.5}, label:'$30$', anchor:'east', fontSize:9 },
+        { type: 'node', id:'psL', style:'L', position:{x:0.55,y:-3.2}, label:'$PS=841$', fontSize:9, labelColor:'#1b5e20' },
+      ],
+    });
+  </script>
+
+  <!-- Frame 9: Coase's Theorem in action (3) -->
+  <section class="frame" id="coase-theorem-in-action-5">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Coase's Theorem in action</h2>
+    </div>
+    <div class="frame-content">
+      <p><strong>Summary of the two cases.</strong> In both assignments of rights, moving to $q_A=30$ generates gains from trade that both firms can share:</p>
+      <div class="block-group">
+        <div class="block">
+          <div class="block-title">B has the right ($q_A=0 \to q_A=30$)</div>
+          <div class="block-body">A is willing to pay up to $1500$; B requires at least $1095$. Any transfer $1095 \le T \le 1500$ from A to B is individually rational and makes both strictly better off.</div>
+        </div>
+        <div class="block">
+          <div class="block-title">A has the right ($q_A=40 \to q_A=30$)</div>
+          <div class="block-body">B is willing to pay up to $265$; A requires at least $100$. Any transfer $100 \le T \le 265$ from B to A is individually rational and leaves both strictly better off.</div>
+        </div>
+      </div>
+      <p>Either way, the parties can agree on a compensation scheme that moves $q_A$ to $30$ — the precise split depends on bargaining power, but a deal always exists.</p>
+      <p><em>Caveat.</em> Because prices are constant in this example (both firms are price takers), $q_A=30$ is <strong>not</strong> the socially efficient quantity — the welfare-maximizing level is $q_A=24$. What the example illustrates is the <strong>logic of the Coase Theorem</strong>: when property rights are well-defined and bargaining is costless, private negotiation exhausts all welfare-improving trades, independently of who holds the right.</p>
     </div>
   </section>
 
@@ -986,6 +1433,76 @@
     </div>
   </section>
 
+
+  <script>
+    // Arrow-key slideshow: continuous horizontal scroll, no snap.
+    (function initSlideshows() {
+      const NUDGE = 80;
+      const frames = Array.from(document.querySelectorAll('[data-slideshow]'));
+      if (frames.length === 0) return;
+
+      const state = new WeakMap();
+
+      function centerOffset(frame) {
+        const center = frame.querySelector('.slideshow__slide.is-center')
+                    || frame.querySelectorAll('.slideshow__slide')[Math.floor(frame.querySelectorAll('.slideshow__slide').length / 2)];
+        return -center.offsetLeft;
+      }
+
+      function computeBounds(frame) {
+        const slides = frame.querySelectorAll('.slideshow__slide');
+        const last = slides[slides.length - 1];
+        const maxOffset = 0;
+        const trackRight = last.offsetLeft + last.offsetWidth;
+        const minOffset = -(trackRight - frame.clientWidth);
+        return { minOffset, maxOffset };
+      }
+
+      function apply(frame, offset) {
+        const track = frame.querySelector('.slideshow__track');
+        track.style.transform = `translateX(${offset}px)`;
+      }
+
+      function init(frame) {
+        const offset = centerOffset(frame);
+        const bounds = computeBounds(frame);
+        const clamped = Math.max(bounds.minOffset, Math.min(bounds.maxOffset, offset));
+        state.set(frame, { offset: clamped, bounds });
+        apply(frame, clamped);
+      }
+
+      frames.forEach(init);
+      window.addEventListener('resize', () => frames.forEach(init));
+
+      function closestFrame() {
+        const midY = window.innerHeight / 2;
+        let best = null, bestDist = Infinity;
+        for (const f of frames) {
+          const r = f.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > window.innerHeight) continue;
+          const c = (r.top + r.bottom) / 2;
+          const d = Math.abs(c - midY);
+          if (d < bestDist) { bestDist = d; best = f; }
+        }
+        return best;
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        const frame = closestFrame();
+        if (!frame) return;
+        const s = state.get(frame);
+        if (!s) return;
+        const delta = e.key === 'ArrowRight' ? -NUDGE : NUDGE;
+        const next = Math.max(s.bounds.minOffset, Math.min(s.bounds.maxOffset, s.offset + delta));
+        if (next === s.offset) return;
+        e.preventDefault();
+        s.offset = next;
+        apply(frame, next);
+      });
+    })();
+  </script>
 
 </body>
 </html>
