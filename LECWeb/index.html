@@ -41,6 +41,11 @@
       background: var(--crane-amber-light);
       border-left-color: var(--crane-amber-dark);
     }
+
+    /* Mark a lecture as likely-on-exam: blood-orange bottom border */
+    .toc-list a.exam {
+      border-bottom: 4px solid #b7410e;
+    }
   </style>
 </head>
 <body>
@@ -66,7 +71,8 @@
         <li><strong>Shift + Right Arrow</strong> &mdash; next lecture</li>
         <li><strong>Shift + Left Arrow</strong> &mdash; previous lecture</li>
         <li><strong>Shift + Up Arrow</strong> &mdash; return to this page</li>
-        <li><strong>Ctrl + click block title</strong> &mdash; flip block body to hide/reveal content</li>
+        <li><strong>Click block title</strong> &mdash; flip block body to hide/reveal content</li>
+        <li><strong>b</strong> &mdash; toggle all blocks open/closed at once</li>
         <li><strong>Scroll</strong> &mdash; advance animations and reveal content step by step</li>
       </ul>
     </div>
@@ -84,25 +90,25 @@
         <li><a href="supply-demand.html">Supply and Demand</a></li>
         <li><a href="quiz-01.html">Quiz 01</a></li>
         <li><a href="market-equilibrium.html">Market Equilibrium</a></li>
-        <li><a href="elasticity.html">Elasticity</a></li>
+        <li><a href="elasticity.html" class="exam">Elasticity</a></li>
         <li><a href="cost-functions.html">Cost Functions and Perfect Competition</a></li>
         <li><a href="perfect-competition.html">Perfect Competition</a></li>
-        <li><a href="taxes-subsidies.html">Taxes and Subsidies</a></li>
+        <li><a href="taxes-subsidies.html" class="exam">Taxes and Subsidies</a></li>
         <li><a href="monopoly.html">Monopoly</a></li>
         <li><a href="gdp.html">GDP</a></li>
         <li><a href="growth.html">Growth</a></li>
-        <li><a href="savings-investment.html">Savings, Investment, and the Financial System</a></li>
-        <li><a href="unemployment.html">Unemployment</a></li>
-        <li><a href="aggregate-demand-supply.html">Aggregate Demand and Aggregate Supply</a></li>
-        <li><a href="monetary-policy.html">Monetary Policy</a></li>
+        <li><a href="savings-investment.html" class="exam">Savings, Investment, and the Financial System</a></li>
+        <li><a href="unemployment.html" class="exam">Unemployment</a></li>
+        <li><a href="aggregate-demand-supply.html" class="exam">Aggregate Demand and Aggregate Supply</a></li>
+        <li><a href="monetary-policy.html" class="exam">Monetary Policy</a></li>
         <li><a href="midterm-02.html">Midterm 2 — Answer Key</a></li>
-        <li><a href="externalities.html">Externalities and Public Goods</a></li>
+        <li><a href="externalities.html" class="exam">Externalities and Public Goods</a></li>
       </ul>
     </div>
   </section>
 
   <footer style="text-align: center; padding: 2rem; color: #666; font-size: 0.9rem;">
-    Last Update: 15:34 - 2026-04-20
+    Last Update: 10:53 - 2026-04-21
   </footer>
 
 </body>

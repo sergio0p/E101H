@@ -778,6 +778,9 @@
             { type: 'path', points: [{x:0,y:0},{x:3,y:-6}], stroke: '#268bd2', strokeWidth: 2.5 },
             // Demand: y=x-6
             { type: 'path', points: [{x:0,y:-6},{x:6,y:0}], stroke: '#dc322f', strokeWidth: 2.5 },
+            // SMC_A = 2q_A + q_B with q_B=27.7: P = 2q_A + 27.7
+            // In graph coords: y = -2x - 27.7/20 = -2x - 1.385, clipped at y=-6 → x≈2.3075
+            { type: 'path', points: [{x:0,y:-1.385},{x:2.3075,y:-6}], stroke: '#556b2f', strokeWidth: 2.5 },
             // Dotted lines
             { type: 'path', points: [{x:0,y:yPA},{x:xA,y:yPA}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
             { type: 'path', points: [{x:xA,y:0},{x:xA,y:yPA}], dashed: '3 2', stroke: '#586e75', strokeWidth: 0.75 },
@@ -787,6 +790,7 @@
             // Curve labels
             { type: 'node', id:'eaSA', style:'L', position:{x:3.4,y:-5.5}, label:'$S_A$', fontSize:10, labelColor:'#268bd2' },
             { type: 'node', id:'eaDA', style:'L', position:{x:6.0,y:-1}, label:'$D_A$', fontSize:10, labelColor:'#dc322f' },
+            { type: 'node', id:'eaSMCA', style:'L', position:{x:2,y:-6.85}, label:'$SMC_A$', fontSize:10, labelColor:'#556b2f' },
             // Tick marks
             { type: 'path', points: [{x:xA,y:0.15},{x:xA,y:-0.15}], stroke: '#586e75', strokeWidth: 0.75 },
             { type: 'path', points: [{x:0.15,y:yPA},{x:-0.15,y:yPA}], stroke: '#586e75', strokeWidth: 0.75 },
@@ -852,6 +856,8 @@
         <li>Property rights are clearly assigned and</li>
         <li>Bargaining costs are low</li>
       </ul>
+      <div style="margin-top: 3em;"></div>
+      <p>The Coase theorem implicitly assumes that firms are price takers, so in the examples below, you should assume $P_A=80$ and $P_B=88$ regardless of the quantity produced by firm A and B.</p>
     </div>
   </section>
 
