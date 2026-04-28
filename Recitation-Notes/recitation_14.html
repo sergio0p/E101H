@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="recitation-week" content="14">
+  <meta name="source-pdf" content="Recitation 14.pdf, Recitation 14 key.pdf">
+  <title>Recitation 14 — Loanable Funds, Savings, and Bond Pricing | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="beamer-theme.css">
+  <link rel="stylesheet" href="recitation-overrides.css">
+</head>
+<body>
+
+  <p class="recitation-nav"><a href="index.html">← back to index</a></p>
+
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Recitation 14</h1>
+      <h2>Loanable Funds, Savings, and Bond Pricing</h2>
+    </div>
+  </section>
+
+  <section class="frame" id="p2">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 2: Google's Project Decisions and Demand for Loanable Funds</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>The financial analysts at Google have evaluated five major projects. Each project, if it actually goes forward, will be financed by going to a bank to borrow the money. They've calculated a "break-even interest rate": If they can borrow cash to pay for the project at less than that rate, the project will likely be a success; if the rate is higher, then it's not worth it.</p>
+
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Cost</th>
+            <th>Break-even Interest Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Project A</td>
+            <td>$100 million</td>
+            <td>8%</td>
+          </tr>
+          <tr>
+            <td>Project B</td>
+            <td>$50 million</td>
+            <td>12%</td>
+          </tr>
+          <tr>
+            <td>Project C</td>
+            <td>$200 million</td>
+            <td>5%</td>
+          </tr>
+          <tr>
+            <td>Project D</td>
+            <td>$25 million</td>
+            <td>4%</td>
+          </tr>
+          <tr>
+            <td>Project E</td>
+            <td>$150 million</td>
+            <td>10%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>(a)</strong> If the interest rate is 11%, which projects will Google take on? If the market interest rate is 6%, which projects will it take on?</p>
+
+      <p><strong>(b)</strong> Let's turn this information into a demand curve for loanable funds. Organize this data to convert it into Google's "loanable funds demand" curve. <em>Note: It will look just like an ordinary demand curve, only with more breaks.</em></p>
+    </div>
+
+    <figure>
+      <img src="figures/recitation_14/page01.png" alt="Blank demand curve template with Interest rate on y-axis and Quantity of loanable funds on x-axis">
+      <figcaption>Template for demand curve (part b).</figcaption>
+    </figure>
+
+    <div class="accordion" id="solAcc2">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol2"
+                  aria-expanded="false" aria-controls="sol2">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol2" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc2">
+          <div class="accordion-body">
+            <p><strong>Decision rule:</strong> Take on a project only if the market interest rate is strictly less than the project's break-even rate (otherwise borrowing costs swallow the project's returns).</p>
+
+            <p><strong>(a) Which projects at 11% and at 6%?</strong></p>
+
+            <p><u>At an interest rate of 11%:</u> Only Project B (break-even 12%) clears the bar.</p>
+            <ul>
+              <li>Project B: 12% > 11% ✓ Undertake</li>
+              <li>Projects A, C, D, E: break-even rates (8%, 5%, 4%, 10%) are all below 11% — skip.</li>
+            </ul>
+            <p><strong>Answer:</strong> At 11%, Google undertakes <strong>Project B only</strong>, borrowing <strong>$50 million</strong>.</p>
+
+            <p><u>At an interest rate of 6%:</u> All projects with break-even rates above 6% are profitable.</p>
+            <ul>
+              <li>Project B (12%), Project E (10%), Project A (8%): all above 6% ✓</li>
+              <li>Project C (5%) and Project D (4%): below 6% — skip.</li>
+            </ul>
+            <p><strong>Answer:</strong> At 6%, Google undertakes <strong>Projects A, B, and E</strong>, borrowing \(100 + 50 + 150 = 300\) million, or <strong>$300 million</strong>.</p>
+
+            <p><strong>(b) Demand curve for loanable funds</strong></p>
+
+            <p>Rank projects from highest break-even rate (taken first) to lowest, and accumulate the borrowed amount:</p>
+
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  <th>Break-even Rate</th>
+                  <th>Cost</th>
+                  <th>Cumulative Quantity Demanded</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>B</td>
+                  <td>12%</td>
+                  <td>$50M</td>
+                  <td>$50M</td>
+                </tr>
+                <tr>
+                  <td>E</td>
+                  <td>10%</td>
+                  <td>$150M</td>
+                  <td>$200M</td>
+                </tr>
+                <tr>
+                  <td>A</td>
+                  <td>8%</td>
+                  <td>$100M</td>
+                  <td>$300M</td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td>5%</td>
+                  <td>$200M</td>
+                  <td>$500M</td>
+                </tr>
+                <tr>
+                  <td>D</td>
+                  <td>4%</td>
+                  <td>$25M</td>
+                  <td>$525M</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p><strong>Answer:</strong> Each horizontal segment corresponds to one project; the vertical drops occur at the cumulative dollar amount where Google moves on to the next, lower-break-even project.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p3a">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 3a: Shifts in the Supply of Savings — Automatic Enrollment Repeal</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Under current U.S. law, businesses are allowed to automatically enroll you in a savings plan that puts 5% of your salary in a retirement fund. Suppose Congress abolishes this law: Draw the appropriate shift in the supply curve and label it "a."</p>
+    </div>
+
+    <figure>
+      <img src="figures/recitation_14/page02.png" alt="Supply of savings curve template with Interest rate on y-axis and Quantity of savings on x-axis">
+      <figcaption>Template for supply curve shifts (part 3).</figcaption>
+    </figure>
+
+    <div class="accordion" id="solAcc3a">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol3a"
+                  aria-expanded="false" aria-controls="sol3a">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol3a" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc3a">
+          <div class="accordion-body">
+            <p><strong>Repeal of automatic enrollment in retirement plans</strong></p>
+
+            <p>Auto-enrollment exploits inertia: once enrolled, most workers never opt out, so 5% of their pay flows to savings by default. If Congress abolishes the law, fewer workers would actively choose to enroll, and aggregate savings at every interest rate would fall.</p>
+
+            <p><strong>Answer:</strong> The supply of savings shifts <strong>leftward</strong> (curve a). At any given interest rate, the quantity of savings is smaller.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p3b">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 3b: Shifts in the Supply of Savings — Cultural Messages</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>If Americans all go to see the classic Robin Williams/Ethan Hawke film <em>Dead Poets Society</em> and decide to carpe diem, or if they read the quotes of a famous Mediterranean preacher who said, "Take therefore no thought for the morrow," or if they watch the appalling 1970s sitcom <em>One Day at a Time</em>, what direction is the supply of savings likely to shift? Denote this with a new supply curve labeled "b."</p>
+    </div>
+
+    <div class="accordion" id="solAcc3b">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol3b"
+                  aria-expanded="false" aria-controls="sol3b">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol3b" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc3b">
+          <div class="accordion-body">
+            <p><strong>"Carpe diem" / "take no thought for the morrow"</strong></p>
+
+            <p>All three cultural messages encourage present-oriented consumption rather than future-oriented saving. If Americans collectively become more present-biased, they save less at every interest rate.</p>
+
+            <p><strong>Answer:</strong> The supply of savings also shifts <strong>leftward</strong> (curve b).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p3bonds">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 3: Zero-Coupon Bond Yields</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>A zero-coupon bond pays the face value at maturity and nothing in between. For a bond with face value \(F\) maturing in one year at price \(P\), the implicit interest rate \(i\) satisfies:</p>
+
+      <p>\[ P = \frac{F}{1+i} \quad \Longleftrightarrow \quad i = \frac{F - P}{P} \]</p>
+
+      <p><strong>a.</strong> If a zero-coupon bond with a face value of $1,000 payable in 1 year sells for $925, what is the interest rate?</p>
+
+      <p><strong>b.</strong> If another bond with the same face value and maturity sells for $900, what is the interest rate on this bond?</p>
+
+      <p><strong>c.</strong> Which bond, the one discussed in question a or question b, would you rather invest in? Are you sure? Think again!</p>
+    </div>
+
+    <div class="accordion" id="solAcc3bonds">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol3bonds"
+                  aria-expanded="false" aria-controls="sol3bonds">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol3bonds" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc3bonds">
+          <div class="accordion-body">
+            <p><strong>a. Bond A: \(F = \$1,000\), \(P = \$925\)</strong></p>
+
+            <p>\[ i_A = \frac{1000 - 925}{925} = \frac{75}{925} \approx 0.0811 = 8.11\% \]</p>
+
+            <p><strong>Answer:</strong> The interest rate on Bond A is approximately <strong>8.11%</strong>.</p>
+
+            <p><strong>b. Bond B: \(F = \$1,000\), \(P = \$900\)</strong></p>
+
+            <p>\[ i_B = \frac{1000 - 900}{900} = \frac{100}{900} \approx 0.1111 = 11.11\% \]</p>
+
+            <p><strong>Answer:</strong> The interest rate on Bond B is approximately <strong>11.11%</strong>.</p>
+
+            <p><strong>c. Which bond would you rather invest in? Think again!</strong></p>
+
+            <p><u>First instinct:</u> Bond B looks better — a higher yield (11.11% vs. 8.11%) on the same face value and same maturity.</p>
+
+            <p><u>Think again:</u> If two otherwise-identical bonds trade at noticeably different prices, the market is telling us something. The cheaper bond (Bond B) almost certainly carries <strong>higher default risk</strong> — the market discounts it more heavily because there is a real chance the issuer fails to pay the full $1,000 at maturity. The extra ~3 percentage points of yield is a <strong>risk premium</strong>, not a free lunch.</p>
+
+            <p><strong>Answer:</strong> The "right" choice depends on your tolerance for risk.</p>
+
+            <ul>
+              <li>If both bonds are issued by the same borrower with identical terms, Bond B is unambiguously better (same risk, higher yield) — but in practice this would be an arbitrage opportunity that markets erase quickly.</li>
+              <li>More realistically, Bond B is priced lower because investors view it as riskier. A risk-averse investor may rationally prefer Bond A despite the lower yield.</li>
+            </ul>
+
+            <p><strong>The lesson:</strong> Higher yields on otherwise-similar bonds usually reflect higher risk, not a market inefficiency you can exploit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'\\[',right:'\\]',display:true},
+      {left:'\\(',right:'\\)',display:false}
+    ]});"></script>
+</body>
+</html>

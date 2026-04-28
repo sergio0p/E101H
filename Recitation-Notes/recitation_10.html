@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="recitation-week" content="10">
+  <meta name="source-pdf" content="Recitation 10.pdf, Recitation 10 key.pdf">
+  <title>Recitation 10 — Money, Inflation, and Monetary Policy | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="beamer-theme.css">
+  <link rel="stylesheet" href="recitation-overrides.css">
+</head>
+<body>
+
+  <p class="recitation-nav"><a href="index.html">← back to index</a></p>
+
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Recitation 10</h1>
+      <h2>Money, Inflation, and Monetary Policy</h2>
+    </div>
+  </section>
+
+  <section class="frame" id="p1">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 1: Velocity of Money</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Suppose the economy of a country is simplified to have only one good. The total annual production (nominal GDP) of this good in the current year is valued at $2,000 billion. The average amount of money in circulation (the money supply) in the same year is $500 billion.</p>
+
+      <ol>
+        <li>Calculate the velocity of money in this economy.</li>
+        <li>Assume that next year the nominal GDP increases to $2,200 billion, and the money supply increases to $550 billion. What is the new velocity of money?</li>
+        <li>Explain briefly how the change in the velocity of money could impact inflation in the economy.</li>
+      </ol>
+    </div>
+
+    <div class="accordion" id="solAcc1">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol1"
+                  aria-expanded="false" aria-controls="sol1">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol1" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc1">
+          <div class="accordion-body">
+            <p><strong>Solution:</strong></p>
+
+            <p><strong>Part 1:</strong> The velocity of money \(V\) is given by the quantity theory of money:</p>
+            <p>\[ MV = PY \implies V = \frac{PY}{M} \]</p>
+            <p>where \(PY\) denotes nominal GDP and \(M\) is the money supply. For the current year:</p>
+            <p>\[ V = \frac{\$2,000 \text{ billion}}{\$500 \text{ billion}} = 4 \]</p>
+            <p>Each dollar is spent <strong>four times</strong> on average over the course of the year.</p>
+
+            <p><strong>Part 2:</strong> Applying the same formula with the updated values:</p>
+            <p>\[ V = \frac{\$2,200 \text{ billion}}{\$550 \text{ billion}} = 4 \]</p>
+            <p>Despite the increases in both nominal GDP and the money supply, the velocity of money remains <strong>unchanged at 4</strong>.</p>
+
+            <p><strong>Part 3:</strong> From the quantity theory identity \(MV = PY\), holding \(M\) and real output \(Y\) constant, an increase in \(V\) implies a higher price level \(P\) (i.e., inflation), because more transactions are occurring per dollar in circulation. Conversely, a decrease in \(V\) would put downward pressure on prices.</p>
+
+            <p>In this specific example, however, \(V\) remained constant from one year to the next. In isolation, a stable velocity exerts no independent upward or downward pressure on inflation. The increase in nominal GDP was matched proportionally by the increase in the money supply, leaving the velocity—and thus the inflation contribution from \(V\)—unchanged.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p2">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 2: The Effective Federal Funds Rate (EFFR)</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Go to <a href="https://fred.stlouisfed.org/" target="_blank">https://fred.stlouisfed.org/</a> and search for the "effective federal funds rate" (EFFR). Alter the series so the graph displays the value of the EFFR from July 3, 2000 through April 3, 2023.</p>
+
+      <ol>
+        <li><strong>(a)</strong> How many recessions have there been over this time period? During those recessions, what happened to the EFFR? Provide an intuitive reason for why you are observing this trend/relationship.</li>
+
+        <li><strong>(b)</strong> As of April 3, 2023, what is the value of the EFFR? What was the value of the EFFR one year ago? Recently, the Fed has been raising interest rates because it is concerned about inflation. Using the AD-AS model, describe the logic behind the Fed's approach. Draw a graph to support your answer.</li>
+
+        <li><strong>(c)</strong> Suppose the Fed is successful in lowering the inflation rate. Explain why over time the inflation rate may fall even further. Show this change on the graph that you drew for part (b).</li>
+      </ol>
+
+      <strong>Data request for part (a):</strong> You may need to research the recession dates from July 2000 to April 2023 to complete this analysis.
+    </div>
+
+    <div class="accordion" id="solAcc2">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol2"
+                  aria-expanded="false" aria-controls="sol2">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol2" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc2">
+          <div class="accordion-body">
+            <p><strong>Solution:</strong></p>
+
+            <p><strong>Part (a): EFFR and Recessions</strong></p>
+            <p>There were <strong>3 recessions</strong> during the period from July 3, 2000 through April 3, 2023:</p>
+            <ul>
+              <li>2001 recession</li>
+              <li>2007–2009 Great Recession</li>
+              <li>2020 COVID recession</li>
+            </ul>
+            <p>During each recession, the EFFR <strong>fell</strong>. This makes economic sense because:</p>
+            <ul>
+              <li>The Federal Reserve lowers interest rates during recessions to stimulate the economy</li>
+              <li>Lower interest rates reduce borrowing costs for consumers and firms</li>
+              <li>This encourages increased investment and consumption spending</li>
+              <li>The increased spending shifts the aggregate demand (AD) curve to the right</li>
+              <li>This policy, known as <strong>expansionary monetary policy</strong>, aims to increase real GDP growth</li>
+              <li>If effective, it can help restore output to potential levels and reduce unemployment</li>
+            </ul>
+
+            <p><strong>Part (b): Recent Fed Rate Changes and the AD-AS Framework</strong></p>
+
+            <p><em>EFFR values:</em></p>
+            <ul>
+              <li>As of April 3, 2023: EFFR \(\approx 4.8\%\)</li>
+              <li>One year prior (April 3, 2022): EFFR \(\approx 0.3\%\)</li>
+            </ul>
+
+            <p><em>Fed's Logic:</em></p>
+            <p>By raising interest rates, the Fed is employing <strong>contractionary monetary policy</strong>. The mechanism works as follows:</p>
+            <ol>
+              <li>Higher interest rates increase the cost of borrowing for households and firms</li>
+              <li>Investment spending falls (firms find fewer projects profitable)</li>
+              <li>Consumption spending falls (households find saving more attractive)</li>
+              <li>Aggregate demand declines; the AD curve shifts <strong>leftward</strong></li>
+              <li>At the new equilibrium (point B), the inflation rate falls from \(\pi_0\) to \(\pi_1\) while real growth moderates</li>
+              <li>This reduces demand-pull inflation without triggering a severe recession</li>
+            </ol>
+
+            <figure>
+              <img src="figures/recitation_10/key_p03_i01.png" alt="AD-AS model showing contractionary monetary policy shifting AD curve left, reducing inflation from π₀ to π₁">
+              <figcaption>Figure for Q2(b): Contractionary monetary policy shifts aggregate demand leftward, reducing inflation.</figcaption>
+            </figure>
+
+            <p><strong>Part (c): Further Inflation Decline via Expectations</strong></p>
+            <p>Once the Fed's contractionary policy begins to lower inflation, inflation expectations begin to decline. When households and firms expect lower inflation in the future:</p>
+            <ol>
+              <li>Workers demand lower wage increases (expecting lower future prices)</li>
+              <li>Firms accept lower price growth expectations</li>
+              <li>This shifts the short-run aggregate supply (SRAS) curve <strong>downward</strong></li>
+              <li>At the new equilibrium (point C), inflation falls further to \(\pi_2\)</li>
+              <li>Importantly, this downward SRAS shift occurs <strong>without further monetary tightening</strong></li>
+              <li>It is a self-reinforcing mechanism: lower actual inflation anchors expectations, which further reduces inflation</li>
+            </ol>
+
+            <figure>
+              <img src="figures/recitation_10/key_p04_i01.png" alt="Extended AD-AS model showing SRAS shift downward as inflation expectations fall, further reducing inflation to π₂">
+              <figcaption>Figure for Q2(c): As inflation expectations fall, SRAS shifts downward, causing further inflation decline.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p3">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 3: Stagflation and Supply Shocks</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>In the wake of the 1973 oil crisis and the 1979 energy crisis, stagflation (i.e., an increase in inflation coupled with a recession) began to afflict the U.S. economy.</p>
+
+      <ol>
+        <li>What kind of shock caused stagflation? Real or AD? Positive or negative? Show this impact on the graph below and identify the new inflation rate (11%) and real growth rate (-2%).</li>
+
+        <li>In response to the shocks described above, the Federal Reserve employed expansionary monetary policy throughout the 1970s to promote real economic growth. Although the Fed's policy promoted real economic growth, it made the inflation problem worse. Using the graph above, show how the Fed's policy increased inflation to 13% and increased the real growth rate to 6.6%. Which curve shifted and along which curve did the adjustment occur?</li>
+      </ol>
+    </div>
+
+    <div class="accordion" id="solAcc3">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol3"
+                  aria-expanded="false" aria-controls="sol3">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol3" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc3">
+          <div class="accordion-body">
+            <p><strong>Solution:</strong></p>
+
+            <p><strong>Part 1: Stagflation from Supply Shocks</strong></p>
+            <p>Stagflation was caused by a <strong>negative real shock</strong> (specifically, the 1970s energy crises).</p>
+            <ul>
+              <li><em>Immediate Effect (SRAS):</em> The spike in oil prices acted as an immediate input cost shock. This shifted the Short-Run Aggregate Supply (SRAS) curve upward/leftward, as firms experienced higher production costs and cut production.</li>
+              <li><em>Prolonged Impact (LRAS):</em> Because the energy crisis was sustained, it reduced the economy's fundamental productive capacity. This caused the Long-Run Aggregate Supply (LRAS) curve to shift leftward, reflecting a new, lower potential growth rate.</li>
+              <li><em>Equilibrium Shift:</em> The intersection of the shifted SRAS and LRAS curves with the Aggregate Demand (AD) curve results in a new equilibrium point.</li>
+              <li><em>Outcome:</em> This dual shift captures the stagflation phenomenon: a simultaneous increase in the inflation rate (11%) and a decrease in the real growth rate (-2%).</li>
+            </ul>
+
+            <figure>
+              <img src="figures/recitation_10/key_p05_i01.png" alt="AD-AS model showing negative supply shock shifting both SRAS and LRAS leftward, resulting in higher inflation (π₁) and lower real growth (Y₂)">
+              <figcaption>Figure for Q2.2(a): Negative real shock causes stagflation—inflation rises to 11% while growth falls to -2%.</figcaption>
+            </figure>
+
+            <p><strong>Part 2: Expansionary Monetary Policy Response</strong></p>
+            <p>The Federal Reserve shifted the AD curve from \(\text{AD}_0\) to \(\text{AD}_1\) (rightward shift). This shift occurred <strong>along</strong> \(\text{SRAS}_1\) (the new short-run aggregate supply curve).</p>
+            <ul>
+              <li>Expansionary monetary policy increases the money supply</li>
+              <li>This reduces interest rates and stimulates aggregate demand</li>
+              <li>The movement is along the SRAS curve (not up the LRAS) because adjustment takes time</li>
+              <li>Result: real growth increases to 6.6% but inflation worsens to 13%</li>
+              <li>The Fed achieved short-run output gains at the cost of increased inflation</li>
+              <li>This policy error exemplifies the inflation costs of demand-management policies when the economy faces supply constraints</li>
+            </ul>
+
+            <figure>
+              <img src="figures/recitation_10/key_p05_i02.png" alt="AD-AS model showing rightward shift of AD curve causing movement along SRAS, increasing inflation to 13% and real growth to 6.6%">
+              <figcaption>Figure for Q2.2(a) continued: Fed's expansionary policy shifts AD rightward, moving along SRAS and worsening inflation to 13%.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p4">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 4: Paul Volcker's Disinflation Strategy</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>In 1979, the U.S. inflation rate was over 11%. As you know from question #2, the increase in inflation was due to a combination of events, including the expansionary policy of the Federal Reserve.</p>
+
+      <ol>
+        <li><strong>(a)</strong> Model the U.S. economy in the late 1970s by drawing an AD-LRAS-SRAS graph such that the actual inflation rate and expected inflation rate are both equal to 11.5% and real GDP growth is 0%.</li>
+
+        <li><strong>(b)</strong> In 1979, Paul Volcker was appointed chair of the Federal Reserve Board. He is widely credited with ending the high levels of inflation that the U.S. experienced during the 1970s and early 1980s by employing <em>contractionary monetary policy</em>. Given what you learned in class, what impact do you think Volcker's policy had on real economic growth in the U.S.? Show the impact that Volcker's policy had on real GDP growth in the graph that you drew above.</li>
+
+        <li><strong>(c)</strong> What impact do you think Volcker's monetary policy had on inflation expectations and actual inflation in the early 1980s? Use the graph that you drew in parts (a) and (b) to illustrate your answer.</li>
+      </ol>
+    </div>
+
+    <div class="accordion" id="solAcc4">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol4"
+                  aria-expanded="false" aria-controls="sol4">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol4" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc4">
+          <div class="accordion-body">
+            <p><strong>Solution:</strong></p>
+
+            <p><strong>Part (a): Late-1970s Equilibrium</strong></p>
+            <p>In the late-1970s:</p>
+            <ul>
+              <li>Inflation expectations \((\pi^e)\) are anchored at 11.5% due to years of high inflation</li>
+              <li>Actual inflation \((\pi)\) is also 11.5% — expectations match reality</li>
+              <li>Real GDP growth is 0% — the economy is at its potential output</li>
+              <li>The economy is in long-run equilibrium with high inflation</li>
+              <li>The AD and SRAS curves intersect at the LRAS</li>
+            </ul>
+
+            <figure>
+              <img src="figures/recitation_10/key_p06_i01.png" alt="AD-LRAS-SRAS graph showing late-1970s equilibrium with inflation π=11.5%, real GDP growth=0%, actual and expected inflation both at 11.5%">
+              <figcaption>Figure for Q3(a): Late-1970s equilibrium with high inflation anchored at 11.5%.</figcaption>
+            </figure>
+
+            <p><strong>Part (b): Volcker's Contractionary Policy and Growth</strong></p>
+            <p>Volcker implemented strong <strong>contractionary monetary policy</strong> by sharply reducing the money supply growth rate.</p>
+            <ul>
+              <li>This is a <strong>leftward shift</strong> of the AD curve from \(\text{AD}_0\) to \(\text{AD}_1\)</li>
+              <li>The economy moves to a point where inflation remains elevated but real growth falls sharply</li>
+              <li>In the short run, the economy experiences a <strong>recession</strong></li>
+              <li>Real GDP growth becomes <strong>negative</strong> (the economy contracts)</li>
+              <li>This was a deliberate, painful policy choice to break the back of high inflation</li>
+            </ul>
+
+            <p><strong>Key Insight:</strong> There is a short-run trade-off between inflation and growth. Fighting inflation requires accepting lower growth/higher unemployment in the short run.</p>
+
+            <figure>
+              <img src="figures/recitation_10/key_p07_i01.png" alt="AD-LRAS-SRAS graph showing Volcker's contractionary policy shifting AD leftward, causing real GDP growth to fall below potential (shown as negative growth) while inflation remains elevated at 11.5%">
+              <figcaption>Figure for Q3(b): Volcker's contractionary policy shifts AD left, causing recession with negative real growth.</figcaption>
+            </figure>
+
+            <p><strong>Part (c): Disinflation through Expectations Anchoring</strong></p>
+            <p>Over time, Volcker's sustained contractionary policy succeeded in reducing inflation expectations:</p>
+            <ol>
+              <li>As inflation remains lower for several periods, households and firms gradually revise expectations downward</li>
+              <li>Workers accept lower wage growth; firms moderate price increases</li>
+              <li>The SRAS curve shifts <strong>downward</strong> from \(\text{SRAS}_0\) to \(\text{SRAS}_1\)</li>
+              <li>Actual inflation falls to \(\pi_1\) (a lower level)</li>
+              <li>Real growth gradually recovers toward potential as inflation expectations fall</li>
+              <li>The economy transitions from the recession toward a new long-run equilibrium at lower inflation</li>
+            </ol>
+
+            <figure>
+              <img src="figures/recitation_10/key_p08_i01.png" alt="Extended AD-LRAS-SRAS graph showing SRAS shifting downward as inflation expectations fall, allowing real growth to recover and inflation to fall to π₁, illustrating the long-run impact of Volcker's policy">
+              <figcaption>Figure for Q3(c): As SRAS shifts downward due to lower inflation expectations, growth recovers and inflation falls to π₁.</figcaption>
+            </figure>
+
+            <p><strong>Summary:</strong> Volcker's policy demonstrates how disinflation works in practice. In the short run, fighting inflation is costly in terms of lost growth and jobs (the recession of 1981–82). However, by maintaining the restrictive stance long enough to change inflation expectations, the economy eventually stabilizes at a lower inflation rate with restored growth. This highlights the importance of central bank credibility in anchoring expectations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'\\(',right:'\\)',display:false},
+      {left:'\\[',right:'\\]',display:true}
+    ]});"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="recitation-week" content="9">
+  <meta name="source-pdf" content="Recitation 9.pdf, Recitation 9 key.pdf">
+  <title>Recitation 9 — Bond Valuation & Solow Growth Model | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="beamer-theme.css">
+  <link rel="stylesheet" href="recitation-overrides.css">
+</head>
+<body>
+
+  <p class="recitation-nav"><a href="index.html">← back to index</a></p>
+
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Recitation 9</h1>
+      <h2>Bond Valuation & Solow Growth Model</h2>
+    </div>
+  </section>
+
+  <section class="frame" id="p1">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 1: Analyzing Arbitrage Opportunity and Price–Return Relationship</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Suppose you are observing the bond market and notice two seemingly identical 5-year corporate bonds issued by the same company. Both bonds offer an annual coupon rate of 6% but are currently trading at different prices:</p>
+      <ul>
+        <li>Bond A is trading at $980.</li>
+        <li>Bond B is trading at $1,050.</li>
+      </ul>
+      <p>Both bonds have a face value of $1,000 and will mature in 5 years.</p>
+
+      <p><strong>Question:</strong> Analyzing Arbitrage Opportunity and Price–Return Relationship</p>
+
+      <p><strong>(a)</strong> Calculate the exact yield to maturity (YTM) for Bond A and Bond B. The YTM for each bond is the rate \(r\) that satisfies the equation:</p>
+      <p style="text-align: center;">
+        \[P = \sum_{t=1}^{n} \frac{C}{(1 + r)^t} + \frac{F}{(1 + r)^n}\]
+      </p>
+      <p>where:</p>
+      <ul>
+        <li>\(P\) is the bond's price.</li>
+        <li>\(C\) is the annual coupon payment (\(\$1,000 \times 6\% = \$60\)).</li>
+        <li>\(F\) is the bond's face value (\(\$1,000\)).</li>
+        <li>\(n\) is the number of years until maturity (5 years).</li>
+        <li>\(r\) is the YTM.</li>
+      </ul>
+
+      <p><strong>(b)</strong> Based on the YTM calculations, identify the bond that should be purchased and the bond that should be sold to take advantage of an arbitrage opportunity.</p>
+
+      <p><strong>(c)</strong> Explain the relationship between the price and yield (return) of these bonds, illustrating the concept of inverse relationship.</p>
+    </div>
+
+      <div class="accordion" id="solAcc1">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol1"
+                  aria-expanded="false" aria-controls="sol1">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol1" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc1">
+          <div class="accordion-body">
+            <p><strong>(a)</strong> To find the YTM for each bond, we solve for \(r\) in the standard bond pricing equation. Expanding for \(n = 5\) years:</p>
+
+            <p><strong>Bond A (priced at $980):</strong></p>
+            <p style="text-align: center;">
+              \[980 = \frac{60}{(1 + r)} + \frac{60}{(1 + r)^2} + \frac{60}{(1 + r)^3} + \frac{60}{(1 + r)^4} + \frac{60}{(1 + r)^5} + \frac{1000}{(1 + r)^5}\]
+            </p>
+
+            <p><strong>Bond B (priced at $1,050):</strong></p>
+            <p style="text-align: center;">
+              \[1050 = \frac{60}{(1 + r)} + \frac{60}{(1 + r)^2} + \frac{60}{(1 + r)^3} + \frac{60}{(1 + r)^4} + \frac{60}{(1 + r)^5} + \frac{1000}{(1 + r)^5}\]
+            </p>
+
+            <p>Solving numerically for \(r\) in each case:</p>
+            <ul>
+              <li><strong>Bond A (priced at $980): YTM ≈ 6.48%</strong></li>
+              <li><strong>Bond B (priced at $1,050): YTM ≈ 4.85%</strong></li>
+            </ul>
+
+            <p>The exact YTMs demonstrate that Bond A offers a higher return than Bond B for the same risk, indicating it is priced more attractively.</p>
+
+            <p><strong>(b)</strong> To exploit an arbitrage opportunity, an investor should <strong>buy Bond A</strong> (undervalued, yielding a higher return) and <strong>sell Bond B</strong> (overvalued, yielding a lower return). The assumption is that the market will eventually correct these discrepancies, and the prices of Bond A and Bond B will adjust such that their YTMs align, given their identical risk profiles and cash flows.</p>
+
+            <p><strong>(c)</strong> The relationship between bond price and yield illustrates the fundamental <strong>inverse relationship</strong>: as the price of a bond decreases, its yield increases, and vice versa. This is because the fixed coupon payments and maturity value represent a larger return percentage on a lower purchase price, and a smaller return percentage on a higher purchase price.</p>
+
+            <p>In this scenario, Bond A's lower price relative to Bond B results in a higher yield, demonstrating that as bond prices fall, yields rise. This principle is a fundamental concept in bond valuation, illustrating how returns adjust to reflect changes in bond pricing.</p>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p2">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 2: Solow Growth Model with Technological Progress</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Consider an extension of the Solow model where the economy experiences exogenous technological progress at a constant rate \(g\), with the production function given by:</p>
+      <p style="text-align: center;">
+        \[Y_t = K_t^{0.5}(A_t L_t)^{0.5}\]
+      </p>
+      <p>where \(A_t\) grows at rate \(g = 0.02\) per period.</p>
+
+      <p><strong>1. Effective Capital per Effective Worker Evolution.</strong></p>
+      <p>Express the equation for the evolution of effective capital per effective worker in the presence of technological growth, where effective capital per effective worker is defined as \(k_t = K_t/(A_t L)\) and effective output per effective worker is defined as \(y_t = Y_t/(A_t L)\).</p>
+
+      <p><strong>2. Steady-State Analysis.</strong></p>
+      <p>Discuss how the steady-state level of effective capital per effective worker,</p>
+      <p style="text-align: center;">
+        \[k^* = \frac{K}{A_t L},\]
+      </p>
+      <p>is affected by technological progress. Derive the steady-state value of \(k^*\).</p>
+
+      <p><strong>3. Long-Run Growth Implications.</strong></p>
+      <p>Explain the implications of continuous technological progress for long-term economic growth and per capita income growth.</p>
+    </div>
+
+      <div class="accordion" id="solAcc2">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol2"
+                  aria-expanded="false" aria-controls="sol2">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol2" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc2">
+          <div class="accordion-body">
+            <p><strong>1. Effective Capital per Effective Worker Evolution</strong></p>
+
+            <p>Begin with the standard capital accumulation equation:</p>
+            <p style="text-align: center;">
+              \[K_{t+1} = (1 - \delta) K_t + s Y_t\]
+            </p>
+
+            <p>Define effective capital per effective worker as \(k_t = K_t/(A_t L)\), so \(K_t = A_t L k_t\). With labor-augmenting technology, rewrite the production function as:</p>
+            <p style="text-align: center;">
+              \[Y_t = K_t^{0.5} (A_t L)^{0.5}\]
+            </p>
+
+            <p>so that effective output per effective worker is:</p>
+            <p style="text-align: center;">
+              \[y_t = \frac{Y_t}{A_t L} = \left(\frac{K_t}{A_t L}\right)^{0.5} = k_t^{0.5}\]
+            </p>
+
+            <p>Dividing both sides of the capital accumulation equation by \(A_{t+1}L = (1 + g)A_t L\):</p>
+            <p style="text-align: center;">
+              \[\frac{K_{t+1}}{A_{t+1}L} = \frac{(1 - \delta)K_t}{(1 + g)A_t L} + \frac{s Y_t}{(1 + g)A_t L}\]
+            </p>
+
+            <p>The left-hand side is \(k_{t+1}\). Substituting \(k_t\) and \(y_t = k_t^{0.5}\) on the right-hand side yields the law of motion:</p>
+            <p style="text-align: center;">
+              \[k_{t+1} = \frac{(1 - \delta) k_t + s k_t^{0.5}}{1 + g}\]
+            </p>
+
+            <p>This equation shows that effective capital per effective worker next period depends on what survives depreciation plus new investment, both deflated by the growth factor \((1 + g)\) that continuously expands the effective labor denominator.</p>
+
+            <p><strong>2. Steady-State Analysis</strong></p>
+
+            <p>At the steady state, \(k_{t+1} = k_t = k^*\) by definition. Substituting into the law of motion:</p>
+            <p style="text-align: center;">
+              \[k^* = \frac{(1 - \delta) k^* + s k^{*0.5}}{1 + g}\]
+            </p>
+
+            <p>Multiply both sides by \((1 + g)\):</p>
+            <p style="text-align: center;">
+              \[(1 + g) k^* = (1 - \delta) k^* + s k^{*0.5}\]
+            </p>
+
+            <p>Collect the \(k^*\) terms on the left:</p>
+            <p style="text-align: center;">
+              \[(1 + g) k^* - (1 - \delta) k^* = s k^{*0.5}\]
+            </p>
+            <p style="text-align: center;">
+              \[(g + \delta) k^* = s k^{*0.5}\]
+            </p>
+
+            <p>Divide both sides by \(k^{*0.5}\) (valid since \(k^* \neq 0\)):</p>
+            <p style="text-align: center;">
+              \[(g + \delta) k^{*0.5} = s\]
+            </p>
+            <p style="text-align: center;">
+              \[k^{*0.5} = \frac{s}{g + \delta}\]
+            </p>
+
+            <p>Squaring both sides:</p>
+            <p style="text-align: center;">
+              \[k^* = \left(\frac{s}{g + \delta}\right)^2\]
+            </p>
+
+            <p>The steady-state level of effective capital per effective worker depends:</p>
+            <ul>
+              <li><strong>Positively on the savings rate \(s\)</strong> — higher savings funds more investment, raising \(k^*\).</li>
+              <li><strong>Negatively on the depreciation rate \(\delta\)</strong> — faster depreciation erodes the capital stock.</li>
+              <li><strong>Negatively on the technological growth rate \(g\)</strong> — faster technological progress continuously dilutes effective capital by expanding \(A_t L\), requiring more investment just to keep \(k_t\) constant.</li>
+            </ul>
+
+            <p><strong>3. Long-Run Growth Implications</strong></p>
+
+            <p>With continuous technological progress, the economy does not reach a steady state in terms of actual capital per worker \(K/L\) or output per worker \(Y/L\). Instead, it reaches a steady state only in effective units. The long-run implications are:</p>
+
+            <p><strong>(a) Sustained per capita growth.</strong> Even in the steady state (where \(k^*\) is constant), output per capita \(Y/L\) grows continuously at the rate of technological progress \(g\), because \(A_t\) keeps rising.</p>
+
+            <p><strong>(b) Total output growth.</strong> If the labor force grows at rate \(n\), total output grows at:</p>
+            <p style="text-align: center;">
+              \[\text{Growth of } Y = g + n\]
+            </p>
+            <p>reflecting both technological progress and labor force expansion.</p>
+
+            <p><strong>(c) Role of technology.</strong> Unlike changes in \(s\) or \(\delta\), which only affect the level of the balanced growth path, technological progress \(g\) drives the rate of long-run per capita growth. This is the central message of the Solow model: capital accumulation alone cannot sustain growth; only technological progress can.</p>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'\\(',right:'\\)',display:false},
+      {left:'\\[',right:'\\]',display:true}
+    ]});"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="recitation-week" content="7">
+  <meta name="source-pdf" content="Recitation 7.pdf">
+  <title>Recitation 7 — Monopoly | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="beamer-theme.css">
+  <link rel="stylesheet" href="recitation-overrides.css">
+</head>
+<body>
+
+  <p class="recitation-nav"><a href="index.html">← back to index</a></p>
+
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Recitation 7</h1>
+      <h2>Monopoly</h2>
+    </div>
+  </section>
+
+  <section class="frame" id="p1">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 1: Monopoly Profit Maximization</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Like all firms, monopolies maximize profit by producing the quantity where marginal revenue (MR) equals marginal cost (MC).</p>
+
+      <p>\[ MR(Q^*) = MC(Q^*) \]</p>
+
+      <p>Unlike perfectly competitive firms, a monopolist's profit maximization problem is the optimal trade-off between P and Q.</p>
+
+      <ul>
+        <li>For any positive \( Q \), marginal revenue is less than the price the monopolist can charge to sell that quantity.</li>
+      </ul>
+
+      <p>\[ MR(Q) = \frac{dR(Q)}{dQ} = \frac{dp(Q)Q}{dQ} = p(Q) \frac{dQ}{dQ} + \frac{dp(Q)}{dQ} Q = p(Q) + \frac{dp(Q)}{dQ} Q \]</p>
+    </div>
+
+    <figure>
+      <img src="figures/recitation_07/p02_i01.png" alt="Monopoly Profit Maximization slide showing the MR=MC condition and the relationship between marginal revenue and price">
+      <figcaption>Monopoly profit maximization framework.</figcaption>
+    </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p2">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 2: MR Formula and Numerical Example</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>The general formula for marginal revenue:</p>
+
+      <p>\[ MR = p(Q) + \frac{dp(Q)}{dQ} Q \]</p>
+
+      <p>When the demand curve has the form \( P = a - bQ \), the marginal revenue is:</p>
+
+      <p>\[ MR = a - 2bQ \]</p>
+
+      <p>A numerical table showing the relationship between price, quantity, total revenue, average revenue, and marginal revenue:</p>
+    </div>
+
+    <figure>
+      <img src="figures/recitation_07/p05_i01.png" alt="Table showing Price, Quantity, Total Revenue, Average Revenue, and Marginal Revenue values">
+      <figcaption>Numerical example: TR, AR, and MR calculations.</figcaption>
+    </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p3">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 3: Monopoly Profit Maximization Example Problem</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Given a monopolist with:</p>
+      <ul>
+        <li>Demand curve: \( P = 240 - Q \)</li>
+        <li>Total cost: \( TC = Q^2 + 12 \)</li>
+      </ul>
+
+      <p><strong>Calculate the monopolist's profit \( \pi \).</strong></p>
+    </div>
+
+    <div class="accordion" id="solAcc3">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol3"
+                  aria-expanded="false" aria-controls="sol3">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol3" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc3">
+          <div class="accordion-body">
+            <p><strong>Solution:</strong></p>
+            <p>\( \pi = 60 \)</p>
+
+            <p><strong>Explanation:</strong></p>
+            <ul>
+              <li>The monopolist's profit maximizing choice of output is found where \( MR = MC \).</li>
+              <li>At the profit-maximizing output, set price \( p \) according to inverse demand.</li>
+              <li>If \( TC = Q^2 + 12 \), the profit maximizing monopolist will produce 6 units and charge \$18 per unit.</li>
+            </ul>
+
+            <figure>
+              <img src="figures/recitation_07/p08_i01.png" alt="Monopoly example diagram showing the demand curve, MR curve, MC curve, AC, and AVC curves. The profit-maximizing quantity is 6 units at price 18, with profit of 60 shown as a shaded area.">
+              <figcaption>Monopoly equilibrium: MR = MC at Q = 6, P = $18, profit \( \pi \) = 60.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'\\[',right:'\\]',display:true},
+      {left:'\\(',right:'\\)',display:false}
+    ]});"></script>
+</body>
+</html>

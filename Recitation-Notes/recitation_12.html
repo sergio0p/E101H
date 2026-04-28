@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="recitation-week" content="12">
+  <meta name="source-pdf" content="Recitation.pdf, Recitation 12 Key.pdf">
+  <title>Recitation 12 — Monetary Policy & Aggregate Demand | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="beamer-theme.css">
+  <link rel="stylesheet" href="recitation-overrides.css">
+</head>
+<body>
+
+  <p class="recitation-nav"><a href="index.html">← back to index</a></p>
+
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Recitation 12</h1>
+      <h2>Monetary Policy & Aggregate Demand</h2>
+    </div>
+  </section>
+
+  <section class="frame" id="p1">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 1: Central Banking and Velocity Shocks</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Bring SRAS back into the model and play the role of a central banker reacting to a rise in velocity growth. The diagram below shows the economy growing at the potential growth rate with 10% inflation.</p>
+      <ol type="a">
+        <li>Illustrate what happens if consumers and investors become more optimistic. Clearly label the new growth rate on the x-axis with the words "High-AD real growth," and label the new inflation rate on the y-axis with the words "High-AD inflation."</li>
+        <li>Once the central banker sees this rise in AD, they decide to fully reverse it with monetary policy. In the graph, illustrate what happens if they do their job "just right."</li>
+        <li>If they do their job "just right," what will the inflation rate be? Provide an exact number.</li>
+      </ol>
+    </div>
+
+    <figure>
+      <img src="figures/recitation_12/p01_i01.png" alt="AD-AS diagram: SRAS at expected inflation 10%, AD with money growth plus velocity equal to 13%, intersecting LRAS.">
+      <figcaption>Figure for Problem 1.</figcaption>
+    </figure>
+
+      <div class="accordion" id="solAcc1">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol1"
+                  aria-expanded="false" aria-controls="sol1">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol1" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc1">
+          <div class="accordion-body">
+            <div class="part-header">Part (a): AD shock from optimism</div>
+            <p>When consumers and investors become more optimistic, the AD curve shifts to the right. In the quantity-theory framework this is equivalent to an increase in velocity \( \dot{v} \), raising nominal spending growth \( \dot{M} + \dot{v} \).</p>
+            <ul>
+              <li>The new AD curve intersects the SRAS to the right of the original equilibrium.</li>
+              <li>The intersection of the new AD with the SRAS \( (E_\pi = 10\%) \) occurs at a higher real GDP growth rate ("High-AD real growth") and a higher inflation rate ("High-AD inflation").</li>
+              <li>Since the SRAS is upward-sloping, both real growth and inflation rise above their initial values.</li>
+            </ul>
+            <p><strong>Key intuition:</strong> with expected inflation anchored at 10%, a positive demand shock moves the economy up and to the right along the SRAS, temporarily pushing real growth above potential and inflation above 10%.</p>
+
+            <div class="part-header">Part (b): Central banker's response</div>
+            <p>To fully reverse the AD shock "just right," the central banker tightens monetary policy — reducing money growth \( \dot{M} \) by exactly enough to offset the increase in velocity \( \dot{v} \).</p>
+            <ul>
+              <li>The AD curve shifts back to the left, returning to its original position: \( AD(\dot{M} + \dot{v} = 13\%) \).</li>
+              <li>The economy returns to the original equilibrium: real GDP growth at the potential growth rate, and inflation at 10%.</li>
+            </ul>
+
+            <div class="part-header">Part (c): Inflation rate if done "just right"</div>
+            <p>\[ \pi = 10\% \]</p>
+            <p>If the central banker perfectly offsets the velocity shock by reducing \( \dot{M} \) by the same amount that \( \dot{v} \) increased, nominal spending growth remains at 13%. The economy stays at the intersection of the original AD curve and the LRAS, and inflation remains exactly 10%.</p>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p2">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 2: Managing Inflation Expectations</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Central bankers must manage expectations. Suppose inflation is running at 10% and the central banker would like to lower inflation to 2% without reducing real growth. Assume velocity shocks are zero and the potential growth rate is 3%.</p>
+      <ol type="a">
+        <li>What should the central banker tell the public, and at what level should the central banker set money growth?</li>
+        <li>Suppose the public believes the central banker. What temptation might the central banker face? (Hint: imagine an election year and the central banker would like to see the current administration reelected.)</li>
+      </ol>
+    </div>
+
+    <figure>
+      <img src="figures/recitation_12/p02_i01.png" alt="AD-AS diagram with Old LRAS marked, SRAS at expected inflation 10%, AD with money growth plus velocity equal to 13%, real GDP growth marked at 3%.">
+      <figcaption>Figure for Problem 2.</figcaption>
+    </figure>
+
+      <div class="accordion" id="solAcc2">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol2"
+                  aria-expanded="false" aria-controls="sol2">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol2" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc2">
+          <div class="accordion-body">
+            <div class="part-header">Part (a): Lowering inflation without reducing real growth</div>
+            <p>From the quantity theory:</p>
+            <p>\[ \dot{M} + \dot{v} = \pi + g_Y \]</p>
+            <p>With \( \dot{v} = 0 \), potential growth \( g_Y^* = 3\% \), and target inflation \( \pi^* = 2\% \):</p>
+            <p>\[ \dot{M} = \pi^* + g_Y^* - \dot{v} = 2\% + 3\% - 0\% = 5\% \]</p>
+            <p><strong>What the central banker should tell the public:</strong></p>
+            <p>"We are committed to bringing inflation down to 2%. We will set money growth at 5% and maintain it. You should update your inflation expectations to 2%."</p>
+            <p><strong>Mechanism:</strong> the central banker must credibly commit so the SRAS shifts down. If the public believes the announcement and lowers expected inflation to 2%, \( SRAS(E_\pi = 10\%) \) shifts down to \( SRAS(E_\pi = 2\%) \). The new equilibrium is</p>
+            <p>\[ \pi = 2\%, \quad g_Y = g_Y^* = 3\% \]</p>
+            <p>Real growth is preserved because the disinflation is costless when fully credible — the economy moves straight down along the LRAS rather than going through a costly recession.</p>
+
+            <div class="part-header">Part (b): Time-inconsistency / temptation to inflate</div>
+            <p>Once expectations are anchored at 2%, the central banker has an incentive to deviate (time inconsistency):</p>
+            <ul>
+              <li>The central banker could secretly increase money growth above 5% (e.g., back to 13%), shifting AD to the right.</li>
+              <li>Because expectations are now anchored at 2%, the economy moves up and to the right along the new \( SRAS(E_\pi = 2\%) \).</li>
+              <li>This produces a boom in real GDP growth above potential — politically attractive in an election year.</li>
+              <li>The cost (higher inflation) comes later, after the election, when expectations adjust upward and credibility is destroyed for future periods.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p3">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Problem 3: Federal Reserve Operations and AD</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Use the model of supply and demand for bank reserves to explain how the Federal Reserve can change aggregate demand in the short run. The Federal Reserve controls the supply of bank reserves; private banks create the demand for bank reserves. After a meeting, the Fed's Open Market Committee votes to cut interest rates from 2% to 1.5%.</p>
+      <ol type="a">
+        <li>How will they make this happen — will they increase the supply of reserves or decrease the supply?</li>
+        <li>As a result of your answer to part (a), will banks usually lend more money in response, or less? Will this tend to increase the nation's money supply, lower it, or have no net effect?</li>
+        <li>Will this typically increase aggregate demand or lower it?</li>
+      </ol>
+    </div>
+
+      <div class="accordion" id="solAcc3">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol3"
+                  aria-expanded="false" aria-controls="sol3">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol3" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc3">
+          <div class="accordion-body">
+            <div class="part-header">Part (a): How the Fed cuts rates from 2% to 1.5%</div>
+            <p>To lower the federal funds rate, the Fed must <strong>increase</strong> the supply of reserves.</p>
+            <ul>
+              <li>The reserve supply curve is vertical (perfectly inelastic) because the Fed is the monopoly supplier of reserves — it sets the quantity independent of the interest rate.</li>
+              <li>Reserve demand is downward-sloping: banks demand more reserves at lower interest rates (opportunity-cost argument).</li>
+              <li>To push the equilibrium rate down from 2% to 1.5%, the Fed shifts the vertical supply curve right by conducting open-market purchases (buying Treasury securities, crediting banks with new reserves).</li>
+              <li>The new intersection of the rightward-shifted supply with the downward-sloping demand yields the lower equilibrium FFR of 1.5%.</li>
+            </ul>
+
+            <div class="part-header">Part (b): Effect on bank lending and the money supply</div>
+            <ul>
+              <li>When the FFR falls to 1.5%, the return on holding reserves at the Fed decreases.</li>
+              <li>The opportunity cost of lending falls: banks now give up less by lending out rather than holding reserves at the Fed.</li>
+              <li>Banks lend more — not merely because they have more reserves, but because holding reserves has become relatively less attractive.</li>
+              <li>Through the money multiplier, the additional lending creates new deposits, enabling further lending.</li>
+              <li>The net effect is an increase in the nation's money supply.</li>
+            </ul>
+
+            <div class="part-header">Part (c): Effect on aggregate demand</div>
+            <p>This will typically <strong>increase</strong> aggregate demand.</p>
+            <ul>
+              <li>A higher money supply raises nominal spending: from the quantity theory, \( AD = \dot{M} + \dot{v} \), so an increase in \( \dot{M} \) shifts AD to the right.</li>
+              <li>Lower interest rates also directly stimulate investment and consumption (the interest-rate channel of monetary transmission).</li>
+              <li>The rightward shift of AD raises both real GDP growth (in the short run) and inflation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'\\[',right:'\\]',display:true},
+      {left:'\\(',right:'\\)',display:false}
+    ]});"></script>
+</body>
+</html>

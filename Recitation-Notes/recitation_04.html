@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="recitation-week" content="4">
+  <meta name="source-pdf" content="recitation week 4.pdf, Recitation 4 key.pdf">
+  <title>Recitation 4 — Market Equilibrium and Elasticity | ECON 101H</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="beamer-theme.css">
+  <link rel="stylesheet" href="recitation-overrides.css">
+</head>
+<body>
+
+  <p class="recitation-nav"><a href="index.html">← back to index</a></p>
+
+  <section class="title-slide">
+    <div class="title-box">
+      <h1>Recitation 4</h1>
+      <h2>Market Equilibrium and Elasticity</h2>
+    </div>
+  </section>
+
+  <section class="frame" id="concepts">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Concepts</h2>
+    </div>
+    <div class="frame-content">
+      <ul>
+        <li><strong>Movement along curve:</strong> caused by price changes only.</li>
+        <li><strong>Shift of curve:</strong> caused by non-price determinants.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="frame" id="setup">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Beer Market Setup</h2>
+    </div>
+    <div class="frame-content">
+      <p>Demand: \( Q^D = 100 - 6P \)</p>
+      <p>Supply: \( Q^S = 10P \)</p>
+      <p><small class="text-muted">(Quantities in thousands per month)</small></p>
+    </div>
+  </section>
+
+  <section class="frame" id="p1">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Exercise 1: Movement Along a Curve</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Suppose the price of beer rises from $6.25 to $7.00.</p>
+      <ol>
+        <li>Does the demand curve shift?</li>
+        <li>Does the supply curve shift?</li>
+        <li>What changes: quantity demanded, quantity supplied, or both?</li>
+        <li>Calculate the new quantity demanded.</li>
+      </ol>
+    </div>
+
+    <div class="accordion" id="solAcc1">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol1"
+                  aria-expanded="false" aria-controls="sol1">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol1" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc1">
+          <div class="accordion-body">
+            <ol>
+              <li>No.</li>
+              <li>No.</li>
+              <li>Both quantity demanded and supplied change.</li>
+              <li>\( Q^D = 100 - 6(7) = 58 \) (thousands per month)</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p2">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Exercise 2: Demand Shift Identification</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>For each scenario, state: (i) which curve shifts, (ii) direction.</p>
+      <ol>
+        <li>A new study says moderate beer drinking is healthy.</li>
+        <li>The price of wine falls.</li>
+        <li>Student income falls in a recession.</li>
+        <li>UNC enrollment increases by 20%.</li>
+      </ol>
+    </div>
+
+    <div class="accordion" id="solAcc2">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol2"
+                  aria-expanded="false" aria-controls="sol2">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol2" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc2">
+          <div class="accordion-body">
+            <ol>
+              <li>Demand shifts right.</li>
+              <li>Demand shifts left.</li>
+              <li>Demand shifts left.</li>
+              <li>Demand shifts right.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p3">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Exercise 3: Supply Shift Identification</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>For each scenario, state: (i) which curve shifts, (ii) direction.</p>
+      <ol>
+        <li>Automation lowers production costs.</li>
+        <li>Government imposes a $1 tax per six-pack.</li>
+        <li>Several breweries shut down.</li>
+      </ol>
+    </div>
+
+    <div class="accordion" id="solAcc3">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol3"
+                  aria-expanded="false" aria-controls="sol3">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol3" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc3">
+          <div class="accordion-body">
+            <ol>
+              <li>Supply shifts right.</li>
+              <li>Supply shifts left.</li>
+              <li>Supply shifts left.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p4">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Exercise 4: Elasticity of Demand</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>Recall the elasticity formula:</p>
+      <p>\[ E_D = \frac{dQ^D}{dP} \times \frac{P}{Q} \]</p>
+      <ol>
+        <li>Find \( \frac{dQ^D}{dP} \).</li>
+        <li>Compute \( E_D \) at \( P^* = 6.25, Q^* = 62.5 \).</li>
+        <li>Compute \( E_D \) at \( P = 10 \).</li>
+        <li>Compute \( E_D \) at \( P = 2 \).</li>
+        <li>At what price is demand unit elastic?</li>
+      </ol>
+    </div>
+
+    <div class="accordion" id="solAcc4">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol4"
+                  aria-expanded="false" aria-controls="sol4">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol4" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc4">
+          <div class="accordion-body">
+            <ol>
+              <li>\( \frac{dQ^D}{dP} = -6 \)</li>
+              <li>\( E_D = (-6) \times \frac{6.25}{62.5} = -0.6 \)</li>
+              <li>At \( P = 10 \): \( Q = 40 \), \( E_D = (-6) \times \frac{10}{40} = -1.5 \)</li>
+              <li>At \( P = 2 \): \( Q = 88 \), \( E_D = (-6) \times \frac{2}{88} = -0.136 \)</li>
+              <li>Unit elastic when \( E_D = -1 \):
+                \[ -6 \times \frac{P}{100 - 6P} = -1 \]
+                \[ 6P = 100 - 6P \]
+                \[ P = \frac{100}{12} = 8.33 \]
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="p5">
+    <div class="frame-title-bar">
+      <h2 class="frame-title">Exercise 5: Supply Shift with New Equation</h2>
+    </div>
+    <div class="frame-content">
+      <div class="problem-statement">
+      <p>A supply shock gives the new supply equation:</p>
+      <p>\[ Q_2^S = 10P - 20 \]</p>
+      <ol>
+        <li>Find the new equilibrium using original demand.</li>
+        <li>Compute \( E_S \) at the new equilibrium, where \( E_S = \frac{dQ^S}{dP} \times \frac{P}{Q} \).</li>
+      </ol>
+    </div>
+
+    <div class="accordion" id="solAcc5">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#sol5"
+                  aria-expanded="false" aria-controls="sol5">
+            Show solution
+          </button>
+        </h2>
+        <div id="sol5" class="accordion-collapse collapse"
+             data-bs-parent="#solAcc5">
+          <div class="accordion-body">
+            <ol>
+              <li>
+                Set demand equal to new supply:
+                \[ 100 - 6P = 10P - 20 \]
+                \[ 120 = 16P \]
+                \[ P = 7.5, \quad Q = 55 \]
+              </li>
+              <li>
+                \( \frac{dQ^S}{dP} = 10 \), so
+                \[ E_S = 10 \times \frac{7.5}{55} = 1.36 \]
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'\\[',right:'\\]',display:true},
+      {left:'\\(',right:'\\)',display:false}
+    ]});"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+/* Recitation overrides
+ * Loaded AFTER Bootstrap and AFTER beamer-theme.css.
+ * Goal: keep Bootstrap accordion functionality (JS toggling) but visually
+ * match the Crane theme used in 101 lectures.
+ */
+
+/* Drop Bootstrap's container max-width — let beamer .frame handle layout */
+body { max-width: none; }
+
+/* Top-of-page nav strip (back to index) */
+.recitation-nav {
+  max-width: var(--frame-max-width, 960px);
+  margin: 0.75rem auto 0;
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+}
+.recitation-nav a {
+  color: var(--crane-blue);
+  text-decoration: none;
+}
+.recitation-nav a:hover { text-decoration: underline; }
+
+/* Solution accordion — Crane palette overrides on Bootstrap classes */
+.frame-content .accordion {
+  margin-top: 1.5rem;
+  --bs-accordion-border-color: var(--crane-amber);
+  --bs-accordion-active-bg: var(--crane-amber);
+  --bs-accordion-active-color: #000;
+  --bs-accordion-btn-focus-border-color: var(--crane-amber);
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.18rem rgba(249,168,37,0.30);
+  --bs-accordion-btn-bg: #fff8e1;
+  --bs-accordion-btn-color: #000;
+  --bs-accordion-bg: #ffffff;
+}
+
+.frame-content .accordion-button {
+  font-weight: 600;
+}
+
+.frame-content .accordion-button:not(.collapsed) {
+  background: var(--crane-amber);
+  color: #000;
+  box-shadow: none;
+}
+
+.frame-content .accordion-body {
+  background: #fff8e1;
+}
+
+/* Figures inside frames */
+.frame-content figure {
+  text-align: center;
+  margin: 1rem auto;
+}
+.frame-content figure img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--frame-border, #e0e0e0);
+  border-radius: 4px;
+}
+.frame-content figcaption {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+/* TOC list (used on index.html) — matches lecture index style */
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+.toc-list li { margin: 0.6rem 0; }
+.toc-list li::before { content: none; }
+.toc-list a {
+  display: block;
+  padding: 0.85rem 1.25rem;
+  background: #fff8e1;
+  border-left: 4px solid var(--crane-amber);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 1.05rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.toc-list a:hover {
+  background: var(--crane-amber-light);
+  border-left-color: var(--crane-amber-dark);
+}
+.toc-list .week-num {
+  display: inline-block;
+  min-width: 4.5em;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.toc-list .badge-sol {
+  font-size: 0.7rem;
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.25rem;
+  background: #859900;
+  color: #fff;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+}
+
+/* Problem-statement spacing inside .frame-content */
+.frame-content .problem-statement > :first-child { margin-top: 0; }
+.frame-content .problem-statement ol,
+.frame-content .problem-statement ul { margin-left: 0; }
+
+/* "Part (a)" subtitle inside solutions */
+.part-header {
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  color: var(--crane-amber-dark);
+}
+
+/* Tables inside problem statements (match Bootstrap defaults but tighter) */
+.frame-content .table {
+  width: auto;
+  margin: 0.5rem 0 1rem;
+}
